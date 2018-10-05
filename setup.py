@@ -19,18 +19,23 @@
 ''' Install the SAS ESP package '''
 
 import glob
+import io
+import os
 from setuptools import setup, find_packages
 
-try:
-    README = open('README.md', 'r').read()
-except:
-    README = 'See README.md'
+
+def get_file(fname):
+    with io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), fname),
+                 encoding='utf8') as infile:
+        return infile.read()
+
 
 setup(
     name='sas-esppy',
     version='1.0.0',
     description='SAS Event Stream Processing Python Interface',
-    long_description=README,
+    long_description=get_file('README.md'),
+    long_description_content_type='text/markdown',
     author='SAS',
     author_email='Kevin.Smith@sas.com',
     url='https://github.com/sassoftware/python-esppy/',
