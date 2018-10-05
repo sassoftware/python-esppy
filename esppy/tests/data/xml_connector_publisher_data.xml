@@ -1,0 +1,3844 @@
+<events>            
+            <transaction>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">100000</ID>
+                    <symbol>A</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5048</msecs>
+                    <price>27.860000</price>
+                    <quant>488</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>5938487</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10035599</ID>
+                    <symbol>LO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>4172</msecs>
+                    <price>76.000000</price>
+                    <quant>100</quant>
+                    <venue>55999</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10046471</ID>
+                    <symbol>LOW</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2005</msecs>
+                    <price>20.920000</price>
+                    <quant>1539</quant>
+                    <venue>55111</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1005973</ID>
+                    <symbol>ANH</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1707</msecs>
+                    <price>7.040000</price>
+                    <quant>235</quant>
+                    <venue>55333</venue>
+                    <broker>1012001</broker>
+                    <buyer>5193857</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10093149</ID>
+                    <symbol>LPL</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1054</msecs>
+                    <price>15.830000</price>
+                    <quant>200</quant>
+                    <venue>55999</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10105949</ID>
+                    <symbol>LPX</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5468</msecs>
+                    <price>7.150000</price>
+                    <quant>410</quant>
+                    <venue>55999</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10105950</ID>
+                    <symbol>LPX</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>7.060000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116879</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5108</msecs>
+                    <price>109.830000</price>
+                    <quant>759</quant>
+                    <venue>55999</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116880</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116881</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116882</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>155</quant>
+                    <venue>55222</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116883</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>101</quant>
+                    <venue>55333</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116884</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>143</quant>
+                    <venue>55444</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116885</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>147</quant>
+                    <venue>55555</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116886</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>379</quant>
+                    <venue>55666</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116887</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>180</quant>
+                    <venue>55777</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116888</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>112</quant>
+                    <venue>55888</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116889</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>170</quant>
+                    <venue>55999</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116890</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>477</quant>
+                    <venue>55000</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116891</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>126</quant>
+                    <venue>55111</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116892</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116893</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>109.940000</price>
+                    <quant>135</quant>
+                    <venue>55333</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116894</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>130</quant>
+                    <venue>55444</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116895</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>178</quant>
+                    <venue>55555</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116896</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>200</quant>
+                    <venue>55666</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116897</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>290</quant>
+                    <venue>55777</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116898</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>818</quant>
+                    <venue>55888</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116899</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55999</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116900</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>395</quant>
+                    <venue>55000</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116901</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>156</quant>
+                    <venue>55111</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116902</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>199</quant>
+                    <venue>55222</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116903</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>627</quant>
+                    <venue>55333</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116904</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>142</quant>
+                    <venue>55444</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116905</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>109.940000</price>
+                    <quant>1000</quant>
+                    <venue>55555</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116906</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>636</quant>
+                    <venue>55666</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116907</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>370</quant>
+                    <venue>55777</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116908</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>151</quant>
+                    <venue>55888</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116909</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>145</quant>
+                    <venue>55999</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116910</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116911</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>206</quant>
+                    <venue>55111</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116912</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>106</quant>
+                    <venue>55222</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116913</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>114</quant>
+                    <venue>55333</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116914</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>341</quant>
+                    <venue>55444</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116915</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>188</quant>
+                    <venue>55555</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116916</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55666</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116917</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>109.940000</price>
+                    <quant>185</quant>
+                    <venue>55777</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116918</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>321</quant>
+                    <venue>55888</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116919</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>160</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116920</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>149</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116921</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>115</quant>
+                    <venue>55111</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116922</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>135</quant>
+                    <venue>55222</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116923</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>118</quant>
+                    <venue>55333</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116924</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>681</quant>
+                    <venue>55444</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116925</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>669</quant>
+                    <venue>55555</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116926</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>351</quant>
+                    <venue>55666</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116927</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>600</quant>
+                    <venue>55777</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116928</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116929</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7396</msecs>
+                    <price>109.940000</price>
+                    <quant>290</quant>
+                    <venue>55999</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116930</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7569</msecs>
+                    <price>109.940000</price>
+                    <quant>736</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116931</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7569</msecs>
+                    <price>109.940000</price>
+                    <quant>1000</quant>
+                    <venue>55111</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116932</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7569</msecs>
+                    <price>109.940000</price>
+                    <quant>3264</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10116933</ID>
+                    <symbol>LQD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7971</msecs>
+                    <price>109.930000</price>
+                    <quant>3264</quant>
+                    <venue>55333</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10126691</ID>
+                    <symbol>LSC</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7569</msecs>
+                    <price>7.210000</price>
+                    <quant>214</quant>
+                    <venue>55111</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10126692</ID>
+                    <symbol>LSC</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7569</msecs>
+                    <price>7.210000</price>
+                    <quant>501</quant>
+                    <venue>55222</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10127268</ID>
+                    <symbol>LSI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2298</msecs>
+                    <price>4.250000</price>
+                    <quant>520</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10186326</ID>
+                    <symbol>LUK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>4172</msecs>
+                    <price>22.910000</price>
+                    <quant>160</quant>
+                    <venue>55666</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10191920</ID>
+                    <symbol>LUV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8436</msecs>
+                    <price>12.120000</price>
+                    <quant>579</quant>
+                    <venue>55000</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1020668</ID>
+                    <symbol>ANR</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2943</msecs>
+                    <price>39.430000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>1012223</broker>
+                    <buyer>5193857</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1020669</ID>
+                    <symbol>ANR</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>446</msecs>
+                    <price>39.430000</price>
+                    <quant>400</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>5193857</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10214917</ID>
+                    <symbol>LVS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6486</msecs>
+                    <price>28.360000</price>
+                    <quant>6530</quant>
+                    <venue>55777</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10214918</ID>
+                    <symbol>LVS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>28.320000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10214919</ID>
+                    <symbol>LVS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>28.320000</price>
+                    <quant>100</quant>
+                    <venue>55999</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10214920</ID>
+                    <symbol>LVS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9649</msecs>
+                    <price>28.320000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10214921</ID>
+                    <symbol>LVS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9649</msecs>
+                    <price>28.320000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10324896</ID>
+                    <symbol>LWC</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7569</msecs>
+                    <price>37.490000</price>
+                    <quant>256</quant>
+                    <venue>55666</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10324917</ID>
+                    <symbol>LXK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5583</msecs>
+                    <price>37.640000</price>
+                    <quant>200</quant>
+                    <venue>55777</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10341190</ID>
+                    <symbol>LXP</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7803</msecs>
+                    <price>6.840000</price>
+                    <quant>2700</quant>
+                    <venue>55000</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10349252</ID>
+                    <symbol>LYG</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2298</msecs>
+                    <price>4.720000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10349253</ID>
+                    <symbol>LYG</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3477</msecs>
+                    <price>4.720000</price>
+                    <quant>10817</quant>
+                    <venue>55333</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10349254</ID>
+                    <symbol>LYG</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>4868</msecs>
+                    <price>4.720000</price>
+                    <quant>100</quant>
+                    <venue>55444</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10349255</ID>
+                    <symbol>LYG</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>921</msecs>
+                    <price>4.720000</price>
+                    <quant>300</quant>
+                    <venue>55555</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10373283</ID>
+                    <symbol>LZB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5583</msecs>
+                    <price>8.650000</price>
+                    <quant>300</quant>
+                    <venue>55333</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375112</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>123</msecs>
+                    <price>18.950000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375113</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>123</msecs>
+                    <price>18.950000</price>
+                    <quant>200</quant>
+                    <venue>55333</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375114</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>123</msecs>
+                    <price>18.950000</price>
+                    <quant>200</quant>
+                    <venue>55444</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375115</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>123</msecs>
+                    <price>18.950000</price>
+                    <quant>100</quant>
+                    <venue>55555</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375116</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>19.070000</price>
+                    <quant>200</quant>
+                    <venue>55666</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375117</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>19.060000</price>
+                    <quant>200</quant>
+                    <venue>55777</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375118</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>19.060000</price>
+                    <quant>400</quant>
+                    <venue>55888</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375119</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>19.070000</price>
+                    <quant>497</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375120</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>19.070000</price>
+                    <quant>300</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375121</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>19.060000</price>
+                    <quant>300</quant>
+                    <venue>55111</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10375122</ID>
+                    <symbol>M</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7916</msecs>
+                    <price>19.050000</price>
+                    <quant>300</quant>
+                    <venue>55222</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1041119</ID>
+                    <symbol>ANW</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8603</msecs>
+                    <price>20.620000</price>
+                    <quant>200</quant>
+                    <venue>55999</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10417202</ID>
+                    <symbol>MA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>66</msecs>
+                    <price>202.590000</price>
+                    <quant>406</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10429342</ID>
+                    <symbol>MAA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8147</msecs>
+                    <price>57.610000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1044056</ID>
+                    <symbol>AOA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2476</msecs>
+                    <price>30.650000</price>
+                    <quant>100</quant>
+                    <venue>55666</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1044088</ID>
+                    <symbol>AOB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2064</msecs>
+                    <price>2.550000</price>
+                    <quant>1100</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1045548</ID>
+                    <symbol>AOD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8492</msecs>
+                    <price>5.430000</price>
+                    <quant>3200</quant>
+                    <venue>55888</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10462914</ID>
+                    <symbol>MAS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3477</msecs>
+                    <price>10.740000</price>
+                    <quant>500</quant>
+                    <venue>55444</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10462915</ID>
+                    <symbol>MAS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3595</msecs>
+                    <price>10.760000</price>
+                    <quant>500</quant>
+                    <venue>55555</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479083</ID>
+                    <symbol>MAY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>141</msecs>
+                    <price>9.820000</price>
+                    <quant>500</quant>
+                    <venue>55333</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479222</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2123</msecs>
+                    <price>109.860000</price>
+                    <quant>925</quant>
+                    <venue>55222</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479223</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>109.840000</price>
+                    <quant>100</quant>
+                    <venue>55333</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479224</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>109.840000</price>
+                    <quant>218</quant>
+                    <venue>55444</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479225</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>109.840000</price>
+                    <quant>200</quant>
+                    <venue>55555</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479226</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>109.840000</price>
+                    <quant>148</quant>
+                    <venue>55666</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479227</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>109.840000</price>
+                    <quant>269</quant>
+                    <venue>55777</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479228</ID>
+                    <symbol>MBB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>109.840000</price>
+                    <quant>117</quant>
+                    <venue>55888</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479720</ID>
+                    <symbol>MBI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3828</msecs>
+                    <price>8.750000</price>
+                    <quant>1731</quant>
+                    <venue>55000</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479721</ID>
+                    <symbol>MBI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5048</msecs>
+                    <price>8.770000</price>
+                    <quant>2000</quant>
+                    <venue>55111</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479722</ID>
+                    <symbol>MBI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6034</msecs>
+                    <price>8.820000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10479723</ID>
+                    <symbol>MBI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8029</msecs>
+                    <price>8.820000</price>
+                    <quant>136</quant>
+                    <venue>55333</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10491862</ID>
+                    <symbol>MBT</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5349</msecs>
+                    <price>22.500000</price>
+                    <quant>470</quant>
+                    <venue>55222</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10501349</ID>
+                    <symbol>MCD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5108</msecs>
+                    <price>70.380000</price>
+                    <quant>1049</quant>
+                    <venue>55999</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1050594</ID>
+                    <symbol>AOL</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2709</msecs>
+                    <price>20.660000</price>
+                    <quant>100</quant>
+                    <venue>55444</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1050595</ID>
+                    <symbol>AOL</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2709</msecs>
+                    <price>20.660000</price>
+                    <quant>200</quant>
+                    <venue>55555</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1050596</ID>
+                    <symbol>AOL</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8205</msecs>
+                    <price>20.600000</price>
+                    <quant>320</quant>
+                    <venue>55666</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10525140</ID>
+                    <symbol>MCK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5108</msecs>
+                    <price>62.360000</price>
+                    <quant>1655</quant>
+                    <venue>55000</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10543283</ID>
+                    <symbol>MCO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3828</msecs>
+                    <price>23.980000</price>
+                    <quant>200</quant>
+                    <venue>55333</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10551460</ID>
+                    <symbol>MCP</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6259</msecs>
+                    <price>13.590000</price>
+                    <quant>1375</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10554392</ID>
+                    <symbol>MCRO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>26.970000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10554393</ID>
+                    <symbol>MCRO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>26.970000</price>
+                    <quant>100</quant>
+                    <venue>55333</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10554394</ID>
+                    <symbol>MCRO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>26.970000</price>
+                    <quant>179</quant>
+                    <venue>55444</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10554395</ID>
+                    <symbol>MCRO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>26.970000</price>
+                    <quant>963</quant>
+                    <venue>55555</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10555672</ID>
+                    <symbol>MD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>486</msecs>
+                    <price>50.350000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10564120</ID>
+                    <symbol>MDD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>27.410000</price>
+                    <quant>210</quant>
+                    <venue>55000</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10566369</ID>
+                    <symbol>MDR</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>123</msecs>
+                    <price>13.480000</price>
+                    <quant>3325</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10603991</ID>
+                    <symbol>MDT</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3004</msecs>
+                    <price>37.600000</price>
+                    <quant>229</quant>
+                    <venue>55111</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10624554</ID>
+                    <symbol>MDU</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6486</msecs>
+                    <price>19.690000</price>
+                    <quant>168</quant>
+                    <venue>55444</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627177</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1887</msecs>
+                    <price>140.310000</price>
+                    <quant>1757</quant>
+                    <venue>55777</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627178</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1887</msecs>
+                    <price>140.250000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627179</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2765</msecs>
+                    <price>140.280000</price>
+                    <quant>300</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627180</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3066</msecs>
+                    <price>140.240000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627181</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3711</msecs>
+                    <price>140.230000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627182</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>140.180000</price>
+                    <quant>231</quant>
+                    <venue>55222</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627183</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>140.180000</price>
+                    <quant>800</quant>
+                    <venue>55333</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627184</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6934</msecs>
+                    <price>140.180000</price>
+                    <quant>100</quant>
+                    <venue>55444</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627185</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>699</msecs>
+                    <price>140.180000</price>
+                    <quant>1650</quant>
+                    <venue>55555</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627186</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>699</msecs>
+                    <price>140.180000</price>
+                    <quant>194</quant>
+                    <venue>55666</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627187</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7511</msecs>
+                    <price>140.270000</price>
+                    <quant>100</quant>
+                    <venue>55777</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627188</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7511</msecs>
+                    <price>140.280000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627189</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7627</msecs>
+                    <price>140.280000</price>
+                    <quant>112</quant>
+                    <venue>55999</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627190</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7627</msecs>
+                    <price>140.280000</price>
+                    <quant>248</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627191</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7803</msecs>
+                    <price>140.230000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627192</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8088</msecs>
+                    <price>140.230000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627193</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8088</msecs>
+                    <price>140.250000</price>
+                    <quant>100</quant>
+                    <venue>55333</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627194</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8088</msecs>
+                    <price>140.260000</price>
+                    <quant>100</quant>
+                    <venue>55444</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627195</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8205</msecs>
+                    <price>140.260000</price>
+                    <quant>500</quant>
+                    <venue>55555</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10627196</ID>
+                    <symbol>MDY</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9155</msecs>
+                    <price>140.240000</price>
+                    <quant>100</quant>
+                    <venue>55666</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10648610</ID>
+                    <symbol>MED</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5923</msecs>
+                    <price>31.120000</price>
+                    <quant>200</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10651109</ID>
+                    <symbol>MEE</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3246</msecs>
+                    <price>32.200000</price>
+                    <quant>200</quant>
+                    <venue>55999</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10651110</ID>
+                    <symbol>MEE</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6486</msecs>
+                    <price>32.210000</price>
+                    <quant>196</quant>
+                    <venue>55000</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672898</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>375</msecs>
+                    <price>41.980000</price>
+                    <quant>800</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672899</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>375</msecs>
+                    <price>41.980000</price>
+                    <quant>200</quant>
+                    <venue>55999</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672900</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1112</msecs>
+                    <price>41.970000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672901</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>141</msecs>
+                    <price>41.980000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672902</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>141</msecs>
+                    <price>41.980000</price>
+                    <quant>300</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672903</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7453</msecs>
+                    <price>41.990000</price>
+                    <quant>850</quant>
+                    <venue>55333</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672904</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7916</msecs>
+                    <price>41.970000</price>
+                    <quant>100</quant>
+                    <venue>55444</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672905</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>41.970000</price>
+                    <quant>500</quant>
+                    <venue>55555</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672906</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9814</msecs>
+                    <price>41.960000</price>
+                    <quant>300</quant>
+                    <venue>55666</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10672907</ID>
+                    <symbol>MET</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9814</msecs>
+                    <price>41.960000</price>
+                    <quant>100</quant>
+                    <venue>55777</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10778241</ID>
+                    <symbol>MFA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3126</msecs>
+                    <price>7.310000</price>
+                    <quant>350</quant>
+                    <venue>55111</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10789260</ID>
+                    <symbol>MFB</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5108</msecs>
+                    <price>24.750000</price>
+                    <quant>300</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10801913</ID>
+                    <symbol>MFD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7338</msecs>
+                    <price>12.500000</price>
+                    <quant>200</quant>
+                    <venue>55333</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10811456</ID>
+                    <symbol>MFG</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>699</msecs>
+                    <price>3.350000</price>
+                    <quant>542</quant>
+                    <venue>55666</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10814595</ID>
+                    <symbol>MGA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7453</msecs>
+                    <price>74.440000</price>
+                    <quant>200</quant>
+                    <venue>55555</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10819433</ID>
+                    <symbol>MGC</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>38.520000</price>
+                    <quant>311</quant>
+                    <venue>55333</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10819740</ID>
+                    <symbol>MGI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6034</msecs>
+                    <price>2.460000</price>
+                    <quant>800</quant>
+                    <venue>55000</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820551</ID>
+                    <symbol>MGK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6315</msecs>
+                    <price>41.590000</price>
+                    <quant>4960</quant>
+                    <venue>55111</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820552</ID>
+                    <symbol>MGK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>41.580000</price>
+                    <quant>214</quant>
+                    <venue>55222</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820553</ID>
+                    <symbol>MGK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>41.580000</price>
+                    <quant>235</quant>
+                    <venue>55333</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820554</ID>
+                    <symbol>MGK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>41.580000</price>
+                    <quant>100</quant>
+                    <venue>55444</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820555</ID>
+                    <symbol>MGK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>41.580000</price>
+                    <quant>241</quant>
+                    <venue>55555</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820556</ID>
+                    <symbol>MGK</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>41.580000</price>
+                    <quant>125</quant>
+                    <venue>55666</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820671</ID>
+                    <symbol>MGM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>123</msecs>
+                    <price>11.250000</price>
+                    <quant>9003</quant>
+                    <venue>55111</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820672</ID>
+                    <symbol>MGM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>11.260000</price>
+                    <quant>700</quant>
+                    <venue>55222</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820673</ID>
+                    <symbol>MGM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>11.260000</price>
+                    <quant>900</quant>
+                    <venue>55333</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820674</ID>
+                    <symbol>MGM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>11.270000</price>
+                    <quant>448</quant>
+                    <venue>55444</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820675</ID>
+                    <symbol>MGM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9043</msecs>
+                    <price>11.270000</price>
+                    <quant>200</quant>
+                    <venue>55555</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10820676</ID>
+                    <symbol>MGM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9267</msecs>
+                    <price>11.250000</price>
+                    <quant>200</quant>
+                    <venue>55666</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1087640</ID>
+                    <symbol>APA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2476</msecs>
+                    <price>98.150000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1087641</ID>
+                    <symbol>APA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2476</msecs>
+                    <price>98.240000</price>
+                    <quant>239</quant>
+                    <venue>55111</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">1087642</ID>
+                    <symbol>APA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3477</msecs>
+                    <price>98.150000</price>
+                    <quant>370</quant>
+                    <venue>55222</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10894860</ID>
+                    <symbol>MGV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5812</msecs>
+                    <price>35.470000</price>
+                    <quant>140</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10894861</ID>
+                    <symbol>MGV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>35.410000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10894862</ID>
+                    <symbol>MGV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>35.410000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10894863</ID>
+                    <symbol>MGV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>35.410000</price>
+                    <quant>130</quant>
+                    <venue>55333</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10894864</ID>
+                    <symbol>MGV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7048</msecs>
+                    <price>35.410000</price>
+                    <quant>282</quant>
+                    <venue>55444</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10894865</ID>
+                    <symbol>MGV</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>35.410000</price>
+                    <quant>342</quant>
+                    <venue>55555</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10905462</ID>
+                    <symbol>MHS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1054</msecs>
+                    <price>47.300000</price>
+                    <quant>1000</quant>
+                    <venue>55222</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10905463</ID>
+                    <symbol>MHS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1828</msecs>
+                    <price>47.170000</price>
+                    <quant>200</quant>
+                    <venue>55333</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10966443</ID>
+                    <symbol>MIC</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>883</msecs>
+                    <price>14.200000</price>
+                    <quant>100</quant>
+                    <venue>55333</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10970847</ID>
+                    <symbol>MINT</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>100.650000</price>
+                    <quant>157</quant>
+                    <venue>55777</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10970848</ID>
+                    <symbol>MINT</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>100.650000</price>
+                    <quant>343</quant>
+                    <venue>55888</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10970959</ID>
+                    <symbol>MIR</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1112</msecs>
+                    <price>11.040000</price>
+                    <quant>300</quant>
+                    <venue>55999</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10988198</ID>
+                    <symbol>MLM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2005</msecs>
+                    <price>81.680000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10988199</ID>
+                    <symbol>MLM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8378</msecs>
+                    <price>82.120000</price>
+                    <quant>600</quant>
+                    <venue>55999</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995189</ID>
+                    <symbol>MLN</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>18.590000</price>
+                    <quant>725</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995190</ID>
+                    <symbol>MLN</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>18.590000</price>
+                    <quant>1000</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995191</ID>
+                    <symbol>MLN</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>18.590000</price>
+                    <quant>201</quant>
+                    <venue>55111</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995408</ID>
+                    <symbol>MLPI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>27.900000</price>
+                    <quant>128</quant>
+                    <venue>55888</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995409</ID>
+                    <symbol>MLPI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>27.900000</price>
+                    <quant>291</quant>
+                    <venue>55999</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995410</ID>
+                    <symbol>MLPI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7106</msecs>
+                    <price>27.900000</price>
+                    <quant>203</quant>
+                    <venue>55000</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995411</ID>
+                    <symbol>MLPI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>27.900000</price>
+                    <quant>200</quant>
+                    <venue>55111</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10995412</ID>
+                    <symbol>MLPI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>27.900000</price>
+                    <quant>200</quant>
+                    <venue>55222</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">10996102</ID>
+                    <symbol>MMC</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1647</msecs>
+                    <price>23.850000</price>
+                    <quant>2100</quant>
+                    <venue>55222</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11008485</ID>
+                    <symbol>MMM</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>4228</msecs>
+                    <price>87.300000</price>
+                    <quant>155</quant>
+                    <venue>55555</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11022112</ID>
+                    <symbol>MMP</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>4928</msecs>
+                    <price>49.200000</price>
+                    <quant>300</quant>
+                    <venue>55222</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11025177</ID>
+                    <symbol>MMR</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>523</msecs>
+                    <price>11.390000</price>
+                    <quant>1693</quant>
+                    <venue>55777</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11025178</ID>
+                    <symbol>MMR</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5349</msecs>
+                    <price>11.400000</price>
+                    <quant>110</quant>
+                    <venue>55888</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11033749</ID>
+                    <symbol>MMT</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2765</msecs>
+                    <price>6.870000</price>
+                    <quant>200</quant>
+                    <venue>55999</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11034497</ID>
+                    <symbol>MNA</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>25.840000</price>
+                    <quant>100</quant>
+                    <venue>55777</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11034556</ID>
+                    <symbol>MNI</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>6879</msecs>
+                    <price>3.520000</price>
+                    <quant>900</quant>
+                    <venue>55666</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11037029</ID>
+                    <symbol>MO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>394</msecs>
+                    <price>22.150000</price>
+                    <quant>3375</quant>
+                    <venue>55999</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11037030</ID>
+                    <symbol>MO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5048</msecs>
+                    <price>22.160000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11037031</ID>
+                    <symbol>MO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5048</msecs>
+                    <price>22.190000</price>
+                    <quant>300</quant>
+                    <venue>55111</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11037032</ID>
+                    <symbol>MO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7803</msecs>
+                    <price>22.190000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11037033</ID>
+                    <symbol>MO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>9927</msecs>
+                    <price>22.190000</price>
+                    <quant>100</quant>
+                    <venue>55333</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11076305</ID>
+                    <symbol>MOD</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>883</msecs>
+                    <price>10.130000</price>
+                    <quant>1548</quant>
+                    <venue>55555</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11081704</ID>
+                    <symbol>MON</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8548</msecs>
+                    <price>59.190000</price>
+                    <quant>348</quant>
+                    <venue>55444</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105030</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>42.140000</price>
+                    <quant>930</quant>
+                    <venue>55000</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105031</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>42.140000</price>
+                    <quant>105</quant>
+                    <venue>55111</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105032</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>42.140000</price>
+                    <quant>400</quant>
+                    <venue>55222</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105033</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>42.140000</price>
+                    <quant>175</quant>
+                    <venue>55333</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105034</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>42.140000</price>
+                    <quant>500</quant>
+                    <venue>55444</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105035</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7165</msecs>
+                    <price>42.140000</price>
+                    <quant>1100</quant>
+                    <venue>55555</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105036</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>220</quant>
+                    <venue>55666</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105037</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>200</quant>
+                    <venue>55777</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105038</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>200</quant>
+                    <venue>55888</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105039</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>500</quant>
+                    <venue>55999</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105040</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105041</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>500</quant>
+                    <venue>55111</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105042</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>120</quant>
+                    <venue>55222</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105043</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>3972</quant>
+                    <venue>55333</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105044</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>154</quant>
+                    <venue>55444</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105045</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>1400</quant>
+                    <venue>55555</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105046</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>136</quant>
+                    <venue>55666</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105047</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>42.140000</price>
+                    <quant>100</quant>
+                    <venue>55777</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105048</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>42.140000</price>
+                    <quant>110</quant>
+                    <venue>55888</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105049</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>42.140000</price>
+                    <quant>500</quant>
+                    <venue>55999</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105050</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>42.140000</price>
+                    <quant>400</quant>
+                    <venue>55000</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105051</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>42.140000</price>
+                    <quant>1500</quant>
+                    <venue>55111</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8382739</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11105052</ID>
+                    <symbol>MOO</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>728</msecs>
+                    <price>42.140000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8359384</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106430</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1828</msecs>
+                    <price>48.160000</price>
+                    <quant>100</quant>
+                    <venue>55000</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106431</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>1828</msecs>
+                    <price>48.160000</price>
+                    <quant>100</quant>
+                    <venue>55111</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8394737</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106432</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2064</msecs>
+                    <price>48.150000</price>
+                    <quant>100</quant>
+                    <venue>55222</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8374755</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106433</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3362</msecs>
+                    <price>48.170000</price>
+                    <quant>100</quant>
+                    <venue>55333</venue>
+                    <broker>1012223</broker>
+                    <buyer>0</buyer>
+                    <seller>8377283</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106434</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>3828</msecs>
+                    <price>48.170000</price>
+                    <quant>200</quant>
+                    <venue>55444</venue>
+                    <broker>1012334</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106435</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>394</msecs>
+                    <price>48.170000</price>
+                    <quant>100</quant>
+                    <venue>55555</venue>
+                    <broker>1012445</broker>
+                    <buyer>0</buyer>
+                    <seller>8123541</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106436</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>5756</msecs>
+                    <price>48.180000</price>
+                    <quant>300</quant>
+                    <venue>55666</venue>
+                    <broker>101556</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106437</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>7222</msecs>
+                    <price>48.290000</price>
+                    <quant>2005</quant>
+                    <venue>55777</venue>
+                    <broker>101667</broker>
+                    <buyer>0</buyer>
+                    <seller>8093853</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106438</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8548</msecs>
+                    <price>48.220000</price>
+                    <quant>100</quant>
+                    <venue>55888</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8483102</seller>
+                    <buysellflg>1</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11106439</ID>
+                    <symbol>MOS</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>8548</msecs>
+                    <price>48.220000</price>
+                    <quant>100</quant>
+                    <venue>55999</venue>
+                    <broker>1012112</broker>
+                    <buyer>0</buyer>
+                    <seller>8382948</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+                <event>
+                    <opcode>i</opcode>
+                    <ID key="true">11137835</ID>
+                    <symbol>MOT</symbol>
+                    <currency>87236</currency>
+                    <udate>2010-08-04 13:30:00</udate>
+                    <msecs>2298</msecs>
+                    <price>7.850000</price>
+                    <quant>100</quant>
+                    <venue>55555</venue>
+                    <broker>1012001</broker>
+                    <buyer>0</buyer>
+                    <seller>8783486</seller>
+                    <buysellflg>0</buysellflg>
+                </event>
+            </transaction>
+</events>            

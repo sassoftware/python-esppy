@@ -1,0 +1,147 @@
+<engine port='55555'>
+ <description>
+  This is a simple example that has two source windows and one join
+  window. The join window joins the data based on the trader id so
+  that trader names replace trader IDs.
+
+
+  engine element creates the single engine top level container which sets up dfESP
+  fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more coninuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='join_exp_xml' pubsub='auto' threads='1'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of userdefined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='contquery_01'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+     </description>
+     <windows>
+      <window-source name='sourceWindow_01' index='pi_HASH' pubsub='true' collapse-updates='true'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='quantity' type='int32'/>
+         <field name='price' type='double'/>
+         <field name='traderID' type='int32'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub1' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/join_exp_data1.csv</property>
+          <property name='fstype'>csv</property>
+          <property name='transactional'>true</property>
+          <property name='blocksize'>1</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-source name='sourceWindow_02' index='pi_RBTREE' pubsub='true' collapse-updates='true'>
+       <schema>
+        <fields>
+         <field name='traderID' type='int32' key='true'/>
+         <field name='name' type='string'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub2' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/join_exp_data2.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-join name='joinWindow_01' index='pi_RBTREE' pubsub='true' collapse-updates='true'>
+       <description>
+        This is a join window. We specify the window name, and the
+        type of primary index, in this case a red/black
+        tree. **Note** unlike the source window we do not need to
+        specify the schema, but do need to specify the join type.
+
+        The join condition specifies what fields from the left
+        and right events are used to generate matches.
+
+        The join window produces a single output event for each match.
+        This specifies what fields from the left and right events are
+        included in the output event.
+       </description>
+       <join type='leftouter'>
+        <conditions>
+         <fields left='traderID' right='traderID'/>
+        </conditions>
+       </join>
+       <output>
+        <field-expr name='symbol' type='string'>l_symbol</field-expr>
+        <field-expr name='quantity' type='int32'>l_quantity</field-expr>
+        <field-expr name='price' type='double'>l_price</field-expr>
+        <field-expr name='traderName' type='string'>r_name</field-expr>
+       </output>
+       <connectors>
+        <connector name='sub' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>output.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-join>
+     </windows>
+     <edges>
+      <description>
+       This fully specifies the continuous query with window
+       connectivity, which is a directed graph. For join windows,
+       the order of the edges determines the left and right windows
+       for the join. The first edge defines the left window.  The
+       second edge defines the right window. In this example,
+       sourceWindow_01 is the left window.  sourceWindow_01 is the
+       Fact window.  sourceWindow_02 is the right window.
+       sourceWindow_02 is the Dimension window in the join. All of
+       the key fields in sourceWindow_02 are used in the join condition.
+      </description>
+      <edge source='sourceWindow_01' target='joinWindow_01'/>
+      <edge source='sourceWindow_02' target='joinWindow_01'/>
+     </edges>
+    </contquery>
+   </contqueries>
+   <project-connectors>
+    <connector-groups>
+     <connector-group name='pub'>
+      <connector-entry connector='contquery_01/sourceWindow_01/pub1' state='finished'/>
+      <connector-entry connector='contquery_01/sourceWindow_02/pub2' state='finished'/>
+     </connector-group>
+     <connector-group name='sub'>
+      <connector-entry connector='contquery_01/joinWindow_01/sub' state='running'/>
+     </connector-group>
+    </connector-groups>
+    <edges>
+     <edge source='sub' target='pub'/>
+    </edges>
+   </project-connectors>
+  </project>
+ </projects>
+</engine>
+

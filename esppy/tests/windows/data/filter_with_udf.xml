@@ -1,0 +1,57 @@
+<engine>
+  <projects>
+    <project name="project_01_UnitTest" pubsub="auto" threads="1">
+      <contqueries>
+        <contquery name="cq_01">
+          <windows>
+            <window-filter name="filter_w">
+              <expr-initialize>
+                <udfs>
+                  <udf name="udf1" type="double">private real p p = parameter(1); return (p*2)</udf>
+                  <udf name="udf2" type="string">private string p p = parameter(1); return upper(p)</udf>
+                </udfs>
+              </expr-initialize>
+              <expression>(udf1(doubleD) &gt; 200.0) and match_string(udf2(charData),'INSERT')</expression>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">filter.out</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-filter>
+            <window-source name="src_win">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="id" type="int32" />
+                  <field key="false" name="charData" type="string" />
+                  <field key="false" name="int64D" type="int64" />
+                  <field key="false" name="doubleD" type="double" />
+                  <field key="false" name="dateD" type="date" />
+                  <field key="false" name="moneyD" type="money" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="pub" type="publish">
+                  <properties>
+                    <property name="blocksize">4</property>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">filter_with_udf.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="transactional">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+          </windows>
+          <edges>
+            <edge source="src_win" target="filter_w" />
+          </edges>
+        </contquery>
+      </contqueries>
+    </project>
+  </projects>
+</engine>

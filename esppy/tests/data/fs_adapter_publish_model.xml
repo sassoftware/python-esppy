@@ -1,0 +1,51 @@
+<engine port='65530'>
+ <description>
+  This simple example is to demonstrate how to use ESP
+  file/socket adapter to input events in csv format without ESP opcode
+  and flag.
+  This model has two source windows with autogen-key set to true. One
+  window uses int64 data type for the key field. The other window uses
+  string data type for the key field.
+  Usage:
+  Start the server:
+  $DFESP_HOME/bin/dfesp_xml_server -model file://model.xml
+  Start the file/socket adapter:
+  1. Publis to source window: src_win_int64
+  $DFESP_HOME/bin/dfesp_fs_adapter -k pub -h "dfESP://localhost:65530/project_01/cq_01/src_win_int64" -f $ESPTESTDATA/fs_adapter_publish_data.csv -t csv -d '%d%b%Y%I:%M:%S' -Q -A -O -F normal
+
+  2. Publish to source window: src_win_string
+  $DFESP_HOME/bin/dfesp_fs_adapter -k pub -h "dfESP://localhost:65530/project_01/cq_01/src_win_string" -f $ESPTESTDATA/fs_adapter_publish_data.csv -t csv -d '%d%b%Y%I:%M:%S' -Q -A -O -F normal
+ </description>
+ <projects>
+  <project name='project_01' pubsub='auto' threads='1'>
+   <contqueries>
+    <contquery name='cq_01' include-singletons='true' trace='src_win_int64 src_win_string'>
+     <windows>
+      <window-source name='src_win_int64' pubsub='true' autogen-key='true' insert-only='true'>
+       <schema>
+        <fields>
+         <field name='SEQUENCE' type='int64' key='true' />
+         <field name='WHEEL_ID' type='string' />
+         <field name='VERT_PEAK_FORC_VALUE' type='double' />
+         <field name='DATE_EVENT_FROM' type='date' />
+         <field name='DATETIME_EVENT_FROM' type='stamp' />
+        </fields>
+       </schema>
+      </window-source>
+      <window-source name='src_win_string' pubsub='true' autogen-key='true' insert-only='true'>
+       <schema>
+        <fields>
+         <field name='SEQUENCE' type='string' key='true' />
+         <field name='WHEEL_ID' type='string' />
+         <field name='VERT_PEAK_FORC_VALUE' type='double' />
+         <field name='DATE_EVENT_FROM' type='date' />
+         <field name='DATETIME_EVENT_FROM' type='stamp' />
+        </fields>
+       </schema>
+      </window-source>
+     </windows>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>

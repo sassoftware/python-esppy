@@ -1,0 +1,146 @@
+<engine port='5555'>
+ <description>
+  This is a simple example that has one source window and one compute
+  window. The compute window uses user defined function to calculate
+  the fields.
+
+  engine element creates the single engine top level container which sets up
+  dfESP fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='project_01' pubsub='auto' threads='1'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='cq_01' trace='computeWindow'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+     </description>
+     <windows>
+      <window-source name='src_win'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='name' type='string'/>
+         <field name='ID' type='int32' key='true'/>
+         <field name='city' type='string'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='fsin' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>@ESPTESTDATA@/compute_udf_data.csv</property>
+          <property name='transactional'>true</property>
+          <property name='blocksize'>1</property>
+         </properties>
+        </connector>
+        <connector name='fssrc' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>src_win.csv</property>
+          <property name='snapshot'>true</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-compute name='computeWindow'>
+       <description>
+        This is a compute window that uses an user defined function
+        to calculate some fields. The first four fields are just
+        passing through what is in the input stream. The
+        fifth field uses the user defined function to double
+        the counter. The sixth field uses the user defined function
+        to triple the counter and the return type is double.
+       </description>
+       <expr-initialize>
+        <initializer type='int32'>
+         <![CDATA[integer counter;
+                        counter=0;]]>
+        </initializer>
+        <udfs>
+         <udf name='myFunction1' type='int32'>
+          <![CDATA[private integer p
+                            p = parameter(1);
+                            return 2*p]]>
+         </udf>
+         <udf name='myFunction2' type='double'>
+          <![CDATA[private integer p2
+                        p2 = parameter(1);
+                        return 3.0*p2]]>
+         </udf>
+        </udfs>
+       </expr-initialize>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='name' type='string'/>
+         <field name='city' type='string'/>
+         <field name='match' type='int32'/>
+         <field name='twice' type='int32'/>
+         <field name='third' type='double'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr>name</field-expr>
+        <field-expr>city</field-expr>
+        <field-expr>counter=counter+1 return counter</field-expr>
+        <field-expr>myFunction1(counter)</field-expr>
+        <field-expr>myFunction2(counter)</field-expr>
+       </output>
+       <connectors>
+        <connector name='fscomp' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>compute.csv</property>
+          <property name='snapshot'>true</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-compute>
+     </windows>
+     <edges>
+      <description>
+       This fully specifies the continuous query with window
+       connectivity, which is a directed graph.
+      </description>
+      <edge source='src_win' target='computeWindow'/>
+     </edges>
+    </contquery>
+   </contqueries>
+   <project-connectors>
+    <connector-groups>
+     <connector-group name='sub1'>
+      <connector-entry connector='cq_01/src_win/fssrc' state='running'/>
+      <connector-entry connector='cq_01/computeWindow/fscomp' state='running'/>
+     </connector-group>
+     <connector-group name='pub1'>
+      <connector-entry connector='cq_01/src_win/fsin' state='finished'/>
+     </connector-group>
+    </connector-groups>
+    <edges>
+     <edge source='sub1' target='pub1'/>
+    </edges>
+   </project-connectors>
+  </project>
+ </projects>
+</engine>
+

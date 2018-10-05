@@ -1,0 +1,77 @@
+<engine port='55555'>
+ <description>
+  Sample XML configuration file for the following ESP model:
+  Orders[src + csv read connector]  ====> TotalVolume[aggr]
+
+  so we:
+  1. automatically start populating the Orders window
+  from the orders.csv file using a built-in file/socket
+  connector.
+
+  2. aggregate the orders by security, and compute the total
+  volume traded for the aggregate security.
+
+  to test this model one can:
+
+  subscribe to the final TotalVolume window to see the
+  computed data when we start the trades data flowing:
+  $DFESP_HOME/bin/subscribe_client dfESP://localhost:55555/orders_proj/orders_cq/TotalVolume?snapshot=true
+
+  NOTE: The subscription must be started after the model starts.
+  Also as soon as the model starts the built in file/socket
+  connector begins processing data from orders.csv.
+ </description>
+ <projects>
+  <project name='orders_proj' pubsub='auto' threads='4'>
+   <contqueries>
+    <contquery name='orders_cq' trace='TotalVolume'>
+     <windows>
+      <window-source name='Orders'>
+       <schema>
+        <fields>
+         <field name='orderID' type='int32' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='currency' type='int32'/>
+         <field name='venue' type='int32'/>
+         <field name='tStamp_secs' type='int64'/>
+         <field name='tStamp_msecs' type='int32'/>
+         <field name='sortFlg' type='int32'/>
+         <field name='askBidFlg' type='int32'/>
+         <field name='size' type='int32'/>
+         <field name='price' type='double'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector class='fs' name='publisher'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>@ESPTESTDATA@/orders_data.csv</property>
+          <property name='transactional'>true</property>
+          <property name='blocksize'>1024</property>
+          <property name='dateformat'>%d/%b/%Y:%H:%M:%S</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-aggregate name='TotalVolume'>
+       <schema>
+        <fields>
+         <field name='symbol' type='string' key='true'/>
+         <field name='quantityTotal' type='double'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr>ESP_aSum(size)</field-expr>
+       </output>
+      </window-aggregate>
+     </windows>
+     <edges>
+      <edge source='Orders' target='TotalVolume'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>
+

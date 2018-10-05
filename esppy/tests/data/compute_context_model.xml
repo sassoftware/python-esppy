@@ -1,0 +1,111 @@
+<engine>
+ <description>
+  This is a simple example that has one source window and one compute
+  window. The compute window uses context plugin to calculate the fields.
+
+  engine element creates the single engine top level container which sets up
+  dfESP fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='compute_context_xml' pubsub='auto' threads='1'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='cq_01'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+     </description>
+     <windows>
+      <window-source name='sw_01' index='pi_HASH' pubsub='true' collapse-updates='true'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='ID' type='int64' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+         <field name='markup' type='double'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub' class='fs'>
+         <properties>
+          <property name='type'><![CDATA[pub]]></property>
+          <property name='fsname'><![CDATA[@ESPTESTDATA@/compute_context_data.csv]]></property>
+          <property name='fstype'><![CDATA[csv]]></property>
+          <property name='transactional'><![CDATA[true]]></property>
+          <property name='blocksize'><![CDATA[1]]></property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-compute name='compute' collapse-updates='true'>
+       <description>
+        This is a compute window that uses context plugin to
+        calculate each field. We create a scalar function context
+        that will be passed to all compute functions for non-key
+        field computations. We also have a copy function context
+        to copy fields what input fields get mapped to what output
+        fields.
+       </description>
+       <context-plugin name='plugin' function='get_context'/>
+       <schema>
+        <fields>
+         <field name='ID' type='int64' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+         <field name='markup' type='double'/>
+         <field name='sum' type='double'/>
+         <field name='diff' type='double'/>
+         <field name='prod' type='double'/>
+         <field name='quot' type='double'/>
+        </fields>
+       </schema>
+       <output>
+        <field-plug plugin='plugin' function='copyScalarFunction'/>
+        <field-plug plugin='plugin' function='copyScalarFunction'/>
+        <field-plug plugin='plugin' function='copyScalarFunction'/>
+        <field-plug plugin='plugin' function='arithScalarFunction'/>
+        <field-plug plugin='plugin' function='arithScalarFunction'/>
+        <field-plug plugin='plugin' function='arithScalarFunction'/>
+        <field-plug plugin='plugin' function='arithScalarFunction'/>
+       </output>
+       <connectors>
+        <connector name='sub' class='fs'>
+         <properties>
+          <property name='type'><![CDATA[sub]]></property>
+          <property name='snapshot'><![CDATA[true]]></property>
+          <property name='fsname'><![CDATA[output.csv]]></property>
+          <property name='fstype'><![CDATA[csv]]></property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-compute>
+     </windows>
+     <edges>
+      <description>
+       This fully specifies the continuous query with window
+       connectivity, which is a directed graph.
+      </description>
+      <edge source='sw_01' target='compute'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>
+

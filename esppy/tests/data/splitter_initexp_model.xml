@@ -1,0 +1,128 @@
+<engine>
+ <description>
+  This is a simple example that has one source window, one compute
+  window, and two copy windows. The compute window uses a user defined
+  function as a splitter to decide which slot the event will go to. Each slot is a
+  different copy window.
+
+
+  engine element creates the single engine top level container which sets up
+  dfESP fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='splitter_initexp' pubsub='auto' threads='1'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+
+    project-connectors elemnt groups group connectors in different 
+    groups.  The group identifies one or more connectors and the 
+    final state of the connector.  Using connector groups allows
+    connector execution to be dependent upon the state of another
+    connector.
+   </description>
+   <contqueries>
+    <contquery name='contquery_01' trace='copy_even copy_odd'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+
+      This fully specifies the continuous query with window
+      connectivity, which is a directed graph.
+     </description>
+     <windows>
+      <window-source name='sourceWindow_01' index='pi_RBTREE' collapse-updates='true'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+
+        splitter-expr element defines a splitter to calculate the
+        slot number which is used to decide the following copy 
+        window the event will go to.
+       </description>
+       <splitter-expr>
+        <expr-initialize>
+         <udfs>
+          <udf name='udf1' type='int32'><![CDATA[return ID%2]]></udf>
+          <udf name='udf2' type='string'><![CDATA[return upper(symbol)]]></udf>
+          <udf name='udf3' type='double'><![CDATA[return price]]></udf>
+         </udfs>
+        </expr-initialize>
+        <expression>udf1() and (match_string(udf2(), "IBM")) and (udf3() > 100.0)</expression>
+       </splitter-expr>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+        </fields>
+       </schema>
+       <connectors>
+
+        <connector name='pub' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/splitter_initexp_data.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-copy name='copy_even' index='pi_RBTREE' collapse-updates='true'>
+       <connectors>
+        <connector name='sub_cw_even' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>cw_even.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-copy>
+      <window-copy name='copy_odd' index='pi_HASH' collapse-updates='true'>
+       <connectors>
+        <connector name='sub_cw_odd' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>cw_odd.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-copy>
+     </windows>
+     <edges>
+      <edge source='sourceWindow_01' target='copy_even' slot='0'/>
+      <edge source='sourceWindow_01' target='copy_odd' slot='1'/>
+     </edges>
+    </contquery>
+   </contqueries>
+   <project-connectors>
+    <connector-groups>
+     <connector-group name='CG_sub_1'>
+      <connector-entry connector='contquery_01/copy_even/sub_cw_even' state='running'/>
+      <connector-entry connector='contquery_01/copy_odd/sub_cw_odd' state='running'/>
+     </connector-group>
+     <connector-group name='CG_pub_1'>
+      <connector-entry connector='contquery_01/sourceWindow_01/pub' state='finished'/>
+     </connector-group>
+    </connector-groups>
+    <edges>
+     <edge source='CG_sub_1' target='CG_pub_1'/>
+    </edges>
+   </project-connectors>
+  </project>
+ </projects>
+</engine>
+

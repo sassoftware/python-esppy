@@ -1,0 +1,126 @@
+<engine port='55555'>
+ <description>
+  This example has one source window and one procedural
+  window. The procedural window uses DS2 code to calculate
+  a value from the source window.
+
+
+  engine element creates the single engine top level container which sets up dfESP
+  fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='trades_proj' pubsub='auto' threads='4'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='trades_traders_cq' trace='pw1'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+     </description>
+     <windows>
+      <window-source name='Trades' index='pi_RBTREE'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='tradeID' type='string' key='true'/>
+         <field name='security' type='string'/>
+         <field name='quantity' type='int32'/>
+         <field name='price' type='double'/>
+         <field name='traderID' type='int64'/>
+         <field name='time' type='stamp'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector class='fs' name='pub'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>@ESPTESTDATA@/ds2_procedural_data.csv</property>
+          <property name='transactional'>true</property>
+          <property name='dateformat'>%d/%b/%Y:%H:%M:%S</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-procedural name='pw1'>
+       <description>
+        This defines a procedural window.  The window will pass
+        all fields of the event as variables to the DS2 program.
+       </description>
+       <schema>
+        <fields>
+         <field name='tradeID' type='string' key='true'/>
+         <field name='security' type='string'/>
+         <field name='quantity' type='int32'/>
+         <field name='price' type='double'/>
+         <field name='traderID' type='int64'/>
+         <field name='time' type='stamp'/>
+         <field name='volume' type='int32' key='true'/>
+        </fields>
+       </schema>
+       <ds2-tableserver source='Trades'>
+        <code>
+          <![CDATA[ds2_options cdump;
+                          data esp.out;
+                          dcl integer volume;
+                          method run();
+                          set esp.in;
+                          volume=price*quantity;
+                          end;
+                        enddata;]]>
+         </code>
+       </ds2-tableserver>
+       <connectors>
+        <connector class='fs' name='sub'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>output.csv</property>
+          <property name='snapshot'>true</property>
+          <property name='dateformat'>%d/%b/%Y:%H:%M:%S</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-procedural>
+     </windows>
+     <edges>
+      <description>
+       This fully specifies the continuous query with window
+       connectivity, which is a directed graph.
+      </description>
+      <edge source='Trades' target='pw1'/>
+     </edges>
+    </contquery>
+   </contqueries>
+   <project-connectors>
+    <connector-groups>
+     <connector-group name='sub_group'>
+      <connector-entry connector='trades_traders_cq/pw1/sub' state='running'/>
+     </connector-group>
+     <connector-group name='pub_group'>
+      <connector-entry connector='trades_traders_cq/Trades/pub' state='finished'/>
+     </connector-group>
+    </connector-groups>
+    <edges>
+     <edge source='sub_group' target='pub_group'/>
+    </edges>
+   </project-connectors>
+  </project>
+ </projects>
+</engine>
+

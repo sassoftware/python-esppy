@@ -1,0 +1,69 @@
+<engine>
+  <projects>
+    <project name="project_01_UnitTest" pubsub="auto" threads="1">
+      <contqueries>
+        <contquery name="cq_01">
+          <windows>
+            <window-compute collapse-updates="true" name="compute">
+              <context-plugin function="get_context" name="libmethod" />
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="ID" type="int64" />
+                  <field key="false" name="symbol" type="string" />
+                  <field key="false" name="price" type="double" />
+                  <field key="false" name="markup" type="double" />
+                  <field key="false" name="sum" type="double" />
+                  <field key="false" name="diff" type="double" />
+                  <field key="false" name="prod" type="double" />
+                  <field key="false" name="quot" type="double" />
+                </fields>
+              </schema>
+              <output>
+                <field-plug function="copyScalarFunction" plugin="libmethod" />
+                <field-plug function="copyScalarFunction" plugin="libmethod" />
+                <field-plug function="copyScalarFunction" plugin="libmethod" />
+                <field-plug function="arithScalarFunction" plugin="libmethod" />
+                <field-plug function="arithScalarFunction" plugin="libmethod" />
+                <field-plug function="arithScalarFunction" plugin="libmethod" />
+                <field-plug function="arithScalarFunction" plugin="libmethod" />
+              </output>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="fsname">result.out</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-compute>
+            <window-source collapse-updates="true" index="pi_HASH" name="src_win">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="ID" type="int64" />
+                  <field key="false" name="symbol" type="string" />
+                  <field key="false" name="price" type="double" />
+                  <field key="false" name="markup" type="double" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="pub" type="publish">
+                  <properties>
+                    <property name="blocksize">1</property>
+                    <property name="fsname">compute_plugin.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="transactional">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+          </windows>
+          <edges>
+            <edge source="src_win" target="compute" />
+          </edges>
+        </contquery>
+      </contqueries>
+    </project>
+  </projects>
+</engine>
+

@@ -1,0 +1,137 @@
+<engine port='55555'>
+ <description>
+ This is a simple example that has two source windows and one union
+ window. The two source windows feed the union window. The union
+ window is configured with strict enforcement.  This means the
+ union window does not allow for the key values to be inserted on
+ both sides of the union.
+
+  engine element creates the single engine top level container which sets up dfESP
+  fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='modeling_union' pubsub='auto' threads='3'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='contquery_01' trace='unionWindow_strict'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+     </description>
+     <windows>
+      <window-source name='sourceWindow_01' index='pi_HASH' collapse-updates='true'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub_sw_01_1' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/union_data1.csv</property>
+          <property name='fstype'>csv</property>
+          <property name='blocksize'>3</property>
+         </properties>
+        </connector>
+        <connector name='pub_sw_01_2' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/union_data2.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-source name='sourceWindow_02' index='pi_HASH' collapse-updates='true'>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub_sw_02' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/union_data3.csv</property>
+          <property name='fstype'>csv</property>
+          <property name='blocksize'>3</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-union name='unionWindow_strict' index='pi_HASH' collapse-updates='true' strict='true'>
+       <description>
+        This is an union window.  The union window is a simple join that merges one or more
+        streams with the same schema.  We specify the window name, the type of index and the
+        value of the strict flag. Strict=true does not allow similar keyed events to be sent
+        down both sides of the join.  It also flags updates or deletes to non existing keyed
+        events.
+       </description>
+       <connectors>
+        <connector name='sub_uw' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>output.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-union>
+     </windows>
+     <edges>
+      <description>
+       This fully specifies the continuous query with window
+       connectivity, which is a directed graph.
+      </description>
+      <edge source='sourceWindow_01' target='unionWindow_strict'/>
+      <edge source='sourceWindow_02' target='unionWindow_strict'/>
+     </edges>
+    </contquery>
+   </contqueries>
+   <project-connectors>
+    <connector-groups>
+     <connector-group name='CG_sub_1'>
+      <connector-entry connector='contquery_01/unionWindow_strict/sub_uw' state='running'/>
+     </connector-group>
+     <connector-group name='CG_pub_sw_01_1'>
+      <connector-entry connector='contquery_01/sourceWindow_01/pub_sw_01_1' state='finished'/>
+     </connector-group>
+     <connector-group name='CG_pub_sw_02'>
+      <connector-entry connector='contquery_01/sourceWindow_02/pub_sw_02' state='finished'/>
+     </connector-group>
+     <connector-group name='CG_pub_sw_01_2'>
+      <connector-entry connector='contquery_01/sourceWindow_01/pub_sw_01_2' state='finished'/>
+     </connector-group>
+    </connector-groups>
+    <edges>
+     <edge source='CG_sub_1' target='CG_pub_sw_01_1'/>
+     <edge source='CG_pub_sw_01_1' target='CG_pub_sw_02'/>
+     <edge source='CG_pub_sw_02' target='CG_pub_sw_01_2'/>
+    </edges>
+   </project-connectors>
+  </project>
+ </projects>
+</engine>
+

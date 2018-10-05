@@ -1,0 +1,39 @@
+<engine>
+  <projects>
+    <project name="project_01_UnitTest" pubsub="auto" threads="1">
+      <contqueries>
+        <contquery name="cq_01">
+          <windows>
+            <window-filter name="filter_w">
+              <plugin function="findTheElement" name="libmethod">
+                <context-plugin function="get_derived_context" name="libmethod" />
+              </plugin>
+              <connectors>
+                <connector class="fs" name="fsout" type="subscribe">
+                  <properties>
+                    <property name="fsname">output</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-filter>
+            <window-source name="src_win">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="ID" type="int64" />
+                  <field key="false" name="symbol" type="string" />
+                  <field key="false" name="quant" type="int32" />
+                  <field key="false" name="price" type="money" />
+                </fields>
+              </schema>
+            </window-source>
+          </windows>
+          <edges>
+            <edge source="src_win" target="filter_w" />
+          </edges>
+        </contquery>
+      </contqueries>
+    </project>
+  </projects>
+</engine>

@@ -1,0 +1,455 @@
+<engine>
+  <description>
+    This example pumps 10 million stock trades through an ESP model and looks for trading violations.
+
+    We are in search of the following violations:
+
+    - Front Running Buy ==> Broker buys a stock for himself, then buys same stock for a client, then sells stock for a profit.
+    - Front Running Sell ==> Broker sells a stock for himself, then sells the same stock for a client
+    - Restricted Trades ==> A trade was made of a stock that was restricted at a certain venue.
+    - Open Marking ==> A trade was made within 60 seconds of venue open (and quantity is more than 30,000)
+    - Close Marking ==> A trade was made within 60 seconds of venue close (and quantity is more than 70,000)
+
+    There are several dimensional windows we use to join with the trade data. These are:
+
+    - brokersSource ==> Holds broker information
+    - venuesSource ==> Holds trading venue information
+    - restrictedSource ==> Hold information on what stocks are not allowed to be traded from what venues
+
+    Running Instructions:
+
+    dfesp_xml_server -model file://model.xml -exit
+  </description>
+  <projects>
+    <project name='project' pubsub='manual' threads='10'>
+      <contqueries>
+        <contquery name='query' trace='counter' >
+
+          <windows>
+
+        <window-source name='trades' insert-only='true' index='pi_EMPTY'> <!-- autogen-key='true' -->
+              <schema-string>id*:int64,symbol:string,currency:int32,time:int64,msecs:int32,price:double,quant:int32,venue:int32,broker:int32,buyer:int32,seller:int32,buysellflg:int32,tradetime:stamp</schema-string>
+              <connectors>
+                <connector class='fs' name='connector'>
+                  <properties>
+                    <property name='type'>pub</property>
+                    <property name='fstype'>csv</property>
+                    <property name='blocksize'>50</property>
+                    <property name='fsname'>@ESPTESTDATA@/broker_surv_trades.csv</property>
+                    <property name='dateformat'>%Y-%m-%d %H:%M:%S</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+
+            <window-source name='brokersSource' insert-only='true' index='pi_EMPTY'>
+              <schema>
+                <fields>
+                  <field name='broker' type='int32' key='true'/>
+                  <field name='brokerName' type='string'/>
+                  <field name='brokerage' type='string'/>
+                  <field name='brokerAddress' type='string'/>
+                  <field name='brokerEmail' type='string'/>
+                  <field name='brokerPhone' type='string'/>
+                  <field name='brokerSms' type='string'/>
+                  <field name='brokerMms' type='string'/>
+                </fields>
+              </schema>
+              <connectors>
+                <connector class='fs' name='connector'>
+                  <properties>
+                    <property name='type'>pub</property>
+                    <property name='fstype'>csv</property>
+                    <property name='fsname'>@ESPTESTDATA@/broker_surv_data.csv</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+
+            <window-source name='venuesSource' insert-only='true' index='pi_EMPTY'>
+              <schema-string>venue*:int32,openTimeGMT:string,closeTimeGMT:string</schema-string>
+              <connectors>
+                <connector class='fs' name='connector'>
+                  <properties>
+                    <property name='type'>pub</property>
+                    <property name='fstype'>csv</property>
+                    <property name='fsname'>@ESPTESTDATA@/broker_surv_venues.csv</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+
+            <window-source name='restrictedSource' insert-only='true' index='pi_EMPTY'>
+              <schema-string>symbol*:string,venue*:int32,restricted:int32</schema-string>
+              <connectors>
+                <connector class='fs' name='connector'>
+                  <properties>
+                    <property name='type'>pub</property>
+                    <property name='fstype'>csv</property>
+                    <property name='fsname'>@ESPTESTDATA@/broker_surv_restricted.csv</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+
+            <window-join name='addBrokerData' index='pi_EMPTY'>
+              <join type='inner' no-regenerates='true'>
+                <conditions>
+                  <fields left='broker' right='broker'/>
+                </conditions>
+              </join>
+              <output>
+                <field-selection name='broker' source='l_broker'></field-selection>
+                <field-selection name='buyer' source='l_buyer'></field-selection>
+                <field-selection name='buysellflg' source='l_buysellflg'></field-selection>
+                <field-selection name='currency' source='l_currency'></field-selection>
+                <field-selection name='msecs' source='l_msecs'></field-selection>
+                <field-selection name='price' source='l_price'></field-selection>
+                <field-selection name='quant' source='l_quant'></field-selection>
+                <field-selection name='seller' source='l_seller'></field-selection>
+                <field-selection name='symbol' source='l_symbol'></field-selection>
+                <field-selection name='time' source='l_time'></field-selection>
+                <field-selection name='venue' source='l_venue'></field-selection>
+                <field-selection name='brokerAddress' source='r_brokerAddress'></field-selection>
+                <field-selection name='brokerEmail' source='r_brokerEmail'></field-selection>
+                <field-selection name='brokerMms' source='r_brokerMms'></field-selection>
+                <field-selection name='brokerName' source='r_brokerName'></field-selection>
+                <field-selection name='brokerPhone' source='r_brokerPhone'></field-selection>
+                <field-selection name='brokerSms' source='r_brokerSms'></field-selection>
+                <field-selection name='brokerage' source='r_brokerage'></field-selection>
+                <field-selection name='tradeTime' source='l_tradetime'></field-selection>
+              </output>
+            </window-join>
+
+            <window-join name='addVenueData' index='pi_EMPTY'>
+              <join type='leftouter' no-regenerates='true'>
+                <conditions>
+                  <fields left='venue' right='venue'/>
+                </conditions>
+              </join>
+              <output>
+                <field-selection name='broker' source='l_broker'></field-selection>
+                <field-selection name='buyer' source='l_buyer'></field-selection>
+                <field-selection name='buysellflg' source='l_buysellflg'></field-selection>
+                <field-selection name='currency' source='l_currency'></field-selection>
+                <field-selection name='msecs' source='l_msecs'></field-selection>
+                <field-selection name='price' source='l_price'></field-selection>
+                <field-selection name='quant' source='l_quant'></field-selection>
+                <field-selection name='seller' source='l_seller'></field-selection>
+                <field-selection name='symbol' source='l_symbol'></field-selection>
+                <field-selection name='time' source='l_time'></field-selection>
+                <field-selection name='brokerAddress' source='l_brokerAddress'></field-selection>
+                <field-selection name='brokerEmail' source='l_brokerEmail'></field-selection>
+                <field-selection name='brokerMms' source='l_brokerMms'></field-selection>
+                <field-selection name='brokerName' source='l_brokerName'></field-selection>
+                <field-selection name='brokerPhone' source='l_brokerPhone'></field-selection>
+                <field-selection name='brokerSms' source='l_brokerSms'></field-selection>
+                <field-selection name='brokerage' source='l_brokerage'></field-selection>
+                <field-selection name='venue' source='l_venue'></field-selection>
+                <field-selection name='closeSeconds' source='r_closeSeconds'></field-selection>
+                <field-selection name='closeTimeGMT' source='r_closeTimeGMT'></field-selection>
+                <field-selection name='openSeconds' source='r_openSeconds'></field-selection>
+                <field-selection name='openTimeGMT' source='r_openTimeGMT'></field-selection>
+                <field-selection name='tradeTime' source='l_tradeTime'></field-selection>
+              </output>
+            </window-join>
+
+            <window-join name='addRestrictedData' index='pi_EMPTY'>
+              <join type='leftouter' no-regenerates='true'>
+                <conditions>
+                  <fields left='symbol' right='symbol'/>
+                  <fields left='venue' right='venue'/>
+                </conditions>
+              </join>
+              <output>
+                <field-selection name='broker' source='l_broker'></field-selection>
+                <field-selection name='brokerAddress' source='l_brokerAddress'></field-selection>
+                <field-selection name='brokerEmail' source='l_brokerEmail'></field-selection>
+                <field-selection name='brokerMms' source='l_brokerMms'></field-selection>
+                <field-selection name='brokerName' source='l_brokerName'></field-selection>
+                <field-selection name='brokerPhone' source='l_brokerPhone'></field-selection>
+                <field-selection name='brokerSms' source='l_brokerSms'></field-selection>
+                <field-selection name='brokerage' source='l_brokerage'></field-selection>
+                <field-selection name='buyer' source='l_buyer'></field-selection>
+                <field-selection name='buysellflg' source='l_buysellflg'></field-selection>
+                <field-selection name='closeSeconds' source='l_closeSeconds'></field-selection>
+                <field-selection name='closeTimeGMT' source='l_closeTimeGMT'></field-selection>
+                <field-selection name='currency' source='l_currency'></field-selection>
+                <field-selection name='msecs' source='l_msecs'></field-selection>
+                <field-selection name='openSeconds' source='l_openSeconds'></field-selection>
+                <field-selection name='openTimeGMT' source='l_openTimeGMT'></field-selection>
+                <field-selection name='price' source='l_price'></field-selection>
+                <field-selection name='quant' source='l_quant'></field-selection>
+                <field-selection name='seller' source='l_seller'></field-selection>
+                <field-selection name='symbol' source='l_symbol'></field-selection>
+                <field-selection name='time' source='l_time'></field-selection>
+                <field-selection name='venue' source='l_venue'></field-selection>
+                <field-selection name='restricted' source='r_restricted'></field-selection>
+                <field-selection name='tradeTime' source='l_tradeTime'></field-selection>
+              </output>
+            </window-join>
+
+            <window-functional name='transform' index='pi_EMPTY'>
+              <description>
+                <![CDATA[This window adds some time related fields to the event.
+                         During daylight savings time, use this function for 'tradeSeconds':
+                         <function name='timeAfterOpen'>diff($tradeSeconds,$openSeconds)</function>
+                         During standard time, use this function for 'tradeSeconds':
+                         <function name='tradeSeconds'>timeSecondOfDay(diff($time,3600))</function>
+                ]]>
+
+
+              </description>
+              <schema-string>id*:int64,broker:int32,brokerAddress:string,brokerEmail:string,brokerMms:string,brokerName:string,brokerPhone:string,brokerSms:string,brokerage:string,buyer:int32,buysellflg:int32,closeSeconds:int64,closeTimeGMT:string,currency:int32,msecs:int32,openSeconds:int64,openTimeGMT:string,price:double,quant:int32,seller:int32,symbol:string,time:int64,venue:int32,restricted:int32,tradeSeconds:int32,timeAfterOpen:int32,timeTillClose:int32,tradeTime:stamp</schema-string>
+              <function-context>
+                <functions>
+                  <function name='tradeSeconds'>timeSecondOfDay($time)</function>
+                  <function name='timeAfterOpen'>diff($tradeSeconds,$openSeconds)</function>
+                  <function name='timeTillClose'>diff($closeSeconds,$tradeSeconds)</function>
+                </functions>
+              </function-context>
+            </window-functional>
+
+            <window-functional name='venueData' index='pi_EMPTY'>
+              <schema-string>venue*:int32,openTimeGMT:string,closeTimeGMT:string,openSeconds:int64,closeSeconds:int64</schema-string>
+              <function-context>
+                <functions>
+                  <function name='openSeconds'>timeSecondOfDay(timeGmtToLocal(timeParse($openTimeGMT,'%H:%M:%S')))</function>
+                  <function name='closeSeconds'>timeSecondOfDay(timeGmtToLocal(timeParse($closeTimeGMT,'%H:%M:%S')))</function>
+                </functions>
+              </function-context>
+            </window-functional>
+
+            <window-filter name='largeTrades' index='pi_EMPTY'>
+              <expression><![CDATA[quant>=1000]]></expression>
+            </window-filter>
+
+            <window-filter name='restrictedTrades' index='pi_EMPTY'>
+              <expression>restricted==1</expression>
+            </window-filter>
+
+            <window-filter name='openMarking' index='pi_EMPTY'>
+              <expression><![CDATA[timeAfterOpen > 0 and timeAfterOpen < 60 and quant >= 30000]]></expression>
+            </window-filter>
+
+            <window-filter name='closeMarking' index='pi_EMPTY'>
+              <expression><![CDATA[timeTillClose > 0 and timeTillClose < 60 and quant >= 70000]]></expression>
+            </window-filter>
+
+            <window-functional name='brokerAlerts' index='pi_EMPTY'>
+              <schema-string>id*:int64,broker:int32,brokerName:string,frontRunningBuy:int32,frontRunningSell:int32,openMarking:int32,closeMarking:int32,restrictedTrades:int32,total:int32</schema-string>
+              <function-context>
+                <functions>
+                  <function name='id'>eventCounter()</function>
+                  <function name='frontRunningBuy'>integer(equals(input(),'frontRunningBuy'))</function>
+                  <function name='frontRunningSell'>integer(equals(input(),'frontRunningSell'))</function>
+                  <function name='openMarking'>integer(equals(input(),'openMarking'))</function>
+                  <function name='closeMarking'>integer(equals(input(),'closeMarking'))</function>
+                  <function name='restrictedTrades'>integer(equals(input(),'restrictedTrades'))</function>
+                  <function name='total'>1</function>
+                </functions>
+              </function-context>
+            </window-functional>
+
+            <window-functional name='violations' index='pi_EMPTY'>
+              <schema>
+                <fields>
+                  <field name='id' type='int64' key='true'/>
+                  <field name='violation' type='string'/>
+                </fields>
+              </schema>
+              <function-context>
+                <functions>
+                  <function name='id'>eventCounter()</function>
+                  <function name='violation'>input()</function>
+                </functions>
+              </function-context>
+            </window-functional>
+
+            <window-aggregate name='brokerAlertsAggr' index='pi_HASH'  pubsub='true'>
+              <schema-string>brokerName*:string,frontRunningBuy:int32,frontRunningSell:int32,openMarking:int32,closeMarking:int32,restrictedTrades:int32,total:int64</schema-string>
+              <output>
+                <field-expr>ESP_aSum(frontRunningBuy)</field-expr>
+                <field-expr>ESP_aSum(frontRunningSell)</field-expr>
+                <field-expr>ESP_aSum(openMarking)</field-expr>
+                <field-expr>ESP_aSum(closeMarking)</field-expr>
+                <field-expr>ESP_aSum(restrictedTrades)</field-expr>
+                <field-expr>ESP_aSum(total)</field-expr>
+              </output>
+            </window-aggregate>
+
+            <window-counter name='counter' count-interval='2 seconds' clear-interval='30 seconds' index='pi_EMPTY'/>
+
+            <window-pattern name='frontRunningBuy' index='pi_EMPTY'>
+              <schema>
+                <fields>
+                  <field name='id' type='int64' key='true'/>
+                  <field name='broker' type='int32'/>
+                  <field name='brokerName' type='string'/>
+                  <field name='email' type='string'/>
+                  <field name='phone' type='string'/>
+                  <field name='sms' type='string'/>
+                  <field name='mms' type='string'/>
+                  <field name='customer' type='int32'/>
+                  <field name='symbol' type='string'/>
+                  <field name='tstamp1' type='stamp'/>
+                  <field name='tstamp2' type='stamp'/>
+                  <field name='tstamp3' type='stamp'/>
+                  <field name='tradeId1' type='int64'/>
+                  <field name='tradeId2' type='int64'/>
+                  <field name='tradeId3' type='int64'/>
+                  <field name='price1' type='double'/>
+                  <field name='price2' type='double'/>
+                  <field name='price3' type='double'/>
+                  <field name='quant1' type='int32'/>
+                  <field name='quant2' type='int32'/>
+                  <field name='quant3' type='int32'/>
+                  <field name='slot' type='int32'/>
+                </fields>
+              </schema>
+              <patterns>
+                <pattern index='broker,symbol'>
+                  <events>
+                    <event name='e1' source='transform'>((buysellflg == 1) and (broker == buyer) and (s == symbol) and (b == broker) and (p == price))</event>
+                    <event name='e2' source='transform'>((buysellflg == 1) and (broker != buyer) and (s == symbol) and (b == broker))</event>
+                    <event name='e3' source='transform'><![CDATA[((buysellflg == 0) and (broker == seller) and (s == symbol) and (b == broker) and (p < price))]]></event>
+                  </events>
+                  <logic>fby{1 hour}(fby{1 hour}(e1,e2),e3)</logic>
+                  <output>
+                    <field-selection name='broker' node='e1'/>
+                    <field-selection name='brokerName' node='e1'/>
+                    <field-selection name='brokerEmail' node='e1'/>
+                    <field-selection name='brokerPhone' node='e1'/>
+                    <field-selection name='brokerSms' node='e1'/>
+                    <field-selection name='brokerMms' node='e1'/>
+                    <field-selection name='buyer' node='e2'/>
+                    <field-selection name='symbol' node='e1'/>
+                    <field-selection name='tradeTime' node='e1'/>
+                    <field-selection name='tradeTime' node='e2'/>
+                    <field-selection name='tradeTime' node='e3'/>
+                    <field-selection name='id' node='e1'/>
+                    <field-selection name='id' node='e2'/>
+                    <field-selection name='id' node='e3'/>
+                    <field-selection name='price' node='e1'/>
+                    <field-selection name='price' node='e2'/>
+                    <field-selection name='price' node='e3'/>
+                    <field-selection name='quant' node='e1'/>
+                    <field-selection name='quant' node='e2'/>
+                    <field-selection name='quant' node='e3'/>
+                    <field-expr node='e1'>1</field-expr>
+                  </output>
+                  <timefields>
+                    <timefield field='tradeTime' source='transform'/>
+                  </timefields>
+                </pattern>
+              </patterns>
+            </window-pattern>
+
+            <window-pattern name='frontRunningSell' index='pi_EMPTY'>
+              <schema>
+                <fields>
+                  <field name='id' type='int64' key='true'/>
+                  <field name='broker' type='int32'/>
+                  <field name='brokerName' type='string'/>
+                  <field name='email' type='string'/>
+                  <field name='phone' type='string'/>
+                  <field name='sms' type='string'/>
+                  <field name='mms' type='string'/>
+                  <field name='customer' type='int32'/>
+                  <field name='symbol' type='string'/>
+                  <field name='tstamp1' type='stamp'/>
+                  <field name='tstamp2' type='stamp'/>
+                  <field name='tstamp3' type='stamp'/>
+                  <field name='tradeId1' type='int64'/>
+                  <field name='tradeId2' type='int64'/>
+                  <field name='tradeId3' type='int64'/>
+                  <field name='price1' type='double'/>
+                  <field name='price2' type='double'/>
+                  <field name='price3' type='double'/>
+                  <field name='quant1' type='int32'/>
+                  <field name='quant2' type='int32'/>
+                  <field name='quant3' type='int32'/>
+                  <field name='slot' type='int32'/>
+                </fields>
+              </schema>
+              <patterns>
+                <pattern index='broker,symbol'>
+                  <events>
+                    <event name='e1' source='transform'>((buysellflg == 0) and (broker == seller) and (s == symbol) and (b == broker))</event>
+                    <event name='e2' source='transform'>((buysellflg == 0) and (broker != seller) and (s == symbol) and (b == broker))</event>
+                  </events>
+                  <logic>fby{10 minutes}(e1,e2)</logic>
+                  <output>
+                    <field-selection name='broker' node='e1'/>
+                    <field-selection name='brokerName' node='e1'/>
+                    <field-selection name='brokerEmail' node='e1'/>
+                    <field-selection name='brokerPhone' node='e1'/>
+                    <field-selection name='brokerSms' node='e1'/>
+                    <field-selection name='brokerMms' node='e1'/>
+                    <field-selection name='seller' node='e2'/>
+                    <field-selection name='symbol' node='e1'/>
+                    <field-selection name='tradeTime' node='e1'/>
+                    <field-selection name='tradeTime' node='e2'/>
+                    <field-expr node='e1'/>
+                    <field-selection name='id' node='e1'/>
+                    <field-selection name='id' node='e2'/>
+                    <field-expr node='e1'>0</field-expr>
+                    <field-selection name='price' node='e1'/>
+                    <field-selection name='price' node='e2'/>
+                    <field-expr node='e1'>0</field-expr>
+                    <field-selection name='quant' node='e1'/>
+                    <field-selection name='quant' node='e2'/>
+                    <field-expr node='e1'>0</field-expr>
+                    <field-expr node='e1'>2</field-expr>
+                  </output>
+                  <timefields>
+                    <timefield field='tradeTime' source='transform'/>
+                  </timefields>
+                </pattern>
+              </patterns>
+            </window-pattern>
+
+            <window-aggregate name='violationCounts' index='pi_HASH'>
+              <schema>
+                <fields>
+                  <field name='violation' type='string' key='true'/>
+                  <field name='count' type='int32'/>
+                </fields>
+              </schema>
+              <output>
+                <field-expr>ESP_aCount()</field-expr>
+              </output>
+            </window-aggregate>
+          </windows>
+          <edges>
+            <edge source='trades' target='largeTrades counter'/>
+            <edge source='largeTrades brokersSource' target='addBrokerData'/>
+            <edge source='addBrokerData venueData' target='addVenueData'/>
+            <edge source='addVenueData restrictedSource' target='addRestrictedData'/>
+            <edge source='venuesSource' target='venueData'/>
+            <edge source='addRestrictedData' target='transform'/>
+            <edge source='transform' target='restrictedTrades openMarking closeMarking frontRunningBuy frontRunningSell'/>
+            <edge source='restrictedTrades openMarking closeMarking frontRunningBuy frontRunningSell' target='brokerAlerts violations'/>
+            <edge source='brokerAlerts' target='brokerAlertsAggr'/>
+            <edge source='violations' target='violationCounts'/>
+          </edges>
+        </contquery>
+      </contqueries>
+      <project-connectors>
+        <connector-groups>
+          <connector-group name='g1'>
+            <connector-entry connector='query/brokersSource/connector' state='finished'/>
+            <connector-entry connector='query/venuesSource/connector' state='finished'/>
+            <connector-entry connector='query/restrictedSource/connector' state='finished'/>
+          </connector-group>
+          <connector-group name='g2'>
+            <connector-entry connector='query/trades/connector' state='finished'/>
+          </connector-group>
+        </connector-groups>
+        <edges>
+          <edge source='g1' target='g2'/>
+        </edges>
+      </project-connectors>
+    </project>
+  </projects>
+</engine>

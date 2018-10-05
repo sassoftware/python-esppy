@@ -1,0 +1,134 @@
+<engine>
+<projects>
+<project name='project' pubsub='auto' threads='1' use-tagged-token='true'>
+  <description>
+    This project demonstrates the use of the learning algorithm for
+    the online DBSCAN clustering in ESP. It has a insert only input stream consisting of:
+    1. an id that acts as the streams key
+    2. an x coordinate of data
+    3. a y coordinate of data
+
+    This project has a single continuous query with a source window that
+    receives the data to be scored, a train window that generates
+    and periodically updates the DBSCAN model, and lastly a score
+    window that does the scoring.
+
+    The model is controlled by the parameters specified in the
+    w_training train window. While the w_training train
+    window is fully parameterized, this example use of it tries to find
+    which of two clusters the data points are closest to.
+  </description>
+  <contqueries>
+    <contquery name='contquery' trace='w_scoring w_training'>
+      <windows>
+        <window-source name='w_source'>
+          <description>
+            Source window with file socket connector to publish provided example data.
+          </description>
+          <schema>
+            <fields>
+              <field name='id'  type='int64' key='true'/>
+              <field name='x_c' type='double'/>
+              <field name='y_c' type='double'/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector class='fs' name='publisher'>
+              <properties>
+                <property name='type'>pub</property>
+                <property name='fstype'>csv</property>
+                <property name='fsname'>@ESPTESTDATA@/analytics_dbscan_data.csv</property>
+                <property name='transactional'>true</property>
+                <property name='blocksize'>1</property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+
+        <window-train name='w_training' algorithm='DBSCAN'>
+          <description><![CDATA[
+            This train window looks at all observations and periodically generates
+            a new clustering model using the dbscan algorithm.  The model_id indicates
+            what version of the model is being output. The first version of the model
+            will tag all events with a "1".  The model_address indicates the cluster number.
+
+            The following  properties govern the dbscan algorithm:
+            epsilon: specifies the range of neighborhood being considered. (\epsilon>0)
+            mu: specifies the weight of core micro clusters. (\mu>1)
+            beta: specifies the factor for \mu to determine a micro cluster is p-mc or o-mc. (0 &lt; \beta\le1 and \beta \cdot \mu > 1)
+            lambda: specifies the decaying factor for data weight. Assuming the current time is T, data points arriving at time T would have weight 1, while data points arriving at time T-t would have weight 2^{-\lambda t} (\lambda > 0).
+            recluster: specifies whether reclustering (with offline weighted DBSCAN) is performed: 1 for true, 0 for false.
+            reclusterFactor: specifies the factor (c) for \epsilon used in reclustering (c\ge2).
+            nInit: specifies the number of data events used during initialization
+            velocity: specifies the number of events arriving at a single timestamp
+            commitInterval: specifies the number of timestamps to be elapsed before triggering a commit of model to downstream scoring.
+            inputs: specifies the list of variable names used in clustering. Variable names are defined in the input schema, and they are separated by comma in the list, e.g. x,y .
+          ]]></description>
+          <parameters>
+            <properties>
+              <property name="epsilon">2.0</property>
+              <property name="mu">3</property>
+              <property name="beta">0.5</property>
+              <property name="lambda">0.05</property>
+              <property name="recluster">1</property>
+              <property name="reclusterFactor">2.75</property>
+              <property name="nInit">50</property>
+              <property name="velocity">5</property>
+              <property name="commitInterval">25</property>
+            </properties>
+          </parameters>
+          <input-map>
+            <properties>
+              <property name="inputs">x_c,y_c</property>
+            </properties>
+          </input-map>
+        </window-train>
+
+        <window-score name='w_scoring'>
+          <description>
+            This window scores the incoming event. In dbscan clustering
+            that means augmenting the input event with a cluster number
+            that indicates the cluster that the observation falls into.
+            The properties unique for streaming dbscan:
+            labelOut: specifies the column/field name in the output schema that stores cluster label.
+            minDistanceOut: specifies the column/field name in the output schema that stores the distance to the nearest cluster. If not specified, the minimal distance column will not be shown.
+            modelIdOut: specifies the column/field name in the output schema that stores the ID of the model from which the score is computed. If not specified, the model ID column will not be shown.
+          </description>
+          <schema>
+            <fields>
+              <field name='id'  type='int64' key='true'/>
+              <field name='x_c' type='double'/>
+              <field name='y_c' type='double'/>
+              <field name='seg' type='int32'/>
+              <field name='min_dist' type='double'/>
+              <field name='model_id' type='int64'/>
+            </fields>
+          </schema>
+          <models>
+            <online algorithm='DBSCAN'>
+              <input-map>
+                <properties>
+                  <property name="inputs">x_c,y_c</property>
+                </properties>
+              </input-map>
+              <output-map>
+                <properties>
+                  <property name="labelOut">seg</property>
+                  <property name='minDistanceOut'>min_dist</property>
+                  <property name='modelIdOut'>model_id</property>
+                </properties>
+              </output-map>
+            </online>
+          </models>
+        </window-score>
+      </windows>
+      <edges>
+        <edge source='w_source' target='w_training' role='data'/>
+        <edge source='w_source' target='w_scoring' role='data'/>
+        <edge source='w_training' target='w_scoring' role='model'/>
+      </edges>
+    </contquery>
+  </contqueries>
+</project>
+</projects>
+</engine>

@@ -1,0 +1,45 @@
+<engine>
+  <projects>
+    <project name="project_01_UnitTest" pubsub="auto" threads="4">
+      <contqueries>
+        <contquery name="cq_01" trace="sourceWindow_01 textCategoryWindow">
+          <windows>
+            <window-source collapse-updates="true" name="src_win" pubsub="true">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="ID" type="int32" />
+                  <field key="false" name="tstamp" type="date" />
+                  <field key="false" name="msg" type="string" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="pub" type="publish">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">textcategory_window.csv</property>
+                    <property name="fstype">csv</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+            <window-textcategory collapse-updates="true" index="pi_EMPTY" mco-file="@HOME@/mcoFile/IPTC.mco" name="textCategoryWindow" pubsub="true" text-field="msg">
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="fsname">result.out</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-textcategory>
+          </windows>
+          <edges>
+            <edge source="src_win" target="textCategoryWindow" />
+          </edges>
+        </contquery>
+      </contqueries>
+    </project>
+  </projects>
+</engine>
+

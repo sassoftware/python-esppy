@@ -1,0 +1,48 @@
+<project name="project_01_UnitTest" pubsub="auto" threads="1">
+  <contqueries>
+    <contquery name="contquery">
+      <windows>
+        <window-notification name="notify" >
+          <schema>
+            <fields>
+              <field name="symbol" type="string"/>
+              <field name="quant" type="double"/>
+              <field name="price" type="double"/>
+              <field name="email" type="string"/>
+            </fields>
+          </schema>    
+          <smtp host="@ESP_SMTP_SERVER@"/>
+          <delivery-channels>
+            <email test='true'>
+              <deliver><![CDATA[1]]></deliver>
+              <email-info>
+                <sender><![CDATA[$email]]></sender>
+                <recipients><![CDATA[$email]]></recipients>
+                <subject><![CDATA[notificationEmailSchema]]></subject>
+                <from><![CDATA[esp]]></from>
+                <to><![CDATA[trader]]></to>
+              </email-info>
+              <email-contents>
+                <text-content name="text_content_0"><![CDATA[I see you traded $quant shares of $symbol at $price. You must have a lot of money. Can I interest you in a timeshare?]]></text-content>
+                <html-content name='html_content_0'><![CDATA[<!DOCTYPE html>
+                 <html>
+                 <head>
+                   <title>Page Title</title>
+                   </head>
+
+<body>
+  <h1>This is a Heading</h1>
+    <p>This is a paragraph.</p>
+    </body>
+
+</html> ]]></html-content>
+                <image-content name='image_content_0'><![CDATA[file:///tmp/Desert.jpeg]]></image-content>
+
+              </email-contents>
+            </email>
+          </delivery-channels>
+        </window-notification>
+      </windows>
+    </contquery>
+  </contqueries>
+</project>

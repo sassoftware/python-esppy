@@ -1,0 +1,58 @@
+<project name='project_01' pubsub='auto' threads='1'>
+  <mas-modules>
+
+    <mas-module language="ds2" module="module_1"
+                func-names='astoreScore'>
+      <code-file>@ESPTESTDATA@/mas_composite_score.ds2</code-file>
+      <module-members>
+        <module-member member='astore_1' SHAkey='EB3D1CA20AA0CB74465D25EEE2290E13692AF750'
+                    type='astore'>
+          <code-file>@ESPTESTDATA@/mas_composite_model.ast</code-file>
+        </module-member>
+      </module-members>
+    </mas-module>
+
+  </mas-modules>
+
+
+  <contqueries>
+    <contquery name='cq_01'>
+
+      <windows>
+
+        <window-source name='src_win' index='pi_EMPTY' insert-only='true'>
+          <schema-string>ID*:int32,inCLAGE:double,inCLNO:double,inDEBTINC:double,inDELINQ:double,inNINQ:double,inVALUE:double</schema-string>
+          <connectors>
+            <connector class='fs' name='pub'>
+              <properties>
+                <property name='type'>pub</property>
+                <property name='fstype'>csv</property>
+                <property name='fsname'>@ESPTESTDATA@/mas_composite_data.csv</property>
+                <property name='transactional'>true</property>
+                <property name='blocksize'>8</property>
+                <property name='repeatcount'>100000</property>
+                <property name='rate'>30000</property>
+                <property name='dateformat'>%Y-%m-%d %H:%M:%S</property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+
+
+        <window-procedural name='pw1' index='pi_EMPTY'>
+          <schema-string>ID*:int32,out_P_:double,outP__EVENT_0:double,outP__EVENT_1:double,outI__EVENT_:string,out_WARN_:string</schema-string>
+          <mas-map>
+            <window-map module="module_1" revision="0" source="src_win" function="astoreScore"/>
+          </mas-map>
+        </window-procedural>
+
+      </windows>
+
+      <edges>
+        <edge source='src_win' target='pw1'/>
+      </edges>
+
+    </contquery>
+  </contqueries>
+
+</project>

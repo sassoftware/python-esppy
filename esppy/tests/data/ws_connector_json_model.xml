@@ -1,0 +1,182 @@
+<project name='p' index='pi_EMPTY' pubsub='auto' threads='4'>
+    <contqueries>
+        <contquery name='cq'>
+            <windows>
+                <window-source name='trades' insert-only='true'>
+                    <schema-string>id*:int64,symbol:string,currency:int32,time:int64,msecs:int32,price:double,quant:int32,venue:int32,broker:int32,buyer:int32,seller:int32,buysellflg:int32</schema-string>
+                </window-source>
+                <window-source name='brokersSource' insert-only='true'>
+                    <schema>
+                        <fields>
+                            <field name='broker' type='int32' key='true'/>
+                            <field name='brokerName' type='string'/>
+                            <field name='brokerage' type='string'/>
+                            <field name='brokerAddress' type='string'/>
+                            <field name='brokerEmail' type='string'/>
+                            <field name='brokerPhone' type='string'/>
+                            <field name='brokerSms' type='string'/>
+                            <field name='brokerMms' type='string'/>
+                        </fields>
+                    </schema>
+                    <connectors>
+                        <connector class='fs' name='connector'>
+                            <properties>
+                                <property name='type'>pub</property>
+                                <property name='fstype'>csv</property>
+                                <property name='fsname'>brokers.csv</property>
+                            </properties>
+                        </connector>
+                    </connectors>
+                </window-source>
+                <window-source name='venuesSource' insert-only='true'>
+                    <schema-string>venue*:int32,openTimeGMT:string,closeTimeGMT:string</schema-string>
+                    <connectors>
+                        <connector class='fs' name='connector'>
+                            <properties>
+                                <property name='type'>pub</property>
+                                <property name='fstype'>csv</property>
+                                <property name='fsname'>venues.csv</property>
+                            </properties>
+                        </connector>
+                    </connectors>
+                </window-source>
+                <window-source name='restrictedSource' insert-only='true'>
+                    <schema-string>symbol*:string,venue*:int32,restricted:int32</schema-string>
+                    <connectors>
+                        <connector class='fs' name='connector'>
+                            <properties>
+                                <property name='type'>pub</property>
+                                <property name='fstype'>csv</property>
+                                <property name='fsname'>restricted.csv</property>
+                            </properties>
+                        </connector>
+                    </connectors>
+                </window-source>
+                <window-join name='addBrokerData'>
+                    <join type='leftouter' no-regenerates='true'>
+                        <conditions>
+                            <fields left='broker' right='broker'/>
+                        </conditions>
+                    </join>
+                    <output>
+                        <field-expr name='broker' type='int32'>l_broker</field-expr>
+                        <field-expr name='buyer' type='int32'>l_buyer</field-expr>
+                        <field-expr name='buysellflg' type='int32'>l_buysellflg</field-expr>
+                        <field-expr name='closeSeconds' type='int64'>l_closeSeconds</field-expr>
+                        <field-expr name='closeTimeGMT' type='string'>l_closeTimeGMT</field-expr>
+                        <field-expr name='currency' type='int32'>l_currency</field-expr>
+                        <field-expr name='msecs' type='int32'>l_msecs</field-expr>
+                        <field-expr name='openSeconds' type='int64'>l_openSeconds</field-expr>
+                        <field-expr name='openTimeGMT' type='string'>l_openTimeGMT</field-expr>
+                        <field-expr name='price' type='double'>l_price</field-expr>
+                        <field-expr name='quant' type='int32'>l_quant</field-expr>
+                        <field-expr name='seller' type='int32'>l_seller</field-expr>
+                        <field-expr name='symbol' type='string'>l_symbol</field-expr>
+                        <field-expr name='time' type='int64'>l_time</field-expr>
+                        <field-expr name='venue' type='int32'>l_venue</field-expr>
+                        <field-expr name='brokerAddress' type='string'>r_brokerAddress</field-expr>
+                        <field-expr name='brokerEmail' type='string'>r_brokerEmail</field-expr>
+                        <field-expr name='brokerMms' type='string'>r_brokerMms</field-expr>
+                        <field-expr name='brokerName' type='string'>r_brokerName</field-expr>
+                        <field-expr name='brokerPhone' type='string'>r_brokerPhone</field-expr>
+                        <field-expr name='brokerSms' type='string'>r_brokerSms</field-expr>
+                        <field-expr name='brokerage' type='string'>r_brokerage</field-expr>
+                    </output>
+                </window-join>
+                <window-join name='addVenueData'>
+                    <join type='leftouter' no-regenerates='true'>
+                        <conditions>
+                            <fields left='venue' right='venue'/>
+                        </conditions>
+                    </join>
+                    <output>
+                        <field-expr name='broker' type='int32'>l_broker</field-expr>
+                        <field-expr name='buyer' type='int32'>l_buyer</field-expr>
+                        <field-expr name='buysellflg' type='int32'>l_buysellflg</field-expr>
+                        <field-expr name='currency' type='int32'>l_currency</field-expr>
+                        <field-expr name='msecs' type='int32'>l_msecs</field-expr>
+                        <field-expr name='price' type='double'>l_price</field-expr>
+                        <field-expr name='quant' type='int32'>l_quant</field-expr>
+                        <field-expr name='seller' type='int32'>l_seller</field-expr>
+                        <field-expr name='symbol' type='string'>l_symbol</field-expr>
+                        <field-expr name='time' type='int64'>l_time</field-expr>
+                        <field-expr name='venue' type='int32'>l_venue</field-expr>
+                        <field-expr name='closeSeconds' type='int64'>r_closeSeconds</field-expr>
+                        <field-expr name='closeTimeGMT' type='string'>r_closeTimeGMT</field-expr>
+                        <field-expr name='openSeconds' type='int64'>r_openSeconds</field-expr>
+                        <field-expr name='openTimeGMT' type='string'>r_openTimeGMT</field-expr>
+                    </output>
+                </window-join>
+                <window-join name='addRestrictedData'>
+                    <join type='leftouter' no-regenerates='true'>
+                        <conditions>
+                            <fields left='symbol' right='symbol'/>
+                            <fields left='venue' right='venue'/>
+                        </conditions>
+                    </join>
+                    <output>
+                        <field-expr name='broker' type='int32'>l_broker</field-expr>
+                        <field-expr name='brokerAddress' type='string'>l_brokerAddress</field-expr>
+                        <field-expr name='brokerEmail' type='string'>l_brokerEmail</field-expr>
+                        <field-expr name='brokerMms' type='string'>l_brokerMms</field-expr>
+                        <field-expr name='brokerName' type='string'>l_brokerName</field-expr>
+                        <field-expr name='brokerPhone' type='string'>l_brokerPhone</field-expr>
+                        <field-expr name='brokerSms' type='string'>l_brokerSms</field-expr>
+                        <field-expr name='brokerage' type='string'>l_brokerage</field-expr>
+                        <field-expr name='buyer' type='int32'>l_buyer</field-expr>
+                        <field-expr name='buysellflg' type='int32'>l_buysellflg</field-expr>
+                        <field-expr name='closeSeconds' type='int64'>l_closeSeconds</field-expr>
+                        <field-expr name='closeTimeGMT' type='string'>l_closeTimeGMT</field-expr>
+                        <field-expr name='currency' type='int32'>l_currency</field-expr>
+                        <field-expr name='msecs' type='int32'>l_msecs</field-expr>
+                        <field-expr name='openSeconds' type='int64'>l_openSeconds</field-expr>
+                        <field-expr name='openTimeGMT' type='string'>l_openTimeGMT</field-expr>
+                        <field-expr name='price' type='double'>l_price</field-expr>
+                        <field-expr name='quant' type='int32'>l_quant</field-expr>
+                        <field-expr name='seller' type='int32'>l_seller</field-expr>
+                        <field-expr name='symbol' type='string'>l_symbol</field-expr>
+                        <field-expr name='time' type='int64'>l_time</field-expr>
+                        <field-expr name='venue' type='int32'>l_venue</field-expr>
+                        <field-expr name='restricted' type='int32'>r_restricted</field-expr>
+                    </output>
+                </window-join>
+                <window-functional name='transform'>
+                    <schema-string>id*:int64,broker:int32,brokerAddress:string,brokerEmail:string,brokerMms:string,brokerName:string,brokerPhone:string,brokerSms:string,brokerage:string,buyer:int32,buysellflg:int32,closeSeconds:int64,closeTimeGMT:string,currency:int32,msecs:int32,openSeconds:int64,openTimeGMT:string,price:double,quant:int32,seller:int32,symbol:string,time:int64,venue:int32,restricted:int32,date:date,tradeSeconds:int32,timeAfterOpen:int32,timeTillClose:int32</schema-string>
+                    <function-context>
+                        <functions>
+                            <function name='date'>$time</function>
+                            <function name='tradeSeconds'>timeSecondOfDay($time)</function>
+                            <function name='timeAfterOpen'>diff($tradeSeconds,$openSeconds)</function>
+                            <function name='timeTillClose'>diff($closeSeconds,$tradeSeconds)</function>
+                        </functions>
+                    </function-context>
+                </window-functional>
+                <window-functional name='venueData'>
+                    <schema-string>venue*:int32,openTimeGMT:string,closeTimeGMT:string,openSeconds:int64,closeSeconds:int64</schema-string>
+                    <function-context>
+                        <functions>
+                            <function name='openSeconds'>timeSecondOfDay(timeGmtToLocal(timeParse($openTimeGMT,'%H:%M:%S')))</function>
+                            <function name='closeSeconds'>timeSecondOfDay(timeGmtToLocal(timeParse($closeTimeGMT,'%H:%M:%S')))</function>
+                        </functions>
+                    </function-context>
+                </window-functional>
+                <window-filter name='largeTrades'>
+                    <expression>quant&gt;=1000</expression>
+                </window-filter>
+                <window-filter name='validBroker'>
+                    <expression>isnull(brokerName)==false</expression>
+                </window-filter>
+                <window-counter name='counter' count-interval='2 seconds' clear-interval='30 seconds'/>
+            </windows>
+            <edges>
+                <edge source='trades' target='largeTrades counter'/>
+                <edge source='largeTrades venueData' target='addVenueData'/>
+                <edge source='addVenueData brokersSource' target='addBrokerData'/>
+                <edge source='addBrokerData' target='validBroker'/>
+                <edge source='validBroker restrictedSource' target='addRestrictedData'/>
+                <edge source='venuesSource' target='venueData'/>
+                <edge source='addRestrictedData' target='transform'/>
+            </edges>
+        </contquery>
+    </contqueries>
+</project>

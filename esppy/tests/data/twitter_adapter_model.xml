@@ -1,0 +1,24 @@
+<engine port='60990'>
+ <description>
+  Sample XML model file to use twitter adapter.
+  The following usage is for running on Linux 64.
+  Usage:
+  1. start the server:
+  $DFESP_HOME/bin/dfesp_xml_server -model file://model.xml
+  2. start the twitter adapter:
+  $DFESP_HOME/bin/dfesp_twitter_publisher -u "dfESP://localhost:60990/project_01/cq_01/src_win" -m sample -b 128
+ </description>
+ <projects>
+  <project name='project_01' pubsub='auto' threads='1' >
+   <contqueries>
+    <contquery name='cq_01' include-singletons='true' trace='src_win'>
+     <windows>
+      <window-source name='src_win' >
+       <schema-string>tw_ID*:int64,tw_AuthorScreenName:string,tw_AuthorId:int64,tw_AuthorDescription:string,tw_AuthorFavouritesCount:int32,tw_AuthorFollowersCount:int32,tw_AuthorFriendsCount:int32,tw_AuthorProfileImageURL:string,tw_AuthorLang:string,tw_AuthorLocation:string,tw_AuthorName:string,tw_AuthorTimeZone:string,tw_AuthorURL:string,tw_AuthorStatusesCount:int32,tw_AuthorListedCount:int32,tw_Text:string,tw_CreatedAt:stamp,tw_CurrentUserRetweetId:int64,tw_FavoriteCount:int32,tw_GeolocLatitude:double,tw_GeolocLongitude:double,tw_InReplyToScreenName:string,tw_InReplyToStatusId:int64,tw_InReplyToUserId:int64,tw_Lang:string,tw_RetweetCount:int32,tw_RetweetedStatusId:int64,tw_SourceText:string,tw_Source:string,tw_isFavorited:int32,tw_isPossiblySensitive:int32,tw_isRetweet:int32,tw_isRetweeted:int32,tw_isTruncated:int32,tw_PlaceFullName:string,tw_MentionedUserNames:string,tw_MentionedUserScreenNames:string,tw_MentionedUserIds:string,tw_StatusLinks:string,tw_StatusTags:string,f_method:string,f_followed_IDs:string,f_tracked_terms:string,f_GeoLocations:string,f_Languages:string</schema-string>
+      </window-source>
+     </windows>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>

@@ -1,0 +1,96 @@
+<engine>
+  <projects>
+    <project name="project_01_UnitTest" pubsub="auto" threads="1" use-tagged-token="true">
+      <contqueries>
+        <contquery name="cq_01" trace="w_scoring w_training">
+          <windows>
+            <window-source index="pi_EMPTY" insert-only="true" name="w_request">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="req_id" type="int64" />
+                  <field key="false" name="req_key" type="string" />
+                  <field key="false" name="req_val" type="string" />
+                </fields>
+              </schema>
+            </window-source>
+            <window-score name="w_scoring">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="id" type="int64" />
+                  <field key="false" name="x_c" type="double" />
+                  <field key="false" name="y_c" type="double" />
+                  <field key="false" name="seg" type="int32" />
+                  <field key="false" name="min_dist" type="double" />
+                  <field key="false" name="model_id" type="int64" />
+                </fields>
+              </schema>
+              <models>
+                <online algorithm="KMEANS">
+                  <input-map>
+                    <properties>
+                      <property name="inputs">x_c,y_c</property>
+                    </properties>
+                  </input-map>
+                  <output-map>
+                    <properties>
+                      <property name="labelOut">seg</property>
+                      <property name="minDistanceOut">min_dist</property>
+                      <property name="modelIdOut">model_id</property>
+                    </properties>
+                  </output-map>
+                </online>
+              </models>
+            </window-score>
+            <window-source name="w_source">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="id" type="int32" />
+                  <field key="false" name="x_c" type="double" />
+                  <field key="false" name="y_c" type="double" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="pub" type="publish">
+                  <properties>
+                    <property name="blocksize">1</property>
+                    <property name="fsname">modelsuper_window.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="transactional">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+            <window-model-supervisor capacity="100" deployment-policy="immediate" name="w_supervisor" pubsub="true" />
+            <window-train algorithm="KMEANS" name="w_training">
+              <parameters>
+                <properties>
+                  <property name="commitInterval">25</property>
+                  <property name="dampingFactor">0.8</property>
+                  <property name="disturbFactor">0.01</property>
+                  <property name="fadeOutFactor">0.05</property>
+                  <property name="initSeed">1</property>
+                  <property name="nClusters">2</property>
+                  <property name="nInit">50</property>
+                  <property name="velocity">5</property>
+                </properties>
+              </parameters>
+              <input-map>
+                <properties>
+                  <property name="inputs">x_c,y_c</property>
+                </properties>
+              </input-map>
+            </window-train>
+          </windows>
+          <edges>
+            <edge role="data" source="w_source" target="w_training" />
+            <edge role="model" source="w_training" target="w_supervisor" />
+            <edge role="request" source="w_request" target="w_supervisor" />
+            <edge role="model" source="w_supervisor" target="w_scoring" />
+            <edge role="data" source="w_source" target="w_scoring" />
+          </edges>
+        </contquery>
+      </contqueries>
+    </project>
+  </projects>
+</engine>
+

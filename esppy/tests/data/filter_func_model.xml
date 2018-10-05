@@ -1,0 +1,78 @@
+<engine port='5555'>
+ <description>
+  This is a simple example that has one source window and one filter
+  window. The filter window has a registered Boolean filter function.
+
+  engine element creates the single engine top level container which sets up dfESP
+  fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='project' pubsub='auto' threads='1'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='contQuery' trace='filterWindow'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+     </description>
+     <windows>
+      <window-source name='sourceWindow'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='ID' type='int64' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='quant' type='int32'/>
+         <field name='price' type='money'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector class='fs' name='publisher'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fstype'>csv</property>
+          <property name='fsname'>@ESPTESTDATA@/filter_func_data.csv</property>
+          <property name='transactional'>true</property>
+          <property name='blocksize'>1</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-filter name='filterWindow'>
+       <description>
+        This is a filter window with a registered Boolean
+        filter function. The function is defined in the
+        shared library plugin.{so,dll} and the function name is
+        booleanScalarFunction.
+       </description>
+       <plugin name='plugin' function='booleanScalarFunction'/>
+      </window-filter>
+     </windows>
+     <edges>
+      <description>
+       This fully specifies the continuous query with window
+       connectivity, which is a directed graph.
+      </description>
+      <edge source='sourceWindow' target='filterWindow'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>
+

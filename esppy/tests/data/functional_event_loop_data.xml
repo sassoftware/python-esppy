@@ -1,0 +1,305 @@
+<events>
+        <event>
+          <opcode>i</opcode>
+          <id>1</id>
+          <claimData><![CDATA[
+    <Claim>
+      <ClaimStatusShort>Settled</ClaimStatusShort>
+      <fraud_flag>0</fraud_flag>
+      <loss_date>25DEC2009</loss_date>
+      <dataset>FakeNameGen</dataset>
+      <ClaimID>214848</ClaimID>
+      <client_id>12457</client_id>
+      <Handler>Investigator 28</Handler>
+      <Policy_No>1245700001</Policy_No>
+      <Investigated_Flag>0</Investigated_Flag>
+      <claim_score>0.0438047559</claim_score>
+      <line_of_business>AUTO</line_of_business>
+      <ClaimCountry>United States</ClaimCountry>
+      <Latitude>39.047487</Latitude>
+      <Longitude>-76.730218</Longitude>
+      <pol_incepted>12AUG2008</pol_incepted>
+      <reported_date>27DEC2009</reported_date>
+      <estimated_value>15976.30</estimated_value>
+      <paid_assessors>813.90</paid_assessors>
+      <paid_extras>1925.90</paid_extras>
+      <paid_investigators>0.00</paid_investigators>
+      <claim_value>21088.10</claim_value>
+      <incident_time>4:42:47</incident_time>
+      <policy_expiry>12AUG2010</policy_expiry>
+      <policy_in_arrears>0</policy_in_arrears>
+      <ph_fault>1</ph_fault>
+      <policy_exposure>31000</policy_exposure>
+      <policy_premium>324</policy_premium>
+      <policy_cover>TP ONLY</policy_cover>
+      <policy_source>ONLINE</policy_source>
+      <claim_source>ONLINE</claim_source>
+      <Parties>
+        <Party>
+          <gender>male</gender>
+          <NationalID>216-51-8179</NationalID>
+          <role>PH driver</role>
+          <telephonenumber>301-912-5529</telephonenumber>
+          <title>Mr.</title>
+          <vehicle>2012 BMW 120</vehicle>
+          <vehicleReg>COU4516</vehicleReg>
+          <zipcode>21113</zipcode>
+          <ClaimID>214848</ClaimID>
+          <client_id>12457</client_id>
+          <GivenName>Tyrone</GivenName>
+          <MiddleInitial>C</MiddleInitial>
+          <Surname>Kilby</Surname>
+          <CountryFull>United States</CountryFull>
+          <EmailAddress>TyroneKilby26@yahoo.com</EmailAddress>
+          <Birthday>03/31/1949</Birthday>
+          <Latitude>39.047487</Latitude>
+          <Longitude>-76.730218</Longitude>
+          <streetaddress>633 Del Dew Drive</streetaddress>
+          <injuries>
+            <injury>None</injury>
+          </injuries>
+        </Party>
+      </Parties>
+      <Vehicles>
+        <Vehicle>
+          <vehicle_make_model>2012 BMW 120</vehicle_make_model>
+          <vehiclereg>COU4516</vehiclereg>
+          <vehicle_value>23151.80</vehicle_value>
+          <vehicle_damage>18348.20</vehicle_damage>
+        </Vehicle>
+      </Vehicles>
+    </Claim>
+          ]]></claimData>
+        </event>
+        <event>
+          <opcode>i</opcode>
+          <id>2</id>
+          <claimData><![CDATA[
+    <Claim>
+      <ClaimStatusShort>Settled</ClaimStatusShort>
+      <fraud_flag>0</fraud_flag>
+      <loss_date>14DEC2009</loss_date>
+      <dataset>FakeNameGen</dataset>
+      <ClaimID>214917</ClaimID>
+      <client_id>11229</client_id>
+      <Handler>Investigator 17</Handler>
+      <Policy_No>1122900001</Policy_No>
+      <Investigated_Flag>0</Investigated_Flag>
+      <claim_score>0.0438047559</claim_score>
+      <line_of_business>AUTO</line_of_business>
+      <ClaimCountry>United States</ClaimCountry>
+      <Latitude>40.25546</Latitude>
+      <Longitude>-78.811781</Longitude>
+      <pol_incepted>01AUG2008</pol_incepted>
+      <reported_date>16DEC2009</reported_date>
+      <estimated_value>2314.50</estimated_value>
+      <paid_assessors>889.20</paid_assessors>
+      <paid_extras>1716.90</paid_extras>
+      <paid_investigators>0.00</paid_investigators>
+      <claim_value>9859.10</claim_value>
+      <incident_time>19:34:15</incident_time>
+      <policy_expiry>01AUG2010</policy_expiry>
+      <policy_ammendment_date>30JUN2009</policy_ammendment_date>
+      <policy_in_arrears>0</policy_in_arrears>
+      <ph_fault>1</ph_fault>
+      <policy_exposure>15000</policy_exposure>
+      <policy_premium>167</policy_premium>
+      <policy_cover>TP ONLY</policy_cover>
+      <policy_source>ONLINE</policy_source>
+      <claim_source>PHONE</claim_source>
+      <Parties>
+        <Party>
+          <gender>male</gender>
+          <NationalID>168-44-0045</NationalID>
+          <role>PH driver</role>
+          <telephonenumber>814-937-4007</telephonenumber>
+          <title>Mr.</title>
+          <vehicle>1998 Ferrari 355 TS</vehicle>
+          <vehicleReg>REA0146</vehicleReg>
+          <zipcode>15904</zipcode>
+          <ClaimID>214917</ClaimID>
+          <client_id>11229</client_id>
+          <GivenName>Jose</GivenName>
+          <MiddleInitial>N</MiddleInitial>
+          <Surname>Murphy</Surname>
+          <CountryFull>United States</CountryFull>
+          <EmailAddress>JNMurphy@einrot.com</EmailAddress>
+          <Birthday>08/02/1940</Birthday>
+          <Latitude>40.25546</Latitude>
+          <Longitude>-78.811781</Longitude>
+          <streetaddress>4077 Custer Street</streetaddress>
+          <injuries>
+            <injury>WHIPLASH</injury>
+            <injury>SOFT TISSUE</injury>
+          </injuries>
+        </Party>
+        <Party>
+          <gender>male</gender>
+          <NationalID>031-88-6517</NationalID>
+          <role>TP driver</role>
+          <title>Mr.</title>
+          <vehicle>2001 Daihatsu Sirion</vehicle>
+          <vehicleReg>INS5677</vehicleReg>
+          <zipcode>02110</zipcode>
+          <ClaimID>214917</ClaimID>
+          <client_id>49496</client_id>
+          <GivenName>C</GivenName>
+          <MiddleInitial>E</MiddleInitial>
+          <Surname>Macias</Surname>
+          <CountryFull>United States</CountryFull>
+          <Birthday>01/18/1941</Birthday>
+          <Latitude>42.304879</Latitude>
+          <Longitude>-71.007749</Longitude>
+          <streetaddress>3114 Huntz Lane</streetaddress>
+          <injuries>
+            <injury>NONE</injury>
+          </injuries>
+        </Party>
+      </Parties>
+      <Vehicles>
+        <Vehicle>
+          <vehicle_make_model>1998 Ferrari 355 TS</vehicle_make_model>
+          <vehiclereg>REA0146</vehiclereg>
+          <vehicle_value>15940.10</vehicle_value>
+          <vehicle_damage>3709.52</vehicle_damage>
+        </Vehicle>
+        <Vehicle>
+          <vehicle_make_model>2001 Daihatsu Sirion</vehicle_make_model>
+          <vehiclereg>INS5677</vehiclereg>
+          <vehicle_value>15226.20</vehicle_value>
+          <vehicle_damage>3543.38</vehicle_damage>
+        </Vehicle>
+      </Vehicles>
+    </Claim>
+
+          ]]></claimData>
+        </event>
+        <event>
+          <opcode>i</opcode>
+          <id>3</id>
+          <claimData><![CDATA[
+    <Claim>
+      <ClaimStatusShort>Settled</ClaimStatusShort>
+      <fraud_flag>0</fraud_flag>
+      <loss_date>25DEC2009</loss_date>
+      <dataset>FakeNameGen</dataset>
+      <ClaimID>214961</ClaimID>
+      <client_id>7070</client_id>
+      <Handler>Investigator 77</Handler>
+      <Policy_No>707000002</Policy_No>
+      <Investigated_Flag>0</Investigated_Flag>
+      <claim_score>0.0767754319</claim_score>
+      <line_of_business>AUTO</line_of_business>
+      <ClaimCountry>United States</ClaimCountry>
+      <Latitude>33.834374</Latitude>
+      <Longitude>-117.986528</Longitude>
+      <pol_incepted>12AUG2008</pol_incepted>
+      <reported_date>27DEC2009</reported_date>
+      <estimated_value>118588.10</estimated_value>
+      <paid_assessors>660.00</paid_assessors>
+      <paid_extras>8822.80</paid_extras>
+      <paid_investigators>0.00</paid_investigators>
+      <claim_value>117777.00</claim_value>
+      <incident_time>4:48:09</incident_time>
+      <policy_expiry>12AUG2010</policy_expiry>
+      <policy_ammendment_date>11JUL2009</policy_ammendment_date>
+      <coverage_increase_date>11JUL2009</coverage_increase_date>
+      <no_claim_bonus_protect_date>11JUL2009</no_claim_bonus_protect_date>
+      <policy_in_arrears>1</policy_in_arrears>
+      <ph_fault>0</ph_fault>
+      <policy_exposure>100000</policy_exposure>
+      <policy_premium>1342</policy_premium>
+      <policy_cover>TP FIRE AND THEFT</policy_cover>
+      <policy_source>BRANCH</policy_source>
+      <claim_source>ONLINE</claim_source>
+      <Parties>
+        <Party>
+          <gender>male</gender>
+          <NationalID>620-34-6841</NationalID>
+          <role>PH driver</role>
+          <telephonenumber>909-641-6938</telephonenumber>
+          <title>Mr.</title>
+          <vehicle>2000 Kia Spectra</vehicle>
+          <vehicleReg>MED0798</vehicleReg>
+          <zipcode>93632</zipcode>
+          <ClaimID>214961</ClaimID>
+          <client_id>7070</client_id>
+          <GivenName>Leon</GivenName>
+          <MiddleInitial>I</MiddleInitial>
+          <Surname>Goldberg</Surname>
+          <CountryFull>United States</CountryFull>
+          <EmailAddress>LeonGoldberg99@gmail.com</EmailAddress>
+          <Birthday>06/18/1971</Birthday>
+          <Latitude>33.834374</Latitude>
+          <Longitude>-117.986528</Longitude>
+          <streetaddress>2520 Paradise Lane</streetaddress>
+          <injuries>
+            <injury>CUTS</injury>
+            <injury>BRUISES</injury>
+          </injuries>
+        </Party>
+        <Party>
+          <NationalID>608-17-4898</NationalID>
+          <role>TP driver</role>
+          <telephonenumber>510-786-1028</telephonenumber>
+          <vehicle>1999 Peugeot 504</vehicle>
+          <vehicleReg>EME5340</vehicleReg>
+          <zipcode>94545</zipcode>
+          <ClaimID>214961</ClaimID>
+          <client_id>45984</client_id>
+          <GivenName>P</GivenName>
+          <MiddleInitial>S</MiddleInitial>
+          <Surname>Cook</Surname>
+          <CountryFull>United States</CountryFull>
+          <EmailAddress>PhillipCook34@gmail.com</EmailAddress>
+          <Birthday>10/06/1960</Birthday>
+          <Latitude>37.55135</Latitude>
+          <Longitude>-122.109619</Longitude>
+          <streetaddress>2450 Green Avenue</streetaddress>
+          <injuries>
+            <injury>BROKEN LEG</injury>
+          </injuries>
+        </Party>
+        <Party>
+          <gender>male</gender>
+          <NationalID>092-38-6517</NationalID>
+          <role>TP passenger</role>
+          <telephonenumber>718-639-7668</telephonenumber>
+          <title>Mr.</title>
+          <vehicle>1999 Peugeot 504</vehicle>
+          <vehicleReg>EME5340</vehicleReg>
+          <zipcode>11373</zipcode>
+          <ClaimID>214961</ClaimID>
+          <client_id>39793</client_id>
+          <GivenName>S</GivenName>
+          <Surname>Kujawski</Surname>
+          <CountryFull>United States</CountryFull>
+          <Birthday>07/26/1965</Birthday>
+          <Latitude>40.794942</Latitude>
+          <Longitude>-73.938577</Longitude>
+          <streetaddress>3805 Briercliff Road</streetaddress>
+          <injuries>
+            <injury>WHIPLASH</injury>
+            <injury>SOFT TISSUE</injury>
+          </injuries>
+        </Party>
+      </Parties>
+      <Vehicles>
+        <Vehicle>
+          <vehicle_make_model>2000 Kia Spectra</vehicle_make_model>
+          <vehiclereg>MED0798</vehiclereg>
+          <vehicle_value>88356.05</vehicle_value>
+          <vehicle_damage>72467.15</vehicle_damage>
+        </Vehicle>
+        <Vehicle>
+          <vehicle_make_model>1999 Peugeot 504</vehicle_make_model>
+          <vehiclereg>EME5340</vehiclereg>
+          <vehicle_value>43682.25</vehicle_value>
+          <vehicle_damage>35826.95</vehicle_damage>
+        </Vehicle>
+      </Vehicles>
+    </Claim>
+
+          ]]></claimData>
+        </event>
+</events>

@@ -1,0 +1,153 @@
+<engine port='55555'>
+ <description>
+  This is a simple example that has one source window, one compute
+  window and three copy windows. The compute window uses expression
+  to calculate the fields. Three copy windows connect to the compute window
+  using different slot.
+
+
+  engine element creates the single engine top level container which sets up
+  dfESP fundamental services such as licensing, logging, pub/sub, ...
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='modelingSplitterExp' pubsub='auto' threads='1'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='cq_01'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+
+      This fully specifies the continuous query with window
+      connectivity, which is a directed graph.
+     </description>
+     <windows>
+      <window-source name='src_win' index='pi_RBTREE' pubsub='false' collapse-updates='true'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/slot_exp_data.csv</property>
+          <property name='fstype'>csv</property>
+          <property name='transactional'>true</property>
+          <property name='blocksize'>1</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-compute name='compute_win' collapse-updates='true'>
+       <description>
+        This is a compute window that uses expressions to
+        calculate each field. The first field uses the expression
+        to calculate the count. The last two fields are just
+        passing through what is in the input window.
+       </description>
+       <splitter-expr>
+        <expression>ID%2</expression>
+       </splitter-expr>
+       <expr-initialize>
+        <initializer type='int32'>
+         <![CDATA[integer counter 
+                    counter=0]]>
+        </initializer>
+       </expr-initialize>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='counter' type='int32'/>
+         <field name='symbol' type='string'/>
+         <field name='price' type='double'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr><![CDATA[counter=counter+1 return counter]]></field-expr>
+        <field-expr><![CDATA[symbol]]></field-expr>
+        <field-expr><![CDATA[price]]></field-expr>
+       </output>
+       <connectors>
+        <connector name='sub' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>compute.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-compute>
+      <window-copy name='cw_01' collapse-updates='true'>
+       <description>
+        Below are three copy windows connected to compute window
+        using different slot.
+       </description>
+       <connectors>
+        <connector name='sub1' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>cw_01.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-copy>
+      <window-copy name='cw_02' collapse-updates='true'>
+       <connectors>
+        <connector name='sub2' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>cw_02.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-copy>
+      <window-copy name='cw_03' collapse-updates='true'>
+       <connectors>
+        <connector name='sub3' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>cw_03.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-copy>
+     </windows>
+     <edges>
+      <edge source='src_win' target='compute_win'/>
+      <edge source='compute_win' target='cw_01' slot='0'/>
+      <edge source='compute_win' target='cw_02' slot='1'/>
+      <edge source='compute_win' target='cw_03' slot='-1'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>
+

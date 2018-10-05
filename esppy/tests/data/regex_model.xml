@@ -1,0 +1,109 @@
+<engine>
+ <description>
+  This is a simple example that has one source window and one compute
+  window.  The compute window uses a regular expression to calculate
+  a field.
+
+
+  engine element creates the single engine top level container which sets up
+  dfESP fundamental services such as licensing, logging, pub/sub, ..
+  This single engine instance wraps one or more projects, that wrap
+  one or more continuous queries and different types of windows.
+ </description>
+ <projects>
+  <project name='regex' pubsub='auto' threads='2'>
+   <description>
+    This is to create a project. Project specifies a container
+    that holds one or more continuous queries and are backed by a
+    thread pool of user defined size. One can specify the pubsub
+    port and type, number of threads for the project, index type
+    and if using Tag Token data flow model.
+   </description>
+   <contqueries>
+    <contquery name='contquery01' trace='computeWindow'>
+     <description>
+      This specifies the continuous query container that holds
+      a collection of windows and enables one to specify the
+      connectivity between windows. One can turn on tracing
+      for a list of window and specifies the index type for
+      windows in the query.
+
+      This fully specifies the continuous query with window
+      connectivity, which is a directed graph.
+     </description>
+     <windows>
+      <window-source name='sourceWindow' index='pi_HASH' collapse-updates='true'>
+       <description>
+        This defines a source window. All event streams must
+        enter continuous queries by being published or
+        injected into a source window.
+       </description>
+       <schema>
+        <fields>
+         <field name='name' type='string'/>
+         <field name='ID' type='int32' key='true'/>
+         <field name='city' type='string'/>
+        </fields>
+       </schema>
+       <connectors>
+        <connector name='pub' class='fs'>
+         <properties>
+          <property name='type'>pub</property>
+          <property name='fsname'>@ESPTESTDATA@/regex_data.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-source>
+      <window-compute name='computeWindow' collapse-updates='true'>
+       <description>
+        This is a compute window. The compute window uses expression to
+        calculate the new key fields.  In this example, a match is calculated
+        based on the city name.
+       </description>
+       <expr-initialize>
+        <initializer type='int32'>
+         <![CDATA[regex r
+                        r.compile("Apex")
+                        return 5]]>
+        </initializer>
+       </expr-initialize>
+       <schema>
+        <fields>
+         <field name='ID' type='int32' key='true'/>
+         <field name='name' type='string'/>
+         <field name='city' type='string'/>
+         <field name='match' type='int32'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr><![CDATA[name]]></field-expr>
+        <field-expr><![CDATA[city]]></field-expr>
+        <field-expr>
+         <![CDATA[if r.findfirst(city) then
+                          return 1
+                          else
+                          return 0]]>
+        </field-expr>
+       </output>
+       <connectors>
+        <connector name='sub' class='fs'>
+         <properties>
+          <property name='type'>sub</property>
+          <property name='snapshot'>true</property>
+          <property name='fsname'>output.csv</property>
+          <property name='fstype'>csv</property>
+         </properties>
+        </connector>
+       </connectors>
+      </window-compute>
+     </windows>
+     <edges>
+      <edge source='sourceWindow' target='computeWindow'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>
+

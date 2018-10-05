@@ -1,0 +1,36 @@
+<project name='p' threads='4' pubsub='auto'> 
+    <contqueries>
+        <contquery name='cq' trace='s'>
+            <windows>
+                <window-source name='s'>
+                    <schema>
+                        <fields>
+                            <field name='headline' type='string' key='true'/>
+                            <field name='source' type='string'/>
+                            <field name='category' type='string'/>
+                            <field name='link' type='string'/>
+                        </fields>
+                    </schema>
+                    <retention type="bytime_sliding">2 minutes</retention>
+                    <connectors>
+                        <connector class='url' name='c01'>
+                            <properties>
+                                <property name='type'>pub</property>
+                                <property name='configUrl'>file://url_connector_news_config.xml</property>
+                            </properties>
+                        </connector>
+                    </connectors>
+                </window-source>
+                <window-filter name='wral'>
+                    <expression>source=='wral'</expression>
+                </window-filter>
+                <window-filter name='reutersBusiness'>
+                    <expression>source=='reuters business'</expression>
+                </window-filter>
+            </windows>
+            <edges>
+                <edge source='s' target='wral reutersBusiness'/>
+            </edges>
+        </contquery>
+    </contqueries>
+</project>

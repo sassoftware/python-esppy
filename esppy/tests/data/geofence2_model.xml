@@ -1,0 +1,140 @@
+<project name="Project4" threads="8" pubsub="auto">
+  <contqueries>
+    <contquery name="cq1">
+      <windows>
+        <window-source name="ANPR" pubsub="true" insert-only="true" autogen-key="true">
+          <schema>
+            <fields>
+              <field name="vrm" type="string" key="false"/>
+              <field name="lat" type="double" key="false"/>
+              <field name="long" type="double" key="false"/>
+              <field name="date" type="stamp" key="false"/>
+              <field name="pkey" type="string" key="true"/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector name="anpr_csv_read" class="fs">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="fsname">@ESPTESTDATA@/geofence2_anpr_data.csv</property>
+                <property name="fstype"><![CDATA[csv]]></property>
+                <property name="dateformat"><![CDATA[%Y-%m-%d %H:%M:%S]]></property>
+                <property name="header"><![CDATA[1]]></property>
+                <property name="ignorecsvparseerrors"><![CDATA[true]]></property>
+                <property name='noautogenfield'>true</property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+        <window-source name="VehicleWatchlist" pubsub="true">
+          <schema>
+            <fields>
+              <field name="vrm" type="string" key="true"/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector name="vehicle_watchlist" class="fs">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="fsname">@ESPTESTDATA@/geofence2_wantedvehicle_data.csv</property>
+                <property name="fstype"><![CDATA[csv]]></property>
+                <property name="header"><![CDATA[1]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+        <window-join name="WantedVehicleMatch" pubsub="true">
+          <join type="inner">
+            <conditions>
+              <fields left="vrm" right="vrm"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="vrm" source="l_vrm"/>
+            <field-selection name="lat" source="l_lat"/>
+            <field-selection name="long" source="l_long"/>
+            <field-selection name="date" source="l_date"/>
+          </output>
+        </window-join>
+        <window-geofence name="Geofence1" pubsub="true">
+          <geofence coordinate-type="geographic" autosize-mesh="true" log-invalid-geometry="true"/>
+          <geometry x-fieldname="lat" y-fieldname="long" radius="100" data-separator=" "/>
+          <position x-fieldname="lat" y-fieldname="long" lookupdistance="100"/>
+          <output geoid-fieldname="geoid" eventnumber-fieldname="eventnum"/>
+        </window-geofence>
+        <window-source name="CriticalInfrastructure" pubsub="true">
+          <schema>
+            <fields>
+              <field name="name" type="string" key="true"/>
+              <field name="lat" type="double" key="false"/>
+              <field name="long" type="double" key="false"/>
+              <field name="location" type="string" key="false"/>
+              <field name="county" type="string" key="false"/>
+              <field name="region" type="string" key="false"/>
+              <field name="type" type="string" key="false"/>
+              <field name="capacity" type="string" key="false"/>
+              <field name="opened" type="string" key="false"/>
+              <field name="closed" type="string" key="false"/>
+              <field name="demolished" type="string" key="false"/>
+              <field name="notes" type="string" key="false"/>
+            </fields>
+          </schema>
+          <connectors>
+            <connector name="infrastructure_csv_reader" class="fs">
+              <properties>
+                <property name="type"><![CDATA[pub]]></property>
+                <property name="fsname">@ESPTESTDATA@/geofonce2_infrastructure_data.csv</property>
+                <property name="fstype"><![CDATA[csv]]></property>
+                <property name="header"><![CDATA[1]]></property>
+                <property name="ignorecsvparseerrors"><![CDATA[true]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-source>
+        <window-filter name="GeofenceMatches" pubsub="true">
+          <expression><![CDATA[geoid != '']]></expression>
+          <connectors>
+            <connector class='fs' name='sub'>
+              <properties>
+                <property name='type'>sub</property>
+                <property name='fstype'>csv</property>
+                <property name='fsname'>result.out</property>
+                <property name='snapshot'>true</property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-filter>
+      </windows>
+      <edges>
+        <edge source="ANPR" target="WantedVehicleMatch"/>
+        <edge source="VehicleWatchlist" target="WantedVehicleMatch"/>
+        <edge source="WantedVehicleMatch" target="Geofence1"/>
+        <edge source="CriticalInfrastructure" target="Geofence1"/>
+        <edge source="Geofence1" target="GeofenceMatches"/>
+      </edges>
+    </contquery>
+  </contqueries>
+<project-connectors>
+      <connector-groups>
+        <connector-group name='sub1'>
+          <connector-entry connector='cq1/GeofenceMatches/sub' state='running'/>
+        </connector-group>
+        <connector-group name='pub1'>
+          <connector-entry connector='cq1/ANPR/anpr_csv_read' state='finished'/>
+        </connector-group>
+        <connector-group name='pub2'>
+          <connector-entry connector='cq1/CriticalInfrastructure/infrastructure_csv_reader' state='finished'/>
+        </connector-group>
+        <connector-group name='pub3'>
+          <connector-entry connector='cq1/VehicleWatchlist/vehicle_watchlist' state='finished'/>
+        </connector-group>
+
+      </connector-groups>
+      <edges>
+        <edge source='sub1' target='pub1 pub2 pub3'/>
+        <edge source='pub2' target='pub1'/>
+        <edge source='pub2' target='pub3'/>
+      </edges>
+    </project-connectors>
+
+</project>

@@ -1,0 +1,67 @@
+<engine>
+  <projects>
+    <project name="project_01_UnitTest" pubsub="auto" threads="1">
+      <contqueries>
+        <contquery name="cq_01">
+          <windows>
+            <window-aggregate name="aggregate">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="traderID" type="int64" />
+                  <field key="false" name="cat_security" type="string" />
+                  <field key="false" name="cat_quantity" type="string" />
+                  <field key="false" name="cat_price" type="string" />
+                  <field key="false" name="cat_dateD" type="string" />
+                  <field key="false" name="cat_timeD" type="string" />
+                </fields>
+              </schema>
+              <output>
+                <field-expr>ESP_aCat(security,",")</field-expr>
+                <field-expr>ESP_aCat(quantity,",")</field-expr>
+                <field-expr>ESP_aCat(price,",")</field-expr>
+                <field-expr>ESP_aCat(dateD,",")</field-expr>
+                <field-expr>ESP_aCat(timeD,",")</field-expr>
+              </output>
+              <connectors>
+                <connector class="fs" name="fsout" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">result.out</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-aggregate>
+            <window-source name="src_win">
+              <schema copy-keys="false">
+                <fields>
+                  <field key="true" name="tradeID" type="string" />
+                  <field key="false" name="security" type="string" />
+                  <field key="false" name="quantity" type="int32" />
+                  <field key="false" name="price" type="double" />
+                  <field key="false" name="traderID" type="int64" />
+                  <field key="false" name="dateD" type="date" />
+                  <field key="false" name="timeD" type="stamp" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="pub" type="publish">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">aggregate_window.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="transactional">true</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+          </windows>
+          <edges>
+            <edge source="src_win" target="aggregate" />
+          </edges>
+        </contquery>
+      </contqueries>
+    </project>
+  </projects>
+</engine>

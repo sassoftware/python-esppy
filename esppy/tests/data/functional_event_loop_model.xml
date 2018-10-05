@@ -1,0 +1,273 @@
+<engine port='51000'>
+ <description><![CDATA[
+  This is an example of the event looping capabilities of the functional window.
+
+  The data involved represents several auto accident insurance claims. It is contained in relatively
+  complex XML data.
+
+  The model takes the XML into its source window and routes the data down different paths representing
+  claims, parties, vehicles, and injuries.
+
+  Instructions:
+
+  1. Run the following in console 1
+
+  dfesp_xml_server -model file://model.xml
+
+  2. In console 2, send the accident claims into the model
+
+  dfesp_xml_client -url "http://localhost:51001/SASESP/windows/project/query/source/state?value=injected&eventUrl=file://functional_event_loop_data.xml" -put
+
+  3. In console 2, retrieve the contents of the 'claimStats' window
+
+  dfesp_xml_client -url "http://localhost:51001/SASESP/events/project/query/claimStats"
+ ]]>
+ </description>
+ <http-servers>
+  <http-admin-server port='51001'/>
+ </http-servers>
+ <projects>
+  <project name='project' pubsub='auto' threads='4'>
+   <contqueries>
+    <contquery name='query'>
+     <windows>
+      <window-source name='source'>
+       <schema>
+        <fields>
+         <field name='id' type='string' key='true'/>
+         <field name='claimData' type='string'/>
+        </fields>
+       </schema>
+      </window-source>
+      <window-functional name='streamer'>
+       <splitter-expr>
+        <expression>slot</expression>
+       </splitter-expr>
+       <schema>
+        <fields>
+         <field name='id' type='string' key='true'/>
+         <field name='data' type='string'/>
+         <field name='claimId' type='string'/>
+         <field name='policy' type='string'/>
+         <field name='slot' type='int32'/>
+        </fields>
+       </schema>
+       <function-context>
+        <properties>
+         <property-xml name='xml'>$claimData</property-xml>
+        </properties>
+        <functions>
+         <function name='claimId'>xpath(#xml,'./ClaimID/text()')</function>
+         <function name='id'>string($claimId,'-',eventNumber())</function>
+         <function name='data'>$claimData</function>
+         <function name='policy'>xpath(#xml,'./Policy_No/text()')</function>
+         <function name='slot'>1</function>
+        </functions>
+       </function-context>
+       <event-loops>
+        <event-loop-xml name='parties' data='xmlData'>
+         <use-xml>#xml</use-xml>
+         <xpath>//Parties/Party</xpath>
+         <function-context>
+          <functions>
+           <function name='claimId'>$claimId</function>
+           <function name='id'>string($claimId,'-',eventNumber())</function>
+           <function name='data'>$xmlData</function>
+           <function name='policy'>$policy</function>
+           <function name='slot'>2</function>
+          </functions>
+         </function-context>
+        </event-loop-xml>
+        <event-loop-xml name='vehicles' data='xmlData'>
+         <use-xml>#xml</use-xml>
+         <xpath>//Vehicles/Vehicle</xpath>
+         <function-context>
+          <functions>
+           <function name='id'>string($claimId,'-',eventNumber())</function>
+           <function name='data'>$xmlData</function>
+           <function name='claimId'>$claimId</function>
+           <function name='policy'>$policy</function>
+           <function name='slot'>3</function>
+          </functions>
+         </function-context>
+        </event-loop-xml>
+       </event-loops>
+      </window-functional>
+      <window-functional name='claimStream'>
+       <schema>
+        <fields>
+         <field name='claimId' type='string' key='true'/>
+         <field name='id' type='string'/>
+         <field name='policy' type='string'/>
+         <field name='costs' type='double'/>
+        </fields>
+       </schema>
+       <function-context>
+        <properties>
+         <property-xml name='data'>$data</property-xml>
+        </properties>
+        <functions>
+         <function name='costs'>
+          sum(xpath(#data,'./paid_assessors/text()'),
+          xpath(#data,'./paid_extras/text()'),
+          xpath(#data,'./paid_investigators/text()'),
+          )
+         </function>
+        </functions>
+       </function-context>
+      </window-functional>
+      <window-functional name='partyStream'>
+       <splitter-expr>
+        <expression>slot</expression>
+       </splitter-expr>
+       <schema>
+        <fields>
+         <field name='id' type='string' key='true'/>
+         <field name='claimId' type='string'/>
+         <field name='policy' type='string'/>
+         <field name='nationalId' type='string'/>
+         <field name='phone' type='string'/>
+         <field name='vehicle' type='string'/>
+         <field name='data' type='string'/>
+         <field name='slot' type='int32'/>
+        </fields>
+       </schema>
+       <function-context>
+        <properties>
+         <property-xml name='data'>$data</property-xml>
+        </properties>
+        <functions>
+         <function name='nationalId'>xpath(#data,'./NationalID/text()')</function>
+         <function name='vehicle'>xpath(#data,'./vehicle/text()')</function>
+         <function name='phone'>xpath(#data,'./telephonenumber/text()')</function>
+         <function name='data'/>
+         <function name='slot'>1</function>
+        </functions>
+       </function-context>
+       <event-loops>
+        <event-loop-xml name='injuries' data='xmlData'>
+         <use-xml>#data</use-xml>
+         <xpath>//injuries/injury</xpath>
+         <function-context>
+          <functions>
+           <function name='id'>string($id,'-',eventNumber())</function>
+           <function name='nationalId'>$nationalId</function>
+           <function name='data'>$xmlData</function>
+           <function name='slot'>2</function>
+          </functions>
+         </function-context>
+        </event-loop-xml>
+       </event-loops>
+      </window-functional>
+      <window-functional name='partyInjuryStream'>
+       <schema>
+        <fields>
+         <field name='id' type='string' key='true'/>
+         <field name='nationalId' type='string'/>
+         <field name='claimId' type='string'/>
+         <field name='policy' type='string'/>
+         <field name='injury' type='string'/>
+        </fields>
+       </schema>
+       <function-context>
+        <properties>
+         <property-xml name='data'>$data</property-xml>
+        </properties>
+        <functions>
+         <function name='injury'>xpath(#data,'text()')</function>
+        </functions>
+       </function-context>
+      </window-functional>
+      <window-functional name='vehicleStream'>
+       <schema>
+        <fields>
+         <field name='id' type='string' key='true'/>
+         <field name='claimId' type='string'/>
+         <field name='policy' type='string'/>
+         <field name='makeModel' type='string'/>
+         <field name='registration' type='string'/>
+         <field name='value' type='double'/>
+         <field name='damages' type='double'/>
+        </fields>
+       </schema>
+       <function-context>
+        <properties>
+         <property-map name='data'>$data</property-map>
+        </properties>
+        <functions>
+         <function name='makeModel'>xpath(#data,'vehicle_make_model/text()')</function>
+         <function name='registration'>xpath(#data,'vehiclereg/text()')</function>
+         <function name='value'>xpath(#data,'vehicle_value/text()')</function>
+         <function name='damages'>xpath(#data,'vehicle_damage/text()')</function>
+        </functions>
+       </function-context>
+      </window-functional>
+      <window-copy name='party'/>
+      <window-functional name='consolidate'>
+       <schema>
+        <fields>
+         <field name='id' type='string' key='true'/>
+         <field name='claimId' type='string'/>
+         <field name='costs' type='double'/>
+         <field name='damages' type='double'/>
+         <field name='vehicles' type='int32'/>
+         <field name='parties' type='int32'/>
+         <field name='injuries' type='int32'/>
+        </fields>
+       </schema>
+       <function-context>
+        <functions>
+         <function name='vehicles'>if (equals(input(),'vehicleStream'),1)</function>
+         <function name='parties'>if (equals(input(),'party'),1)</function>
+         <function name='injuries'>if (equals(input(),'partyInjuryStream'),1)</function>
+        </functions>
+       </function-context>
+      </window-functional>
+      <window-aggregate name='claimStats'>
+       <schema>
+        <fields>
+         <field name='claimId' type='string' key='true'/>
+         <field name='costs' type='double'/>
+         <field name='damages' type='double'/>
+         <field name='vehicles' type='int32'/>
+         <field name='parties' type='int32'/>
+         <field name='injuries' type='int32'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr>ESP_aSum(costs)</field-expr>
+        <field-expr>ESP_aSum(damages)</field-expr>
+        <field-expr>ESP_aSum(vehicles)</field-expr>
+        <field-expr>ESP_aSum(parties)</field-expr>
+        <field-expr>ESP_aSum(injuries)</field-expr>
+       </output>
+      </window-aggregate>
+      <window-aggregate name='injuries'>
+       <schema>
+        <fields>
+         <field name='injury' type='string' key='true'/>
+         <field name='count' type='int32'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr>ESP_aCount()</field-expr>
+       </output>
+      </window-aggregate>
+     </windows>
+     <edges>
+      <edge source='source' target='streamer'/>
+      <edge source='streamer' target='claimStream' slot='1'/>
+      <edge source='streamer' target='partyStream' slot='2'/>
+      <edge source='streamer' target='vehicleStream' slot='3'/>
+      <edge source='claimStream vehicleStream party partyInjuryStream' target='consolidate'/>
+      <edge source='consolidate' target='claimStats'/>
+      <edge source='partyStream' target='party' slot='1'/>
+      <edge source='partyStream' target='partyInjuryStream' slot='2'/>
+      <edge source='partyInjuryStream' target='injuries'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
+ </projects>
+</engine>
+

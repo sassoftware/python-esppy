@@ -1,0 +1,12 @@
+,n,1,2013-10-11 13:31:17,172.31.8.17,/All Customers/DBG MSS/cli11,/All Zones/BrcSight System/Private Address Space Zones/RFC1918: 172.16.0.0-172.31.255.255
+i,n,2,2013-10-11 13:31:19,10.100.11.143,/All Customers/DBG MSS/cli7-cmo,/All Zones/BrcSight System/Private Address Space Zones/RFC1918: 10.0.0.0-10.255.255.255
+i,n,3,2013-10-11 13:31:20,10.100.9.184,/All Customers/DBG MSS/cli7-cmo,/All Zones/BrcSight System/Private Address Space Zones/RFC1918: 10.0.0.0-10.255.255.255
+i,n,4,2013-10-11 13:31:20,10.100.11.144,/All Customers/DBG MSS/cli7-cmo,/All Zones/BrcSight System/Private Address Space Zones/RFC1918: 10.0.0.0-10.255.255.255
+i,n,5,2013-10-11 13:31:20,10.100.9.144,/All Customers/DBG MSS/cli7-cmo,/All Zones/BrcSight System/Private Address Space Zones/RFC1918: 10.0.0.0-10.255.255.255
+i,n,6,2013-10-11 13:31:20,10.254.0.58,/All Customers/DBG MSS/cgi-mss,/All Zones/BrcSight System/Private Address Space Zones/RFC1918: 10.0.0.0-10.255.255.255
+i,n,7,2013-10-11 13:31:20,69.46.111.134,/All Customers/DBG MSS/cli36,/All Zones/BrcSight System/Public Address Space Zones/ARIN/63.0.0.0-76.255.255.255 (ARIN)
+i,n,8,2013-10-11 13:31:20,159.18.220.120,/All Customers/DBG MSS/acxsys,/All Zones/BrcSight System/Public Address Space Zones/ARIN/155.0.0.0-162.255.255.255 (ARIN)
+i,n,9,2013-10-11 13:31:39,172.24.1.15,/All Customers/DBG MSS/acxsys,/All Zones/DBG MSS/acxsys/RFC1918: 172.16.0.0-172.31.255.255
+i,n,10,2013-10-11 13:32:24,165.71.175.83,/All Customers/DBG MSS/cli21b,/All Zones/BrcSight System/Public Address Space Zones/ARIN/164.0.0.0-169.253.255.255 (ARIN)
+i,n,11,2013-10-11 13:32:25,165.71.175.83,/All Customers/DBG MSS/cli21b,/All Zones/BrcSight System/Public Address Space Zones/ARIN/164.0.0.0-169.253.255.255 (ARIN)
+i,n,12,2013-10-11 13:33:26,165.71.175.166,/All Customers/DBG MSS/cli21b,/All Zones/BrcSight System/Public Address Space Zones/ARIN/164.0.0.0-169.253.255.255 (ARIN)
