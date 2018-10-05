@@ -1,0 +1,45 @@
+esppy.connectors.RabbitMQPublisher
+==================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: RabbitMQPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RabbitMQPublisher.__init__
+      ~RabbitMQPublisher.clear
+      ~RabbitMQPublisher.copy
+      ~RabbitMQPublisher.from_element
+      ~RabbitMQPublisher.from_parameters
+      ~RabbitMQPublisher.from_xml
+      ~RabbitMQPublisher.get
+      ~RabbitMQPublisher.items
+      ~RabbitMQPublisher.keys
+      ~RabbitMQPublisher.pop
+      ~RabbitMQPublisher.popitem
+      ~RabbitMQPublisher.set_properties
+      ~RabbitMQPublisher.setdefault
+      ~RabbitMQPublisher.to_element
+      ~RabbitMQPublisher.to_xml
+      ~RabbitMQPublisher.update
+      ~RabbitMQPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RabbitMQPublisher.connector_key
+      ~RabbitMQPublisher.property_defs
+   
+   

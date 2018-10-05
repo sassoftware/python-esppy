@@ -1,0 +1,86 @@
+esppy.windows.UnionWindow
+=========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: UnionWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~UnionWindow.__init__
+      ~UnionWindow.add_connector
+      ~UnionWindow.add_event_transformer
+      ~UnionWindow.add_target
+      ~UnionWindow.add_targets
+      ~UnionWindow.apply_transformers
+      ~UnionWindow.copy
+      ~UnionWindow.create_event_generator
+      ~UnionWindow.create_publisher
+      ~UnionWindow.create_subscriber
+      ~UnionWindow.delete_target
+      ~UnionWindow.delete_targets
+      ~UnionWindow.disable_tracing
+      ~UnionWindow.enable_tracing
+      ~UnionWindow.from_element
+      ~UnionWindow.from_xml
+      ~UnionWindow.get_events
+      ~UnionWindow.get_pattern_events
+      ~UnionWindow.publish_events
+      ~UnionWindow.save_xml
+      ~UnionWindow.set_finalized_callback
+      ~UnionWindow.set_splitter_expr
+      ~UnionWindow.set_splitter_plugin
+      ~UnionWindow.streaming_area
+      ~UnionWindow.streaming_bar
+      ~UnionWindow.streaming_bubble
+      ~UnionWindow.streaming_donut
+      ~UnionWindow.streaming_hbar
+      ~UnionWindow.streaming_hist
+      ~UnionWindow.streaming_images
+      ~UnionWindow.streaming_line
+      ~UnionWindow.streaming_pie
+      ~UnionWindow.streaming_scatter
+      ~UnionWindow.subscribe
+      ~UnionWindow.to_data_callback
+      ~UnionWindow.to_element
+      ~UnionWindow.to_graph
+      ~UnionWindow.to_xml
+      ~UnionWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~UnionWindow.base_url
+      ~UnionWindow.collapse_updates
+      ~UnionWindow.contquery
+      ~UnionWindow.exp_max_string
+      ~UnionWindow.fullname
+      ~UnionWindow.index_type
+      ~UnionWindow.name
+      ~UnionWindow.output_insert_only
+      ~UnionWindow.project
+      ~UnionWindow.publisher_url
+      ~UnionWindow.pubsub
+      ~UnionWindow.pubsub_index_type
+      ~UnionWindow.pulse_interval
+      ~UnionWindow.schema
+      ~UnionWindow.schema_string
+      ~UnionWindow.session
+      ~UnionWindow.strict
+      ~UnionWindow.subscriber_url
+      ~UnionWindow.url
+      ~UnionWindow.window_classes
+      ~UnionWindow.window_type
+   
+   

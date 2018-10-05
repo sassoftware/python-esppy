@@ -1,0 +1,6 @@
+esppy.schema.Schema.add\_field
+==============================
+
+.. currentmodule:: esppy.schema
+
+.. automethod:: Schema.add_field

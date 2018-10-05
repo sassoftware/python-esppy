@@ -1,0 +1,6 @@
+esppy.connection.ProjectStats.close
+===================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ProjectStats.close

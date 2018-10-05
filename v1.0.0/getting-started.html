@@ -1,0 +1,905 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; ESPPy 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="ESPPy 1.0.0 documentation" href="index.html"/>
+        <link rel="next" title="Jupyter Notebook Integration" href="jupyter.html"/>
+        <link rel="prev" title="What’s New" href="whatsnew.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whatsnew.html">What’s New</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#server-introspection">Server Introspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-a-project">Loading a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#working-with-windows">Working with Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-limit-argument">The <strong>limit</strong> Argument</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-horizon-argument">The <strong>horizon</strong> Argument</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-windows-as-dataframes">Using Windows as DataFrames</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-projects-programmatically">Building Projects Programmatically</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-data-window">Adding a Data Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-training-window">Adding a Training Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-scoring-window">Adding a Scoring Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-connections-between-windows">Making Connections between Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-the-project-into-the-server">Loading the Project into the Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#publishing-events-to-data-window">Publishing Events to Data Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ESPPy</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/getting-started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>To connect to an ESP server, you just need a hostname and port number.
+These are passed to the <strong>ESP</strong> constructor.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">import</span> <span class="nn">esppy</span>
+
+<span class="gp">In [2]: </span><span class="n">conn</span> <span class="o">=</span> <span class="n">esppy</span><span class="o">.</span><span class="n">ESP</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+
+<span class="gp">In [3]: </span><span class="n">conn</span>
+<span class="gh">Out[3]: </span><span class="go">ESP(&#39;http://my-esp-server.com:12345&#39;)</span>
+</pre></div>
+</div>
+<div class="section" id="server-introspection">
+<h2>Server Introspection<a class="headerlink" href="#server-introspection" title="Permalink to this headline">¶</a></h2>
+<p>Once connected, we can query the server for basic information about the
+server itself, as well as projects in the server.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">conn</span><span class="o">.</span><span class="n">server_info</span>
+<span class="gh">Out[4]: </span><span class="go"></span>
+<span class="go">{&#39;analytics-license&#39;: True,</span>
+<span class="go"> &#39;engine&#39;: &#39;esp&#39;,</span>
+<span class="go"> &#39;http&#39;: 49640,</span>
+<span class="go"> &#39;pubsub&#39;: 49641,</span>
+<span class="go"> &#39;version&#39;: &#39;5.2&#39;}</span>
+</pre></div>
+</div>
+<p>We don’t have any projects loaded in the server yet, so the following will
+just return an empty dictionary.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
+<span class="gh">Out[5]: </span><span class="go">{}</span>
+</pre></div>
+</div>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_windows</span><span class="p">()</span>
+<span class="gh">Out[6]: </span><span class="go">{}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-a-project">
+<h2>Loading a Project<a class="headerlink" href="#loading-a-project" title="Permalink to this headline">¶</a></h2>
+<p>We’ll start off by loading a simple project from an XML project definition.
+The XML is shown below.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [7]: </span><span class="n">proj_xml</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">   ...: </span><span class="s1">&lt;engine&gt;</span>
+<span class="gp">   ...: </span><span class="s1">  &lt;projects&gt;</span>
+<span class="gp">   ...: </span><span class="s1">    &lt;project name=&#39;project&#39; pubsub=&#39;auto&#39; threads=&#39;1&#39; use-tagged-token=&#39;true&#39;&gt;</span>
+<span class="gp">   ...: </span><span class="s1">      &lt;contqueries&gt;</span>
+<span class="gp">   ...: </span><span class="s1">        &lt;contquery name=&#39;contquery&#39; trace=&#39;w_data w_calculate&#39;&gt;</span>
+<span class="gp">   ...: </span><span class="s1">          &lt;windows&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;window-source name=&#39;w_data&#39; insert-only=&#39;true&#39;&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;schema&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;fields&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;id&#39;   type=&#39;int64&#39; key=&#39;true&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;time&#39; type=&#39;double&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;x&#39;    type=&#39;double&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;y&#39;    type=&#39;double&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;z&#39;    type=&#39;double&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;/fields&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;/schema&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;/window-source&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;window-source name=&#39;w_request&#39; insert-only=&#39;true&#39;&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;schema&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;fields&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;req_id&#39;  type=&#39;int64&#39; key=&#39;true&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;req_key&#39; type=&#39;string&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;req_val&#39; type=&#39;string&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;/fields&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;/schema&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;/window-source&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;window-calculate name=&#39;w_calculate&#39; algorithm=&#39;Summary&#39;&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;schema&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;fields&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;id&#39;     type=&#39;int64&#39; key=&#39;true&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;x&#39;      type=&#39;double&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;mean_x&#39; type=&#39;double&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;field name=&#39;n_x&#39;    type=&#39;int64&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;/fields&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;/schema&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;parameters&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;properties&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;property name=&quot;windowLength&quot;&gt;5&lt;/property&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;/properties&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;/parameters&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;input-map&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;properties&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;property name=&quot;input&quot;&gt;x&lt;/property&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;/properties&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;/input-map&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;output-map&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;properties&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;property name=&quot;meanOut&quot;&gt;mean_x&lt;/property&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                  &lt;property name=&quot;nOut&quot;&gt;n_x&lt;/property&gt;</span>
+<span class="gp">   ...: </span><span class="s1">                &lt;/properties&gt;</span>
+<span class="gp">   ...: </span><span class="s1">              &lt;/output-map&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;/window-calculate&gt;</span>
+<span class="gp">   ...: </span><span class="s1">          &lt;/windows&gt;</span>
+<span class="gp">   ...: </span><span class="s1">          &lt;edges&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;edge source=&#39;w_data&#39;    target=&#39;w_calculate&#39; role=&#39;data&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">            &lt;edge source=&#39;w_request&#39; target=&#39;w_calculate&#39; role=&#39;request&#39;/&gt;</span>
+<span class="gp">   ...: </span><span class="s1">          &lt;/edges&gt;</span>
+<span class="gp">   ...: </span><span class="s1">        &lt;/contquery&gt;</span>
+<span class="gp">   ...: </span><span class="s1">      &lt;/contqueries&gt;</span>
+<span class="gp">   ...: </span><span class="s1">    &lt;/project&gt;</span>
+<span class="gp">   ...: </span><span class="s1">  &lt;/projects&gt;</span>
+<span class="gp">   ...: </span><span class="s1">&lt;/engine&gt;</span>
+<span class="gp">   ...: </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">   ...: </span>
+</pre></div>
+</div>
+<p>In this project definition, we have a project named “project”, a single
+continuous query named ‘contquery’, and three windows named ‘w_data’,
+‘w_request’, and ‘w_calculate’.  w_data and w_request are data source windows,
+and w_calculate is a calculation window that is
+computing the mean and total count of the x variable.  The mean of x is
+computed over a window of length 5.</p>
+<p>To load the project definition into the server, you use the <strong>load_project()</strong>
+method of the connection.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="n">walk</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="n">proj_xml</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A diagram of the project is shown below.  This diagram will be displayed in
+a Jupyter notebook if the last line of your code cell returns a project object.
+Note that if you only have a single continuous query object named ‘contquery’
+(which is the default), it will not be displayed in the diagram.</p>
+<img alt="_images/walk_proj.svg" src="_images/walk_proj.svg" /><p>You can also display all of the window schemas by using the <strong>schema=True</strong>
+option of the <strong>Project.to_graph()</strong> method.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">walk</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;graphviz.dot.Digraph at 0x7f5832741940&gt;</span>
+</pre></div>
+</div>
+<img alt="_images/walk_proj_schema.svg" src="_images/walk_proj_schema.svg" /><p>While we are passing in an XML string here to load the project, the
+<strong>load_project()</strong> also accepts filenames, file-like objects, or
+<strong>Project</strong> objects (as we will see later on).</p>
+<p>Now that we have a project loaded, we’ll see that the <strong>ESP.get_projects()</strong>
+method now returns a dictionary with one entry.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
+<span class="gh">Out[10]: </span><span class="go">{&#39;project&#39;: Project(name=&#39;project&#39;)}</span>
+</pre></div>
+</div>
+<p>We can also get all of the windows configured in the server, or in the
+project.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_windows</span><span class="p">()</span>
+<span class="gh">Out[11]: </span><span class="go"></span>
+<span class="go">{&#39;project.contquery.w_calculate&#39;: CalculateWindow(name=&#39;w_calculate&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;),</span>
+<span class="go"> &#39;project.contquery.w_data&#39;: SourceWindow(name=&#39;w_data&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;),</span>
+<span class="go"> &#39;project.contquery.w_request&#39;: SourceWindow(name=&#39;w_request&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;)}</span>
+
+<span class="gp">In [12]: </span><span class="n">walk</span><span class="o">.</span><span class="n">get_windows</span><span class="p">()</span>
+<span class="go">                                                                                                                                                                                                                                                                                                                                         Out[12]: </span>
+<span class="go">{&#39;w_calculate&#39;: CalculateWindow(name=&#39;w_calculate&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;),</span>
+<span class="go"> &#39;w_data&#39;: SourceWindow(name=&#39;w_data&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;),</span>
+<span class="go"> &#39;w_request&#39;: SourceWindow(name=&#39;w_request&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;)}</span>
+</pre></div>
+</div>
+<p>Windows in the default continuous query can be accessed in the project’s <cite>windows</cite>
+attribute.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [13]: </span><span class="n">walk</span><span class="o">.</span><span class="n">windows</span>
+<span class="gh">Out[13]: </span><span class="go">{&#39;w_calculate&#39;: CalculateWindow(name=&#39;w_calculate&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;), &#39;w_request&#39;: SourceWindow(name=&#39;w_request&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;), &#39;w_data&#39;: SourceWindow(name=&#39;w_data&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;)}</span>
+</pre></div>
+</div>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [14]: </span><span class="n">walk</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;w_data&#39;</span><span class="p">]</span>
+<span class="gh">Out[14]: </span><span class="go">SourceWindow(name=&#39;w_data&#39;, contquery=&#39;contquery&#39;, project=&#39;project&#39;)</span>
+</pre></div>
+</div>
+<p>These objects can also be displayed as diagrams in Jupyter or by using
+the <strong>to_graph()</strong> method directly to generate SVG.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="n">walk</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;w_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gh">Out[15]: </span><span class="go">&lt;graphviz.dot.Digraph at 0x7f5832661320&gt;</span>
+</pre></div>
+</div>
+<img alt="_images/walk_contquery_w_data.svg" src="_images/walk_contquery_w_data.svg" /></div>
+<div class="section" id="working-with-windows">
+<h2>Working with Windows<a class="headerlink" href="#working-with-windows" title="Permalink to this headline">¶</a></h2>
+<p>The windows within a project are where most of the action occurs.  Data streams
+into and out of windows, some windows will do calculations, others are used to
+train models and score streams of data.</p>
+<p>In addition to the server-side processing of windows, the client-side also
+has many features of interacting with windows.  Windows on the client act like
+streaming DataFrames.  They can be configured to cache events from the server
+and DataFrame operations can be applied to the cached data.</p>
+<p>We’ll begin by getting a reference to our data and calculation windows.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [16]: </span><span class="n">w_data</span> <span class="o">=</span> <span class="n">walk</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;w_data&#39;</span><span class="p">]</span>
+
+<span class="gp">In [17]: </span><span class="n">w_calc</span> <span class="o">=</span> <span class="n">walk</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;w_calculate&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now that we have these <strong>Window</strong> objects, we can interact with them.  Let’s
+begin by injecting some data into the <strong>w_data</strong> window.  The easiest way to
+inject data into a window is by using the <strong>Window.publish_events()</strong> method.
+This uses a websocket to insert data events into a window.  The data can be
+a string containing CSV, JSON, or XML data, a file-like object containing
+CSV, JSON, or XML data, or a DataFrame.</p>
+<p>For this example, we’ll use the following CSV data.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [18]: </span><span class="n">walk_data</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;1,0,0.69464,3.1735,7.5048</span>
+<span class="gp">   ....: </span><span class="s1">    2,0.030639,0.14982,3.4868,9.2755</span>
+<span class="gp">   ....: </span><span class="s1">    3,0.069763,-0.29965,1.9477,9.112</span>
+<span class="gp">   ....: </span><span class="s1">    4,0.099823,-1.6889,1.4165,10.12</span>
+<span class="gp">   ....: </span><span class="s1">    5,0.12982,-2.1793,0.95342,10.924</span>
+<span class="gp">   ....: </span><span class="s1">    6,0.15979,-2.3018,0.23155,10.651</span>
+<span class="gp">   ....: </span><span class="s1">    7,0.18982,-1.4165,1.185,11.073</span>
+<span class="gp">   ....: </span><span class="s1">    8,0.2204,-0.27241,2.2201,11.986</span>
+<span class="gp">   ....: </span><span class="s1">    9,0.24976,-0.61292,2.2201,11.986</span>
+<span class="gp">   ....: </span><span class="s1">    10,0.27972,1.3348,4.2495,11.414</span>
+<span class="gp">   ....: </span><span class="s1">    11,0.31802,3.4459,7.5865,12.599</span>
+<span class="gp">   ....: </span><span class="s1">    12,0.34976,1.4982,4.9033,10.692</span>
+<span class="gp">   ....: </span><span class="s1">    13,0.37985,-1.7979,1.1169,9.9156</span>
+<span class="gp">   ....: </span><span class="s1">    14,0.40976,-2.3699,0.10896,9.003</span>
+<span class="gp">   ....: </span><span class="s1">    15,0.44983,-1.4982,2.3427,9.2346</span>
+<span class="gp">   ....: </span><span class="s1">    16,0.4798,-0.34051,3.2144,8.2403</span>
+<span class="gp">   ....: </span><span class="s1">    17,0.50977,-0.23155,2.4925,8.4991</span>
+<span class="gp">   ....: </span><span class="s1">    18,0.53979,-0.53119,1.5391,9.1529</span>
+<span class="gp">   ....: </span><span class="s1">    19,0.56976,-1.5663,1.0351,10.801</span>
+<span class="gp">   ....: </span><span class="s1">    20,0.59979,-1.5255,1.2258,11.346</span>
+<span class="gp">   ....: </span><span class="s1">    21,0.62979,-0.88532,2.9148,9.7249</span>
+<span class="gp">   ....: </span><span class="s1">    22,0.65982,-1.3076,2.3699,9.4253</span>
+<span class="gp">   ....: </span><span class="s1">    23,0.68979,-0.65378,2.8739,8.9622</span>
+<span class="gp">   ....: </span><span class="s1">    24,0.72055,0.23155,3.909,9.507</span>
+<span class="gp">   ....: </span><span class="s1">    25,0.75009,-0.42223,2.6423,9.8475</span>
+<span class="gp">   ....: </span><span class="s1">    26,0.78116,-0.57205,2.4925,9.1937</span>
+<span class="gp">   ....: </span><span class="s1">    27,0.80984,-0.65378,3.4459,8.0088</span>
+<span class="gp">   ....: </span><span class="s1">    28,0.83987,-0.34051,3.5277,9.112</span>
+<span class="gp">   ....: </span><span class="s1">    29,0.86981,-0.34051,3.1463,9.7249</span>
+<span class="gp">   ....: </span><span class="s1">    30,0.89978,-0.84446,3.2144,9.2346</span>
+<span class="gp">   ....: </span><span class="s1">    31,0.92978,-1.0351,3.1463,9.5342</span>
+<span class="gp">   ....: </span><span class="s1">    32,0.9599,-1.1169,2.8739,10.038</span>
+<span class="gp">   ....: </span><span class="s1">    33,0.98984,-1.2258,3.5277,9.2346</span>
+<span class="gp">   ....: </span><span class="s1">    34,1.0199,-1.0351,3.5958,8.8124</span>
+<span class="gp">   ....: </span><span class="s1">    35,1.0498,-0.8036,3.7184,9.1529</span>
+<span class="gp">   ....: </span><span class="s1">    36,1.0797,-0.72188,3.8273,8.9622</span>
+<span class="gp">   ....: </span><span class="s1">    37,1.1098,-1.185,3.4051,8.431</span>
+<span class="gp">   ....: </span><span class="s1">    38,1.1399,-1.6072,3.4051,8.7715</span>
+<span class="gp">   ....: </span><span class="s1">    39,1.1699,-1.7298,3.4868,9.0848</span>
+<span class="gp">   ....: </span><span class="s1">    40,1.1997,-1.757,3.6366,8.6898</span>
+<span class="gp">   ....: </span><span class="s1">    41,1.2298,-1.757,3.9908,8.8532</span>
+<span class="gp">   ....: </span><span class="s1">    42,1.2599,-1.9205,4.1406,8.8124</span>
+<span class="gp">   ....: </span><span class="s1">    43,1.2903,-1.8387,4.0589,8.8124</span>
+<span class="gp">   ....: </span><span class="s1">    44,1.3198,-1.7298,3.7184,8.54</span>
+<span class="gp">   ....: </span><span class="s1">    45,1.3513,-1.757,3.8682,8.3084</span>
+<span class="gp">   ....: </span><span class="s1">    46,1.3799,-1.757,3.7592,8.6625</span>
+<span class="gp">   ....: </span><span class="s1">    47,1.4098,-1.757,3.6775,8.7306</span>
+<span class="gp">   ....: </span><span class="s1">    48,1.4398,-1.9205,3.8682,9.1937</span>
+<span class="gp">   ....: </span><span class="s1">    49,1.4698,-1.757,4.0589,9.0439</span>
+<span class="gp">   ....: </span><span class="s1">    50,1.4998,-1.5663,4.1814,8.7306</span>
+<span class="gp">   ....: </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">   ....: </span>
+</pre></div>
+</div>
+<p>The columns in this data set are <strong>id</strong>, <strong>time</strong>, <strong>x</strong>, <strong>y</strong>, and <strong>z</strong>
+which corresponds to the schema in the <strong>w_data</strong> window.  To inject the
+events we call the <strong>publish_events()</strong> with the above string.  We can also
+control the rate at which the events appear in the window.  We will specify
+<strong>pause=500</strong> to set the event rate to one event for every 500 milliseconds.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [19]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">publish_events</span><span class="p">(</span><span class="n">walk_data</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that we have data flowing into the window, we can start event
+processing on the client using the <strong>subscribe()</strong> method.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [20]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After a few seconds, we should have some data being cached locally.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [21]: </span><span class="n">w_data</span>
+<span class="gh">Out[21]: </span><span class="go"></span>
+<span class="go">        time        x        y        z</span>
+<span class="go">id                                     </span>
+<span class="go">2   0.030639  0.14982  3.48680   9.2755</span>
+<span class="go">3   0.069763 -0.29965  1.94770   9.1120</span>
+<span class="go">4   0.099823 -1.68890  1.41650  10.1200</span>
+<span class="go">5   0.129820 -2.17930  0.95342  10.9240</span>
+<span class="go">6   0.159790 -2.30180  0.23155  10.6510</span>
+</pre></div>
+</div>
+<p>By default, windows will accumulate events indefinitely.  You can control
+the number of cached events and the length of time that events are processed
+using the <strong>limit</strong> and <strong>horizon</strong> arguments.</p>
+<p>The <strong>limit</strong> argument sets the maximum number of rows of
+event data that are stored locally.  The <strong>horizon</strong> argument
+specifies either the amount of time that events should be processed, or
+the total number of events that should be processed, or both.  Let’s look
+at examples of each of them.</p>
+<div class="section" id="the-limit-argument">
+<h3>The <strong>limit</strong> Argument<a class="headerlink" href="#the-limit-argument" title="Permalink to this headline">¶</a></h3>
+<p>Setting the <strong>limit</strong> argument in the <strong>subscribe</strong> method, limits the number of
+rows of event data that are cached to that value.  Let’s set <strong>limit=7</strong>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [22]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now see that we only have 7 rows of data locally cached.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [23]: </span><span class="n">w_data</span>
+<span class="gh">Out[23]: </span><span class="go"></span>
+<span class="go">       time        x        y        z</span>
+<span class="go">id                                    </span>
+<span class="go">9   0.24976 -0.61292  2.22010  11.9860</span>
+<span class="go">10  0.27972  1.33480  4.24950  11.4140</span>
+<span class="go">11  0.31802  3.44590  7.58650  12.5990</span>
+<span class="go">12  0.34976  1.49820  4.90330  10.6920</span>
+<span class="go">13  0.37985 -1.79790  1.11690   9.9156</span>
+<span class="go">14  0.40976 -2.36990  0.10896   9.0030</span>
+<span class="go">15  0.44983 -1.49820  2.34270   9.2346</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-horizon-argument">
+<h3>The <strong>horizon</strong> Argument<a class="headerlink" href="#the-horizon-argument" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>horizon</strong> argument takes several types of values:</p>
+<dl class="docutils">
+<dt><strong>datetime.datetime</strong></dt>
+<dd>Specifies a date and time when event processing should stop</dd>
+<dt><strong>datetime.date</strong></dt>
+<dd>Specifies a date when event processing should stop</dd>
+<dt><strong>datetime.time</strong></dt>
+<dd>Specifies a time when event processing should stop</dd>
+<dt><strong>datetime.timedelta</strong></dt>
+<dd>Specifies a duration of time that event processing should happen</dd>
+<dt><strong>int</strong></dt>
+<dd>Specifies a total number of events to process before stopping</dd>
+<dt><strong>string</strong></dt>
+<dd>Specifies an expression based on the variables in the event that, when
+True, stops event processing</dd>
+</dl>
+<p>In addition, a tuple of any of the types above can be specified.  In
+this case, if any of the elements of the tuple indicate that event
+processing should end, event processing stops.  Let’s look at an example.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [24]: </span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="gp">In [25]: </span><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="gp">In [26]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">horizon</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="go"># Events should still be processing</span>
+<span class="gp">In [27]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
+<span class="go">Empty DataFrame</span>
+<span class="go">Columns: [time, x, y, z]</span>
+<span class="go">Index: []</span>
+
+<span class="go"># After 4 seconds, no more events should be processed</span>
+<span class="gp">In [28]: </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="gp">In [29]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
+<span class="go">       time        x       y        z</span>
+<span class="go">id                                   </span>
+<span class="go">16  0.47980 -0.34051  3.2144   8.2403</span>
+<span class="go">17  0.50977 -0.23155  2.4925   8.4991</span>
+<span class="go">18  0.53979 -0.53119  1.5391   9.1529</span>
+<span class="go">19  0.56976 -1.56630  1.0351  10.8010</span>
+<span class="go">20  0.59979 -1.52550  1.2258  11.3460</span>
+<span class="go">21  0.62979 -0.88532  2.9148   9.7249</span>
+
+<span class="go"># Again, the local cache of data should be the same</span>
+<span class="gp">In [30]: </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="gp">In [31]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
+<span class="go">       time        x       y        z</span>
+<span class="go">id                                   </span>
+<span class="go">16  0.47980 -0.34051  3.2144   8.2403</span>
+<span class="go">17  0.50977 -0.23155  2.4925   8.4991</span>
+<span class="go">18  0.53979 -0.53119  1.5391   9.1529</span>
+<span class="go">19  0.56976 -1.56630  1.0351  10.8010</span>
+<span class="go">20  0.59979 -1.52550  1.2258  11.3460</span>
+<span class="go">21  0.62979 -0.88532  2.9148   9.7249</span>
+</pre></div>
+</div>
+<p>Rather than using a deadline, let’s set an expression that will end
+our data collection.  In this case, when the <strong>time</strong> column is above
+1.0, our event collection will end.  In addition, we can add an absolute
+event count of 100 to stop event processing if the expression never
+becomes true and we want to stop event processing after 100 total events.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [32]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">horizon</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;time &gt; 1.0&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+
+<span class="gp">In [33]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
+<span class="go">Empty DataFrame</span>
+<span class="go">Columns: [time, x, y, z]</span>
+<span class="go">Index: []</span>
+
+<span class="go"># After 4 seconds, time should be &gt; 1.0</span>
+<span class="gp">In [34]: </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="gp">In [35]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
+<span class="go">       time        x       y        z</span>
+<span class="go">id                                   </span>
+<span class="go">28  0.83987 -0.34051  3.5277   9.1120</span>
+<span class="go">29  0.86981 -0.34051  3.1463   9.7249</span>
+<span class="go">30  0.89978 -0.84446  3.2144   9.2346</span>
+<span class="go">31  0.92978 -1.03510  3.1463   9.5342</span>
+<span class="go">32  0.95990 -1.11690  2.8739  10.0380</span>
+<span class="go">33  0.98984 -1.22580  3.5277   9.2346</span>
+
+<span class="go"># Again, the local cache of data should be the same</span>
+<span class="gp">In [36]: </span><span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="gp">In [37]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
+<span class="go">       time        x       y        z</span>
+<span class="go">id                                   </span>
+<span class="go">28  0.83987 -0.34051  3.5277   9.1120</span>
+<span class="go">29  0.86981 -0.34051  3.1463   9.7249</span>
+<span class="go">30  0.89978 -0.84446  3.2144   9.2346</span>
+<span class="go">31  0.92978 -1.03510  3.1463   9.5342</span>
+<span class="go">32  0.95990 -1.11690  2.8739  10.0380</span>
+<span class="go">33  0.98984 -1.22580  3.5277   9.2346</span>
+</pre></div>
+</div>
+<p>Now that we know how to inject data into an ESP window and process
+the resulting events, we can look at how to use window objects as
+DataFrames.</p>
+</div>
+<div class="section" id="using-windows-as-dataframes">
+<h3>Using Windows as DataFrames<a class="headerlink" href="#using-windows-as-dataframes" title="Permalink to this headline">¶</a></h3>
+<p>As we saw in the previous section, the data in a window prints out much like
+a <a class="reference external" href="http://pandas.pydata.org/pandas-docs/version/0.23.4/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.23.4)"><strong>pandas.DataFrame</strong></a> would.  It is possible to access any DataFrame
+attribute or method on an ESP window.  The accessing of DataFrame attributes and
+methods on a window object are simply passed through to the underlying
+data store.</p>
+<p>For example, to get basic information about the data in the window, we can
+use the <strong>info</strong> method.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [38]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="go">&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;</span>
+<span class="go">Int64Index: 6 entries, 28 to 33</span>
+<span class="go">Data columns (total 4 columns):</span>
+<span class="go">time    6 non-null float64</span>
+<span class="go">x       6 non-null float64</span>
+<span class="go">y       6 non-null float64</span>
+<span class="go">z       6 non-null float64</span>
+<span class="go">dtypes: float64(4)</span>
+<span class="go">memory usage: 240.0 bytes</span>
+</pre></div>
+</div>
+<p>To plot the data in our data window, we can just call the <strong>plot</strong> method on it.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [39]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="gh">Out[39]: </span><span class="go">&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f5832547cc0&gt;</span>
+</pre></div>
+</div>
+<img alt="_images/w_data_plot.png" src="_images/w_data_plot.png" />
+</div>
+</div>
+<div class="section" id="building-projects-programmatically">
+<h2>Building Projects Programmatically<a class="headerlink" href="#building-projects-programmatically" title="Permalink to this headline">¶</a></h2>
+<p>In addition to loading projects from XML definitions, you can create and edit
+projects programmatically.  To create a new <strong>Project</strong> object, you would
+do the following:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [40]: </span><span class="n">kmeans</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="s1">&#39;kmeans&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/kmeans_proj.svg" src="_images/kmeans_proj.svg" /><div class="section" id="adding-a-data-window">
+<h3>Adding a Data Window<a class="headerlink" href="#adding-a-data-window" title="Permalink to this headline">¶</a></h3>
+<p>We now need to add a source window for the data.  All window objects are
+created from the ESP connection.  This is due to the fact that some of the
+window classes are generated based on extensions installed in the server.</p>
+<p>First we create a window object:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [41]: </span><span class="n">dataw</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">SourceWindow</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id*:int64&#39;</span><span class="p">,</span> <span class="s1">&#39;x_c:double&#39;</span><span class="p">,</span> <span class="s1">&#39;y_c:double&#39;</span><span class="p">),</span>
+<span class="gp">   ....: </span>                          <span class="n">insert_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+</pre></div>
+</div>
+<p>Now we can add that window to our project:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [42]: </span><span class="n">kmeans</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;dataw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataw</span>
+</pre></div>
+</div>
+<img alt="_images/kmeans_contquery_dataw.svg" src="_images/kmeans_contquery_dataw.svg" /></div>
+<div class="section" id="adding-a-training-window">
+<h3>Adding a Training Window<a class="headerlink" href="#adding-a-training-window" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have a way to get data into the project, let’s add a training
+window using the KMEANS algorithm.  The first argument is the name of the
+window in the project.  The keyword arguments are various parameters used
+to modify the training algorithm.</p>
+<p>These parameters are descrbed in the documentation string of the KMEANS
+class.  To see what they all do, use <strong>help(conn.train.KMEANS)</strong>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [43]: </span><span class="n">train</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">KMEANS</span><span class="p">(</span>
+<span class="gp">   ....: </span>    <span class="n">velocity</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">fadeOutFactor</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">nClusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dampingFactor</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+<span class="gp">   ....: </span>    <span class="n">nInit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">commitInterval</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">initSeed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">disturbFactor</span><span class="o">=</span><span class="mf">0.01</span>
+<span class="gp">   ....: </span><span class="p">)</span>
+<span class="gp">   ....: </span>
+</pre></div>
+</div>
+<p>We can now set additional attributes on the window such as the input
+map variables.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [44]: </span><span class="n">train</span><span class="o">.</span><span class="n">set_inputs</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x_c&#39;</span><span class="p">,</span> <span class="s1">&#39;y_c&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>With the window fully configured, we can add it to our project.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [45]: </span><span class="n">kmeans</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;train_kmeans&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train</span>
+</pre></div>
+</div>
+<img alt="_images/kmeans_contquery_train.svg" src="_images/kmeans_contquery_train.svg" /></div>
+<div class="section" id="adding-a-scoring-window">
+<h3>Adding a Scoring Window<a class="headerlink" href="#adding-a-scoring-window" title="Permalink to this headline">¶</a></h3>
+<p>With the training window in place, we can now add a scoring window.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [46]: </span><span class="n">score</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">KMEANS</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;id*:int64&#39;</span><span class="p">,</span> <span class="s1">&#39;x_c:double&#39;</span><span class="p">,</span> <span class="s1">&#39;y_c:double&#39;</span><span class="p">,</span>
+<span class="gp">   ....: </span>                                  <span class="s1">&#39;min_dist:double&#39;</span><span class="p">,</span> <span class="s1">&#39;seg:int32&#39;</span><span class="p">,</span> <span class="s1">&#39;model_id:int64&#39;</span><span class="p">))</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [47]: </span><span class="n">score</span><span class="o">.</span><span class="n">set_outputs</span><span class="p">(</span><span class="n">minDistanceOut</span><span class="o">=</span><span class="s1">&#39;min_dist&#39;</span><span class="p">,</span>
+<span class="gp">   ....: </span>                  <span class="n">labelOut</span><span class="o">=</span><span class="s1">&#39;seg&#39;</span><span class="p">,</span>
+<span class="gp">   ....: </span>                  <span class="n">modelIdOut</span><span class="o">=</span><span class="s1">&#39;model_id&#39;</span><span class="p">)</span>
+<span class="gp">   ....: </span>
+
+<span class="gp">In [48]: </span><span class="n">kmeans</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;score_kmeans&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span>
+</pre></div>
+</div>
+<p>In this window, we must add a model and set the output variable names for the
+variables that are computed.  Again, you can use <strong>help(conn.score.KMEANS)</strong>
+to see what the output variables are.</p>
+</div>
+<div class="section" id="making-connections-between-windows">
+<h3>Making Connections between Windows<a class="headerlink" href="#making-connections-between-windows" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have all of our windows created, we need to connect them.
+This is what the project looks like now.</p>
+<img alt="_images/kmeans_proj_w_win.svg" src="_images/kmeans_proj_w_win.svg" /><p>To connect windows, we use the <strong>add_target()</strong> method.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [49]: </span><span class="n">dataw</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+
+<span class="gp">In [50]: </span><span class="n">dataw</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+
+<span class="gp">In [51]: </span><span class="n">train</span><span class="o">.</span><span class="n">add_target</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/kmeans_proj_w_edges.svg" src="_images/kmeans_proj_w_edges.svg" /></div>
+<div class="section" id="loading-the-project-into-the-server">
+<h3>Loading the Project into the Server<a class="headerlink" href="#loading-the-project-into-the-server" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have our project completed, we can load it into the server using
+the <strong>load_project()</strong> method.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [52]: </span><span class="n">conn</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="n">kmeans</span><span class="p">)</span>
+<span class="gh">Out[52]: </span><span class="go">Project(name=&#39;kmeans&#39;)</span>
+</pre></div>
+</div>
+<p>We can get the current projects to verify that it has been loaded.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [53]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
+<span class="gh">Out[53]: </span><span class="go">{&#39;kmeans&#39;: Project(name=&#39;kmeans&#39;), &#39;project&#39;: Project(name=&#39;project&#39;)}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="publishing-events-to-data-window">
+<h3>Publishing Events to Data Window<a class="headerlink" href="#publishing-events-to-data-window" title="Permalink to this headline">¶</a></h3>
+<p>We can now publish events to the data window and set the whole project
+into motion.  Here is the data, we will be injecting.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [54]: </span><span class="n">kmeans_csv</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">   ....: </span><span class="s1">    0,0.5908967210216602,1.6751986326790076</span>
+<span class="gp">   ....: </span><span class="s1">    1,19.043415721883388,18.371355627504236</span>
+<span class="gp">   ....: </span><span class="s1">    2,-0.012273367464207865,-0.4540492269435668</span>
+<span class="gp">   ....: </span><span class="s1">    3,17.97874517980503,21.65120582597203</span>
+<span class="gp">   ....: </span><span class="s1">    4,1.1659924204397523,-1.2409508065225885</span>
+<span class="gp">   ....: </span><span class="s1">    5,0.8546216190275081,-0.25882119862607184</span>
+<span class="gp">   ....: </span><span class="s1">    6,20.190217162336587,22.50997309914134</span>
+<span class="gp">   ....: </span><span class="s1">    7,-0.25895458090747875,1.4976085871983391</span>
+<span class="gp">   ....: </span><span class="s1">    8,22.29022654822051,16.914962015510373</span>
+<span class="gp">   ....: </span><span class="s1">    9,20.77677573497869,19.816778938696523</span>
+<span class="gp">   ....: </span><span class="s1">    10,20.325394323107314,19.87786781139061</span>
+<span class="gp">   ....: </span><span class="s1">    11,17.92502239930997,20.062599670620752</span>
+<span class="gp">   ....: </span><span class="s1">    12,-1.1833277290532713,0.7203950672666275</span>
+<span class="gp">   ....: </span><span class="s1">    13,3.126014444864653,8.954400059737004</span>
+<span class="gp">   ....: </span><span class="s1">    14,1.1893660438670264,-2.0446842195717476</span>
+<span class="gp">   ....: </span><span class="s1">    15,20.120414292371407,20.146941695024136</span>
+<span class="gp">   ....: </span><span class="s1">    16,0.4917130506091213,-0.784642721030343</span>
+<span class="gp">   ....: </span><span class="s1">    17,0.22291063630044675,-0.41514920558560614</span>
+<span class="gp">   ....: </span><span class="s1">    18,2.8717071803941447,-1.6159246657278439</span>
+<span class="gp">   ....: </span><span class="s1">    19,-0.45380722464073486,-0.4407066391442154</span>
+<span class="gp">   ....: </span><span class="s1">    20,0.6149331209790688,1.522123705249856</span>
+<span class="gp">   ....: </span><span class="s1">    21,19.84694537818082,19.702918586896455</span>
+<span class="gp">   ....: </span><span class="s1">    22,16.436483339375265,20.804351101633195</span>
+<span class="gp">   ....: </span><span class="s1">    23,-0.8167794351602463,-0.723820028820651</span>
+<span class="gp">   ....: </span><span class="s1">    24,20.65091100640363,21.608200883324137</span>
+<span class="gp">   ....: </span><span class="s1">    25,19.140236340468213,20.82808262209404</span>
+<span class="gp">   ....: </span><span class="s1">    26,-0.4875727732042338,0.747112259920503</span>
+<span class="gp">   ....: </span><span class="s1">    27,20.4113258319396,18.766159688735634</span>
+<span class="gp">   ....: </span><span class="s1">    28,0.2537975739650817,0.36373384398482916</span>
+<span class="gp">   ....: </span><span class="s1">    29,20.695390556004522,19.774253133582604</span>
+<span class="gp">   ....: </span><span class="s1">    30,18.28928467597047,21.516368054185115</span>
+<span class="gp">   ....: </span><span class="s1">    31,19.978643758572222,20.785814123577413</span>
+<span class="gp">   ....: </span><span class="s1">    32,19.04110630167857,19.05452162304791</span>
+<span class="gp">   ....: </span><span class="s1">    33,2.661387735425831,-1.1899037392988199</span>
+<span class="gp">   ....: </span><span class="s1">    34,19.382293352002982,19.56970305958366</span>
+<span class="gp">   ....: </span><span class="s1">    35,19.637004907161717,20.72555629061505</span>
+<span class="gp">   ....: </span><span class="s1">    36,20.818644254655087,17.93507500279616</span>
+<span class="gp">   ....: </span><span class="s1">    37,18.8471473497551,19.226894183030726</span>
+<span class="gp">   ....: </span><span class="s1">    38,3.565412061996094,6.054056158175342</span>
+<span class="gp">   ....: </span><span class="s1">    39,20.08998741404671,20.355429746977276</span>
+<span class="gp">   ....: </span><span class="s1">    40,-2.666446517271164,-1.4728455045410282</span>
+<span class="gp">   ....: </span><span class="s1">    41,19.149653728344884,21.216873467449357</span>
+<span class="gp">   ....: </span><span class="s1">    42,2.1331364719647166,0.22833700336859286</span>
+<span class="gp">   ....: </span><span class="s1">    43,1.7522057911939954,-0.03250537224830827</span>
+<span class="gp">   ....: </span><span class="s1">    44,20.786846005628114,20.160909258507722</span>
+<span class="gp">   ....: </span><span class="s1">    45,-3.0032525575973525,-0.47164367434522386</span>
+<span class="gp">   ....: </span><span class="s1">    46,2.279071289695989,0.25303073769270384</span>
+<span class="gp">   ....: </span><span class="s1">    47,1.8510594272972942,-2.3126288328396645</span>
+<span class="gp">   ....: </span><span class="s1">    48,-1.692179065795689,-3.067171903045865</span>
+<span class="gp">   ....: </span><span class="s1">    49,-0.10268366234705945,-0.7786701219856643</span>
+<span class="gp">   ....: </span><span class="s1">    50,20.39050392631347,20.5343519173733</span>
+<span class="gp">   ....: </span><span class="s1">    51,-1.218501669497454,-2.952991443676715</span>
+<span class="gp">   ....: </span><span class="s1">    52,1.254811095346156,0.2590241868676189</span>
+<span class="gp">   ....: </span><span class="s1">    53,1.7994383767768294,-2.0499967578177785</span>
+<span class="gp">   ....: </span><span class="s1">    54,20.029238232230277,22.914597444964127</span>
+<span class="gp">   ....: </span><span class="s1">    55,1.7589545563883249,1.0376747852275094</span>
+<span class="gp">   ....: </span><span class="s1">    56,-0.39993518183515325,-1.1657700593370808</span>
+<span class="gp">   ....: </span><span class="s1">    57,-0.22788200103761708,1.2574585872035329</span>
+<span class="gp">   ....: </span><span class="s1">    58,-8.321390217413192,-4.328504673489415</span>
+<span class="gp">   ....: </span><span class="s1">    59,0.33948826344937444,-0.08069060680732133</span>
+<span class="gp">   ....: </span><span class="s1">    60,1.4957191917037937,-1.1193342088301603</span>
+<span class="gp">   ....: </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">   ....: </span>
+</pre></div>
+</div>
+<p>We will again use the <strong>publish_events()</strong> method to send the data
+to the server.  In this case, we’ll use a 200 millisecond event rate.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [55]: </span><span class="n">dataw</span><span class="o">.</span><span class="n">publish_events</span><span class="p">(</span><span class="n">kmeans_csv</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="gp">In [56]: </span><span class="n">dataw</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span>
+
+<span class="gp">In [57]: </span><span class="n">score</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We can then see the data flowing through the data and score windows.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [58]: </span><span class="k">print</span><span class="p">(</span><span class="n">dataw</span><span class="p">)</span>
+<span class="go">          x_c        y_c</span>
+<span class="go">id                      </span>
+<span class="go">1   19.043416  18.371356</span>
+<span class="go">2   -0.012273  -0.454049</span>
+<span class="go">3   17.978745  21.651206</span>
+<span class="go">4    1.165992  -1.240951</span>
+<span class="go">5    0.854622  -0.258821</span>
+<span class="go">6   20.190217  22.509973</span>
+<span class="go">7   -0.258955   1.497609</span>
+<span class="go">8   22.290227  16.914962</span>
+<span class="go">9   20.776776  19.816779</span>
+<span class="go">10  20.325394  19.877868</span>
+<span class="go">11  17.925022  20.062600</span>
+<span class="go">12  -1.183328   0.720395</span>
+<span class="go">13   3.126014   8.954400</span>
+<span class="go">14   1.189366  -2.044684</span>
+<span class="go">15  20.120414  20.146942</span>
+<span class="go">16   0.491713  -0.784643</span>
+<span class="go">17   0.222911  -0.415149</span>
+<span class="go">18   2.871707  -1.615925</span>
+<span class="go">19  -0.453807  -0.440707</span>
+<span class="go">20   0.614933   1.522124</span>
+<span class="go">21  19.846945  19.702919</span>
+<span class="go">22  16.436483  20.804351</span>
+<span class="go">23  -0.816779  -0.723820</span>
+<span class="go">24  20.650911  21.608201</span>
+<span class="go">25  19.140236  20.828083</span>
+<span class="go">26  -0.487573   0.747112</span>
+<span class="go">27  20.411326  18.766160</span>
+<span class="go">28   0.253798   0.363734</span>
+<span class="go">29  20.695391  19.774253</span>
+<span class="go">30  18.289285  21.516368</span>
+<span class="go">31  19.978644  20.785814</span>
+<span class="go">32  19.041106  19.054522</span>
+<span class="go">33   2.661388  -1.189904</span>
+<span class="go">34  19.382293  19.569703</span>
+<span class="go">35  19.637005  20.725556</span>
+<span class="go">36  20.818644  17.935075</span>
+<span class="go">37  18.847147  19.226894</span>
+<span class="go">38   3.565412   6.054056</span>
+<span class="go">39  20.089987  20.355430</span>
+<span class="go">40  -2.666447  -1.472846</span>
+<span class="go">41  19.149654  21.216873</span>
+<span class="go">42   2.133136   0.228337</span>
+<span class="go">43   1.752206  -0.032505</span>
+<span class="go">44  20.786846  20.160909</span>
+<span class="go">45  -3.003253  -0.471644</span>
+<span class="go">46   2.279071   0.253031</span>
+<span class="go">47   1.851059  -2.312629</span>
+<span class="go">48  -1.692179  -3.067172</span>
+<span class="go">49  -0.102684  -0.778670</span>
+
+<span class="gp">In [59]: </span><span class="k">print</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+<span class="go">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Empty DataFrame</span>
+<span class="go">Columns: [x_c, y_c, min_dist, seg, model_id]</span>
+<span class="go">Index: []</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>We have covered the basics of connecting to ESP, getting information from the
+server, and working with projects here.  The <a class="reference internal" href="api.html#api-reference"><span class="std std-ref">API Reference</span></a> contains the
+complete information about what methods and attributes are available on all
+of the objects touched on here, as well as many others.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="jupyter.html" class="btn btn-neutral float-right" title="Jupyter Notebook Integration" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="whatsnew.html" class="btn btn-neutral" title="What’s New" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

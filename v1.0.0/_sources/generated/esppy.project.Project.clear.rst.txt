@@ -1,0 +1,6 @@
+esppy.project.Project.clear
+===========================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.clear

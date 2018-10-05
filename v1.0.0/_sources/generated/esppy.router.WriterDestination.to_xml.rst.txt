@@ -1,0 +1,6 @@
+esppy.router.WriterDestination.to\_xml
+======================================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: WriterDestination.to_xml

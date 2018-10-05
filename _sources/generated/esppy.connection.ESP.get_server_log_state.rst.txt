@@ -1,0 +1,6 @@
+esppy.connection.ESP.get\_server\_log\_state
+============================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.get_server_log_state

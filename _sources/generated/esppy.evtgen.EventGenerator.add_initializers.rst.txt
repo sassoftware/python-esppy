@@ -1,0 +1,6 @@
+esppy.evtgen.EventGenerator.add\_initializers
+=============================================
+
+.. currentmodule:: esppy.evtgen
+
+.. automethod:: EventGenerator.add_initializers

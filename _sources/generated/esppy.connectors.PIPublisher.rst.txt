@@ -1,0 +1,45 @@
+esppy.connectors.PIPublisher
+============================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: PIPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PIPublisher.__init__
+      ~PIPublisher.clear
+      ~PIPublisher.copy
+      ~PIPublisher.from_element
+      ~PIPublisher.from_parameters
+      ~PIPublisher.from_xml
+      ~PIPublisher.get
+      ~PIPublisher.items
+      ~PIPublisher.keys
+      ~PIPublisher.pop
+      ~PIPublisher.popitem
+      ~PIPublisher.set_properties
+      ~PIPublisher.setdefault
+      ~PIPublisher.to_element
+      ~PIPublisher.to_xml
+      ~PIPublisher.update
+      ~PIPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PIPublisher.connector_key
+      ~PIPublisher.property_defs
+   
+   

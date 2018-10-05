@@ -1,0 +1,6 @@
+esppy.windows.FunctionalWindow.add\_json\_event\_loop
+=====================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: FunctionalWindow.add_json_event_loop

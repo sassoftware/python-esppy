@@ -1,0 +1,6 @@
+esppy.windows.ProceduralWindow.set\_cxx\_plugin\_context
+========================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ProceduralWindow.set_cxx_plugin_context

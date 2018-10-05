@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_bubble
+======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_bubble

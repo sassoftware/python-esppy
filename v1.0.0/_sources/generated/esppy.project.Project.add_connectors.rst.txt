@@ -1,0 +1,6 @@
+esppy.project.Project.add\_connectors
+=====================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.add_connectors

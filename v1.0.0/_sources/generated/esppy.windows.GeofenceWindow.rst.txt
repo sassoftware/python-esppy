@@ -1,0 +1,88 @@
+esppy.windows.GeofenceWindow
+============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: GeofenceWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~GeofenceWindow.__init__
+      ~GeofenceWindow.add_connector
+      ~GeofenceWindow.add_event_transformer
+      ~GeofenceWindow.add_target
+      ~GeofenceWindow.add_targets
+      ~GeofenceWindow.apply_transformers
+      ~GeofenceWindow.copy
+      ~GeofenceWindow.create_event_generator
+      ~GeofenceWindow.create_publisher
+      ~GeofenceWindow.create_subscriber
+      ~GeofenceWindow.delete_target
+      ~GeofenceWindow.delete_targets
+      ~GeofenceWindow.disable_tracing
+      ~GeofenceWindow.enable_tracing
+      ~GeofenceWindow.from_element
+      ~GeofenceWindow.from_xml
+      ~GeofenceWindow.get_events
+      ~GeofenceWindow.get_pattern_events
+      ~GeofenceWindow.publish_events
+      ~GeofenceWindow.save_xml
+      ~GeofenceWindow.set_finalized_callback
+      ~GeofenceWindow.set_geometry
+      ~GeofenceWindow.set_output
+      ~GeofenceWindow.set_position
+      ~GeofenceWindow.set_splitter_expr
+      ~GeofenceWindow.set_splitter_plugin
+      ~GeofenceWindow.streaming_area
+      ~GeofenceWindow.streaming_bar
+      ~GeofenceWindow.streaming_bubble
+      ~GeofenceWindow.streaming_donut
+      ~GeofenceWindow.streaming_hbar
+      ~GeofenceWindow.streaming_hist
+      ~GeofenceWindow.streaming_images
+      ~GeofenceWindow.streaming_line
+      ~GeofenceWindow.streaming_pie
+      ~GeofenceWindow.streaming_scatter
+      ~GeofenceWindow.subscribe
+      ~GeofenceWindow.to_data_callback
+      ~GeofenceWindow.to_element
+      ~GeofenceWindow.to_graph
+      ~GeofenceWindow.to_xml
+      ~GeofenceWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~GeofenceWindow.base_url
+      ~GeofenceWindow.collapse_updates
+      ~GeofenceWindow.contquery
+      ~GeofenceWindow.exp_max_string
+      ~GeofenceWindow.fullname
+      ~GeofenceWindow.index_type
+      ~GeofenceWindow.name
+      ~GeofenceWindow.output_insert_only
+      ~GeofenceWindow.project
+      ~GeofenceWindow.publisher_url
+      ~GeofenceWindow.pubsub
+      ~GeofenceWindow.pubsub_index_type
+      ~GeofenceWindow.pulse_interval
+      ~GeofenceWindow.schema
+      ~GeofenceWindow.schema_string
+      ~GeofenceWindow.session
+      ~GeofenceWindow.subscriber_url
+      ~GeofenceWindow.url
+      ~GeofenceWindow.window_classes
+      ~GeofenceWindow.window_type
+   
+   

@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_images
+======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_images

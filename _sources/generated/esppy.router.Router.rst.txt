@@ -1,0 +1,41 @@
+esppy.router.Router
+===================
+
+.. currentmodule:: esppy.router
+
+.. autoclass:: Router
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Router.__init__
+      ~Router.add_engine
+      ~Router.add_publish_destination
+      ~Router.add_route
+      ~Router.add_writer_destination
+      ~Router.delete
+      ~Router.from_element
+      ~Router.from_xml
+      ~Router.initialize_destination
+      ~Router.save
+      ~Router.to_element
+      ~Router.to_xml
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Router.base_url
+      ~Router.session
+      ~Router.url
+   
+   

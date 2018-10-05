@@ -1,0 +1,79 @@
+esppy.windows.TrainWindow
+=========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: TrainWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TrainWindow.__init__
+      ~TrainWindow.add_connector
+      ~TrainWindow.add_event_transformer
+      ~TrainWindow.add_target
+      ~TrainWindow.add_targets
+      ~TrainWindow.apply_transformers
+      ~TrainWindow.copy
+      ~TrainWindow.create_event_generator
+      ~TrainWindow.create_publisher
+      ~TrainWindow.create_subscriber
+      ~TrainWindow.delete_target
+      ~TrainWindow.delete_targets
+      ~TrainWindow.disable_tracing
+      ~TrainWindow.enable_tracing
+      ~TrainWindow.from_element
+      ~TrainWindow.from_xml
+      ~TrainWindow.get_events
+      ~TrainWindow.get_pattern_events
+      ~TrainWindow.publish_events
+      ~TrainWindow.save_xml
+      ~TrainWindow.set_inputs
+      ~TrainWindow.set_parameters
+      ~TrainWindow.streaming_area
+      ~TrainWindow.streaming_bar
+      ~TrainWindow.streaming_bubble
+      ~TrainWindow.streaming_donut
+      ~TrainWindow.streaming_hbar
+      ~TrainWindow.streaming_hist
+      ~TrainWindow.streaming_images
+      ~TrainWindow.streaming_line
+      ~TrainWindow.streaming_pie
+      ~TrainWindow.streaming_scatter
+      ~TrainWindow.subscribe
+      ~TrainWindow.to_data_callback
+      ~TrainWindow.to_element
+      ~TrainWindow.to_graph
+      ~TrainWindow.to_xml
+      ~TrainWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TrainWindow.algorithm
+      ~TrainWindow.base_url
+      ~TrainWindow.contquery
+      ~TrainWindow.fullname
+      ~TrainWindow.name
+      ~TrainWindow.project
+      ~TrainWindow.publisher_url
+      ~TrainWindow.pubsub
+      ~TrainWindow.schema
+      ~TrainWindow.schema_string
+      ~TrainWindow.session
+      ~TrainWindow.subscriber_url
+      ~TrainWindow.url
+      ~TrainWindow.window_classes
+      ~TrainWindow.window_type
+   
+   

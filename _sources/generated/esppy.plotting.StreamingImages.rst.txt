@@ -1,0 +1,22 @@
+esppy.plotting.StreamingImages
+==============================
+
+.. currentmodule:: esppy.plotting
+
+.. autoclass:: StreamingImages
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StreamingImages.__init__
+   
+   
+
+   
+   
+   

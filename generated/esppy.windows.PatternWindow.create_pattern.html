@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.windows.PatternWindow.create_pattern &mdash; ESPPy 1.0.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="ESPPy 1.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="API Reference" href="../api.html"/>
+        <link rel="next" title="esppy.windows.features.Pattern.add_event" href="esppy.windows.features.Pattern.add_event.html"/>
+        <link rel="prev" title="esppy.windows.PatternWindow" href="esppy.windows.PatternWindow.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#windows">Windows</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../api.html#base-window-methods">Base Window Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#source-windows">Source Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#calculation-windows">Calculation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#aggregation-windows">Aggregation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#computation-windows">Computation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#copying-windows">Copying Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#counting-windows">Counting Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#filtering-windows">Filtering Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#functional-windows">Functional Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#geofence-windows">Geofence Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#joining-windows">Joining Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#model-reading-windows">Model Reading Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#model-supervisor-windows">Model Supervisor Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#notification-windows">Notification Windows</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../api.html#pattern-windows">Pattern Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#procedural-windows">Procedural Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#scoring-windows">Scoring Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-category-windows">Text Category Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-context-windows">Text Context Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-sentiment-windows">Text Sentiment Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-topic-windows">Text Topic Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#training-windows">Training Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#union-windows">Union Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">ESPPy</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+      
+    <li>esppy.windows.PatternWindow.create_pattern</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/generated/esppy.windows.PatternWindow.create_pattern.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-windows-patternwindow-create-pattern">
+<h1>esppy.windows.PatternWindow.create_pattern<a class="headerlink" href="#esppy-windows-patternwindow-create-pattern" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="esppy.windows.PatternWindow.create_pattern">
+<code class="descclassname">PatternWindow.</code><code class="descname">create_pattern</code><span class="sig-paren">(</span><em>name=None</em>, <em>index=None</em>, <em>is_active=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.PatternWindow.create_pattern" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Pattern object and add it to the <cite>patterns</cite> list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Name for user-interface tracking</p>
+</dd>
+<dt><strong>index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string or list-of-strings</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Optional index</p>
+</dd>
+<dt><strong>is_active</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Is the pattern enabled?</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>Pattern</strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.windows.features.Pattern.add_event.html" class="btn btn-neutral float-right" title="esppy.windows.features.Pattern.add_event" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.windows.PatternWindow.html" class="btn btn-neutral" title="esppy.windows.PatternWindow" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.delete\_windows
+===============================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.delete_windows

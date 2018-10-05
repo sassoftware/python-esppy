@@ -1,0 +1,6 @@
+esppy.windows.FunctionalWindow.add\_xml\_event\_loop
+====================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: FunctionalWindow.add_xml_event_loop

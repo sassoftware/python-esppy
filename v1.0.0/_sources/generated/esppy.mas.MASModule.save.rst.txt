@@ -1,0 +1,6 @@
+esppy.mas.MASModule.save
+========================
+
+.. currentmodule:: esppy.mas
+
+.. automethod:: MASModule.save

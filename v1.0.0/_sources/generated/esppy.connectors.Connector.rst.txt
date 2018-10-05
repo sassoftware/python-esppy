@@ -1,0 +1,44 @@
+esppy.connectors.Connector
+==========================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: Connector
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Connector.__init__
+      ~Connector.clear
+      ~Connector.copy
+      ~Connector.from_element
+      ~Connector.from_parameters
+      ~Connector.from_xml
+      ~Connector.get
+      ~Connector.items
+      ~Connector.keys
+      ~Connector.pop
+      ~Connector.popitem
+      ~Connector.set_properties
+      ~Connector.setdefault
+      ~Connector.to_element
+      ~Connector.to_xml
+      ~Connector.update
+      ~Connector.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Connector.connector_key
+   
+   

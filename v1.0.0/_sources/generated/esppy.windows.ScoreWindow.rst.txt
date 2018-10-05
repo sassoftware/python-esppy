@@ -1,0 +1,81 @@
+esppy.windows.ScoreWindow
+=========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: ScoreWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ScoreWindow.__init__
+      ~ScoreWindow.add_connector
+      ~ScoreWindow.add_event_transformer
+      ~ScoreWindow.add_offline_model
+      ~ScoreWindow.add_online_model
+      ~ScoreWindow.add_target
+      ~ScoreWindow.add_targets
+      ~ScoreWindow.apply_transformers
+      ~ScoreWindow.copy
+      ~ScoreWindow.create_event_generator
+      ~ScoreWindow.create_publisher
+      ~ScoreWindow.create_subscriber
+      ~ScoreWindow.delete_target
+      ~ScoreWindow.delete_targets
+      ~ScoreWindow.disable_tracing
+      ~ScoreWindow.enable_tracing
+      ~ScoreWindow.from_element
+      ~ScoreWindow.from_xml
+      ~ScoreWindow.get_events
+      ~ScoreWindow.get_pattern_events
+      ~ScoreWindow.import_schema_from_astore_output
+      ~ScoreWindow.publish_events
+      ~ScoreWindow.save_xml
+      ~ScoreWindow.set_inputs
+      ~ScoreWindow.set_outputs
+      ~ScoreWindow.streaming_area
+      ~ScoreWindow.streaming_bar
+      ~ScoreWindow.streaming_bubble
+      ~ScoreWindow.streaming_donut
+      ~ScoreWindow.streaming_hbar
+      ~ScoreWindow.streaming_hist
+      ~ScoreWindow.streaming_images
+      ~ScoreWindow.streaming_line
+      ~ScoreWindow.streaming_pie
+      ~ScoreWindow.streaming_scatter
+      ~ScoreWindow.subscribe
+      ~ScoreWindow.to_data_callback
+      ~ScoreWindow.to_element
+      ~ScoreWindow.to_graph
+      ~ScoreWindow.to_xml
+      ~ScoreWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ScoreWindow.base_url
+      ~ScoreWindow.contquery
+      ~ScoreWindow.fullname
+      ~ScoreWindow.name
+      ~ScoreWindow.project
+      ~ScoreWindow.publisher_url
+      ~ScoreWindow.pubsub
+      ~ScoreWindow.schema
+      ~ScoreWindow.schema_string
+      ~ScoreWindow.session
+      ~ScoreWindow.subscriber_url
+      ~ScoreWindow.url
+      ~ScoreWindow.window_classes
+      ~ScoreWindow.window_type
+   
+   

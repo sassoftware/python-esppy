@@ -1,0 +1,6 @@
+esppy.windows.CalculateWindow.set\_parameters
+=============================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: CalculateWindow.set_parameters

@@ -1,0 +1,6 @@
+esppy.project.Project.values
+============================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.values

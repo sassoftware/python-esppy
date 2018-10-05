@@ -1,0 +1,6 @@
+esppy.windows.JoinWindow.add\_field\_expr
+=========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: JoinWindow.add_field_expr

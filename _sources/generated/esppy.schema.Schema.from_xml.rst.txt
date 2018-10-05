@@ -1,0 +1,6 @@
+esppy.schema.Schema.from\_xml
+=============================
+
+.. currentmodule:: esppy.schema
+
+.. automethod:: Schema.from_xml

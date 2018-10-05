@@ -1,0 +1,6 @@
+esppy.windows.GeofenceWindow.set\_position
+==========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: GeofenceWindow.set_position

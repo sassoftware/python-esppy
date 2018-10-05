@@ -1,0 +1,6 @@
+esppy.router.WriterDestination.initialize
+=========================================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: WriterDestination.initialize

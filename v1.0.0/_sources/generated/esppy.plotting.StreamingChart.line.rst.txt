@@ -1,0 +1,6 @@
+esppy.plotting.StreamingChart.line
+==================================
+
+.. currentmodule:: esppy.plotting
+
+.. automethod:: StreamingChart.line

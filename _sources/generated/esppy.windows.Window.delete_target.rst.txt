@@ -1,0 +1,6 @@
+esppy.windows.Window.delete\_target
+===================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.delete_target
