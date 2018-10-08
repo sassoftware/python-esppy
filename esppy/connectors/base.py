@@ -327,6 +327,7 @@ class Connector(collections.MutableMapping):
 
     '''
     connector_key = dict(cls='', type='')
+    property_defs = dict()
 
     def __init__(self, conncls, type=None, name=None, is_active=None, properties=None):
         self.cls = conncls
