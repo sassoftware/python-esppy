@@ -41,6 +41,7 @@ import weakref
 import xml.etree.ElementTree as ET
 from six.moves import urllib
 from .base import ESPObject
+from .config import CONCAT_OPTIONS
 from .schema import Schema
 from .utils import xml
 from .utils.rest import get_params
@@ -355,10 +356,10 @@ class StreamingChart(object):
         function
 
         '''
-        from .windows import Window
+        from .windows import BaseWindow
         from .utils.events import get_dataframe
 
-        if isinstance(data, Window):
+        if isinstance(data, BaseWindow):
 
             lock = threading.RLock()
             empty_df = get_dataframe(data)
@@ -369,7 +370,8 @@ class StreamingChart(object):
                     if state['reset']:
                         state['df'] = event.tail(self.max_data)
                     else:
-                        state['df'] = pd.concat([state['df'], event]).tail(self.max_data)
+                        state['df'] = pd.concat([state['df'], event],
+                                                **CONCAT_OPTIONS).tail(self.max_data)
                     state['updated'] = True
 
             sub = data.create_subscriber(mode='streaming',

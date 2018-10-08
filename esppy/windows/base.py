@@ -46,7 +46,7 @@ from .publisher import Publisher
 from .utils import listify, get_args, ensure_element, connectors_to_end
 from .. import transformers
 from ..base import ESPObject, attribute
-from ..config import get_option, ESP_ROOT
+from ..config import get_option, ESP_ROOT, CONCAT_OPTIONS
 from ..exceptions import ESPError
 from ..plotting import StreamingChart, StreamingImages, split_chart_params
 from ..schema import Schema
@@ -838,7 +838,8 @@ class BaseWindow(ESPObject):
                     args = [event] + list(args)
                     event = method(*args, **kwargs)
             columns = self.data.columns
-            self.data = pd.concat([self.data, event])[-state['limit']:][columns]
+            self.data = pd.concat([self.data, event],
+                                  **CONCAT_OPTIONS)[-state['limit']:][columns]
             state['total'] += len(event)
 
         self._subscriber = self.create_subscriber(mode=mode, pagesize=pagesize,
@@ -1580,7 +1581,8 @@ class BaseWindow(ESPObject):
                     state['events'] = self.apply_transformers(event)[:max_data]
                 else:
                     state['events'] = pd.concat([state['events'],
-                                                 self.apply_transformers(event)])[:max_data]
+                                                 self.apply_transformers(event)],
+                                                **CONCAT_OPTIONS)[:max_data]
             except:
                 import traceback
                 traceback.print_exc()

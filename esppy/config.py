@@ -24,6 +24,7 @@ Initialization of ESP options
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import functools
+import pandas as pd
 from .utils.config import (register_option, check_boolean, check_int, get_option,
                            set_option, reset_option, describe_option, check_url,
                            ESPOptionError, check_string, options, get_suboptions,
@@ -32,6 +33,13 @@ from .utils.config import (register_option, check_boolean, check_int, get_option
 
 # Root of server URLs
 ESP_ROOT = 'SASESP'
+
+# Store pandas version
+PANDAS_VERSION = tuple([int(x) for x in pd.__version__.split('.')])
+
+CONCAT_OPTIONS = {}
+if PANDAS_VERSION >= (0, 23, 0):
+    CONCAT_OPTIONS['sort'] = True
 
 #
 # Connection options

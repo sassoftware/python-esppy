@@ -35,7 +35,7 @@ import xml.etree.ElementTree as ET
 from six.moves import urllib
 from .base import RESTHelpers, ESPObject
 from .algorithm import Algorithm
-from .config import get_option, ESP_ROOT
+from .config import get_option, ESP_ROOT, CONCAT_OPTIONS
 from .connectorinfo import ConnectorInfo
 from .mas import MASModule
 from .router import Router
@@ -177,7 +177,7 @@ class ProjectStats(object):
                 data = data.set_index(['project', 'contquery', 'window'])
                 data = data[['interval'] + list(sorted(x for x in data.columns
                                                        if x != 'interval'))]
-                data = pd.concat([self.stats, data])
+                data = pd.concat([self.stats, data], **CONCAT_OPTIONS)
                 data = data.sort_index().sort_values(['interval']).tail(self.limit)
                 self.stats = data
 

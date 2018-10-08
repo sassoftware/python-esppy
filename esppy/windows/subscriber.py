@@ -39,7 +39,7 @@ import xml.etree.ElementTree as ET
 from six.moves import urllib
 from .utils import verify_window
 from ..base import ESPObject, attribute
-from ..config import get_option
+from ..config import get_option, CONCAT_OPTIONS
 from ..exceptions import ESPError
 from ..schema import Schema
 from ..utils.keyword import dekeywordify
@@ -375,7 +375,8 @@ class Subscriber(object):
                                     separator=self.separator,
                                     server_info=self.server_info)
                     self.callbacks['on_event'](sock,
-                                               pd.concat([state['dataframe'], df]))
+                                               pd.concat([state['dataframe'], df],
+                                                         **CONCAT_OPTIONS))
                 except:
                     import traceback
                     traceback.print_exc()
