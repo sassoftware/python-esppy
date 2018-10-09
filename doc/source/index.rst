@@ -11,11 +11,11 @@ SAS Event Stream Processing Python Interface
 
 **Date**: |today| **Version**: |version|
 
-**Installers:** `<http://github.com/sassoftware/esppy/releases>`_
+**Installers:** `<http://github.com/sassoftware/python-esppy/releases>`_
 
-**Source Repository:** `<http://github.com/sassoftware/esppy>`_
+**Source Repository:** `<http://github.com/sassoftware/python-esppy>`_
 
-**Issues & Ideas:** `<https://github.com/sassoftware/esppy/issues>`_
+**Issues & Ideas:** `<https://github.com/sassoftware/python-esppy/issues>`_
 
 The ESPPy package enables you to create 
 `SAS Event Stream Processing (ESP) <https://www.sas.com/en_us/software/event-stream-processing.html>`_
