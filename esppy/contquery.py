@@ -479,8 +479,11 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
             for window in out.findall('./windows/*'):
                 for field in window.findall('./schema/fields/field[@type="inherit"]'):
                     for source in sources[window.attrib['name']]:
-                        win = self.windows[source]
                         fname = field.attrib['name']
+                        if source not in self.windows:
+                            raise ValueError("Could not determine data type of "
+                                             "field '%s' on window '%s'" % (fname, source))
+                        win = self.windows[source]
                         if hasattr(win, 'schema') and fname in win.schema:
                             dtype = win.schema[fname].type
                             field.set('type', dtype)
