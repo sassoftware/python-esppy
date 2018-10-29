@@ -1,0 +1,93 @@
+  <project name='trades_proj' pubsub='auto' threads='4'>
+   <contqueries>
+    <contquery name='trades_cq'>
+     <windows>
+      <window-source name='Trades' index='pi_RBTREE'>
+       <schema>
+        <fields>
+         <field name='tradeID' type='string' key='true'/>
+         <field name='security' type='string'/>
+         <field name='quantity' type='int32'/>
+         <field name='price' type='double'/>
+         <field name='traderID' type='int64'/>
+         <field name='time' type='stamp'/>
+        </fields>
+       </schema>
+      </window-source>
+      <window-source name='Traders'>
+       <schema>
+        <fields>
+         <field name='ID' type='int64' key='true'/>
+         <field name='name' type='string'/>
+        </fields>
+       </schema>
+      </window-source>
+      <window-filter name='LargeTrades'>
+       <expression>quantity >= 100</expression>
+      </window-filter>
+      <window-join name='AddTraderName'>
+       <join type='leftouter'>
+        <conditions>
+         <fields left='traderID' right='ID'/>
+        </conditions>
+       </join>
+       <output>
+        <field-selection name='security' source='l_security'/>
+        <field-selection name='quantity' source='l_quantity'/>
+        <field-selection name='price' source='l_price'/>
+        <field-selection name='traderID' source='l_traderID'/>
+        <field-selection name='time' source='l_time'/>
+        <field-selection name='name' source='r_name'/>
+       </output>
+      </window-join>
+      <window-compute name='TotalCost'>
+       <description>
+        This is a compute window. The non-key fields are computed
+        in the output section.
+       </description>
+       <schema>
+        <fields>
+         <field name='tradeID' type='string' key='true'/>
+         <field name='security' type='string'/>
+         <field name='quantity' type='int32'/>
+         <field name='price' type='double'/>
+         <field name='totalCost' type='double'/>
+         <field name='traderID' type='int64'/>
+         <field name='time' type='stamp'/>
+         <field name='name' type='string'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr>security</field-expr>
+        <field-expr>quantity</field-expr>
+        <field-expr>price</field-expr>
+        <field-expr>price*quantity</field-expr>
+        <field-expr>traderID</field-expr>
+        <field-expr>time</field-expr>
+        <field-expr>name</field-expr>
+       </output>
+      </window-compute>
+      <window-aggregate name='BySecurity'>
+       <schema>
+        <fields>
+         <field name='security' type='string' key='true'/>
+         <field name='quantityTotal' type='double'/>
+         <field name='costTotal' type='double'/>
+        </fields>
+       </schema>
+       <output>
+        <field-expr>ESP_aSum(quantity)</field-expr>
+        <field-expr>ESP_aSum(totalCost)</field-expr>
+       </output>
+      </window-aggregate>
+     </windows>
+     <edges>
+      <edge source='LargeTrades' target='AddTraderName'/>
+      <edge source='Traders' target='AddTraderName'/>
+      <edge source='Trades' target='LargeTrades'/>
+      <edge source='AddTraderName' target='TotalCost'/>
+      <edge source='TotalCost' target='BySecurity'/>
+     </edges>
+    </contquery>
+   </contqueries>
+  </project>
