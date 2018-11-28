@@ -32,6 +32,7 @@ import textwrap
 import threading
 import warnings
 import xml.etree.ElementTree as ET
+from numpy import nan
 from six.moves import urllib
 from .base import RESTHelpers, ESPObject
 from .algorithm import Algorithm
