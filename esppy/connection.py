@@ -782,7 +782,7 @@ class ESP(RESTHelpers):
                                     connectors=start_connectors,
                                     projectUrl=project_url,
                                     start=start),
-                  data=data)
+                  data=data.encode('utf-8'))
 
         return self.get_project(name)
 
@@ -1130,10 +1130,16 @@ class ESP(RESTHelpers):
 
         '''
         try:
+            logger = None
+
             out = self._get('loggers/%s' % name)
-            logger = Logger(**out.attrib)
-            logger.session = self.session
+            node = out.find("logger")
+            if node != None:
+                logger = Logger(**node.attrib)
+                logger.session = self.session
+
             return logger
+
         except ESPError:
             raise KeyError("No logger with the name '%s' exists." % name)
 
@@ -1420,7 +1426,7 @@ class ESP(RESTHelpers):
     @property
     def api_docs(self):
         ''' Swagger JSON documentation '''
-        return self._get('api-docs', format='json')
+        return self._get('api-docs', format='json', headers={'accept':'application/json'})
 
     def get_algorithms(self, atype, properties=False, type=None, reference=None):
         '''

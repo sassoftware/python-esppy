@@ -101,14 +101,15 @@ class Algorithm(ESPObject):
             params[name] = attrs
             dtype = attrs.get('type', '')
             default = attrs.get('default', None)
-            if dtype.startswith('int'):
-                params[name]['default'] = int(default)
-            elif dtype == 'double':
-                params[name]['default'] = float(default)
-            elif dtype == 'boolean':
-                params[name]['default'] = default in ['1', 'true'] and True or False
-            elif default is not None:
-                params[name]['default'] = default.strip()
+            if default is not None:
+                if dtype.startswith('int'):
+                    params[name]['default'] = int(default)
+                elif dtype == 'double':
+                    params[name]['default'] = float(default)
+                elif dtype == 'boolean':
+                    params[name]['default'] = default in ['1', 'true'] and True or False
+                else:
+                    params[name]['default'] = default.strip()
 
         input_map = out.input_map
         for item in data.findall('./input-map/input-map-entry'):
