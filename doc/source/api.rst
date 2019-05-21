@@ -492,6 +492,12 @@ Geofence Windows
    GeofenceWindow.set_position
    GeofenceWindow.set_output
 
+   ObjectTrackerWindow
+   ObjectTrackerWindow.set_tracker
+   ObjectTrackerWindow.set_output
+   ObjectTrackerWindow.set_input_rect
+   ObjectTrackerWindow.set_input_yolo
+   ObjectTrackerWindow.set_input_coco
 
 Joining Windows
 ...............
@@ -512,6 +518,17 @@ Joining Windows
    JoinWindow.add_selection
    JoinWindow.add_field_plugin
    JoinWindow.set_expr_initializer
+
+Miscellaneous Windows
+.....................
+
+.. currentmodule:: esppy.windows
+
+.. autosummary::
+   :toctree: generated/
+
+   RemoveStateWindow
+   TransposeWindow
 
 
 Model Reading Windows
@@ -677,6 +694,51 @@ Union Windows
    :toctree: generated/
 
    UnionWindow
+
+
+Python Helpers
+.............
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autosummary::
+   :toctree: generated/
+
+   PythonHelper
+   PythonHelper.add_mas_info
+
+Keras Helpers
+.............
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autosummary::
+   :toctree: generated/
+
+   KerasHelper
+   KerasHelper.add_model_info
+
+Tensorflow Helpers
+.............
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autosummary::
+   :toctree: generated/
+
+   TensorflowHelper
+   TensorflowHelper.add_model_info
+
+JMP Helpers
+.............
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autosummary::
+   :toctree: generated/
+
+   JMPHelper
+   JMPHelper.add_model_info
 
 
 Schemas
