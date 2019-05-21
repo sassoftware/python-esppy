@@ -142,7 +142,12 @@ class Publisher(object):
         if get_option('debug.requests'):
             sys.stderr.write('WEBSOCKET %s\n' % self.url)
 
-        self._ws = WebSocketClient(self.url)
+        headers = []
+
+        if "Authorization" in self.session.headers:
+            headers.append(("Authorization",self.session.headers["Authorization"].decode("utf-8")))
+
+        self._ws = WebSocketClient(self.url,headers=headers)
         self._ws.connect()
 
     @property

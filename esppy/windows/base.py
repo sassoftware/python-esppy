@@ -291,6 +291,9 @@ class BaseWindow(ESPObject):
             if item in features:
                 item.__init__(self)
 
+    def _register_to_project(self, project_handle=None):
+        pass
+
     def _cast_parameter(self, value, dtype=None, vartype=None):
         '''
         Cast parameter to the appropriate type
@@ -452,7 +455,12 @@ class BaseWindow(ESPObject):
         string
 
         '''
-        return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1subscribers/', self.url)
+        #return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1subscribers/', self.url)
+
+        s = re.findall("^\w+:", self.url)
+        wsproto = (s[0] == "https:") and "wss" or "ws"
+        value = re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'%s\1subscribers/' % wsproto, self.url)
+        return(value)
 
     @property
     def publisher_url(self):
@@ -464,7 +472,12 @@ class BaseWindow(ESPObject):
         string
 
         '''
-        return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1publishers/', self.url)
+        #return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1publishers/', self.url)
+
+        s = re.findall("^\w+:", self.url)
+        wsproto = (s[0] == "https:") and "wss" or "ws"
+        value = re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'%s\1publishers/' % wsproto, self.url)
+        return(value)
 
     def add_event_transformer(self, method, *args, **kwargs):
         '''

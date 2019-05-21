@@ -65,6 +65,7 @@ class WindowDict(collections.MutableMapping):
         collections.MutableMapping.__init__(self, *args, **kwargs)
         self._data = dict()
         self.project = None
+        self.project_handle = None
         self.contquery = None
         self.session = None
 
@@ -131,6 +132,7 @@ class WindowDict(collections.MutableMapping):
         if not isinstance(value, BaseWindow):
             raise TypeError('Only Window objects can be values '
                             'in a ContinuousQuery')
+        value._register_to_project(self.project_handle)
 
         oldname = value.name
 
@@ -419,7 +421,10 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
                                                    slot=item.get('slot'))
 
         for item in data.findall('./metadata/meta'):
-            out.metadata[item.attrib['id']] = item.text
+            if 'id' in item.attrib.keys():
+                out.metadata[item.attrib['id']] = item.text
+            elif 'name' in item.attrib.keys():
+                out.metadata[item.attrib['name']] = item.text
 
         return out
 
@@ -440,7 +445,7 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
             xml.add_elem(out, 'description', text_content=self.description)
 
         if self.metadata:
-            metadata = xml.add_elem(proj, 'metadata')
+            metadata = xml.add_elem(out, 'metadata')
             for key, value in sorted(six.iteritems(self.metadata)):
                 xml.add_elem(metadata, 'meta', attrib=dict(id=key),
                              text_content=value)

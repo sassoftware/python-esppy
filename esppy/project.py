@@ -366,6 +366,7 @@ class Project(ESPObject, collections.MutableMapping):
         '''
         if self.default_query not in self.queries:
             self.queries[self.default_query] = ContinuousQuery()
+            self.queries[self.default_query].windows.project_handle = self
         return self.queries[self.default_query].windows
 
     @property
@@ -380,6 +381,7 @@ class Project(ESPObject, collections.MutableMapping):
         '''
         if self.default_query not in self.queries:
             self.queries[self.default_query] = ContinuousQuery()
+            self.queries[self.default_query].windows.project_handle = self
         return self.queries[self.default_query].trace
 
     @trace.setter
@@ -395,6 +397,7 @@ class Project(ESPObject, collections.MutableMapping):
         '''
         if self.default_query not in self.queries:
             self.queries[self.default_query] = ContinuousQuery()
+            self.queries[self.default_query].windows.project_handle = self
         self.queries[self.default_query].trace = value
 
     def sync(self, overwrite=True, start=True, start_connectors=True):
@@ -526,7 +529,10 @@ class Project(ESPObject, collections.MutableMapping):
             out.queries[query.name] = query
 
         for item in data.findall('./metadata/meta'):
-            out.metadata[item.attrib['id']] = item.text
+            if 'id' in item.attrib.keys():
+                out.metadata[item.attrib['id']] = item.text
+            elif 'name' in item.attrib.keys():
+                out.metadata[item.attrib['name']] = item.text
 
         return out
 
@@ -997,6 +1003,7 @@ class Project(ESPObject, collections.MutableMapping):
 
         if contquery not in self.queries:
             self.queries[contquery] = ContinuousQuery()
+            self.queries[self.default_query].windows.project_handle = self
 
         self.queries[contquery].add_window(window)
 
@@ -1019,11 +1026,13 @@ class Project(ESPObject, collections.MutableMapping):
         '''
         if isinstance(contquery, six.string_types):
             self.queries[contquery] = ContinuousQuery()
+            self.queries[contquery].windows.project_handle = self
             return self.queries[contquery]
         else:
             if not contquery.name:
                 contquery.name = gen_name(prefix='cq_')
             self.queries[contquery.name] = contquery
+            self.queries[contquery.name].windows.project_handle = self
             return self.queries[contquery.name]
 
     add_continuous_query = add_query

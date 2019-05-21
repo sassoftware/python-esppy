@@ -124,8 +124,10 @@ class ProjectStats(object):
                                    'filter': self.filter,
                                    'minCpu': self.min_cpu})
         url_params = '&'.join(['%s=%s' % (k, v) for k, v in sorted(url_params.items())])
-        return (re.sub(r'^\w+:', 'ws:', self.session.base_url) +
-                'projectStats?' + url_params)
+        s = re.findall("^\w+:", self.session.base_url)
+        wsproto = (s[0] == "https:") and "wss" or "ws"
+        value = re.sub(r'^\w+:', wsproto + ':', self.session.base_url) + 'projectStats?' + url_params
+        return(value)
 
     @property
     def is_active(self):
@@ -1426,7 +1428,7 @@ class ESP(RESTHelpers):
     @property
     def api_docs(self):
         ''' Swagger JSON documentation '''
-        return self._get('api-docs', format='json', headers={'accept':'application/json'})
+        return self._get('api-docs?format=json', format='json', headers={'accept':'application/json'})
 
     def get_algorithms(self, atype, properties=False, type=None, reference=None):
         '''

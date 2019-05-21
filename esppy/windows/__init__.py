@@ -33,8 +33,10 @@ from .join import JoinWindow
 from .modelsuper import ModelSupervisorWindow
 from .modelreader import ModelReaderWindow
 from .notification import NotificationWindow
+from .objectTracker import ObjectTrackerWindow
 from .pattern import PatternWindow
 from .procedural import ProceduralWindow
+from .removeState import RemoveStateWindow
 from .score import ScoreWindow
 from .source import SourceWindow
 from .textcategory import TextCategoryWindow
@@ -42,7 +44,9 @@ from .textcontext import TextContextWindow
 from .textsentiment import TextSentimentWindow
 from .texttopic import TextTopicWindow
 from .train import TrainWindow
+from .transpose import TransposeWindow
 from .union import UnionWindow
+from .pythonmas import PythonHelper
 
 
 def get_subclasses(cls):
