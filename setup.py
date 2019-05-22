@@ -32,12 +32,12 @@ def get_file(fname):
 
 setup(
     name='sas-esppy',
-    version='1.0.1-dev',
+    version='6.1.0',
     description='SAS Event Stream Processing Python Interface',
     long_description=get_file('README.md'),
     long_description_content_type='text/markdown',
     author='SAS',
-    author_email='Kevin.Smith@sas.com',
+    author_email='Robert.Levey@sas.com',
     url='https://github.com/sassoftware/python-esppy/',
     license='Apache 2.0',
     packages=find_packages(),
