@@ -19,13 +19,13 @@ To install ESPPy, you can use either `pip` or `conda`.  This will install
 ESPPy as well as the Python package dependencies.
 
 ```
-pip install sas-esppy
+pip install sas-esppy==5.2
 ```
 
 or, if you are using an Anaconda distribution:
 
 ```
-conda install -c sas-institute sas-esppy
+conda install -c sas-institute sas-esppy=5.2
 ```
 
 ### Additional Requirements
