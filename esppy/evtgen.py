@@ -421,8 +421,7 @@ class EventGenerator(ESPObject):
             # Get pubsub port
             port = self._get(urllib.parse.urljoin(self.base_url, 'server'),
                              params=get_params(config=True)
-                             ).find("./property[@name='pubsub']").text
-
+                             ).get('pubsub')
             # Get hostname
             hostname = urllib.parse.urlparse(self.base_url).hostname
 
