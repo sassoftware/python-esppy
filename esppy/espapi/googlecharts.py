@@ -53,17 +53,19 @@ class Chart(object):
             width:100%%;
         }
 
-        .espapiContainer td
+        .espapiContainer td.espButton
         {
-            border: 4px solid blue;
+            background:white;
         }
 
         div#%(id)s_div
         {
+            border:5px solid red;
         }
+
         </style>
         <table class="espapiContainer">
-        <tr><td><div id="%(id)s_div" 
+        <tr><td class="espChart"><div id="%(id)s_div" 
         ''' % dict(id=self._id)
 
         html += '''
@@ -76,10 +78,10 @@ class Chart(object):
                 <td>
                 <table>
                 <tr>
-                <td><button onclick="javascript:send_%(id)s('prev')">Prev</button></td>
-                <td><button onclick="javascript:send_%(id)s('next')">Next</button></td>
-                <td><button onclick="javascript:send_%(id)s('first')">First</button></td>
-                <td><button onclick="javascript:send_%(id)s('last')">Last</button></td>
+                <td class="espButton"><button onclick="javascript:send_%(id)s('prev')">Prev</button></td>
+                <td class="espButton"><button onclick="javascript:send_%(id)s('next')">Next</button></td>
+                <td class="espButton"><button onclick="javascript:send_%(id)s('first')">First</button></td>
+                <td class="espButton"><button onclick="javascript:send_%(id)s('last')">Last</button></td>
                 </tr>
                 </table>
                 </td>
