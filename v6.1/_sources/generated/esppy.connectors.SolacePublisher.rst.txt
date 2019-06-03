@@ -1,0 +1,45 @@
+esppy.connectors.SolacePublisher
+================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: SolacePublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SolacePublisher.__init__
+      ~SolacePublisher.clear
+      ~SolacePublisher.copy
+      ~SolacePublisher.from_element
+      ~SolacePublisher.from_parameters
+      ~SolacePublisher.from_xml
+      ~SolacePublisher.get
+      ~SolacePublisher.items
+      ~SolacePublisher.keys
+      ~SolacePublisher.pop
+      ~SolacePublisher.popitem
+      ~SolacePublisher.set_properties
+      ~SolacePublisher.setdefault
+      ~SolacePublisher.to_element
+      ~SolacePublisher.to_xml
+      ~SolacePublisher.update
+      ~SolacePublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SolacePublisher.connector_key
+      ~SolacePublisher.property_defs
+   
+   

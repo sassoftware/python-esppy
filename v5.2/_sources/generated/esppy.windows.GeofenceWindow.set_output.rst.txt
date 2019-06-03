@@ -1,0 +1,6 @@
+esppy.windows.GeofenceWindow.set\_output
+========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: GeofenceWindow.set_output

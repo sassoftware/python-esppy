@@ -1,0 +1,6 @@
+esppy.connection.ESP.delete\_project
+====================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.delete_project

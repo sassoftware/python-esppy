@@ -1,0 +1,6 @@
+esppy.windows.features.Pattern.add\_field\_selection
+====================================================
+
+.. currentmodule:: esppy.windows.features
+
+.. automethod:: Pattern.add_field_selection

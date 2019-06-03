@@ -1,0 +1,45 @@
+esppy.connectors.PISubscriber
+=============================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: PISubscriber
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PISubscriber.__init__
+      ~PISubscriber.clear
+      ~PISubscriber.copy
+      ~PISubscriber.from_element
+      ~PISubscriber.from_parameters
+      ~PISubscriber.from_xml
+      ~PISubscriber.get
+      ~PISubscriber.items
+      ~PISubscriber.keys
+      ~PISubscriber.pop
+      ~PISubscriber.popitem
+      ~PISubscriber.set_properties
+      ~PISubscriber.setdefault
+      ~PISubscriber.to_element
+      ~PISubscriber.to_xml
+      ~PISubscriber.update
+      ~PISubscriber.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PISubscriber.connector_key
+      ~PISubscriber.property_defs
+   
+   

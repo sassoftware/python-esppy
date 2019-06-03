@@ -1,0 +1,6 @@
+esppy.connection.ESP.validate\_project
+======================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.validate_project

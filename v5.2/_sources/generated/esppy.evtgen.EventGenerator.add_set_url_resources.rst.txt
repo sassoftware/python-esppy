@@ -1,0 +1,6 @@
+esppy.evtgen.EventGenerator.add\_set\_url\_resources
+====================================================
+
+.. currentmodule:: esppy.evtgen
+
+.. automethod:: EventGenerator.add_set_url_resources

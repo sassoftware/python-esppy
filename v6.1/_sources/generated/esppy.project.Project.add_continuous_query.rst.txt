@@ -1,0 +1,6 @@
+esppy.project.Project.add\_continuous\_query
+============================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.add_continuous_query

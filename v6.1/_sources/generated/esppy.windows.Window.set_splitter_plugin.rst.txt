@@ -1,0 +1,6 @@
+esppy.windows.Window.set\_splitter\_plugin
+==========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.set_splitter_plugin

@@ -1,0 +1,45 @@
+esppy.connectors.FilePublisher
+==============================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: FilePublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FilePublisher.__init__
+      ~FilePublisher.clear
+      ~FilePublisher.copy
+      ~FilePublisher.from_element
+      ~FilePublisher.from_parameters
+      ~FilePublisher.from_xml
+      ~FilePublisher.get
+      ~FilePublisher.items
+      ~FilePublisher.keys
+      ~FilePublisher.pop
+      ~FilePublisher.popitem
+      ~FilePublisher.set_properties
+      ~FilePublisher.setdefault
+      ~FilePublisher.to_element
+      ~FilePublisher.to_xml
+      ~FilePublisher.update
+      ~FilePublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FilePublisher.connector_key
+      ~FilePublisher.property_defs
+   
+   

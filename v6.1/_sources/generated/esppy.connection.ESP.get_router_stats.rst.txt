@@ -1,0 +1,6 @@
+esppy.connection.ESP.get\_router\_stats
+=======================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.get_router_stats

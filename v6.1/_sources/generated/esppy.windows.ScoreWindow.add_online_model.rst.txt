@@ -1,0 +1,6 @@
+esppy.windows.ScoreWindow.add\_online\_model
+============================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ScoreWindow.add_online_model

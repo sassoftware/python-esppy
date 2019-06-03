@@ -1,0 +1,483 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.connection.ESP &mdash; ESPPy 5.2-rel documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.connection.ESP.save" href="esppy.connection.ESP.save.html" />
+    <link rel="prev" title="API Reference" href="../api.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2-rel
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#esp">ESP</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#constructor">Constructor</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">esppy.connection.ESP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#server-methods">Server Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#project-methods">Project Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#window-methods">Window Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#event-methods">Event Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#logging-methods">Logging Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#mas-module-methods">MAS Module Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#router-methods">Router Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#event-generator-methods">Event Generator Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#algorithm-methods">Algorithm Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.connection.ESP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.connection.ESP.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-connection-esp">
+<h1>esppy.connection.ESP<a class="headerlink" href="#esppy-connection-esp" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.connection.ESP">
+<em class="property">class </em><code class="descclassname">esppy.connection.</code><code class="descname">ESP</code><span class="sig-paren">(</span><em>hostname=None</em>, <em>port=None</em>, <em>username=None</em>, <em>password=None</em>, <em>protocol=None</em>, <em>ca_bundle=None</em>, <em>authinfo=None</em>, <em>auth_obj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <strong>esppy.utils.rest.RESTHelpers</strong></p>
+<p>ESP Connection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>hostname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Hostname of ESP server or ESP connection URL</p>
+</dd>
+<dt><strong>port</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Port number of ESP server.  This is not needed if
+a URL is used in the first parameter.</p>
+</dd>
+<dt><strong>username</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Username for authentication</p>
+</dd>
+<dt><strong>password</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Password for authentication.  If a password is specified,
+without a username, this is assumed to be an OAUTH token.</p>
+</dd>
+<dt><strong>protocol</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">The protocol to use: http or https.  This is not
+needed if a URL is used in the first parameter.</p>
+</dd>
+<dt><strong>ca_bundle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Path to the certificate bundle if using SSL</p>
+</dd>
+<dt><strong>authinfo</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Path to the authinfo file containing authentication
+information.</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Start ESP connection</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">esp</span> <span class="o">=</span> <span class="n">esppy</span><span class="o">.</span><span class="n">ESP</span><span class="p">(</span><span class="s1">&#39;http://esp-host.com:8080&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">esp</span><span class="o">.</span><span class="n">server_info</span>
+<span class="go">{ ... }</span>
+</pre></div>
+</div>
+<p>Create a project from a definition file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span> <span class="o">=</span> <span class="n">esp</span><span class="o">.</span><span class="n">load_project</span><span class="p">(</span><span class="s1">&#39;/path/to/model.xml&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>metadata</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Engine metadata</p>
+</dd>
+<dt><strong>server_info</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Retrive current status of the server</p>
+</dd>
+<dt><strong>connector_info</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Return the connection metadata for all connectors</p>
+</dd>
+<dt><strong>api_docs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Swagger JSON documentation</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="esppy.connection.ESP.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>hostname=None</em>, <em>port=None</em>, <em>username=None</em>, <em>password=None</em>, <em>protocol=None</em>, <em>ca_bundle=None</em>, <em>authinfo=None</em>, <em>auth_obj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#esppy.connection.ESP.__init__" title="esppy.connection.ESP.__init__"><strong>__init__</strong></a>([hostname,&nbsp;port,&nbsp;username,&nbsp;…])</td>
+<td>Initialize self.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.create_event_generator.html#esppy.connection.ESP.create_event_generator" title="esppy.connection.ESP.create_event_generator"><strong>create_event_generator</strong></a>(window[,&nbsp;data,&nbsp;name,&nbsp;…])</td>
+<td>Create an event generator</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.create_project.html#esppy.connection.ESP.create_project" title="esppy.connection.ESP.create_project"><strong>create_project</strong></a>(proj,&nbsp;**kwargs)</td>
+<td>Create a new Project object</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.create_router.html#esppy.connection.ESP.create_router" title="esppy.connection.ESP.create_router"><strong>create_router</strong></a>([name,&nbsp;overwrite])</td>
+<td>Create a new router</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.delete_event_generator.html#esppy.connection.ESP.delete_event_generator" title="esppy.connection.ESP.delete_event_generator"><strong>delete_event_generator</strong></a>(name)</td>
+<td>Delete the specified event generator</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.delete_event_generators.html#esppy.connection.ESP.delete_event_generators" title="esppy.connection.ESP.delete_event_generators"><strong>delete_event_generators</strong></a>()</td>
+<td>Delete all event generators in the server</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.delete_project.html#esppy.connection.ESP.delete_project" title="esppy.connection.ESP.delete_project"><strong>delete_project</strong></a>(name)</td>
+<td>Delete specified project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.delete_projects.html#esppy.connection.ESP.delete_projects" title="esppy.connection.ESP.delete_projects"><strong>delete_projects</strong></a>(*name,&nbsp;**kwargs)</td>
+<td>Delete projects</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.disable_server_log_capture.html#esppy.connection.ESP.disable_server_log_capture" title="esppy.connection.ESP.disable_server_log_capture"><strong>disable_server_log_capture</strong></a>()</td>
+<td>Disable capturing of server log messages</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.enable_server_log_capture.html#esppy.connection.ESP.enable_server_log_capture" title="esppy.connection.ESP.enable_server_log_capture"><strong>enable_server_log_capture</strong></a>()</td>
+<td>Enable capturing of server log messages</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_algorithm.html#esppy.connection.ESP.get_algorithm" title="esppy.connection.ESP.get_algorithm"><strong>get_algorithm</strong></a>(atype,&nbsp;name)</td>
+<td>Retrieve information for the specified algorithm</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_algorithms.html#esppy.connection.ESP.get_algorithms" title="esppy.connection.ESP.get_algorithms"><strong>get_algorithms</strong></a>(atype[,&nbsp;properties,&nbsp;type,&nbsp;…])</td>
+<td>Retrieve information for all algorithms of the specified type</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_event_generator_state.html#esppy.connection.ESP.get_event_generator_state" title="esppy.connection.ESP.get_event_generator_state"><strong>get_event_generator_state</strong></a>(name)</td>
+<td>Retrieve the state of the specified event generator</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_event_generators.html#esppy.connection.ESP.get_event_generators" title="esppy.connection.ESP.get_event_generators"><strong>get_event_generators</strong></a>()</td>
+<td>Retrieve all event generators in the server</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_events.html#esppy.connection.ESP.get_events" title="esppy.connection.ESP.get_events"><strong>get_events</strong></a>([window_filter,&nbsp;event_filter,&nbsp;…])</td>
+<td>Retrieve events from the server</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_logger.html#esppy.connection.ESP.get_logger" title="esppy.connection.ESP.get_logger"><strong>get_logger</strong></a>(name)</td>
+<td>Retrieve the specified logger</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_loggers.html#esppy.connection.ESP.get_loggers" title="esppy.connection.ESP.get_loggers"><strong>get_loggers</strong></a>()</td>
+<td>Retrieve all loggers in the system</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_mas_modules.html#esppy.connection.ESP.get_mas_modules" title="esppy.connection.ESP.get_mas_modules"><strong>get_mas_modules</strong></a>([expandcode])</td>
+<td>Retrieve all MAS modules</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_pattern_events.html#esppy.connection.ESP.get_pattern_events" title="esppy.connection.ESP.get_pattern_events"><strong>get_pattern_events</strong></a>([window_filter,&nbsp;…])</td>
+<td>Retrieve events residing in open patterns in the server</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_project.html#esppy.connection.ESP.get_project" title="esppy.connection.ESP.get_project"><strong>get_project</strong></a>(name)</td>
+<td>Retrieve the specified project</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_project_stats.html#esppy.connection.ESP.get_project_stats" title="esppy.connection.ESP.get_project_stats"><strong>get_project_stats</strong></a>([filter,&nbsp;interval,&nbsp;…])</td>
+<td>Project statistics subscriber</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_projects.html#esppy.connection.ESP.get_projects" title="esppy.connection.ESP.get_projects"><strong>get_projects</strong></a>([name,&nbsp;filter])</td>
+<td>Retrieve projects from the server</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_router.html#esppy.connection.ESP.get_router" title="esppy.connection.ESP.get_router"><strong>get_router</strong></a>(name)</td>
+<td>Retrieve the specified router</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_router_stats.html#esppy.connection.ESP.get_router_stats" title="esppy.connection.ESP.get_router_stats"><strong>get_router_stats</strong></a>([name])</td>
+<td>Retrieve router statistics</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_routers.html#esppy.connection.ESP.get_routers" title="esppy.connection.ESP.get_routers"><strong>get_routers</strong></a>()</td>
+<td>Retrieve all routers in the server</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_running_project.html#esppy.connection.ESP.get_running_project" title="esppy.connection.ESP.get_running_project"><strong>get_running_project</strong></a>(name)</td>
+<td>Retrieve the specified running project</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_running_projects.html#esppy.connection.ESP.get_running_projects" title="esppy.connection.ESP.get_running_projects"><strong>get_running_projects</strong></a>([name,&nbsp;filter])</td>
+<td>Retrieve running project information</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_server_log.html#esppy.connection.ESP.get_server_log" title="esppy.connection.ESP.get_server_log"><strong>get_server_log</strong></a>()</td>
+<td>Return all stored server log messages</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_server_log_state.html#esppy.connection.ESP.get_server_log_state" title="esppy.connection.ESP.get_server_log_state"><strong>get_server_log_state</strong></a>()</td>
+<td>Return the current state of the server log capture</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_stopped_project.html#esppy.connection.ESP.get_stopped_project" title="esppy.connection.ESP.get_stopped_project"><strong>get_stopped_project</strong></a>(name)</td>
+<td>Retrieve specified stopped project</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_stopped_projects.html#esppy.connection.ESP.get_stopped_projects" title="esppy.connection.ESP.get_stopped_projects"><strong>get_stopped_projects</strong></a>([name,&nbsp;filter])</td>
+<td>Retrieve stopped projects</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_window.html#esppy.connection.ESP.get_window" title="esppy.connection.ESP.get_window"><strong>get_window</strong></a>(path)</td>
+<td>Retrieve specified window</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_windows.html#esppy.connection.ESP.get_windows" title="esppy.connection.ESP.get_windows"><strong>get_windows</strong></a>([path,&nbsp;type,&nbsp;filter])</td>
+<td>Retrieve windows from the server</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.install_project.html#esppy.connection.ESP.install_project" title="esppy.connection.ESP.install_project"><strong>install_project</strong></a>(project[,&nbsp;name,&nbsp;overwrite,&nbsp;…])</td>
+<td>Load a project from a project definition</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.load_project.html#esppy.connection.ESP.load_project" title="esppy.connection.ESP.load_project"><strong>load_project</strong></a>(project[,&nbsp;name,&nbsp;overwrite,&nbsp;…])</td>
+<td>Load a project from a project definition</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.reload.html#esppy.connection.ESP.reload" title="esppy.connection.ESP.reload"><strong>reload</strong></a>()</td>
+<td>Reset the server model to the model used at startup</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.save.html#esppy.connection.ESP.save" title="esppy.connection.ESP.save"><strong>save</strong></a>([path])</td>
+<td>Save the server state</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.shutdown.html#esppy.connection.ESP.shutdown" title="esppy.connection.ESP.shutdown"><strong>shutdown</strong></a>()</td>
+<td>Shutdown the server</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.start_project.html#esppy.connection.ESP.start_project" title="esppy.connection.ESP.start_project"><strong>start_project</strong></a>(name)</td>
+<td>Start specified project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.start_projects.html#esppy.connection.ESP.start_projects" title="esppy.connection.ESP.start_projects"><strong>start_projects</strong></a>([name,&nbsp;filter])</td>
+<td>Start projects</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.stop_project.html#esppy.connection.ESP.stop_project" title="esppy.connection.ESP.stop_project"><strong>stop_project</strong></a>(name)</td>
+<td>Stop specified project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.stop_projects.html#esppy.connection.ESP.stop_projects" title="esppy.connection.ESP.stop_projects"><strong>stop_projects</strong></a>([name,&nbsp;filter])</td>
+<td>Stop projects</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.validate_project.html#esppy.connection.ESP.validate_project" title="esppy.connection.ESP.validate_project"><strong>validate_project</strong></a>(project)</td>
+<td>Validate project definition</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.connection.ESP.save.html" class="btn btn-neutral float-right" title="esppy.connection.ESP.save" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../api.html" class="btn btn-neutral" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'5.2-rel',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

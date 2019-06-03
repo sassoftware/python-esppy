@@ -1,0 +1,6 @@
+esppy.windows.Window.disable\_tracing
+=====================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.disable_tracing

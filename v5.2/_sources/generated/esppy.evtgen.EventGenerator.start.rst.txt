@@ -1,0 +1,6 @@
+esppy.evtgen.EventGenerator.start
+=================================
+
+.. currentmodule:: esppy.evtgen
+
+.. automethod:: EventGenerator.start

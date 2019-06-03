@@ -1,0 +1,6 @@
+esppy.windows.ScoreWindow.set\_outputs
+======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ScoreWindow.set_outputs

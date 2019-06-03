@@ -1,0 +1,6 @@
+esppy.windows.Window.copy
+=========================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.copy

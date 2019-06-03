@@ -1,0 +1,6 @@
+esppy.plotting.StreamingChart.doughnut
+======================================
+
+.. currentmodule:: esppy.plotting
+
+.. automethod:: StreamingChart.doughnut

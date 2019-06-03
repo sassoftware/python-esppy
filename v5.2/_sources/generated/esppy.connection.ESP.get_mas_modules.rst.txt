@@ -1,0 +1,6 @@
+esppy.connection.ESP.get\_mas\_modules
+======================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.get_mas_modules

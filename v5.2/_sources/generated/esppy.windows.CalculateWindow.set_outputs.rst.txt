@@ -1,0 +1,6 @@
+esppy.windows.CalculateWindow.set\_outputs
+==========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: CalculateWindow.set_outputs

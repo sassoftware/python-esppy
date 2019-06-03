@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.get\_window
+===========================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.get_window

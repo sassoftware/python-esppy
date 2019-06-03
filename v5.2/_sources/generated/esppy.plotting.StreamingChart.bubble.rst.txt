@@ -1,0 +1,6 @@
+esppy.plotting.StreamingChart.bubble
+====================================
+
+.. currentmodule:: esppy.plotting
+
+.. automethod:: StreamingChart.bubble

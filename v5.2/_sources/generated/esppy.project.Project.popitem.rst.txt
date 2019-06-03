@@ -1,0 +1,6 @@
+esppy.project.Project.popitem
+=============================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.popitem

@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SAS Event Stream Processing Python Interface &mdash; ESPPy 5.2-rel documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="install.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2-rel
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>SAS Event Stream Processing Python Interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sas-event-stream-processing-python-interface">
+<h1>SAS Event Stream Processing Python Interface<a class="headerlink" href="#sas-event-stream-processing-python-interface" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-esppy"></span><p><strong>Date</strong>: Jun 03, 2019 <strong>Version</strong>: 5.2-rel</p>
+<p><strong>Installers:</strong> <a class="reference external" href="http://github.com/sassoftware/python-esppy/releases">http://github.com/sassoftware/python-esppy/releases</a></p>
+<p><strong>Source Repository:</strong> <a class="reference external" href="http://github.com/sassoftware/python-esppy">http://github.com/sassoftware/python-esppy</a></p>
+<p><strong>Issues &amp; Ideas:</strong> <a class="reference external" href="https://github.com/sassoftware/python-esppy/issues">https://github.com/sassoftware/python-esppy/issues</a></p>
+<p>The ESPPy package enables you to create
+<a class="reference external" href="https://www.sas.com/en_us/software/event-stream-processing.html">SAS Event Stream Processing (ESP)</a>
+models programmatically in Python.  Using ESPPy, you can connect to
+an ESP server and interact with projects and their components as
+Python objects. These objects include projects, continuous queries,
+windows, events, loggers, SAS Micro Analytic Service modules,
+routers, and analytical algorithms.</p>
+<p>ESPPy has full integration with <a class="reference external" href="https://jupyter.org">Jupyter</a> notebooks
+including visualizing diagrams of your ESP projects, and support for
+streaming charts and images.  This allows you to easily explore and
+prototype your ESP projects in a familiar notebook interface.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#pip">Pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#conda">Conda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#github">GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="whatsnew.html">What’s New</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="whatsnew.html#v1-0-0-october-5-2018">v1.0.0 (October 5, 2018)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#server-introspection">Server Introspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#loading-a-project">Loading a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#working-with-windows">Working with Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#the-limit-argument">The <strong>limit</strong> Argument</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#the-horizon-argument">The <strong>horizon</strong> Argument</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#using-windows-as-dataframes">Using Windows as DataFrames</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#building-projects-programmatically">Building Projects Programmatically</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#adding-a-data-window">Adding a Data Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#adding-a-training-window">Adding a Training Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#adding-a-scoring-window">Adding a Scoring Window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#making-connections-between-windows">Making Connections between Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#loading-the-project-into-the-server">Loading the Project into the Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="getting-started.html#publishing-events-to-data-window">Publishing Events to Data Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#esp">ESP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#constructor">Constructor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#server-methods">Server Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#project-methods">Project Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#window-methods">Window Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#event-methods">Event Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#logging-methods">Logging Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#mas-module-methods">MAS Module Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#router-methods">Router Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#event-generator-methods">Event Generator Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#algorithm-methods">Algorithm Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#project-definitions">Project Definitions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#subscriber">Subscriber</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Subscriber.html">esppy.windows.Subscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Subscriber.start.html">esppy.windows.Subscriber.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Subscriber.stop.html">esppy.windows.Subscriber.stop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Subscriber.close.html">esppy.windows.Subscriber.close</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#publisher">Publisher</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Publisher.html">esppy.windows.Publisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Publisher.send.html">esppy.windows.Publisher.send</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.windows.Publisher.close.html">esppy.windows.Publisher.close</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#streaming-charts">Streaming Charts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.html">esppy.plotting.StreamingChart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.area.html">esppy.plotting.StreamingChart.area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.bar.html">esppy.plotting.StreamingChart.bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.hbar.html">esppy.plotting.StreamingChart.hbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.bubble.html">esppy.plotting.StreamingChart.bubble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.line.html">esppy.plotting.StreamingChart.line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.scatter.html">esppy.plotting.StreamingChart.scatter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.pie.html">esppy.plotting.StreamingChart.pie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.donut.html">esppy.plotting.StreamingChart.donut</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingChart.doughnut.html">esppy.plotting.StreamingChart.doughnut</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#streaming-images">Streaming Images</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.StreamingImages.html">esppy.plotting.StreamingImages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#chart-layouts">Chart Layouts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.plotting.ChartLayout.html">esppy.plotting.ChartLayout</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#event-generators">Event Generators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.html">esppy.evtgen.EventGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_initializers.html">esppy.evtgen.EventGenerator.add_initializers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_fields.html">esppy.evtgen.EventGenerator.add_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_map_resources.html">esppy.evtgen.EventGenerator.add_map_resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_list_resources.html">esppy.evtgen.EventGenerator.add_list_resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_set_resources.html">esppy.evtgen.EventGenerator.add_set_resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_map_url_resources.html">esppy.evtgen.EventGenerator.add_map_url_resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_list_url_resources.html">esppy.evtgen.EventGenerator.add_list_url_resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.add_set_url_resources.html">esppy.evtgen.EventGenerator.add_set_url_resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.start.html">esppy.evtgen.EventGenerator.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.stop.html">esppy.evtgen.EventGenerator.stop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.initialize.html">esppy.evtgen.EventGenerator.initialize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.delete.html">esppy.evtgen.EventGenerator.delete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.save.html">esppy.evtgen.EventGenerator.save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.from_xml.html">esppy.evtgen.EventGenerator.from_xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.evtgen.EventGenerator.to_xml.html">esppy.evtgen.EventGenerator.to_xml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#loggers">Loggers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.logger.Logger.html">esppy.logger.Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.logger.Logger.set_level.html">esppy.logger.Logger.set_level</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#mas-modules">MAS Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.mas.MASModule.html">esppy.mas.MASModule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.mas.MASModule.save.html">esppy.mas.MASModule.save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.mas.MASModule.from_xml.html">esppy.mas.MASModule.from_xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.mas.MASModule.to_xml.html">esppy.mas.MASModule.to_xml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#routers">Routers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#router">Router</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#engine">Engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#publishdestination">PublishDestination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#writerdestination">WriterDestination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#route">Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#connectors">Connectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.Connector.html">esppy.connectors.Connector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.Connector.set_properties.html">esppy.connectors.Connector.set_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.Connector.to_xml.html">esppy.connectors.Connector.to_xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.BacnetPublisher.html">esppy.connectors.BacnetPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.AdapterPublisher.html">esppy.connectors.AdapterPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.AdapterSubscriber.html">esppy.connectors.AdapterSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.DatabasePublisher.html">esppy.connectors.DatabasePublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.DatabaseSubscriber.html">esppy.connectors.DatabaseSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.FilePublisher.html">esppy.connectors.FilePublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.FileSubscriber.html">esppy.connectors.FileSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.SocketPublisher.html">esppy.connectors.SocketPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.SocketSubscriber.html">esppy.connectors.SocketSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.KafkaSubscriber.html">esppy.connectors.KafkaSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.KafkaPublisher.html">esppy.connectors.KafkaPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.MQTTSubscriber.html">esppy.connectors.MQTTSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.MQTTPublisher.html">esppy.connectors.MQTTPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.ModbusSubscriber.html">esppy.connectors.ModbusSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.ModbusPublisher.html">esppy.connectors.ModbusPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.NuregoSubscriber.html">esppy.connectors.NuregoSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.OPCUASubscriber.html">esppy.connectors.OPCUASubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.OPCUAPublisher.html">esppy.connectors.OPCUAPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.PISubscriber.html">esppy.connectors.PISubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.PIPublisher.html">esppy.connectors.PIPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.ProjectPublisher.html">esppy.connectors.ProjectPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.PylonPublisher.html">esppy.connectors.PylonPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.RabbitMQSubscriber.html">esppy.connectors.RabbitMQSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.RabbitMQPublisher.html">esppy.connectors.RabbitMQPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.SMTPSubscriber.html">esppy.connectors.SMTPSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.SnifferPublisher.html">esppy.connectors.SnifferPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.SolaceSubscriber.html">esppy.connectors.SolaceSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.SolacePublisher.html">esppy.connectors.SolacePublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TeradataSubscriber.html">esppy.connectors.TeradataSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TeradataListenerSubscriber.html">esppy.connectors.TeradataListenerSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TervelaSubscriber.html">esppy.connectors.TervelaSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TervelaPublisher.html">esppy.connectors.TervelaPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TibcoSubscriber.html">esppy.connectors.TibcoSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TibcoPublisher.html">esppy.connectors.TibcoPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.TimerPublisher.html">esppy.connectors.TimerPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.URLPublisher.html">esppy.connectors.URLPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.UVCPublisher.html">esppy.connectors.UVCPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.WebSocketPublisher.html">esppy.connectors.WebSocketPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.WebSphereMQSubscriber.html">esppy.connectors.WebSphereMQSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connectors.WebSphereMQPublisher.html">esppy.connectors.WebSphereMQPublisher</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#algorithms">Algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.algorithm.Algorithm.html">esppy.algorithm.Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.algorithm.Algorithm.from_xml.html">esppy.algorithm.Algorithm.from_xml</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#project-statistics">Project Statistics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connection.ProjectStats.html">esppy.connection.ProjectStats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connection.ProjectStats.start.html">esppy.connection.ProjectStats.start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connection.ProjectStats.stop.html">esppy.connection.ProjectStats.stop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.connection.ProjectStats.close.html">esppy.connection.ProjectStats.close</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#configuration-options">Configuration Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.get_option.html">esppy.get_option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.set_option.html">esppy.set_option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.describe_option.html">esppy.describe_option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.reset_option.html">esppy.reset_option</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/esppy.option_context.html">esppy.option_context</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</div>
+<div class="section" id="index">
+<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'5.2-rel',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

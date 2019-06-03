@@ -1,0 +1,6 @@
+esppy.windows.ComputeWindow.set\_expr\_initializer
+==================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ComputeWindow.set_expr_initializer

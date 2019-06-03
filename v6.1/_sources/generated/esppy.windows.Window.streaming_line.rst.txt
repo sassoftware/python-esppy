@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_line
+====================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_line

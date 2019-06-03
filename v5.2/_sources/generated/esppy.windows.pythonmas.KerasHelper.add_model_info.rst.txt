@@ -1,0 +1,6 @@
+esppy.windows.pythonmas.KerasHelper.add\_model\_info
+====================================================
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. automethod:: KerasHelper.add_model_info

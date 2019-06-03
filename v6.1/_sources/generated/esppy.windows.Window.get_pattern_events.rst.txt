@@ -1,0 +1,6 @@
+esppy.windows.Window.get\_pattern\_events
+=========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.get_pattern_events

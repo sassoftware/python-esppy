@@ -1,0 +1,6 @@
+esppy.router.Router.initialize\_destination
+===========================================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: Router.initialize_destination

@@ -1,0 +1,6 @@
+esppy.evtgen.EventGenerator.add\_map\_url\_resources
+====================================================
+
+.. currentmodule:: esppy.evtgen
+
+.. automethod:: EventGenerator.add_map_url_resources

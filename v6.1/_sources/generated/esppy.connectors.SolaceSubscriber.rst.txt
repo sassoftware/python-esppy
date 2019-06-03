@@ -1,0 +1,45 @@
+esppy.connectors.SolaceSubscriber
+=================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: SolaceSubscriber
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SolaceSubscriber.__init__
+      ~SolaceSubscriber.clear
+      ~SolaceSubscriber.copy
+      ~SolaceSubscriber.from_element
+      ~SolaceSubscriber.from_parameters
+      ~SolaceSubscriber.from_xml
+      ~SolaceSubscriber.get
+      ~SolaceSubscriber.items
+      ~SolaceSubscriber.keys
+      ~SolaceSubscriber.pop
+      ~SolaceSubscriber.popitem
+      ~SolaceSubscriber.set_properties
+      ~SolaceSubscriber.setdefault
+      ~SolaceSubscriber.to_element
+      ~SolaceSubscriber.to_xml
+      ~SolaceSubscriber.update
+      ~SolaceSubscriber.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SolaceSubscriber.connector_key
+      ~SolaceSubscriber.property_defs
+   
+   

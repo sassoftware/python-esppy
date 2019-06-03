@@ -1,0 +1,6 @@
+esppy.schema.Schema.from\_string
+================================
+
+.. currentmodule:: esppy.schema
+
+.. automethod:: Schema.from_string

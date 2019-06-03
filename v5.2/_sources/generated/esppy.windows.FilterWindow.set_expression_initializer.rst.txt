@@ -1,0 +1,6 @@
+esppy.windows.FilterWindow.set\_expression\_initializer
+=======================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: FilterWindow.set_expression_initializer

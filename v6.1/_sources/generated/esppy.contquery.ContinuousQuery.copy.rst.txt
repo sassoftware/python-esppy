@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.copy
+====================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.copy

@@ -1,0 +1,6 @@
+esppy.get\_option
+=================
+
+.. currentmodule:: esppy
+
+.. autofunction:: get_option

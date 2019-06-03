@@ -1,0 +1,6 @@
+esppy.plotting.StreamingChart.bar
+=================================
+
+.. currentmodule:: esppy.plotting
+
+.. automethod:: StreamingChart.bar
