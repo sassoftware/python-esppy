@@ -1,0 +1,6 @@
+esppy.set\_option
+=================
+
+.. currentmodule:: esppy
+
+.. autofunction:: set_option

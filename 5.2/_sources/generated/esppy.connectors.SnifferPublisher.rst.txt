@@ -1,0 +1,45 @@
+esppy.connectors.SnifferPublisher
+=================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: SnifferPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SnifferPublisher.__init__
+      ~SnifferPublisher.clear
+      ~SnifferPublisher.copy
+      ~SnifferPublisher.from_element
+      ~SnifferPublisher.from_parameters
+      ~SnifferPublisher.from_xml
+      ~SnifferPublisher.get
+      ~SnifferPublisher.items
+      ~SnifferPublisher.keys
+      ~SnifferPublisher.pop
+      ~SnifferPublisher.popitem
+      ~SnifferPublisher.set_properties
+      ~SnifferPublisher.setdefault
+      ~SnifferPublisher.to_element
+      ~SnifferPublisher.to_xml
+      ~SnifferPublisher.update
+      ~SnifferPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SnifferPublisher.connector_key
+      ~SnifferPublisher.property_defs
+   
+   

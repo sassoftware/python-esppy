@@ -1,0 +1,6 @@
+esppy.connection.ESP.get\_routers
+=================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.get_routers

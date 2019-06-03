@@ -1,0 +1,85 @@
+esppy.windows.pythonmas.TensorflowHelper
+========================================
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autoclass:: TensorflowHelper
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TensorflowHelper.__init__
+      ~TensorflowHelper.add_connector
+      ~TensorflowHelper.add_event_transformer
+      ~TensorflowHelper.add_mas_info
+      ~TensorflowHelper.add_mas_window_map
+      ~TensorflowHelper.add_model_info
+      ~TensorflowHelper.add_target
+      ~TensorflowHelper.add_targets
+      ~TensorflowHelper.apply_transformers
+      ~TensorflowHelper.copy
+      ~TensorflowHelper.create_event_generator
+      ~TensorflowHelper.create_publisher
+      ~TensorflowHelper.create_subscriber
+      ~TensorflowHelper.delete_target
+      ~TensorflowHelper.delete_targets
+      ~TensorflowHelper.disable_tracing
+      ~TensorflowHelper.enable_tracing
+      ~TensorflowHelper.from_element
+      ~TensorflowHelper.from_xml
+      ~TensorflowHelper.get_events
+      ~TensorflowHelper.get_pattern_events
+      ~TensorflowHelper.publish_events
+      ~TensorflowHelper.save_xml
+      ~TensorflowHelper.set_inputs
+      ~TensorflowHelper.set_outputs
+      ~TensorflowHelper.set_parameters
+      ~TensorflowHelper.streaming_area
+      ~TensorflowHelper.streaming_bar
+      ~TensorflowHelper.streaming_bubble
+      ~TensorflowHelper.streaming_donut
+      ~TensorflowHelper.streaming_hbar
+      ~TensorflowHelper.streaming_hist
+      ~TensorflowHelper.streaming_images
+      ~TensorflowHelper.streaming_line
+      ~TensorflowHelper.streaming_pie
+      ~TensorflowHelper.streaming_scatter
+      ~TensorflowHelper.subscribe
+      ~TensorflowHelper.to_data_callback
+      ~TensorflowHelper.to_element
+      ~TensorflowHelper.to_graph
+      ~TensorflowHelper.to_xml
+      ~TensorflowHelper.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TensorflowHelper.algorithm
+      ~TensorflowHelper.base_url
+      ~TensorflowHelper.contquery
+      ~TensorflowHelper.fullname
+      ~TensorflowHelper.index_type
+      ~TensorflowHelper.name
+      ~TensorflowHelper.produces_only_inserts
+      ~TensorflowHelper.project
+      ~TensorflowHelper.publisher_url
+      ~TensorflowHelper.pubsub
+      ~TensorflowHelper.schema
+      ~TensorflowHelper.schema_string
+      ~TensorflowHelper.session
+      ~TensorflowHelper.subscriber_url
+      ~TensorflowHelper.url
+      ~TensorflowHelper.window_classes
+      ~TensorflowHelper.window_type
+   
+   

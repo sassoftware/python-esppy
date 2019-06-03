@@ -1,0 +1,93 @@
+esppy.windows.FunctionalWindow
+==============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: FunctionalWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FunctionalWindow.__init__
+      ~FunctionalWindow.add_connector
+      ~FunctionalWindow.add_event_transformer
+      ~FunctionalWindow.add_json_event_loop
+      ~FunctionalWindow.add_regex_event_loop
+      ~FunctionalWindow.add_target
+      ~FunctionalWindow.add_targets
+      ~FunctionalWindow.add_xml_event_loop
+      ~FunctionalWindow.apply_transformers
+      ~FunctionalWindow.copy
+      ~FunctionalWindow.create_event_generator
+      ~FunctionalWindow.create_function_context
+      ~FunctionalWindow.create_publisher
+      ~FunctionalWindow.create_subscriber
+      ~FunctionalWindow.delete_target
+      ~FunctionalWindow.delete_targets
+      ~FunctionalWindow.disable_tracing
+      ~FunctionalWindow.enable_tracing
+      ~FunctionalWindow.from_element
+      ~FunctionalWindow.from_xml
+      ~FunctionalWindow.get_events
+      ~FunctionalWindow.get_pattern_events
+      ~FunctionalWindow.publish_events
+      ~FunctionalWindow.save_xml
+      ~FunctionalWindow.set_finalized_callback
+      ~FunctionalWindow.set_function_context_expressions
+      ~FunctionalWindow.set_function_context_functions
+      ~FunctionalWindow.set_function_context_properties
+      ~FunctionalWindow.set_splitter_expr
+      ~FunctionalWindow.set_splitter_plugin
+      ~FunctionalWindow.streaming_area
+      ~FunctionalWindow.streaming_bar
+      ~FunctionalWindow.streaming_bubble
+      ~FunctionalWindow.streaming_donut
+      ~FunctionalWindow.streaming_hbar
+      ~FunctionalWindow.streaming_hist
+      ~FunctionalWindow.streaming_images
+      ~FunctionalWindow.streaming_line
+      ~FunctionalWindow.streaming_pie
+      ~FunctionalWindow.streaming_scatter
+      ~FunctionalWindow.subscribe
+      ~FunctionalWindow.to_data_callback
+      ~FunctionalWindow.to_element
+      ~FunctionalWindow.to_graph
+      ~FunctionalWindow.to_xml
+      ~FunctionalWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FunctionalWindow.base_url
+      ~FunctionalWindow.collapse_updates
+      ~FunctionalWindow.contquery
+      ~FunctionalWindow.exp_max_string
+      ~FunctionalWindow.fullname
+      ~FunctionalWindow.index_type
+      ~FunctionalWindow.name
+      ~FunctionalWindow.output_insert_only
+      ~FunctionalWindow.produces_only_inserts
+      ~FunctionalWindow.project
+      ~FunctionalWindow.publisher_url
+      ~FunctionalWindow.pubsub
+      ~FunctionalWindow.pubsub_index_type
+      ~FunctionalWindow.pulse_interval
+      ~FunctionalWindow.schema
+      ~FunctionalWindow.schema_string
+      ~FunctionalWindow.session
+      ~FunctionalWindow.subscriber_url
+      ~FunctionalWindow.url
+      ~FunctionalWindow.window_classes
+      ~FunctionalWindow.window_type
+   
+   

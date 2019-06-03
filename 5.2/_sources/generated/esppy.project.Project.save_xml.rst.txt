@@ -1,0 +1,6 @@
+esppy.project.Project.save\_xml
+===============================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.save_xml

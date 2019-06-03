@@ -1,0 +1,6 @@
+esppy.windows.FilterWindow.set\_plugin
+======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: FilterWindow.set_plugin

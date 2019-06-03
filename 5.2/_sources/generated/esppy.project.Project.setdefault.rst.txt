@@ -1,0 +1,6 @@
+esppy.project.Project.setdefault
+================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.setdefault

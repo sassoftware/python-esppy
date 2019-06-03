@@ -1,0 +1,6 @@
+esppy.project.Project.items
+===========================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.items

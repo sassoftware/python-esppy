@@ -1,0 +1,6 @@
+esppy.windows.SourceWindow.set\_retention
+=========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: SourceWindow.set_retention

@@ -1,0 +1,6 @@
+esppy.connection.ESP.install\_project
+=====================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.install_project

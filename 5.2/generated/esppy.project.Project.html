@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.project.Project &mdash; ESPPy 5.2-rel documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.project.Project.get_stats" href="esppy.project.Project.get_stats.html" />
+    <link rel="prev" title="esppy.connection.ESP.get_algorithms" href="esppy.connection.ESP.get_algorithms.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.2-rel
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#projects">Projects</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">esppy.project.Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_stats.html">esppy.project.Project.get_stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.start.html">esppy.project.Project.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.stop.html">esppy.project.Project.stop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.save.html">esppy.project.Project.save</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.restore.html">esppy.project.Project.restore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.update.html">esppy.project.Project.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.delete.html">esppy.project.Project.delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.copy.html">esppy.project.Project.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.sync.html">esppy.project.Project.sync</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.validate.html">esppy.project.Project.validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_window.html">esppy.project.Project.get_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_windows.html">esppy.project.Project.get_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_mas_module.html">esppy.project.Project.get_mas_module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_mas_modules.html">esppy.project.Project.get_mas_modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.from_xml.html">esppy.project.Project.from_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.to_xml.html">esppy.project.Project.to_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.save_xml.html">esppy.project.Project.save_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.to_graph.html">esppy.project.Project.to_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#project-construction-methods">Project Construction Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#dictionary-methods">Dictionary Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.project.Project</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.project.Project.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-project-project">
+<h1>esppy.project.Project<a class="headerlink" href="#esppy-project-project" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.project.Project">
+<em class="property">class </em><code class="descclassname">esppy.project.</code><code class="descname">Project</code><span class="sig-paren">(</span><em>name=None</em>, <em>n_threads=1</em>, <em>pubsub='auto'</em>, <em>compress_open_patterns=None</em>, <em>port=None</em>, <em>index_type=None</em>, <em>use_tagged_token=None</em>, <em>use_retention_tracking=None</em>, <em>disk_store_path=None</em>, <em>heartbeat_interval=None</em>, <em>restore=None</em>, <em>description=None</em>, <em>sas_log_location=None</em>, <em>sas_connection_key=None</em>, <em>sas_command=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.project.Project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <strong>esppy.base.ESPObject</strong>, <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.7)"><strong>collections.abc.MutableMapping</strong></a></p>
+<p>ESP Project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Name of the project</p>
+</dd>
+<dt><strong>n_threads</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">A positive integer for the number of threads to use from the
+available thread pool</p>
+</dd>
+<dt><strong>pubsub</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Publish/subscribe mode for the project</p>
+</dd>
+<dt><strong>compress_open_patterns</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">When True, compress events stored in unresolved pattern instances</p>
+</dd>
+<dt><strong>port</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">The project-level publish/subscribe port for auto or manual mode</p>
+</dd>
+<dt><strong>index_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">A default index type for all windows in the project that do not
+explicitly specify an index type
+<br/><strong class="param-meta">Valid Values:</strong> ‘rbtree’, ‘hash’, ‘ln_hash’, ‘cl_hash’, ‘fw_hash’, ‘empty’</p>
+</dd>
+<dt><strong>use_tagged_token</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Specify whether tagged token data flow semantics should be used
+for continuous queries</p>
+</dd>
+<dt><strong>use_retention_tracking</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Specify whether to use retention tracking for the project.
+This allows two events per key in output event blocks.</p>
+</dd>
+<dt><strong>disk_store_path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Specify the path for on-disk event storage when using hleveldb indices</p>
+</dd>
+<dt><strong>heartbeat_interval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Specify how frequently the system sends timer heartbeats to the project.
+The default value is 1 second. This heartbeat drives wall-clock-based
+retention and pattern time outs. When a model has an exceptionally large
+number of unresolved pattern instances, increasing the value of the
+heartbeat interval can optimize how the model runs.</p>
+</dd>
+<dt><strong>restore</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Specify a directory from which to restore the project from a
+previously-performed persist operation.</p>
+</dd>
+<dt><strong>description</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Description of the project</p>
+</dd>
+<dt><strong>metadata</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Metadata associated with the project</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong><a href="esppy.project.Project.html">Project</a></strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>All parameters to the constructor are also available as attributes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>queries</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Dictionary of the queries</p>
+</dd>
+<dt><strong>metadata</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
+<dd><p class="first last">Metadata associated with the project</p>
+</dd>
+<dt><strong>url</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">URL of project</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="esppy.project.Project.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name=None</em>, <em>n_threads=1</em>, <em>pubsub='auto'</em>, <em>compress_open_patterns=None</em>, <em>port=None</em>, <em>index_type=None</em>, <em>use_tagged_token=None</em>, <em>use_retention_tracking=None</em>, <em>disk_store_path=None</em>, <em>heartbeat_interval=None</em>, <em>restore=None</em>, <em>description=None</em>, <em>sas_log_location=None</em>, <em>sas_connection_key=None</em>, <em>sas_command=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.project.Project.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#esppy.project.Project.__init__" title="esppy.project.Project.__init__"><strong>__init__</strong></a>([name,&nbsp;n_threads,&nbsp;pubsub,&nbsp;…])</td>
+<td>Initialize self.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.add_connectors.html#esppy.project.Project.add_connectors" title="esppy.project.Project.add_connectors"><strong>add_connectors</strong></a>(group_name,&nbsp;connectors[,&nbsp;…])</td>
+<td>Add connectors to a group</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.add_continuous_query.html#esppy.project.Project.add_continuous_query" title="esppy.project.Project.add_continuous_query"><strong>add_continuous_query</strong></a>(contquery)</td>
+<td>Add a continuous query object</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.add_contquery.html#esppy.project.Project.add_contquery" title="esppy.project.Project.add_contquery"><strong>add_contquery</strong></a>(contquery)</td>
+<td>Add a continuous query object</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.add_edge.html#esppy.project.Project.add_edge" title="esppy.project.Project.add_edge"><strong>add_edge</strong></a>(source,&nbsp;targets)</td>
+<td>Add connector edges</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.add_query.html#esppy.project.Project.add_query" title="esppy.project.Project.add_query"><strong>add_query</strong></a>(contquery)</td>
+<td>Add a continuous query object</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.add_window.html#esppy.project.Project.add_window" title="esppy.project.Project.add_window"><strong>add_window</strong></a>(window[,&nbsp;contquery])</td>
+<td>Add a window to the project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.clear.html#esppy.project.Project.clear" title="esppy.project.Project.clear"><strong>clear</strong></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.copy.html#esppy.project.Project.copy" title="esppy.project.Project.copy"><strong>copy</strong></a>([deep])</td>
+<td>Return a copy of the object</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.create_mas_module.html#esppy.project.Project.create_mas_module" title="esppy.project.Project.create_mas_module"><strong>create_mas_module</strong></a>(language,&nbsp;module,&nbsp;func_names)</td>
+<td>Create a MAS module object</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.delete.html#esppy.project.Project.delete" title="esppy.project.Project.delete"><strong>delete</strong></a>()</td>
+<td>Delete the project</td>
+</tr>
+<tr class="row-even"><td><strong>from_element</strong>(data[,&nbsp;session])</td>
+<td>Create project from XML definition</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.from_xml.html#esppy.project.Project.from_xml" title="esppy.project.Project.from_xml"><strong>from_xml</strong></a>(data[,&nbsp;session])</td>
+<td>Create project from XML definition</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.get.html#esppy.project.Project.get" title="esppy.project.Project.get"><strong>get</strong></a>(k[,d])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.get_mas_module.html#esppy.project.Project.get_mas_module" title="esppy.project.Project.get_mas_module"><strong>get_mas_module</strong></a>(name[,&nbsp;expandcode])</td>
+<td>Retrieve specified MAS modules</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.get_mas_modules.html#esppy.project.Project.get_mas_modules" title="esppy.project.Project.get_mas_modules"><strong>get_mas_modules</strong></a>([expandcode])</td>
+<td>Retrieve all MAS modules</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.get_stats.html#esppy.project.Project.get_stats" title="esppy.project.Project.get_stats"><strong>get_stats</strong></a>([interval,&nbsp;min_cpu,&nbsp;limit])</td>
+<td>Retrieve project statistics subscriber</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.get_window.html#esppy.project.Project.get_window" title="esppy.project.Project.get_window"><strong>get_window</strong></a>(path)</td>
+<td>Retrieve specified window</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.get_windows.html#esppy.project.Project.get_windows" title="esppy.project.Project.get_windows"><strong>get_windows</strong></a>([path,&nbsp;type,&nbsp;filter])</td>
+<td>Retrieve windows from the server</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.items.html#esppy.project.Project.items" title="esppy.project.Project.items"><strong>items</strong></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.keys.html#esppy.project.Project.keys" title="esppy.project.Project.keys"><strong>keys</strong></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.pop.html#esppy.project.Project.pop" title="esppy.project.Project.pop"><strong>pop</strong></a>(k[,d])</td>
+<td>If key is not found, d is returned if given, otherwise KeyError is raised.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.popitem.html#esppy.project.Project.popitem" title="esppy.project.Project.popitem"><strong>popitem</strong></a>()</td>
+<td>as a 2-tuple; but raise KeyError if D is empty.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.replace_mas_module.html#esppy.project.Project.replace_mas_module" title="esppy.project.Project.replace_mas_module"><strong>replace_mas_module</strong></a>(name,&nbsp;module)</td>
+<td>Replace the specified MAS module</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.restore.html#esppy.project.Project.restore" title="esppy.project.Project.restore"><strong>restore</strong></a>([path])</td>
+<td>Restore the project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.save.html#esppy.project.Project.save" title="esppy.project.Project.save"><strong>save</strong></a>([path])</td>
+<td>Save the project</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.save_xml.html#esppy.project.Project.save_xml" title="esppy.project.Project.save_xml"><strong>save_xml</strong></a>(dest[,&nbsp;mode,&nbsp;pretty])</td>
+<td>Save the project XML to a file</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.setdefault.html#esppy.project.Project.setdefault" title="esppy.project.Project.setdefault"><strong>setdefault</strong></a>(k[,d])</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.start.html#esppy.project.Project.start" title="esppy.project.Project.start"><strong>start</strong></a>()</td>
+<td>Start the project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.start_connectors.html#esppy.project.Project.start_connectors" title="esppy.project.Project.start_connectors"><strong>start_connectors</strong></a>()</td>
+<td>Start the connectors for the project</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.stop.html#esppy.project.Project.stop" title="esppy.project.Project.stop"><strong>stop</strong></a>()</td>
+<td>Stop the project</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.sync.html#esppy.project.Project.sync" title="esppy.project.Project.sync"><strong>sync</strong></a>([overwrite,&nbsp;start,&nbsp;start_connectors])</td>
+<td>Sync the project definition to the server</td>
+</tr>
+<tr class="row-odd"><td><strong>to_element</strong>()</td>
+<td>Export project definition to an ElementTree.Element</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.to_graph.html#esppy.project.Project.to_graph" title="esppy.project.Project.to_graph"><strong>to_graph</strong></a>([graph,&nbsp;schema])</td>
+<td>Export project definition to graphviz.Digraph</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.to_xml.html#esppy.project.Project.to_xml" title="esppy.project.Project.to_xml"><strong>to_xml</strong></a>([pretty])</td>
+<td>Export project definition to XML</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.update.html#esppy.project.Project.update" title="esppy.project.Project.update"><strong>update</strong></a>(project)</td>
+<td>Update project definition</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="esppy.project.Project.validate.html#esppy.project.Project.validate" title="esppy.project.Project.validate"><strong>validate</strong></a>()</td>
+<td>Validate the project definition</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.project.Project.values.html#esppy.project.Project.values" title="esppy.project.Project.values"><strong>values</strong></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.project.Project.get_stats.html" class="btn btn-neutral float-right" title="esppy.project.Project.get_stats" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.connection.ESP.get_algorithms.html" class="btn btn-neutral" title="esppy.connection.ESP.get_algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'5.2-rel',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

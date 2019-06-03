@@ -1,0 +1,6 @@
+esppy.plotting.StreamingChart.area
+==================================
+
+.. currentmodule:: esppy.plotting
+
+.. automethod:: StreamingChart.area

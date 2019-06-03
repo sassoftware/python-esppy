@@ -1,0 +1,6 @@
+esppy.windows.GeofenceWindow.set\_geometry
+==========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: GeofenceWindow.set_geometry

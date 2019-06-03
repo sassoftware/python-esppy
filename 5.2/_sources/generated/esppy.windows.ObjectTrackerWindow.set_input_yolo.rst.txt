@@ -1,0 +1,6 @@
+esppy.windows.ObjectTrackerWindow.set\_input\_yolo
+==================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ObjectTrackerWindow.set_input_yolo

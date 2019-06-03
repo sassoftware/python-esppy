@@ -1,0 +1,6 @@
+esppy.logger.Logger.set\_level
+==============================
+
+.. currentmodule:: esppy.logger
+
+.. automethod:: Logger.set_level

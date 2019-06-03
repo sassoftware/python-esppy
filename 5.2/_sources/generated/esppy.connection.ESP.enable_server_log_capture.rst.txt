@@ -1,0 +1,6 @@
+esppy.connection.ESP.enable\_server\_log\_capture
+=================================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.enable_server_log_capture

@@ -1,0 +1,6 @@
+esppy.router.Router.add\_writer\_destination
+============================================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: Router.add_writer_destination

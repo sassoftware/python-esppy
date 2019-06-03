@@ -1,0 +1,6 @@
+esppy.windows.Window.set\_splitter\_expr
+========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.set_splitter_expr

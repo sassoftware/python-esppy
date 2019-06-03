@@ -1,0 +1,6 @@
+esppy.windows.JoinWindow.add\_field\_selection
+==============================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: JoinWindow.add_field_selection
