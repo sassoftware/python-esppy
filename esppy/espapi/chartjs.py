@@ -15,7 +15,6 @@ class Chart(object):
         self._opts = esppy.espapi.api.Options(**kwargs)
         self._data = self.getData()
         self._options = self.getOptions()
-        print(self._options);
         self._datasource.addChangeDelegate(self)
         self._comm = None
 

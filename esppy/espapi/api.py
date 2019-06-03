@@ -1,5 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement
 from xml.etree import ElementTree
+import json
 import pandas as pd
 import six
 import re
@@ -185,11 +186,11 @@ class Server(object):
 
         return(win)
 
-    def getStreamingEvents(self,window,**kwargs):
-        return(StreamingEvents(self,window,**kwargs))
+    def getStreamingDatasource(self,window,**kwargs):
+        return(StreamingDatasource(self,window,**kwargs))
 
-    def getUpdatingEvents(self,window,**kwargs):
-        return(UpdatingEvents(self,window,**kwargs))
+    def getUpdatingDatasource(self,window,**kwargs):
+        return(UpdatingDatasource(self,window,**kwargs))
 
     def getStats(self,cpu = 0,interval = 5,counts = True,delegate = None):
         return(ProjectStats(self,cpu,interval,counts,delegate))
@@ -223,7 +224,13 @@ class Datasource(object):
         return({})
 
     def addChangeDelegate(self,delegate):
-        self._changeDelegates.append(delegate)
+        exists = False
+        for d in self._changeDelegates:
+            if d == delegate:
+                exists = True
+                break
+        if exists == False:
+            self._changeDelegates.append(delegate)
 
     def removeChangeDelegate(self,delegate):
         self._changeDelegates.remove(delegate)
@@ -697,7 +704,7 @@ class EventCollection(Subscriber):
     def data(self):
         return(self._df)
 
-class UpdatingEvents(EventCollection):
+class UpdatingDatasource(EventCollection):
 
     def __init__(self,server,window,**kwargs):
         EventCollection.__init__(self,server,window,"updating",self,**kwargs)
@@ -747,7 +754,7 @@ class UpdatingEvents(EventCollection):
         info["pages"] = self._pages
         return(info)
 
-class StreamingEvents(EventCollection):
+class StreamingDatasource(EventCollection):
 
     def __init__(self,server,window,**kwargs):
         EventCollection.__init__(self,server,window,"streaming",self,**kwargs)
@@ -760,23 +767,35 @@ class StreamingEvents(EventCollection):
         f["espType"] = "utf8str"
         f["type"] = "string"
         f["isKey"] = False
+        f["isNumber"] = False
+        f["isDate"] = False
+        f["isTime"] = False
         self._schema._fields.insert(0,f)
+        self._schema._fieldMap["__opcode"] = f
         self._schema._columns.insert(0,f["name"])
 
         f = {}
         f["name"] = "__timestamp"
         f["espType"] = "timestamp"
-        f["type"] = "timestamp"
+        f["type"] = "date"
         f["isKey"] = False
+        f["isNumber"] = True
+        f["isDate"] = False
+        f["isTime"] = True
         self._schema._fields.insert(0,f)
+        self._schema._fieldMap["__timestamp"] = f
         self._schema._columns.insert(0,f["name"])
 
         f = {}
         f["name"] = "__counter"
         f["espType"] = "utf8str"
-        f["type"] = "string"
+        f["type"] = "int"
         f["isKey"] = True
+        f["isNumber"] = True
+        f["isDate"] = False
+        f["isTime"] = False
         self._schema._fields.insert(0,f)
+        self._schema._fieldMap["__counter"] = f
         self._schema._columns.insert(0,f["name"])
 
         self._keyFields = [f]
@@ -906,28 +925,36 @@ class Schema(object):
     def __init__(self):
         self._fields = []
         self._keyFields = []
-        self._numericFields = {}
         self._columns = []
 
     def fromWindow(self,window):
         self._fields = []
+        self._fieldMap = {}
         self._keyFields = []
-        self._numericFields = {}
         self._columns = []
 
         for name,value in window.schema.items():
             o = {}
             o["name"] = name
             o["espType"] = value.type
+            o["isNumber"] = False
+            o["isTime"] = False
+            o["isDate"] = False
 
             if o["espType"] == "utf8str":
                 o["type"] = "string"
             elif o["espType"] == "int32" or o["espType"] == "int64":
                 o["type"] = "int"
-                self._numericFields[name] = True
+                o["isNumber"] = True
             elif o["espType"] == "double" or o["espType"] == "money":
                 o["type"] = "float"
-                self._numericFields[name] = True
+                o["isNumber"] = True
+            elif o["espType"] == "date":
+                o["type"] = "date"
+                o["isDate"] = True
+            elif o["espType"] == "timestamp":
+                o["type"] = "datetime"
+                o["isTime"] = True
             else:
                 o["type"] = o["espType"]
 
@@ -936,13 +963,15 @@ class Schema(object):
             self._fields.append(o)
             self._columns.append(name)
 
+            self._fieldMap[name] = o
+
             if o["isKey"]:
                 self._keyFields.append(o)
 
     def fromXml(self,xml):
         self._fields = []
+        self._fieldMap = {}
         self._keyFields = []
-        self._numericFields = {}
         self._columns = []
 
         if xml == None:
@@ -956,15 +985,24 @@ class Schema(object):
             name = f.get("name")
             o["name"] = name
             o["espType"] = f.get("type")
+            o["isNumber"] = False
+            o["isTime"] = False
+            o["isDate"] = False
 
             if o["espType"] == "utf8str":
                 o["type"] = "string"
             elif o["espType"] == "int32" or o["espType"] == "int64":
                 o["type"] = "int"
-                self._numericFields[name] = True
+                o["isNumber"] = True
             elif o["espType"] == "double" or o["espType"] == "money":
                 o["type"] = "float"
-                self._numericFields[name] = True
+                o["isNumber"] = True
+            elif o["espType"] == "date":
+                o["type"] = "date"
+                o["isDate"] = True
+            elif o["espType"] == "timestamp":
+                o["type"] = "datetime"
+                o["isTime"] = True
             else:
                 o["type"] = o["espType"]
 
@@ -973,19 +1011,86 @@ class Schema(object):
             self._fields.append(o)
             self._columns.append(name)
 
+            self._fieldMap[name] = o
+
             if o["isKey"]:
                 self._keyFields.append(o)
 
     def getFieldType(self,name):
         type = "string"
-        for f in self._fields:
-            if f["name"] == name:
-                type = f["type"]
-                break
+        if name in self._fieldMap:
+            type = self._fieldMap[name]["type"]
         return(type)
 
-    def isNumericField(self,name):
-        return(name in self._numericFields)
+    def isNumericField(self,field):
+        code = False
+        f = None
+        if type(field) is str:
+            if field in self._fieldMap:
+                f = self._fieldMap[field]
+        else:
+            f = field
+
+        if f != None:
+            code = f["isNumber"]
+
+        return(code)
+
+    def isDateField(self,field):
+        code = False
+        f = None
+        if type(field) is str:
+            if field in self._fieldMap:
+                f = self._fieldMap[field]
+        else:
+            f = field
+
+        if f != None:
+            code = f["isDate"]
+
+        return(code)
+
+    def isTimeField(self,field):
+        code = False
+        f = None
+        if type(field) is str:
+            if field in self._fieldMap:
+                f = self._fieldMap[field]
+        else:
+            f = field
+
+        if f != None:
+            code = f["isTime"]
+
+        return(code)
+
+    def toXml(self):
+        e = ElementTree.Element("schema")
+        for field in self._fields:
+            f = ElementTree.SubElement(e,"field")
+            f.attrib["name"] = field["name"]
+            f.attrib["espType"] = field["espType"]
+            f.attrib["type"] = field["type"]
+            if field["isKey"]:
+                f.attrib["isKey"] = "true"
+        return(e);
+
+    def toJson(self):
+        e = ElementTree.Element("schema")
+        fields = []
+        for field in self._fields:
+            f = {}
+            f["name"] = field["name"]
+            f["espType"] = field["espType"]
+            f["type"] = field["type"]
+            if field["isKey"]:
+                f["isKey"] = "true"
+            fields.append(f)
+        return(fields)
+
+    @property
+    def fields(self):
+        return(self._fields)
 
     @property
     def columns(self):

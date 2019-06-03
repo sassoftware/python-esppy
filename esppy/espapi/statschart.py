@@ -79,10 +79,15 @@ class StatsChart(object):
             if (_svg != null)
             {
                 console.log("SVG: " + _svg.viewBox.baseVal.width);
+                /*
                 _svg.width = 2000;
                 _svg.width.baseVal.width = "2000pt";
                 _svg.viewBox.baseVal.width = 500;
                 _svg.viewBox.baseVal.height = 500;
+                */
+                _svg.width.baseVal.width = "9000pt";
+                _svg.viewBox.baseVal.width = 100;
+                _svg.viewBox.baseVal.height = 100;
                 console.log("HERE: ",_svg.width);
             }
         }
@@ -108,9 +113,11 @@ class StatsChart(object):
                     if (node.nodeName == "svg")
                     {
                         _svg = node;
-                        console.log("width: " + _svg.getAttribute("width"));
+                        console.log(_svg.outerHTML);
+                        console.log("width: " + _svg.offsetWidth);
                         console.log("height: " + _svg.getAttribute("height"));
                         console.log("VIEWBOX: " + _svg.getAttribute("viewBox"));
+                        _svg.style.overflow = "auto";
                         break;
                     }
                 }

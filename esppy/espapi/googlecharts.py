@@ -6,26 +6,43 @@ import uuid
 import json
 import re
 
-class Chart(object):
-    _chartsLoaded = False
+class GoogleCharts(object):
+    def __init__(self,server):
+        self._server = server
+        self._charts = []
 
-    def __init__(self,datasource,type,**kwargs):
-        self._id = str(uuid.uuid4()).replace('-', '_')
-        self._type = type
-        self._values = None
-        self._datasource = datasource
-        self._info = self._datasource.getInfo()
-        self._data = self.getData()
-        self._options = {}
-        self._datasource.addChangeDelegate(self)
-        self._comm = None
+    def createChart(self,type,datasource,values,options = None):
+
+        datasource.addChangeDelegate(self)
+
+        chart = Chart(type,datasource,values,options)
+        self._charts.append(chart)
+        return(chart)
 
     def dataChanged(self,datasource):
-        print("changed chart")
-        self.data = self.getData()
+        for chart in self._charts:
+            if chart._datasource == datasource:
+                chart.render()
 
     def infoChanged(self,datasource):
         pass
+
+class Chart(object):
+
+    _chartsLoaded = False
+
+    def __init__(self,type,datasource,values,options,**kwargs):
+        self._id = str(uuid.uuid4()).replace('-', '_')
+        self._type = type
+        self._datasource = datasource
+        self.values = values
+        self._info = self._datasource.getInfo()
+        self._data = self.getData()
+        self._comm = None
+        self.options = options
+
+    def render(self):
+        self.data = self.getData()
 
     def target(self,comm,msg):
         self._comm = comm
@@ -35,8 +52,13 @@ class Chart(object):
             self._datasource.handleMessage(msg["content"]["data"])
 
     def _repr_html_(self):
-        get_ipython().kernel.comm_manager.register_target(self._id,self.target)
         self.data = self.getData()
+        html = ""
+        html += self.getHtml()
+        return(html)
+
+    def getHtml(self):
+        get_ipython().kernel.comm_manager.register_target(self._id,self.target)
 
         html = ""
 
@@ -55,42 +77,27 @@ class Chart(object):
 
         .espapiContainer td.espButton
         {
-            background:white;
         }
 
-        div#%(id)s_div
+        div.espButtons
         {
-            border:5px solid red;
+            background:white;
+            border:1px solid #d8d8d8;
+            border-top:0;
+        }
+
+        div.chart
+        {
+            border:2px solid blue;
+            border:1px solid #d8d8d8;
         }
 
         </style>
-        <table class="espapiContainer">
-        <tr><td class="espChart"><div id="%(id)s_div" 
-        ''' % dict(id=self._id)
-
-        html += '''
-        style="width:100%;background:white"></div></td></tr>
         '''
 
-        if self._datasource.type == "updating":
-            html += '''
-            <tr>
-                <td>
-                <table>
-                <tr>
-                <td class="espButton"><button onclick="javascript:send_%(id)s('prev')">Prev</button></td>
-                <td class="espButton"><button onclick="javascript:send_%(id)s('next')">Next</button></td>
-                <td class="espButton"><button onclick="javascript:send_%(id)s('first')">First</button></td>
-                <td class="espButton"><button onclick="javascript:send_%(id)s('last')">Last</button></td>
-                </tr>
-                </table>
-                </td>
-            </tr>
-            ''' % dict(id=self._id)
+        html += self.getChartHtml()
 
         html += '''
-        </table>
-
         <script type="text/javascript">
 
             var _chart%(id)s = null;
@@ -111,11 +118,11 @@ class Chart(object):
             function
             createChart()
             {
-                if ("%(type)s" == "column")
+                if ("%(type)s" == "vbar")
                 {
                     _chart%(id)s = new google.visualization.ColumnChart(document.getElementById("%(id)s_div"));
                 }
-                else if ("%(type)s" == "bar")
+                else if ("%(type)s" == "hbar")
                 {
                     _chart%(id)s = new google.visualization.BarChart(document.getElementById("%(id)s_div"));
                 }
@@ -147,13 +154,13 @@ class Chart(object):
                 {
                     _chart%(id)s = new google.visualization.TreeMap(document.getElementById("%(id)s_div"));
                 }
-                else if ("%(type)s" == "orgchart")
-                {
-                    _chart%(id)s = new google.visualization.OrgChart(document.getElementById("%(id)s_div"));
-                }
                 else if ("%(type)s" == "map")
                 {
                     _chart%(id)s = new google.visualization.Map(document.getElementById("%(id)s_div"));
+                }
+                else if ("%(type)s" == "timeseries")
+                {
+                    _chart%(id)s = new google.visualization.AnnotationChart(document.getElementById("%(id)s_div"));
                 }
             }
         </script>
@@ -170,6 +177,11 @@ class Chart(object):
         function
         draw%(id)s()
         {
+            if ("%(type)s" == "timeseries")
+            {
+                _chart%(id)s = new google.visualization.AnnotationChart(document.getElementById("%(id)s_div"));
+            }
+
             var dt = new google.visualization.DataTable();
 
             if (_data%(id)s != null)
@@ -203,7 +215,9 @@ class Chart(object):
             if (_chart%(id)s != null)
             {
                 var options = _options%(id)s;
+                /*
                 options["allowHtml"] = true;
+                */
                 //console.log(JSON.stringify(options));
                 _chart%(id)s.draw(dt,options);
             }
@@ -243,6 +257,39 @@ class Chart(object):
 
         return(html)
 
+    def getChartHtml(self):
+        html = ""
+
+        html += '''
+        <div class='espapiContainer'>
+        <div class='chart' id='%(id)s_div'>
+        </div>
+        ''' % dict(id=self._id)
+
+        if self._datasource.type == "updating":
+            html += '''
+            <div class='espButtons'>
+                <table style='width:100%%'>
+                <td>
+                <table class='espButtons'>
+                <tr>
+                <td class='espButton'><button onclick='javascript:send_%(id)s(\'prev\')'>Prev</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s(\'next\')'>Next</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s(\'first\''">First</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s(\'last\')'>Last</button></td>
+                </tr>
+                </table>
+                </td>
+                </table>
+            </div>
+
+            ''' % dict(id=self._id)
+
+        html += "</div>"
+        html += "\n"
+
+        return(html)
+
     def getData(self):
         data = {}
 
@@ -254,8 +301,16 @@ class Chart(object):
 
         if self._datasource.type == "updating":
             columns.append({"type":"string","name":"__key"})
+        elif self._type == "timeseries":
+            schema = self._datasource.schema;
+            for field in self._datasource.schema.columns:
+                if schema.isDateField(field):
+                    columns.append({"type":"date","name":field})
+                    break
+                elif schema.isTimeField(field):
+                    columns.append({"type":"date","name":field})
+                    break
         else:     
-            #columns.append({"type":"date","name":"__timestamp"})
             columns.append({"type":"number","name":"__counter"})
 
         for i in range(0,len(self._values)):
@@ -326,7 +381,7 @@ class Chart(object):
         else:
             self._values.append(value)
 
-        self.data = self.getData()
+        #self.data = self.getData()
 
     @property
     def data(self):
@@ -358,102 +413,67 @@ class Chart(object):
     def type(self):
         return(self._type)
 
-class Bar(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"bar",**kwargs)
+class Dashboard(object):
 
-class Column(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"column",**kwargs)
+    def __init__(self):
+        self._rows = []
+        self._charts = []
 
-class Line(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"line",**kwargs)
+        self._rows.append([])
 
-class Pie(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"pie",**kwargs)
+    def addRow(self):
+        self._rows.append([])
 
-class Table(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"table",**kwargs)
+    def addChart(self,chart):
+        self._rows[len(self._rows) - 1].append(chart)
 
-class Area(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"area",**kwargs)
+    def _repr_html_(self):
+        html = ""
 
-class Gauge(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"gauge",**kwargs)
+        maxcols = 0
 
-class Bubble(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"bubble",**kwargs)
+        for row in self._rows:
+            if len(row) > maxcols:
+                maxcols = len(row)
 
-class Tree(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"tree",**kwargs)
+        html += '''
+        <style type="text/css">
+        .dashboardTable
+        {
+            width:100%;
+            border:2px solid red;
+        }
 
-class OrgChart(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"orgchart",**kwargs)
+        td.dashboardCell
+        {
+            background:white;
+            padding:0;
+        }
 
-class StatsChart(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"orgchart",**kwargs)
+        .dashboardContainer
+        {
+            padding:10px;
+        }
 
-    def getData(self):
-        data = {}
-        rows = []
-        columns = []
-
-        columns.append({"type":"string","name":"a"})
-        columns.append({"type":"string","name":"b"})
-        columns.append({"type":"string","name":"c"})
-
-        rows.append([{"v":'Mike', "f":'Mike<div style="color:red; font-style:italic">President</div>'}, '', 'The President'])
-        rows.append([{"v":'Jim', "f":'Jim<div style="color:red; font-style:italic">Vice President</div>'}, 'Mike', 'VP'])
-        rows.append(['Alice', 'Mike', ''])
-        rows.append(['Bob', 'Jim', 'Bob Sponge'])
-        rows.append(['Carol', 'Bob', ''])
-        '''
+        </style>
         '''
 
-        data["rows"] = rows
-        data["columns"] = columns
+        html += "<table class='dashboardTable'>"
 
-        return(data)
+        for row in self._rows:
+            html += "<tr>"
+            for i in range(0,len(row)):
+                chart = row[i]
+                html += "<td class='dashboardCell'"
+                if i == 0 and len(row) < maxcols:
+                    html += " colspan='" + str(maxcols - len(row) + 1) + "'"
+                html += ">"
+                html += "<div class='dashboardContainer'>";
+                html += chart.getHtml()
+                html += "</div>";
+                html += "</td>"
+            html += "</tr>"
 
-class Map(Chart):
-    def __init__(self,datasource,**kwargs):
-        Chart.__init__(self,datasource,"map",**kwargs)
-        self._latitude = None
-        self._longitude = None
+        html += "</table>"
 
-    @property
-    def latitude(self):
-        return(self._latitude)
-
-    @latitude.setter
-    def latitude(self,value):
-        self._latitude = value
-
-    @property
-    def longitude(self):
-        return(self._longitude)
-
-    @longitude.setter
-    def longitude(self,value):
-        self._longitude = value
-
-    def getData(self):
-        data = {}
-
-        if self._latitude == None or self._longitude == None:
-            return(data)
-
-        columns = []
-        data["columns"] = columns
-        columns.append({"type":"number","name":"Lat"})
-        columns.append({"type":"number","name":"Lon"})
-
+        return(html)
