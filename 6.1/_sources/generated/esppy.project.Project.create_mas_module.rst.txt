@@ -1,6 +1,0 @@
-esppy.project.Project.create\_mas\_module
-=========================================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.create_mas_module

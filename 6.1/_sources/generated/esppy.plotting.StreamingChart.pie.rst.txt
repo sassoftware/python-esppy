@@ -1,6 +1,0 @@
-esppy.plotting.StreamingChart.pie
-=================================
-
-.. currentmodule:: esppy.plotting
-
-.. automethod:: StreamingChart.pie

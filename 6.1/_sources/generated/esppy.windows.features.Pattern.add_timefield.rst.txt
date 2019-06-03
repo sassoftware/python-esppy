@@ -1,6 +1,0 @@
-esppy.windows.features.Pattern.add\_timefield
-=============================================
-
-.. currentmodule:: esppy.windows.features
-
-.. automethod:: Pattern.add_timefield

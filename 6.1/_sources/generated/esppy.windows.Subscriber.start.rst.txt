@@ -1,6 +1,0 @@
-esppy.windows.Subscriber.start
-==============================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Subscriber.start

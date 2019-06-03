@@ -1,6 +1,0 @@
-esppy.router.PublishDestination.to\_element
-===========================================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: PublishDestination.to_element

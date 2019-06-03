@@ -1,6 +1,0 @@
-esppy.project.Project.to\_xml
-=============================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.to_xml

@@ -1,6 +1,0 @@
-esppy.project.Project.sync
-==========================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.sync

@@ -1,6 +1,0 @@
-esppy.windows.Window.streaming\_hist
-====================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.streaming_hist

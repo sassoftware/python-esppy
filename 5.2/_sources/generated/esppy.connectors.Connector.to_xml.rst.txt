@@ -1,6 +1,0 @@
-esppy.connectors.Connector.to\_xml
-==================================
-
-.. currentmodule:: esppy.connectors
-
-.. automethod:: Connector.to_xml

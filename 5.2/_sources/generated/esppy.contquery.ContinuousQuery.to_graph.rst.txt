@@ -1,6 +1,0 @@
-esppy.contquery.ContinuousQuery.to\_graph
-=========================================
-
-.. currentmodule:: esppy.contquery
-
-.. automethod:: ContinuousQuery.to_graph

@@ -1,6 +1,0 @@
-esppy.windows.Window.set\_finalized\_callback
-=============================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.set_finalized_callback

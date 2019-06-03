@@ -1,6 +1,0 @@
-esppy.describe\_option
-======================
-
-.. currentmodule:: esppy
-
-.. autofunction:: describe_option

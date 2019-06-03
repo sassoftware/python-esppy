@@ -1,6 +1,0 @@
-esppy.project.Project.delete
-============================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.delete

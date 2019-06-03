@@ -1,6 +1,0 @@
-esppy.evtgen.EventGenerator.add\_fields
-=======================================
-
-.. currentmodule:: esppy.evtgen
-
-.. automethod:: EventGenerator.add_fields

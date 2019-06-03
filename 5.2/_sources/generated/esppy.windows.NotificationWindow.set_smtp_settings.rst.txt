@@ -1,6 +1,0 @@
-esppy.windows.NotificationWindow.set\_smtp\_settings
-====================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: NotificationWindow.set_smtp_settings

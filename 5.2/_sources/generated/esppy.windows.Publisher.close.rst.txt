@@ -1,6 +1,0 @@
-esppy.windows.Publisher.close
-=============================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Publisher.close

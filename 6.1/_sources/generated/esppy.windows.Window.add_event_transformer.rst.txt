@@ -1,6 +1,0 @@
-esppy.windows.Window.add\_event\_transformer
-============================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.add_event_transformer

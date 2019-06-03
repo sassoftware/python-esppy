@@ -1,6 +1,0 @@
-esppy.router.Router.delete
-==========================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: Router.delete

@@ -1,6 +1,0 @@
-esppy.windows.Window.create\_subscriber
-=======================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.create_subscriber

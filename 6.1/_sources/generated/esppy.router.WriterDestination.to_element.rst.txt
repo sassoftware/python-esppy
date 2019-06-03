@@ -1,6 +1,0 @@
-esppy.router.WriterDestination.to\_element
-==========================================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: WriterDestination.to_element

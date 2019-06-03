@@ -1,6 +1,0 @@
-esppy.windows.Subscriber.stop
-=============================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Subscriber.stop

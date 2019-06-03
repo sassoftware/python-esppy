@@ -1,6 +1,0 @@
-esppy.router.Router.add\_engine
-===============================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: Router.add_engine

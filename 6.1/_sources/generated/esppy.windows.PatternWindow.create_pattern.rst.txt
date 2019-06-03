@@ -1,6 +1,0 @@
-esppy.windows.PatternWindow.create\_pattern
-===========================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: PatternWindow.create_pattern

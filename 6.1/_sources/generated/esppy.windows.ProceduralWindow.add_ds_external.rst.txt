@@ -1,6 +1,0 @@
-esppy.windows.ProceduralWindow.add\_ds\_external
-================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: ProceduralWindow.add_ds_external

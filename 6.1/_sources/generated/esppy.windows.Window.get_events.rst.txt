@@ -1,6 +1,0 @@
-esppy.windows.Window.get\_events
-================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.get_events

@@ -1,6 +1,0 @@
-esppy.windows.Publisher.send
-============================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Publisher.send

@@ -1,6 +1,0 @@
-esppy.project.Project.replace\_mas\_module
-==========================================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.replace_mas_module

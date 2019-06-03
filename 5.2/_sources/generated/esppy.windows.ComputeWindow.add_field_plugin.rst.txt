@@ -1,6 +1,0 @@
-esppy.windows.ComputeWindow.add\_field\_plugin
-==============================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: ComputeWindow.add_field_plugin

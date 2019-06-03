@@ -1,6 +1,0 @@
-esppy.windows.ScoreWindow.set\_inputs
-=====================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: ScoreWindow.set_inputs

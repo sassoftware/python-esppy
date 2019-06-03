@@ -1,6 +1,0 @@
-esppy.evtgen.EventGenerator.add\_set\_resources
-===============================================
-
-.. currentmodule:: esppy.evtgen
-
-.. automethod:: EventGenerator.add_set_resources

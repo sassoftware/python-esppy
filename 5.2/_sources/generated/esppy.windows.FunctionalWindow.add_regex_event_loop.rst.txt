@@ -1,6 +1,0 @@
-esppy.windows.FunctionalWindow.add\_regex\_event\_loop
-======================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: FunctionalWindow.add_regex_event_loop

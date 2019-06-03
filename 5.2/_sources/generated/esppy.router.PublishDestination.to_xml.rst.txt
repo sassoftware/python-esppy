@@ -1,6 +1,0 @@
-esppy.router.PublishDestination.to\_xml
-=======================================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: PublishDestination.to_xml

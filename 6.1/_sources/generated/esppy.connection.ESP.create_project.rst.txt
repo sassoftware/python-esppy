@@ -1,6 +1,0 @@
-esppy.connection.ESP.create\_project
-====================================
-
-.. currentmodule:: esppy.connection
-
-.. automethod:: ESP.create_project

@@ -1,6 +1,0 @@
-esppy.windows.features.FunctionContext.set\_functions
-=====================================================
-
-.. currentmodule:: esppy.windows.features
-
-.. automethod:: FunctionContext.set_functions

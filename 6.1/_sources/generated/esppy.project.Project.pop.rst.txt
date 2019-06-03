@@ -1,6 +1,0 @@
-esppy.project.Project.pop
-=========================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.pop

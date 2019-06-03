@@ -1,6 +1,0 @@
-esppy.windows.AggregateWindow.add\_field\_plugin
-================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: AggregateWindow.add_field_plugin

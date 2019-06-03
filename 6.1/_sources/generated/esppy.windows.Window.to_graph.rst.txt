@@ -1,6 +1,0 @@
-esppy.windows.Window.to\_graph
-==============================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.to_graph

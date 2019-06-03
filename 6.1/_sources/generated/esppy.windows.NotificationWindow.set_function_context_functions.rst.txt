@@ -1,6 +1,0 @@
-esppy.windows.NotificationWindow.set\_function\_context\_functions
-==================================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: NotificationWindow.set_function_context_functions

@@ -1,6 +1,0 @@
-esppy.evtgen.EventGenerator.delete
-==================================
-
-.. currentmodule:: esppy.evtgen
-
-.. automethod:: EventGenerator.delete

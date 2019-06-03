@@ -1,6 +1,0 @@
-esppy.windows.features.Pattern.set\_logic
-=========================================
-
-.. currentmodule:: esppy.windows.features
-
-.. automethod:: Pattern.set_logic

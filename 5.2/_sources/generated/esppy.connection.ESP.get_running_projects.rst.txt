@@ -1,6 +1,0 @@
-esppy.connection.ESP.get\_running\_projects
-===========================================
-
-.. currentmodule:: esppy.connection
-
-.. automethod:: ESP.get_running_projects

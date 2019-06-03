@@ -1,6 +1,0 @@
-esppy.windows.Window.streaming\_area
-====================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.streaming_area

@@ -1,6 +1,0 @@
-esppy.windows.FunctionalWindow.create\_function\_context
-========================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: FunctionalWindow.create_function_context

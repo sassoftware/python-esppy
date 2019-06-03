@@ -1,6 +1,0 @@
-esppy.windows.Window.unsubscribe
-================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.unsubscribe

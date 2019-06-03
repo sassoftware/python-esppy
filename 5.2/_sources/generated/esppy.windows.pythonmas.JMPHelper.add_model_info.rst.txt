@@ -1,6 +1,0 @@
-esppy.windows.pythonmas.JMPHelper.add\_model\_info
-==================================================
-
-.. currentmodule:: esppy.windows.pythonmas
-
-.. automethod:: JMPHelper.add_model_info

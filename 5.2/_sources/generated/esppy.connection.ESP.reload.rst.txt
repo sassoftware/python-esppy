@@ -1,6 +1,0 @@
-esppy.connection.ESP.reload
-===========================
-
-.. currentmodule:: esppy.connection
-
-.. automethod:: ESP.reload

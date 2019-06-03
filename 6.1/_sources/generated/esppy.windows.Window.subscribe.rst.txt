@@ -1,6 +1,0 @@
-esppy.windows.Window.subscribe
-==============================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.subscribe

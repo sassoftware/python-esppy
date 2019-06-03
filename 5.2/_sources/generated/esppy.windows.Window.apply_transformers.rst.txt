@@ -1,6 +1,0 @@
-esppy.windows.Window.apply\_transformers
-========================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.apply_transformers

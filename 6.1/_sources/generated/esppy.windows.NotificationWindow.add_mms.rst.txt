@@ -1,6 +1,0 @@
-esppy.windows.NotificationWindow.add\_mms
-=========================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: NotificationWindow.add_mms

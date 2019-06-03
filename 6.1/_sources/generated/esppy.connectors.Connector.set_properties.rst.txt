@@ -1,6 +1,0 @@
-esppy.connectors.Connector.set\_properties
-==========================================
-
-.. currentmodule:: esppy.connectors
-
-.. automethod:: Connector.set_properties

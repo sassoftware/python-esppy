@@ -1,6 +1,0 @@
-esppy.router.PublishDestination.initialize
-==========================================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: PublishDestination.initialize

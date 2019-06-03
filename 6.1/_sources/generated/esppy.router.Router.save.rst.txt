@@ -1,6 +1,0 @@
-esppy.router.Router.save
-========================
-
-.. currentmodule:: esppy.router
-
-.. automethod:: Router.save

@@ -1,6 +1,0 @@
-esppy.windows.CalculateWindow.set\_inputs
-=========================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: CalculateWindow.set_inputs

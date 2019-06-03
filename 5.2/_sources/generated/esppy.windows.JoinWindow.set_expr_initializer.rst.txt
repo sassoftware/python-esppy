@@ -1,6 +1,0 @@
-esppy.windows.JoinWindow.set\_expr\_initializer
-===============================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: JoinWindow.set_expr_initializer

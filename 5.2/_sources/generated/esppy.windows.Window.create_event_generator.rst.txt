@@ -1,6 +1,0 @@
-esppy.windows.Window.create\_event\_generator
-=============================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.create_event_generator

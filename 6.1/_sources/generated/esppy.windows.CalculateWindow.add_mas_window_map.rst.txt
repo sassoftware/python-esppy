@@ -1,6 +1,0 @@
-esppy.windows.CalculateWindow.add\_mas\_window\_map
-===================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: CalculateWindow.add_mas_window_map

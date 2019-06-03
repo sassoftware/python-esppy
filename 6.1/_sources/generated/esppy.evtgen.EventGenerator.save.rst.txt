@@ -1,6 +1,0 @@
-esppy.evtgen.EventGenerator.save
-================================
-
-.. currentmodule:: esppy.evtgen
-
-.. automethod:: EventGenerator.save

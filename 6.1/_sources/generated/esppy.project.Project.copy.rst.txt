@@ -1,6 +1,0 @@
-esppy.project.Project.copy
-==========================
-
-.. currentmodule:: esppy.project
-
-.. automethod:: Project.copy

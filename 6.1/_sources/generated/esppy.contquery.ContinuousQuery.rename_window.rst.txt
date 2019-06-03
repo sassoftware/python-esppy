@@ -1,6 +1,0 @@
-esppy.contquery.ContinuousQuery.rename\_window
-==============================================
-
-.. currentmodule:: esppy.contquery
-
-.. automethod:: ContinuousQuery.rename_window

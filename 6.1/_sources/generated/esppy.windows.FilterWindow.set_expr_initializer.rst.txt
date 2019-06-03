@@ -1,6 +1,0 @@
-esppy.windows.FilterWindow.set\_expr\_initializer
-=================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: FilterWindow.set_expr_initializer

@@ -1,6 +1,0 @@
-esppy.windows.Window.add\_connector
-===================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: Window.add_connector

@@ -1,6 +1,0 @@
-esppy.plotting.StreamingChart.scatter
-=====================================
-
-.. currentmodule:: esppy.plotting
-
-.. automethod:: StreamingChart.scatter

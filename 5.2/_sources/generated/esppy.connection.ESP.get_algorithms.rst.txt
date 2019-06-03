@@ -1,6 +1,0 @@
-esppy.connection.ESP.get\_algorithms
-====================================
-
-.. currentmodule:: esppy.connection
-
-.. automethod:: ESP.get_algorithms

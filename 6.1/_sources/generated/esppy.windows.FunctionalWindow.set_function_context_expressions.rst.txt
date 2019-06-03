@@ -1,6 +1,0 @@
-esppy.windows.FunctionalWindow.set\_function\_context\_expressions
-==================================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: FunctionalWindow.set_function_context_expressions
