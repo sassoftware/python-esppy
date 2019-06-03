@@ -1,0 +1,89 @@
+esppy.windows.TextTopicWindow
+=============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: TextTopicWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TextTopicWindow.__init__
+      ~TextTopicWindow.add_connector
+      ~TextTopicWindow.add_event_transformer
+      ~TextTopicWindow.add_target
+      ~TextTopicWindow.add_targets
+      ~TextTopicWindow.apply_transformers
+      ~TextTopicWindow.copy
+      ~TextTopicWindow.create_event_generator
+      ~TextTopicWindow.create_publisher
+      ~TextTopicWindow.create_subscriber
+      ~TextTopicWindow.delete_target
+      ~TextTopicWindow.delete_targets
+      ~TextTopicWindow.disable_tracing
+      ~TextTopicWindow.enable_tracing
+      ~TextTopicWindow.from_element
+      ~TextTopicWindow.from_xml
+      ~TextTopicWindow.get_events
+      ~TextTopicWindow.get_pattern_events
+      ~TextTopicWindow.publish_events
+      ~TextTopicWindow.save_xml
+      ~TextTopicWindow.set_finalized_callback
+      ~TextTopicWindow.set_splitter_expr
+      ~TextTopicWindow.set_splitter_plugin
+      ~TextTopicWindow.streaming_area
+      ~TextTopicWindow.streaming_bar
+      ~TextTopicWindow.streaming_bubble
+      ~TextTopicWindow.streaming_donut
+      ~TextTopicWindow.streaming_hbar
+      ~TextTopicWindow.streaming_hist
+      ~TextTopicWindow.streaming_images
+      ~TextTopicWindow.streaming_line
+      ~TextTopicWindow.streaming_pie
+      ~TextTopicWindow.streaming_scatter
+      ~TextTopicWindow.subscribe
+      ~TextTopicWindow.to_data_callback
+      ~TextTopicWindow.to_element
+      ~TextTopicWindow.to_graph
+      ~TextTopicWindow.to_xml
+      ~TextTopicWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TextTopicWindow.astore_file
+      ~TextTopicWindow.base_url
+      ~TextTopicWindow.collapse_updates
+      ~TextTopicWindow.contquery
+      ~TextTopicWindow.exp_max_string
+      ~TextTopicWindow.fullname
+      ~TextTopicWindow.include_topic_name
+      ~TextTopicWindow.index_type
+      ~TextTopicWindow.name
+      ~TextTopicWindow.output_insert_only
+      ~TextTopicWindow.project
+      ~TextTopicWindow.publisher_url
+      ~TextTopicWindow.pubsub
+      ~TextTopicWindow.pubsub_index_type
+      ~TextTopicWindow.pulse_interval
+      ~TextTopicWindow.schema
+      ~TextTopicWindow.schema_string
+      ~TextTopicWindow.session
+      ~TextTopicWindow.subscriber_url
+      ~TextTopicWindow.ta_path
+      ~TextTopicWindow.text_field
+      ~TextTopicWindow.url
+      ~TextTopicWindow.window_classes
+      ~TextTopicWindow.window_type
+   
+   

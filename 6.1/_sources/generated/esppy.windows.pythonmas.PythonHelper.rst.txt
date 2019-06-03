@@ -1,0 +1,84 @@
+esppy.windows.pythonmas.PythonHelper
+====================================
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autoclass:: PythonHelper
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PythonHelper.__init__
+      ~PythonHelper.add_connector
+      ~PythonHelper.add_event_transformer
+      ~PythonHelper.add_mas_info
+      ~PythonHelper.add_mas_window_map
+      ~PythonHelper.add_target
+      ~PythonHelper.add_targets
+      ~PythonHelper.apply_transformers
+      ~PythonHelper.copy
+      ~PythonHelper.create_event_generator
+      ~PythonHelper.create_publisher
+      ~PythonHelper.create_subscriber
+      ~PythonHelper.delete_target
+      ~PythonHelper.delete_targets
+      ~PythonHelper.disable_tracing
+      ~PythonHelper.enable_tracing
+      ~PythonHelper.from_element
+      ~PythonHelper.from_xml
+      ~PythonHelper.get_events
+      ~PythonHelper.get_pattern_events
+      ~PythonHelper.publish_events
+      ~PythonHelper.save_xml
+      ~PythonHelper.set_inputs
+      ~PythonHelper.set_outputs
+      ~PythonHelper.set_parameters
+      ~PythonHelper.streaming_area
+      ~PythonHelper.streaming_bar
+      ~PythonHelper.streaming_bubble
+      ~PythonHelper.streaming_donut
+      ~PythonHelper.streaming_hbar
+      ~PythonHelper.streaming_hist
+      ~PythonHelper.streaming_images
+      ~PythonHelper.streaming_line
+      ~PythonHelper.streaming_pie
+      ~PythonHelper.streaming_scatter
+      ~PythonHelper.subscribe
+      ~PythonHelper.to_data_callback
+      ~PythonHelper.to_element
+      ~PythonHelper.to_graph
+      ~PythonHelper.to_xml
+      ~PythonHelper.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PythonHelper.algorithm
+      ~PythonHelper.base_url
+      ~PythonHelper.contquery
+      ~PythonHelper.fullname
+      ~PythonHelper.index_type
+      ~PythonHelper.name
+      ~PythonHelper.produces_only_inserts
+      ~PythonHelper.project
+      ~PythonHelper.publisher_url
+      ~PythonHelper.pubsub
+      ~PythonHelper.schema
+      ~PythonHelper.schema_string
+      ~PythonHelper.session
+      ~PythonHelper.subscriber_url
+      ~PythonHelper.url
+      ~PythonHelper.window_classes
+      ~PythonHelper.window_type
+   
+   

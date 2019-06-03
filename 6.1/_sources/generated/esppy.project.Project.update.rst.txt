@@ -1,0 +1,6 @@
+esppy.project.Project.update
+============================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.update

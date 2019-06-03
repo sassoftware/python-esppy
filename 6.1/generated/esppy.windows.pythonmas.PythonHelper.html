@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.windows.pythonmas.PythonHelper &mdash; ESPPy 6.1-rel documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.windows.pythonmas.PythonHelper.add_mas_info" href="esppy.windows.pythonmas.PythonHelper.add_mas_info.html" />
+    <link rel="prev" title="esppy.windows.UnionWindow" href="esppy.windows.UnionWindow.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.1-rel
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#windows">Windows</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../api.html#base-window-methods">Base Window Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#source-windows">Source Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#calculation-windows">Calculation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#aggregation-windows">Aggregation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#computation-windows">Computation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#copying-windows">Copying Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#counting-windows">Counting Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#filtering-windows">Filtering Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#functional-windows">Functional Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#geofence-windows">Geofence Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#joining-windows">Joining Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#miscellaneous-windows">Miscellaneous Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#model-reading-windows">Model Reading Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#model-supervisor-windows">Model Supervisor Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#notification-windows">Notification Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#pattern-windows">Pattern Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#procedural-windows">Procedural Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#scoring-windows">Scoring Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-category-windows">Text Category Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-context-windows">Text Context Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-sentiment-windows">Text Sentiment Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-topic-windows">Text Topic Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#training-windows">Training Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#union-windows">Union Windows</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../api.html#python-helpers">Python Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#keras-helpers">Keras Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#tensorflow-helpers">Tensorflow Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#jmp-helpers">JMP Helpers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.windows.pythonmas.PythonHelper</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.windows.pythonmas.PythonHelper.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-windows-pythonmas-pythonhelper">
+<h1>esppy.windows.pythonmas.PythonHelper<a class="headerlink" href="#esppy-windows-pythonmas-pythonhelper" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.windows.pythonmas.PythonHelper">
+<em class="property">class </em><code class="descclassname">esppy.windows.pythonmas.</code><code class="descname">PythonHelper</code><span class="sig-paren">(</span><em>name=None</em>, <em>schema=None</em>, <em>pubsub=None</em>, <em>description=None</em>, <em>index_type=None</em>, <em>produces_only_inserts=None</em>, <em>input_map=None</em>, <em>output_map=None</em>, <em>mas_info_list=None</em>, <em>**parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.pythonmas.PythonHelper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <strong>esppy.windows.base.BaseWindow</strong>, <strong>esppy.windows.features.SchemaFeature</strong>, <strong>esppy.windows.features.ParametersFeature</strong>, <strong>esppy.windows.features.InputMapFeature</strong>, <strong>esppy.windows.features.OutputMapFeature</strong>, <strong>esppy.windows.features.MASMapFeature</strong>, <strong>esppy.windows.features.ConnectorsFeature</strong></p>
+<p>Python Window</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">The name of the window</p>
+</dd>
+<dt><strong>schema</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Schema</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">The schema of the window</p>
+</dd>
+<dt><strong>pubsub</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Publish/subscribe mode for the window. When the project-level value
+of pubsub is manual, true enables publishing and subscribing for the
+window and false disables it.</p>
+</dd>
+<dt><strong>description</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Description of the window</p>
+</dd>
+<dt><strong>algorithm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">The name of the algorithm</p>
+</dd>
+<dt><strong>input_map</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Input mappings</p>
+</dd>
+<dt><strong>output_map</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Output mappings</p>
+</dd>
+<dt><strong>index_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Index type for the window</p>
+</dd>
+<dt><strong>produces_only_inserts</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">Set to true when you know that the procedural window always
+produces inserts</p>
+</dd>
+<dt><strong>**parameters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">keyword arguments</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
+<dd><p class="first last">The parameters to the algorithm</p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong><a href="esppy.windows.pythonmas.PythonHelper.html">PythonHelper</a></strong></dt>
+<dd></dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This class is basically a CalculateWindow with the algorithm specified
+to ‘MAS’.</p>
+<dl class="method">
+<dt id="esppy.windows.pythonmas.PythonHelper.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name=None</em>, <em>schema=None</em>, <em>pubsub=None</em>, <em>description=None</em>, <em>index_type=None</em>, <em>produces_only_inserts=None</em>, <em>input_map=None</em>, <em>output_map=None</em>, <em>mas_info_list=None</em>, <em>**parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.pythonmas.PythonHelper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#esppy.windows.pythonmas.PythonHelper.__init__" title="esppy.windows.pythonmas.PythonHelper.__init__"><strong>__init__</strong></a>([name,&nbsp;schema,&nbsp;pubsub,&nbsp;…])</td>
+<td>Initialize self.</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.add_connector.html" title="esppy.windows.base.Window.add_connector">add_connector</a></strong>(conn_cls[,&nbsp;conn_name,&nbsp;…])</td>
+<td>Add a connector to the window</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.add_event_transformer.html" title="esppy.windows.base.Window.add_event_transformer">add_event_transformer</a></strong>(method,&nbsp;*args,&nbsp;**kwargs)</td>
+<td>Add an transformer to apply for each event</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="esppy.windows.pythonmas.PythonHelper.add_mas_info.html#esppy.windows.pythonmas.PythonHelper.add_mas_info" title="esppy.windows.pythonmas.PythonHelper.add_mas_info"><strong>add_mas_info</strong></a>(module_name,&nbsp;entry_func_name,&nbsp;…)</td>
+<td>Add the information needed to create a MAS module and add MAS window map.</td>
+</tr>
+<tr class="row-odd"><td><strong>add_mas_window_map</strong>(module,&nbsp;source[,&nbsp;…])</td>
+<td>Add MAS Window Map</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.add_target.html" title="esppy.windows.base.Window.add_target">add_target</a></strong>(*windows,&nbsp;**kwargs)</td>
+<td>Add windows as targets</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.add_targets.html" title="esppy.windows.base.Window.add_targets">add_targets</a></strong>(*windows,&nbsp;**kwargs)</td>
+<td>Add windows as targets</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.apply_transformers.html" title="esppy.windows.base.Window.apply_transformers">apply_transformers</a></strong>(data)</td>
+<td>Apply current set of data transformers to given data</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.copy.html" title="esppy.windows.base.Window.copy">copy</a></strong>([deep])</td>
+<td>Return a copy of the object</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.create_event_generator.html" title="esppy.windows.base.Window.create_event_generator">create_event_generator</a></strong>([data,&nbsp;name,&nbsp;overwrite])</td>
+<td>Create an event generator</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.create_publisher.html" title="esppy.windows.base.Window.create_publisher">create_publisher</a></strong>([blocksize,&nbsp;rate,&nbsp;pause,&nbsp;…])</td>
+<td>Create a publisher for the given window</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.create_subscriber.html" title="esppy.windows.base.Window.create_subscriber">create_subscriber</a></strong>([mode,&nbsp;pagesize,&nbsp;filter,&nbsp;…])</td>
+<td>Create a new websocket subscriber for the window</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.delete_target.html" title="esppy.windows.base.Window.delete_target">delete_target</a></strong>(*windows)</td>
+<td>Remove windows as targets</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.delete_targets.html" title="esppy.windows.base.Window.delete_targets">delete_targets</a></strong>(*windows)</td>
+<td>Remove windows as targets</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.disable_tracing.html" title="esppy.windows.base.Window.disable_tracing">disable_tracing</a></strong>()</td>
+<td>Disable console tracing for the window</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.enable_tracing.html" title="esppy.windows.base.Window.enable_tracing">enable_tracing</a></strong>()</td>
+<td>Enable console tracing for the window</td>
+</tr>
+<tr class="row-odd"><td><strong>from_element</strong>(data[,&nbsp;contquery,&nbsp;project,&nbsp;session])</td>
+<td>Construct window from XML definition</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.from_xml.html" title="esppy.windows.base.Window.from_xml">from_xml</a></strong>(data[,&nbsp;contquery,&nbsp;project,&nbsp;session])</td>
+<td>Construct window from XML definition</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.get_events.html" title="esppy.windows.base.Window.get_events">get_events</a></strong>([filter,&nbsp;sort_by,&nbsp;limit])</td>
+<td>Retrieve events from the window</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.get_pattern_events.html" title="esppy.windows.base.Window.get_pattern_events">get_pattern_events</a></strong>([sort_by,&nbsp;limit])</td>
+<td>Retrieve events residing in open patterns in the window</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.publish_events.html" title="esppy.windows.base.Window.publish_events">publish_events</a></strong>(data[,&nbsp;blocksize,&nbsp;rate,&nbsp;…])</td>
+<td>Publish events to the window</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.save_xml.html" title="esppy.windows.base.Window.save_xml">save_xml</a></strong>(dest[,&nbsp;mode,&nbsp;pretty])</td>
+<td>Save the window XML to a file</td>
+</tr>
+<tr class="row-odd"><td><strong>set_inputs</strong>(**kwargs)</td>
+<td>Set input map fields</td>
+</tr>
+<tr class="row-even"><td><strong>set_outputs</strong>(**kwargs)</td>
+<td>Set output map fields</td>
+</tr>
+<tr class="row-odd"><td><strong>set_parameters</strong>(**parameters)</td>
+<td>Set parameters</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_area.html" title="esppy.windows.base.Window.streaming_area">streaming_area</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming area plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_bar.html" title="esppy.windows.base.Window.streaming_bar">streaming_bar</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming bar plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_bubble.html" title="esppy.windows.base.Window.streaming_bubble">streaming_bubble</a></strong>(x,&nbsp;y,&nbsp;radius[,&nbsp;steps,&nbsp;…])</td>
+<td>Display a streaming bubble plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_donut.html" title="esppy.windows.base.Window.streaming_donut">streaming_donut</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming donut plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_hbar.html" title="esppy.windows.base.Window.streaming_hbar">streaming_hbar</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming horizontal bar plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_hist.html" title="esppy.windows.base.Window.streaming_hist">streaming_hist</a></strong>([centers,&nbsp;heights,&nbsp;steps,&nbsp;…])</td>
+<td>Display a streaming histogram in a Jupyter notebook</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_images.html" title="esppy.windows.base.Window.streaming_images">streaming_images</a></strong>(image_col[,&nbsp;steps,&nbsp;…])</td>
+<td>Display streaming images in a Jupyter notebook</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_line.html" title="esppy.windows.base.Window.streaming_line">streaming_line</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming line plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_pie.html" title="esppy.windows.base.Window.streaming_pie">streaming_pie</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming pie plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.streaming_scatter.html" title="esppy.windows.base.Window.streaming_scatter">streaming_scatter</a></strong>(x,&nbsp;y[,&nbsp;steps,&nbsp;interval,&nbsp;…])</td>
+<td>Display a streaming scatter plot in a Jupyter notebook</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.subscribe.html" title="esppy.windows.base.Window.subscribe">subscribe</a></strong>([mode,&nbsp;pagesize,&nbsp;filter,&nbsp;sort,&nbsp;…])</td>
+<td>Subscribe to events</td>
+</tr>
+<tr class="row-odd"><td><strong>to_data_callback</strong>([x,&nbsp;y,&nbsp;extra,&nbsp;max_data,&nbsp;…])</td>
+<td>Create a data callback function for streaming plots</td>
+</tr>
+<tr class="row-even"><td><strong>to_element</strong>([query])</td>
+<td>Export window definition to ElementTree.Element</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.to_graph.html" title="esppy.windows.base.Window.to_graph">to_graph</a></strong>([graph,&nbsp;schema])</td>
+<td>Export window definition to graphviz.Digraph</td>
+</tr>
+<tr class="row-even"><td><strong><a class="reference internal" href="esppy.windows.Window.to_xml.html" title="esppy.windows.base.Window.to_xml">to_xml</a></strong>([pretty,&nbsp;query])</td>
+<td>Export window definition to XML</td>
+</tr>
+<tr class="row-odd"><td><strong><a class="reference internal" href="esppy.windows.Window.unsubscribe.html" title="esppy.windows.base.Window.unsubscribe">unsubscribe</a></strong>()</td>
+<td>Stop event processing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.windows.pythonmas.PythonHelper.add_mas_info.html" class="btn btn-neutral float-right" title="esppy.windows.pythonmas.PythonHelper.add_mas_info" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.windows.UnionWindow.html" class="btn btn-neutral" title="esppy.windows.UnionWindow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'6.1-rel',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

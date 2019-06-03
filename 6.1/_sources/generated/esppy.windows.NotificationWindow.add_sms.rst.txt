@@ -1,0 +1,6 @@
+esppy.windows.NotificationWindow.add\_sms
+=========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: NotificationWindow.add_sms

@@ -1,0 +1,6 @@
+esppy.evtgen.EventGenerator.from\_xml
+=====================================
+
+.. currentmodule:: esppy.evtgen
+
+.. automethod:: EventGenerator.from_xml

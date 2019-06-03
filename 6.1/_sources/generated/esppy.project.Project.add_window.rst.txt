@@ -1,0 +1,6 @@
+esppy.project.Project.add\_window
+=================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.add_window

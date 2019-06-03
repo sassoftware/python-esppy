@@ -1,0 +1,6 @@
+esppy.windows.ComputeWindow.add\_field\_expressions
+===================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ComputeWindow.add_field_expressions

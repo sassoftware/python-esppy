@@ -1,0 +1,45 @@
+esppy.connectors.AdapterSubscriber
+==================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: AdapterSubscriber
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~AdapterSubscriber.__init__
+      ~AdapterSubscriber.clear
+      ~AdapterSubscriber.copy
+      ~AdapterSubscriber.from_element
+      ~AdapterSubscriber.from_parameters
+      ~AdapterSubscriber.from_xml
+      ~AdapterSubscriber.get
+      ~AdapterSubscriber.items
+      ~AdapterSubscriber.keys
+      ~AdapterSubscriber.pop
+      ~AdapterSubscriber.popitem
+      ~AdapterSubscriber.set_properties
+      ~AdapterSubscriber.setdefault
+      ~AdapterSubscriber.to_element
+      ~AdapterSubscriber.to_xml
+      ~AdapterSubscriber.update
+      ~AdapterSubscriber.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AdapterSubscriber.connector_key
+      ~AdapterSubscriber.property_defs
+   
+   

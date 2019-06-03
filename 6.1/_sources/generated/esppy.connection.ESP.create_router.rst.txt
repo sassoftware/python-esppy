@@ -1,0 +1,6 @@
+esppy.connection.ESP.create\_router
+===================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.create_router

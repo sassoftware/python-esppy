@@ -1,0 +1,78 @@
+esppy.windows.ModelReaderWindow
+===============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: ModelReaderWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ModelReaderWindow.__init__
+      ~ModelReaderWindow.add_connector
+      ~ModelReaderWindow.add_event_transformer
+      ~ModelReaderWindow.add_target
+      ~ModelReaderWindow.add_targets
+      ~ModelReaderWindow.apply_transformers
+      ~ModelReaderWindow.copy
+      ~ModelReaderWindow.create_event_generator
+      ~ModelReaderWindow.create_publisher
+      ~ModelReaderWindow.create_subscriber
+      ~ModelReaderWindow.delete_target
+      ~ModelReaderWindow.delete_targets
+      ~ModelReaderWindow.disable_tracing
+      ~ModelReaderWindow.enable_tracing
+      ~ModelReaderWindow.from_element
+      ~ModelReaderWindow.from_xml
+      ~ModelReaderWindow.get_events
+      ~ModelReaderWindow.get_pattern_events
+      ~ModelReaderWindow.publish_events
+      ~ModelReaderWindow.save_xml
+      ~ModelReaderWindow.set_parameters
+      ~ModelReaderWindow.streaming_area
+      ~ModelReaderWindow.streaming_bar
+      ~ModelReaderWindow.streaming_bubble
+      ~ModelReaderWindow.streaming_donut
+      ~ModelReaderWindow.streaming_hbar
+      ~ModelReaderWindow.streaming_hist
+      ~ModelReaderWindow.streaming_images
+      ~ModelReaderWindow.streaming_line
+      ~ModelReaderWindow.streaming_pie
+      ~ModelReaderWindow.streaming_scatter
+      ~ModelReaderWindow.subscribe
+      ~ModelReaderWindow.to_data_callback
+      ~ModelReaderWindow.to_element
+      ~ModelReaderWindow.to_graph
+      ~ModelReaderWindow.to_xml
+      ~ModelReaderWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ModelReaderWindow.base_url
+      ~ModelReaderWindow.contquery
+      ~ModelReaderWindow.fullname
+      ~ModelReaderWindow.model_type
+      ~ModelReaderWindow.name
+      ~ModelReaderWindow.project
+      ~ModelReaderWindow.publisher_url
+      ~ModelReaderWindow.pubsub
+      ~ModelReaderWindow.schema
+      ~ModelReaderWindow.schema_string
+      ~ModelReaderWindow.session
+      ~ModelReaderWindow.subscriber_url
+      ~ModelReaderWindow.url
+      ~ModelReaderWindow.window_classes
+      ~ModelReaderWindow.window_type
+   
+   

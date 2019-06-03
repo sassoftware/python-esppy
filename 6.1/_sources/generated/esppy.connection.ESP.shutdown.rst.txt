@@ -1,0 +1,6 @@
+esppy.connection.ESP.shutdown
+=============================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.shutdown

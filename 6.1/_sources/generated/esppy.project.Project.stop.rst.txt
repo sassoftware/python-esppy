@@ -1,0 +1,6 @@
+esppy.project.Project.stop
+==========================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.stop

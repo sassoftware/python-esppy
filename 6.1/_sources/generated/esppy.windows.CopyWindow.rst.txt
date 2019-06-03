@@ -1,0 +1,86 @@
+esppy.windows.CopyWindow
+========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: CopyWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~CopyWindow.__init__
+      ~CopyWindow.add_connector
+      ~CopyWindow.add_event_transformer
+      ~CopyWindow.add_target
+      ~CopyWindow.add_targets
+      ~CopyWindow.apply_transformers
+      ~CopyWindow.copy
+      ~CopyWindow.create_event_generator
+      ~CopyWindow.create_publisher
+      ~CopyWindow.create_subscriber
+      ~CopyWindow.delete_target
+      ~CopyWindow.delete_targets
+      ~CopyWindow.disable_tracing
+      ~CopyWindow.enable_tracing
+      ~CopyWindow.from_element
+      ~CopyWindow.from_xml
+      ~CopyWindow.get_events
+      ~CopyWindow.get_pattern_events
+      ~CopyWindow.publish_events
+      ~CopyWindow.save_xml
+      ~CopyWindow.set_finalized_callback
+      ~CopyWindow.set_retention
+      ~CopyWindow.set_splitter_expr
+      ~CopyWindow.set_splitter_plugin
+      ~CopyWindow.streaming_area
+      ~CopyWindow.streaming_bar
+      ~CopyWindow.streaming_bubble
+      ~CopyWindow.streaming_donut
+      ~CopyWindow.streaming_hbar
+      ~CopyWindow.streaming_hist
+      ~CopyWindow.streaming_images
+      ~CopyWindow.streaming_line
+      ~CopyWindow.streaming_pie
+      ~CopyWindow.streaming_scatter
+      ~CopyWindow.subscribe
+      ~CopyWindow.to_data_callback
+      ~CopyWindow.to_element
+      ~CopyWindow.to_graph
+      ~CopyWindow.to_xml
+      ~CopyWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CopyWindow.base_url
+      ~CopyWindow.collapse_updates
+      ~CopyWindow.contquery
+      ~CopyWindow.exp_max_string
+      ~CopyWindow.fullname
+      ~CopyWindow.index_type
+      ~CopyWindow.name
+      ~CopyWindow.output_insert_only
+      ~CopyWindow.project
+      ~CopyWindow.publisher_url
+      ~CopyWindow.pubsub
+      ~CopyWindow.pubsub_index_type
+      ~CopyWindow.pulse_interval
+      ~CopyWindow.schema
+      ~CopyWindow.schema_string
+      ~CopyWindow.session
+      ~CopyWindow.subscriber_url
+      ~CopyWindow.url
+      ~CopyWindow.window_classes
+      ~CopyWindow.window_type
+   
+   

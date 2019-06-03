@@ -1,0 +1,6 @@
+esppy.windows.Window.publish\_events
+====================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.publish_events

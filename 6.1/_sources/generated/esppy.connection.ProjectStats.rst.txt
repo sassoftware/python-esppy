@@ -1,0 +1,32 @@
+esppy.connection.ProjectStats
+=============================
+
+.. currentmodule:: esppy.connection
+
+.. autoclass:: ProjectStats
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ProjectStats.__init__
+      ~ProjectStats.close
+      ~ProjectStats.start
+      ~ProjectStats.stop
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProjectStats.is_active
+      ~ProjectStats.url
+   
+   

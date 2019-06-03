@@ -1,0 +1,45 @@
+esppy.connectors.FileSubscriber
+===============================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: FileSubscriber
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FileSubscriber.__init__
+      ~FileSubscriber.clear
+      ~FileSubscriber.copy
+      ~FileSubscriber.from_element
+      ~FileSubscriber.from_parameters
+      ~FileSubscriber.from_xml
+      ~FileSubscriber.get
+      ~FileSubscriber.items
+      ~FileSubscriber.keys
+      ~FileSubscriber.pop
+      ~FileSubscriber.popitem
+      ~FileSubscriber.set_properties
+      ~FileSubscriber.setdefault
+      ~FileSubscriber.to_element
+      ~FileSubscriber.to_xml
+      ~FileSubscriber.update
+      ~FileSubscriber.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FileSubscriber.connector_key
+      ~FileSubscriber.property_defs
+   
+   

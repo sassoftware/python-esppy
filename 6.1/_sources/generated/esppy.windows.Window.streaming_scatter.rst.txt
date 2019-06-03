@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_scatter
+=======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_scatter

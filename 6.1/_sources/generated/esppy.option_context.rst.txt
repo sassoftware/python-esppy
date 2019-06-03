@@ -1,0 +1,6 @@
+esppy.option\_context
+=====================
+
+.. currentmodule:: esppy
+
+.. autofunction:: option_context

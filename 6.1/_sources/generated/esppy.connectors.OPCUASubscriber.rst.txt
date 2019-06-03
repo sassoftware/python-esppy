@@ -1,0 +1,45 @@
+esppy.connectors.OPCUASubscriber
+================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: OPCUASubscriber
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~OPCUASubscriber.__init__
+      ~OPCUASubscriber.clear
+      ~OPCUASubscriber.copy
+      ~OPCUASubscriber.from_element
+      ~OPCUASubscriber.from_parameters
+      ~OPCUASubscriber.from_xml
+      ~OPCUASubscriber.get
+      ~OPCUASubscriber.items
+      ~OPCUASubscriber.keys
+      ~OPCUASubscriber.pop
+      ~OPCUASubscriber.popitem
+      ~OPCUASubscriber.set_properties
+      ~OPCUASubscriber.setdefault
+      ~OPCUASubscriber.to_element
+      ~OPCUASubscriber.to_xml
+      ~OPCUASubscriber.update
+      ~OPCUASubscriber.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OPCUASubscriber.connector_key
+      ~OPCUASubscriber.property_defs
+   
+   

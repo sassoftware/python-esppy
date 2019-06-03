@@ -1,0 +1,6 @@
+esppy.windows.ComputeWindow.set\_expression\_initializer
+========================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ComputeWindow.set_expression_initializer

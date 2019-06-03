@@ -1,0 +1,6 @@
+esppy.algorithm.Algorithm.from\_xml
+===================================
+
+.. currentmodule:: esppy.algorithm
+
+.. automethod:: Algorithm.from_xml

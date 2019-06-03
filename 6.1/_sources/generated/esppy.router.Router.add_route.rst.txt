@@ -1,0 +1,6 @@
+esppy.router.Router.add\_route
+==============================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: Router.add_route

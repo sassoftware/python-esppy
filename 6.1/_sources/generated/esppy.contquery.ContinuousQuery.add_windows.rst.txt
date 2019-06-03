@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.add\_windows
+============================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.add_windows
