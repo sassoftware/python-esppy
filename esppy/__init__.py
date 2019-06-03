@@ -73,4 +73,4 @@ from .config import (set_option, get_option, reset_option, describe_option,
 from .connection import ESP
 from .exceptions import ESPError
 
-__version__ = '1.0.1-dev'
+__version__ = '6.1-rel'
