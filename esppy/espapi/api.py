@@ -620,12 +620,15 @@ class Subscriber(PubSub):
             s += " pagesize='" + str(self._pageSize) + "'"
 
             if (self._sort != None):
-                s += " sort='"
-                s += self._sort.field
-                s += ":"
-                s += self._sort.direction
-                s += "'"
-
+                if "field" in self._sort:
+                    s += " sort='"
+                    s += self._sort["field"]
+                    direction = "descending"
+                    if "direction" in self._sort:
+                        s += self._sort.direction
+                        direction = self._sort["direction"]
+                    s += (":" + direction)
+                    s += "'"
             s += ">"
 
             filter = ""
@@ -669,6 +672,14 @@ class Subscriber(PubSub):
                 self.load()
             else:
                 self._sendProperties = true
+
+    @property
+    def sort(self):
+        return(self._sort)
+
+    @sort.setter
+    def sort(self,value):
+        self._sort = value;
 
 class EventCollection(Subscriber):
     def __init__(self,server,window,type,delegate = None,**kwargs):

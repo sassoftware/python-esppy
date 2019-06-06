@@ -1,13 +1,16 @@
 from IPython.display import display, Javascript
 from ipykernel.comm import Comm
 from xml.etree import ElementTree
+import logging
 import datetime
 import esppy.espapi.api
 import uuid
 import json
 import re
 
-class SasCharts(object):
+logging.basicConfig(filename="/tmp/py.log",level=logging.DEBUG)
+
+class Charts(object):
     def __init__(self,server):
         self._server = server
         self._charts = []
@@ -15,23 +18,35 @@ class SasCharts(object):
     def createChart(self,type,datasource,values,options = None):
 
         datasource.addChangeDelegate(self)
+        logging.debug("options: " + str(options))
 
-        chart = Chart(type,datasource,values,options)
+        chart = Chart(self,type,datasource,values,options)
         self._charts.append(chart)
         return(chart)
 
     def dataChanged(self,datasource):
         for chart in self._charts:
             if chart._datasource == datasource:
-                chart.render()
+                chart.draw()
 
     def infoChanged(self,datasource):
-        pass
+        for chart in self._charts:
+            if chart._datasource == datasource:
+                chart.sendInfo()
+
+    def deliverSelection(self,chart,message):
+        for c in self._charts:
+            if c != chart and c._datasource == chart._datasource:
+            #if c._datasource == chart._datasource:
+                o = {}
+                o["type"] = "selection"
+                o["indices"] = message["indices"]
+                c.send(o)
 
 class Chart(object):
 
-    def __init__(self,type,datasource,values,options,**kwargs):
-        self._id = "1"
+    def __init__(self,charts,type,datasource,values,options,**kwargs):
+        self._charts = charts
         self._id = str(uuid.uuid4()).replace('-', '_')
         self._type = type
         self._datasource = datasource
@@ -41,20 +56,34 @@ class Chart(object):
         self._comm = None
         self.options = options
 
-    def render(self):
+    def draw(self):
         self.data = self.getData()
+
+    def sendInfo(self):
+        if self._comm != None:
+            o = self._datasource.getInfo()
+            o["type"] = "info"
+            self._comm.send(o)
+
+    def send(self,o):
+        if self._comm != None:
+            self._comm.send(o)
 
     def target(self,comm,msg):
         self._comm = comm
         o = {}
         o["type"] = "schema"
-        #o["schema"] = ElementTree.tostring(self._datasource.schema.toXml()).decode("utf-8")
         o["schema"] = self._datasource.schema.toJson()
         self._comm.send(o)
         self.data = self.getData()
         @comm.on_msg
         def _recv(msg):
-            self._datasource.handleMessage(msg["content"]["data"])
+            message = msg["content"]["data"]
+            if message["type"] == "selection":
+                logging.debug(str(message))
+                self._charts.deliverSelection(self,message)
+            else:
+                self._datasource.handleMessage(message)
 
     def _repr_html_(self):
         self.data = self.getData()
@@ -104,11 +133,13 @@ class Chart(object):
         createChart()
         {
             var values = "%(values)s".split(",");
-            _chart%(id)s = _sascharts.createChart("%(type)s",values,document.getElementById("%(id)s_div"));
+            _chart%(id)s = _sascharts.createChart("%(type)s",null,values,document.getElementById("%(id)s_div"),%(options)s);
             if (_schema%(id)s != null)
             {
                 _chart%(id)s._collection.setFields(_schema%(id)s);
             }
+
+            _chart%(id)s.dataSelected = selected_%(id)s;
 
             if (_data%(id)s != null)
             {
@@ -120,9 +151,17 @@ class Chart(object):
             _chart%(id)s.create();
         }
 
-        </script>
+        function
+        selected_%(id)s()
+        {
+            console.log("data selected: " + this._collection.getSelectedIndices());
+            o = new Object();
+            o.type = "selection";
+            o.indices = this._collection.getSelectedIndices();
+            console.log(o);
+            _comm%(id)s.send(o);
+        }
 
-        <script language="javascript">
         function
         send_%(id)s(type)
         {
@@ -158,12 +197,26 @@ class Chart(object):
                 }
                 else if (type == "data")
                 {
+                    //console.log("data: " + JSON.stringify(msg.content));
                     _data%(id)s = msg.content.data.chartdata;
                     if (_chart%(id)s != null)
                     {
+                        _chart%(id)s._collection.clear();
                         _chart%(id)s._collection.setItems(_data%(id)s);
                         _chart%(id)s._collection.setFieldValues();
                         _chart%(id)s.update();
+
+                        var page = new Number(msg.content.data.info.page);
+                        var pages = msg.content.data.info.pages;
+
+                        var pageText = document.getElementById("%(id)s_page");
+                        var pagesText = document.getElementById("%(id)s_pages");
+
+                        if (pageText != null)
+                        {
+                            pageText.innerText = (page + 1);
+                            pagesText.innerText = pages;
+                        }
                     }
                     draw%(id)s();
                 }
@@ -172,9 +225,29 @@ class Chart(object):
                     _options%(id)s = msg.content.data.options;
                     draw%(id)s();
                 }
+                else if (type == "info")
+                {
+                    var page = new Number(msg.content.data.page);
+                    var pages = msg.content.data.pages;
+
+                    var pageText = document.getElementById("%(id)s_page");
+                    var pagesText = document.getElementById("%(id)s_pages");
+
+                    if (pageText != null)
+                    {
+                        pageText.innerText = (page + 1);
+                        pagesText.innerText = pages;
+                    }
+                }
+                else if (type == "selection")
+                {
+                    _chart%(id)s._collection.setSelectedIndices(msg.content.data.indices);
+                    _chart%(id)s.setSelections();
+                    _chart%(id)s.update();
+                }
                 else
                 {
-                    //console.log("MSG: " + JSON.stringify(msg.content));
+                    console.log("MSG: " + JSON.stringify(msg.content));
                 }
             });
 
@@ -186,7 +259,7 @@ class Chart(object):
             require(["sascharts"],
             function(sascharts)
             {
-                sascharts.init({"ready":ready});
+                sascharts.initPy({"ready":ready},"sas_inspire");
             });
         }
         else
@@ -197,8 +270,8 @@ class Chart(object):
         function
         ready(sascharts)
         {
-            console.log("READY ID IS: %(id)s");
-            _sascharts = sascharts;
+            console.log("+++++++++++++++++++++++++++++++ READY: " + sascharts);
+            _sascharts = sascharts.create(null);
             createChart();
         }
 
@@ -219,7 +292,7 @@ class Chart(object):
         <div class='espapiContainer'>
         <div class='chart' id='%(id)s_div' style='width:%(width)spx;height:%(height)spx;position:relative'>
         </div>
-        ''' % dict(id=self._id,width=width,height="600")
+        ''' % dict(id=self._id,width=width,height=height)
 
         if self._datasource.type == "updating":
             html += '''
@@ -228,12 +301,18 @@ class Chart(object):
                 <td>
                 <table class='espButtons'>
                 <tr>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'prev\')'>Prev</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'next\')'>Next</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'first\''">First</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'last\')'>Last</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("prev")'>Prev</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("next")'>Next</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("first")'>First</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("last")'>Last</button></td>
                 </tr>
                 </table>
+                <td>
+                    <span>Page</span>
+                    <span id='%(id)s_page'></span>
+                    <span>of</span>
+                    <span id='%(id)s_pages'></span>
+                </td>
                 </td>
                 </table>
             </div>
@@ -294,6 +373,12 @@ class Chart(object):
 
         return(data)
 
+    def getHeight(self):
+        return(self.getOption("width","400"))
+
+    def setHeight(self,value):
+        self.setOption("height",value)
+
     @property
     def values(self):
         return(self._values)
@@ -321,6 +406,7 @@ class Chart(object):
         if self._comm != None:
             o = {}
             o["type"] = "data"
+            o["info"] = self._datasource.getInfo()
             o["chartdata"] = self._data
             self._comm.send(o)
 
@@ -350,71 +436,13 @@ class Chart(object):
             value = self._options[name]
         return(value)
 
+    def setOption(self,name,value):
+        if value != None:
+            self._options[name] = value
+        else:
+            self._options.pop(value,None)
+        return(value)
+
     @property
     def type(self):
         return(self._type)
-
-class Dashboard(object):
-
-    def __init__(self):
-        self._rows = []
-        self._charts = []
-
-        self._rows.append([])
-
-    def addRow(self):
-        self._rows.append([])
-
-    def addChart(self,chart):
-        self._rows[len(self._rows) - 1].append(chart)
-
-    def _repr_html_(self):
-        html = ""
-
-        maxcols = 0
-
-        for row in self._rows:
-            if len(row) > maxcols:
-                maxcols = len(row)
-
-        html += '''
-        <style type="text/css">
-        .dashboardTable
-        {
-            width:100%;
-            border:2px solid red;
-        }
-
-        td.dashboardCell
-        {
-            background:white;
-            padding:0;
-        }
-
-        .dashboardContainer
-        {
-            padding:10px;
-        }
-
-        </style>
-        '''
-
-        html += "<table class='dashboardTable'>"
-
-        for row in self._rows:
-            html += "<tr>"
-            for i in range(0,len(row)):
-                chart = row[i]
-                html += "<td class='dashboardCell'"
-                if i == 0 and len(row) < maxcols:
-                    html += " colspan='" + str(maxcols - len(row) + 1) + "'"
-                html += ">"
-                html += "<div class='dashboardContainer'>";
-                html += chart.getHtml()
-                html += "</div>";
-                html += "</td>"
-            html += "</tr>"
-
-        html += "</table>"
-
-        return(html)

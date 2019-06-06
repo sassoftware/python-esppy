@@ -2,11 +2,12 @@ from IPython.display import display, Javascript
 from ipykernel.comm import Comm
 import datetime
 import esppy.espapi.api
+import esppy.espapi.dashboards
 import uuid
 import json
 import re
 
-class GoogleCharts(object):
+class Charts(object):
     def __init__(self,server):
         self._server = server
         self._charts = []
@@ -260,11 +261,14 @@ class Chart(object):
     def getChartHtml(self):
         html = ""
 
+        width = self.getOption("width","400")
+        height = self.getOption("height","400")
+
         html += '''
         <div class='espapiContainer'>
-        <div class='chart' id='%(id)s_div'>
+        <div class='chart' id='%(id)s_div' style='width:%(width)spx;height:%(height)spx;position:relative'>
         </div>
-        ''' % dict(id=self._id)
+        ''' % dict(id=self._id,width=width,height=height)
 
         if self._datasource.type == "updating":
             html += '''
@@ -273,10 +277,10 @@ class Chart(object):
                 <td>
                 <table class='espButtons'>
                 <tr>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'prev\')'>Prev</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'next\')'>Next</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'first\''">First</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s(\'last\')'>Last</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("prev")'>Prev</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("next")'>Next</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("first")'>First</button></td>
+                <td class='espButton'><button onclick='javascript:send_%(id)s("last")'>Last</button></td>
                 </tr>
                 </table>
                 </td>
@@ -366,6 +370,12 @@ class Chart(object):
 
         return(data)
 
+    def getHeight(self):
+        return(self.getOption("width","400"))
+
+    def setHeight(self,value):
+        self.setOption("height",value)
+
     @property
     def values(self):
         return(self._values)
@@ -409,71 +419,22 @@ class Chart(object):
             o["options"] = self._options
             self._comm.send(o)
 
+    def getOption(self,name,dv = None):
+        if dv != None:
+            value = dv
+        else:
+            value = None
+        if name in self._options:
+            value = self._options[name]
+        return(value)
+
+    def setOption(self,name,value):
+        if value != None:
+            self._options[name] = value
+        else:
+            self._options.pop(value,None)
+        return(value)
+
     @property
     def type(self):
         return(self._type)
-
-class Dashboard(object):
-
-    def __init__(self):
-        self._rows = []
-        self._charts = []
-
-        self._rows.append([])
-
-    def addRow(self):
-        self._rows.append([])
-
-    def addChart(self,chart):
-        self._rows[len(self._rows) - 1].append(chart)
-
-    def _repr_html_(self):
-        html = ""
-
-        maxcols = 0
-
-        for row in self._rows:
-            if len(row) > maxcols:
-                maxcols = len(row)
-
-        html += '''
-        <style type="text/css">
-        .dashboardTable
-        {
-            width:100%;
-            border:2px solid red;
-        }
-
-        td.dashboardCell
-        {
-            background:white;
-            padding:0;
-        }
-
-        .dashboardContainer
-        {
-            padding:10px;
-        }
-
-        </style>
-        '''
-
-        html += "<table class='dashboardTable'>"
-
-        for row in self._rows:
-            html += "<tr>"
-            for i in range(0,len(row)):
-                chart = row[i]
-                html += "<td class='dashboardCell'"
-                if i == 0 and len(row) < maxcols:
-                    html += " colspan='" + str(maxcols - len(row) + 1) + "'"
-                html += ">"
-                html += "<div class='dashboardContainer'>";
-                html += chart.getHtml()
-                html += "</div>";
-                html += "</td>"
-            html += "</tr>"
-
-        html += "</table>"
-
-        return(html)

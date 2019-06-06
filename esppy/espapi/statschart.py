@@ -128,7 +128,7 @@ class StatsChart(object):
             }
         });
 
-        //send_%(id)s("init");
+        send_%(id)s("init");
 
         </script>
 
