@@ -1,13 +1,41 @@
 from xml.etree.ElementTree import Element, SubElement
 from xml.etree import ElementTree
 import json
+import logging
 import pandas as pd
 import six
 import re
 import esppy.websocket
 import esppy
 
+logging.basicConfig(filename="/tmp/py.log",level=logging.DEBUG)
+
 class Server(object):
+
+    _windowClasses = {
+        "source":"input",
+        "filter":"transformation",
+        "aggregate":"transformation",
+        "compute":"transformation",
+        "union":"transformation",
+        "join":"transformation",
+        "copy":"transformation",
+        "functional":"transformation",
+        "notification":"utility",
+        "pattern":"utility",
+        "counter":"utility",
+        "geofence":"utility",
+        "procedural":"utility",
+        "model-supervisor":"analytics",
+        "model-reader":"analytics",
+        "train":"analytics",
+        "calculate":"analytics",
+        "score":"analytics",
+        "text-context":"textanalytics",
+        "text-category":"textanalytics",
+        "text-sentiment":"textanalytics",
+        "text-topic":"textanalytics"
+    };
 
     def __init__(self,esp,delegate = None):
         self._esp = esp
@@ -18,35 +46,6 @@ class Server(object):
         if len(s) > 0:
             wsproto = (s[0] == "https:") and "wss:" or "ws:"
             self._wsBaseUrl = re.sub(r"^\w+:",wsproto,self._esp.base_url)
-
-        self._windowClasses = {}
-
-        self._windowClasses["source"] = "input";
-
-        self._windowClasses["filter"] = "transformation";
-        self._windowClasses["aggregate"] = "transformation";
-        self._windowClasses["compute"] = "transformation";
-        self._windowClasses["union"] = "transformation";
-        self._windowClasses["join"] = "transformation";
-        self._windowClasses["copy"] = "transformation";
-        self._windowClasses["functional"] = "transformation";
-
-        self._windowClasses["notification"] = "utility";
-        self._windowClasses["pattern"] = "utility";
-        self._windowClasses["counter"] = "utility";
-        self._windowClasses["geofence"] = "utility";
-        self._windowClasses["procedural"] = "utility";
-
-        self._windowClasses["model-supervisor"] = "analytics";
-        self._windowClasses["model-reader"] = "analytics";
-        self._windowClasses["train"] = "analytics";
-        self._windowClasses["calculate"] = "analytics";
-        self._windowClasses["score"] = "analytics";
-
-        self._windowClasses["text-context"] = "textanalytics";
-        self._windowClasses["text-category"] = "textanalytics";
-        self._windowClasses["text-sentiment"] = "textanalytics";
-        self._windowClasses["text-topic"] = "textanalytics";
 
         self.build()
 
@@ -156,6 +155,7 @@ class Server(object):
         win["name"] = name
         win["type"] = type
         win["index"] = xml.get("index")
+        win["xml"] = xml
 
         if win["index"] == None:
             win["index"] = contquery["index"]
@@ -283,6 +283,26 @@ class Connection(Datasource):
             return(False)
 
         self._connected = False
+
+        self.getWebSocket(url)
+
+        return(True)
+
+    def stop(self):
+        if (self.isConnected):
+            self.clear()
+            return(True)
+        return(False)
+
+    def restart(self):
+        self.clear()
+
+        url = this.getUrl()
+
+        if (url == None):
+            return(False);
+
+        this._ready = False
 
         self.getWebSocket(url)
 
@@ -929,8 +949,8 @@ class Logs(Connection):
 
         data = str(message)
 
-        if Delegate.supports(self._delegate,"handleLog"):
-            self._delegate.handleLog(data)
+        if Delegate.supports(self._delegate,"handleLogMessage"):
+            self._delegate.handleLogMessage(data)
 
 class Schema(object):
     def __init__(self):
@@ -1099,6 +1119,36 @@ class Schema(object):
             fields.append(f)
         return(fields)
 
+    def __str__(self):
+        o = self.toJson()
+        return(str(o))
+
+    def toString(self):
+        s = ""
+        i = 0
+        for field in self._fields:
+            if field["isKey"] == False:
+                continue
+            if i > 0:
+                s += ","
+            s += field["name"]
+            s += ":"
+            s += field["espType"]
+            s += "*"
+            i += 1
+
+        for field in self._fields:
+            if field["isKey"] == True:
+                continue
+            if i > 0:
+                s += ","
+            s += field["name"]
+            s += ":"
+            s += field["espType"]
+            i += 1
+
+        return(s)
+
     @property
     def fields(self):
         return(self._fields)
@@ -1122,11 +1172,11 @@ class Delegate(object):
         return(code)
 
 class Options(object):
-    def __init__(self,**kwargs):
+    def __init__(self,options = None):
         self._options = {}
 
-        if kwargs != None:
-            for name,value in kwargs.items():
+        if options != None:
+            for name,value in options.items():
                 self._options[name] = value
 
     def get(self,name,dv = None):

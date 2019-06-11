@@ -2,13 +2,12 @@ from IPython.display import display, Javascript
 from ipykernel.comm import Comm
 from xml.etree import ElementTree
 import logging
+import copy
 import datetime
-import esppy.espapi.api
+import esppy.espapi.api as api
 import uuid
 import json
 import re
-
-logging.basicConfig(filename="/tmp/py.log",level=logging.DEBUG)
 
 class Charts(object):
     def __init__(self,server):
@@ -18,11 +17,14 @@ class Charts(object):
     def createChart(self,type,datasource,values,options = None):
 
         datasource.addChangeDelegate(self)
-        logging.debug("options: " + str(options))
 
         chart = Chart(self,type,datasource,values,options)
         self._charts.append(chart)
         return(chart)
+
+    def createModelViewer(self,options):
+        mv = ModelViewer(self,options)
+        return(mv)
 
     def dataChanged(self,datasource):
         for chart in self._charts:
@@ -80,7 +82,6 @@ class Chart(object):
         def _recv(msg):
             message = msg["content"]["data"]
             if message["type"] == "selection":
-                logging.debug(str(message))
                 self._charts.deliverSelection(self,message)
             else:
                 self._datasource.handleMessage(message)
@@ -108,11 +109,85 @@ class Chart(object):
         html += '''
 
         <style type="text/css">
+        /*
         .visualContainer
         {
             position:relative;
             overflow:auto;
         }
+        */
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS.ttf);
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-Bold.ttf);
+            font-weight:bold;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-BoldItalic.ttf);
+            font-weight:bold;
+            font-style:italic;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-Italic.ttf);
+            font-style:italic;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-Light.ttf);
+            opacity:.2;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-LightItalic.ttf);
+            font-style:italic;
+            opacity:.2;
+        }
+
+        @font-face
+        {
+            font-family:sas-icons;
+            src:url(/static/fonts/sas-icons.ttf);
+        }
+
+        .icon
+        {
+            font-family:sas-icons;
+            font-weight:regular;
+            font-size:1.5rem;
+            color:#4e4e4e;
+            padding:0;
+        }
+
+        a.icon
+        {
+            color:#4e4e4e;
+            text-decoration:none;
+            text-decoration:underline;
+            font-size:14pt;
+        }
+
+        a.icon:hover
+        {
+            color:#0093e5;
+        }
+
         </style>
 
         <script type="text/javascript">
@@ -130,28 +205,6 @@ class Chart(object):
         <script type="text/javascript">
 
         function
-        createChart()
-        {
-            var values = "%(values)s".split(",");
-            _chart%(id)s = _sascharts.createChart("%(type)s",null,values,document.getElementById("%(id)s_div"),%(options)s);
-            if (_schema%(id)s != null)
-            {
-                _chart%(id)s._collection.setFields(_schema%(id)s);
-            }
-
-            _chart%(id)s.dataSelected = selected_%(id)s;
-
-            if (_data%(id)s != null)
-            {
-                _chart%(id)s._collection.setItems(_data%(id)s);
-                _chart%(id)s._collection.setFieldValues();
-                _chart%(id)s.update();
-            }
-
-            _chart%(id)s.create();
-        }
-
-        function
         selected_%(id)s()
         {
             console.log("data selected: " + this._collection.getSelectedIndices());
@@ -163,9 +216,15 @@ class Chart(object):
         }
 
         function
-        send_%(id)s(type)
+        send_%(id)s(type,data)
         {
-            _comm%(id)s.send({"type":type});
+            var o = new Object();
+            o["type"] = type;
+            if (data != null)
+            {
+                o["data"] = data;
+            }
+            _comm%(id)s.send(o);
         }
 
         var _data%(id)s = null;
@@ -184,6 +243,8 @@ class Chart(object):
 
             _comm%(id)s.on_msg(function(msg)
             {
+                //console.log("data: " + JSON.stringify(msg.content));
+
                 var type = msg.content.data.type;
 
                 if (type == "schema")
@@ -197,11 +258,11 @@ class Chart(object):
                 }
                 else if (type == "data")
                 {
-                    //console.log("data: " + JSON.stringify(msg.content));
                     _data%(id)s = msg.content.data.chartdata;
                     if (_chart%(id)s != null)
                     {
                         _chart%(id)s._collection.clear();
+                        _chart%(id)s._collection.clearDataset();
                         _chart%(id)s._collection.setItems(_data%(id)s);
                         _chart%(id)s._collection.setFieldValues();
                         _chart%(id)s.update();
@@ -217,6 +278,7 @@ class Chart(object):
                             pageText.innerText = (page + 1);
                             pagesText.innerText = pages;
                         }
+
                     }
                     draw%(id)s();
                 }
@@ -238,9 +300,16 @@ class Chart(object):
                         pageText.innerText = (page + 1);
                         pagesText.innerText = pages;
                     }
+
+                    var buttons = document.getElementById("%(id)s_buttons");
+                    if (buttons != null)
+                    {
+                        buttons.style.display = (pages <= 1) ? "none" : "block";
+                    }
                 }
                 else if (type == "selection")
                 {
+                    _chart%(id)s._collection.clearDataset();
                     _chart%(id)s._collection.setSelectedIndices(msg.content.data.indices);
                     _chart%(id)s.setSelections();
                     _chart%(id)s.update();
@@ -259,7 +328,7 @@ class Chart(object):
             require(["sascharts"],
             function(sascharts)
             {
-                sascharts.initPy({"ready":ready},"sas_inspire");
+                sascharts.initPy({"ready":ready},"sas_corporate");
             });
         }
         else
@@ -270,9 +339,50 @@ class Chart(object):
         function
         ready(sascharts)
         {
-            console.log("+++++++++++++++++++++++++++++++ READY: " + sascharts);
-            _sascharts = sascharts.create(null);
-            createChart();
+            var charts = sascharts.create(null);
+
+            var values = "%(values)s".split(",");
+            _chart%(id)s = charts.createChart("%(type)s",null,values,document.getElementById("%(id)s_div"),%(options)s);
+            if (_schema%(id)s != null)
+            {
+                _chart%(id)s._collection.setFields(_schema%(id)s);
+            }
+
+            _chart%(id)s.dataSelected = selected_%(id)s;
+
+            if (_data%(id)s != null)
+            {
+                _chart%(id)s._collection.setItems(_data%(id)s);
+                _chart%(id)s._collection.setFieldValues();
+                _chart%(id)s.update();
+            }
+
+            _chart%(id)s.create();
+
+            size_%(id)s();
+        }
+
+        function
+        size_%(id)s()
+        {
+            var div = document.getElementById("%(id)s_div");
+            var d = div;
+
+            while (d != null)
+            {
+                if (d.className != null)
+                {
+                    if (d.className.indexOf("output_html") != -1 || d.className == "dashboardContainer")
+                    {
+                        div.style.width = (d.offsetWidth - 20) + "px";
+                        div.style.height = d.offsetHeight + "px";
+                        break;
+                    }
+                }
+                d = d.parentNode;
+            }
+
+            _chart%(id)s.size();
         }
 
         </script>
@@ -296,15 +406,15 @@ class Chart(object):
 
         if self._datasource.type == "updating":
             html += '''
-            <div class='espButtons'>
+            <div id='%(id)s_buttons' class='espButtons' style='display:none'>
                 <table style='width:100%%'>
                 <td>
                 <table class='espButtons'>
                 <tr>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("prev")'>Prev</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("next")'>Next</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("first")'>First</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("last")'>Last</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("prev")'>&#xf043;</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("next")'>&#xf045;</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("first")'>&#xf044;</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("last")'>&#xf046;</button></td>
                 </tr>
                 </table>
                 <td>
@@ -374,7 +484,7 @@ class Chart(object):
         return(data)
 
     def getHeight(self):
-        return(self.getOption("width","400"))
+        return(self.getOption("height","400"))
 
     def setHeight(self,value):
         self.setOption("height",value)
@@ -446,3 +556,328 @@ class Chart(object):
     @property
     def type(self):
         return(self._type)
+
+class ModelViewer(object):
+
+    def __init__(self,charts,options):
+        self._charts = charts
+        self._id = str(uuid.uuid4()).replace('-', '_')
+        self._comm = None
+        self._project = None
+        self._options = api.Options(options)
+        self._stats = None
+        self._selectionCb = None
+
+    def target(self,comm,msg):
+        self._comm = comm
+        self.sendModel()
+        @comm.on_msg
+        def _recv(msg):
+            message = msg["content"]["data"]
+            logging.debug("HERE: " + str(self._selectionCb))
+            if message["type"] == "selection":
+                if self._selectionCb != None:
+                    self._selectionCb(message["data"])
+            #logging.debug(message)
+
+    def sendModel(self):
+        if self._comm != None:
+            o = {}
+            o["type"] = "model"
+            o["chartdata"] = self.build()
+            self._comm.send(o)
+
+    def sendStats(self,data):
+        if self._comm != None:
+            o = {}
+            o["type"] = "stats"
+            o["statsdata"] = data
+            self._comm.send(o)
+
+    def _repr_html_(self):
+        html = ""
+        html += self.getHtml()
+
+        return(html)
+
+    def getHtml(self):
+        get_ipython().kernel.comm_manager.register_target(self._id,self.target)
+
+        width = self._options.get("width",800)
+        height = self._options.get("height",800)
+
+        html = ""
+
+        html += '''
+
+        <style type="text/css">
+
+        /*
+        .visualContainer
+        {
+            position:relative;
+            overflow:auto;
+        }
+        */
+
+        div.rendered_html td
+        {
+            background:white;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS.ttf);
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-Bold.ttf);
+            font-weight:bold;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-BoldItalic.ttf);
+            font-weight:bold;
+            font-style:italic;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-Italic.ttf);
+            font-style:italic;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-Light.ttf);
+            opacity:.2;
+        }
+
+        @font-face
+        {
+            font-family:AvenirNextforSAS;
+            src:url(/static/fonts/AvenirNextforSAS-LightItalic.ttf);
+            font-style:italic;
+            opacity:.2;
+        }
+
+        @font-face
+        {
+            font-family:sas-icons;
+            src:url(/static/fonts/sas-icons.ttf);
+        }
+
+        .icon
+        {
+            font-family:sas-icons;
+            font-weight:regular;
+            color:#4e4e4e;
+            font-size:10pt;
+            padding:0;
+        }
+
+        </style>
+
+        <table>
+        <tr><td><div id="%(id)s_div" style="width:%(width)spx;height:%(height)spx;position:relative;overflow:hidden"></div></td></tr>
+        </table>
+        <script language="javascript">
+
+        if (Jupyter.notebook.kernel != null)
+        {
+            var _comm%(id)s = Jupyter.notebook.kernel.comm_manager.new_comm("%(id)s");
+
+            _comm%(id)s.on_msg(function(msg)
+            {
+                var type = msg.content.data.type;
+                //console.log(msg.content.data);
+                if (type == "model")
+                {
+                    mv_%(id)s.loadFromModel(msg.content.data.chartdata);
+                }
+                else if (type == "stats")
+                {
+                    mv_%(id)s.setProjectStats(msg.content.data.statsdata);
+                }
+                else
+                {
+                    console.log("MSG: " + JSON.stringify(msg.content));
+                }
+            });
+
+            function
+            send_%(id)s(type,data)
+            {
+                var o = new Object();
+                o["type"] = type;
+                if (data != null)
+                {
+                    o["data"] = data;
+                }
+                _comm%(id)s.send(o);
+            }
+
+            send_%(id)s("init");
+        }
+
+        if (require.defined("sascharts") == false)
+        {
+            require(["sascharts"],
+            function(sascharts)
+            {
+                sascharts.initPy({"ready":ready_%(id)s},"sas_corporate");
+            });
+        }
+        else
+        {
+            ready_%(id)s(require("sascharts"));
+        }
+
+        function
+        ready_%(id)s(sascharts)
+        {
+            var charts = sascharts.create();
+            charts.loadResources("/static/resources");
+            var options = %(options)s;
+            mv_%(id)s = charts.createModelViewer("%(id)s_div",options);
+            mv_%(id)s.nodeSelected = nodeSelected_%(id)s;
+
+            size_%(id)s();
+        }
+
+        function
+        size_%(id)s()
+        {
+            var div = document.getElementById("%(id)s_div");
+            var d = div;
+
+            while (d != null)
+            {
+                if (d.className != null)
+                {
+                    if (d.className.indexOf("output_html") != -1 || d.className == "dashboardContainer")
+                    {
+                        div.style.width = (d.offsetWidth - 20) + "px";
+                        div.style.height = d.offsetHeight + "px";
+                        break;
+                    }
+                }
+                d = d.parentNode;
+            }
+
+            mv_%(id)s.size();
+        }
+
+        function
+        nodeSelected_%(id)s(items,indices)
+        {
+            var a = new Array();
+
+            for (var i = 0; i < items.length; i++)
+            {
+                a.push(items[i].get("id"));
+            }
+
+            send_%(id)s("selection",a);
+        }
+
+        </script>
+
+        ''' % dict(id=self._id,width=width,height=height,options=json.dumps(self._options.options))
+
+        return(html)
+
+    def build(self):
+        if self._project == None:
+            return
+
+        model = {}
+        windows = []
+        edges = []
+        model["windows"] = windows
+        model["edges"] = edges
+
+        for a in self._charts._server.windows:
+            if self._project == "*" or a["p"] == self._project:
+                if a["type"] == "source" or a["type"] == "window-source" or len(a["incoming"]) > 0 or len(a["outgoing"]) > 0:
+                    window = {}
+                    window["key"] = a["key"]
+                    window["name"] = a["name"]
+                    window["type"] = a["type"]
+                    window["index"] = a["index"]
+                    window["xml"] = ElementTree.tostring(a["xml"]).decode()
+                    window["schema"] = a["schema"].toString()
+                    if window["type"] in api.Server._windowClasses:
+                        window["class"] = api.Server._windowClasses[window["type"]]
+                    windows.append(window)
+
+                    for z in a["outgoing"]:
+                        edge = {}
+                        edge["a"] = a["key"]
+                        edge["z"] = z["key"]
+                        edges.append(edge)
+
+        return(model)
+
+    def setShowStats(self,value):
+        if value:
+            if self._stats == None:
+                self._stats = ModelViewerStats(self._charts._server,self)
+        elif self._stats != None:
+            self._stats.stop()
+            self._stats = None
+
+    def getHeight(self):
+        return(self._options.get("height","400"))
+
+    def setHeight(self,value):
+        self._options.set("height",value)
+
+    def getOption(self,name,dv = None):
+        return(self._options.get(name,dv))
+
+    def setOption(self,name,value):
+        self._options.set(name,value)
+
+    @property
+    def project(self):
+        return(self._project)
+
+    @project.setter
+    def project(self,value):
+        self._project = value
+        self.sendModel()
+
+    @property
+    def selectionCb(self):
+        return(self._selectionCb)
+
+    @selectionCb.setter
+    def selectionCb(self,value):
+        self._selectionCb = value
+
+class ModelViewerStats(object):
+
+    def __init__(self,server,modelViewer):
+        self._server = server
+        self._modelViewer = modelViewer
+        self._stats = self._server.getStats(0,2)
+        self._stats.addChangeDelegate(self)
+        self._stats.start()
+
+    def __del__(self):
+        self._stats.stop()
+
+    def stop(self):
+        self._stats.removeChangeDelegate(self)
+        del self
+
+    def dataChanged(self,datasource):
+        self._modelViewer.sendStats(datasource.getData())

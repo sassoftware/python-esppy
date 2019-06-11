@@ -23,12 +23,12 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import json
 import re
 import requests
+import logging
 import sys
 import xml.etree.ElementTree as ET
 from six.moves import urllib
 from ..config import get_option
 from ..exceptions import ESPError
-
 
 try:
     from json.decoder import JSONDecodeError
@@ -355,6 +355,9 @@ class RESTHelpers(object):
         ``resp``
 
         '''
+
+        error = None
+
         if resp.status_code >= 400:
             try:
                 elem = ET.fromstring(resp.content)
@@ -364,18 +367,28 @@ class RESTHelpers(object):
 
             msg = elem.find('./message/response/message')
             if msg is not None:
+                error = msg.text
                 if get_option('debug.responses'):
                     sys.stderr.write('%s\n' % resp.content)
-                raise ESPError(msg.text)
 
             msg = elem.find('./message')
             if msg is not None:
+                error = msg.text
                 if get_option('debug.responses'):
                     sys.stderr.write('%s\n' % resp.content)
-                raise ESPError(msg.text)
 
             if get_option('debug.responses'):
                 sys.stderr.write('%s\n' % resp.content)
-            raise ESPError(resp.content)
+
+            if error != None:
+                details = elem.findall('./details/detail')
+                for detail in details:
+                    error += detail.text;
+                    error += "\n";
+            else:
+                error = resp.content
+
+        if error != None:
+            raise ESPError(error)
 
         return resp

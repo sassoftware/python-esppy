@@ -1,8 +1,11 @@
 import esppy.espapi.api as api
+import logging
+import uuid
 
 class Dashboard(object):
 
     def __init__(self):
+        self._id = str(uuid.uuid4()).replace('-', '_')
         self._rows = []
         self._current = None
 
@@ -22,44 +25,92 @@ class Dashboard(object):
 
         html += '''
         <style type="text/css">
-        .dashboardTable
+        div.dashboard
         {
-            width:100%;
-            border:2px solid red;
+            border:0;
+            border:1px solid #d8d8d8;
+            margin:auto;
+            overflow:auto;
+            padding:0;
+            padding:5px;
         }
 
-        td.dashboardCell
+        table.dashboard
+        {
+            width:98%%;
+            width:100%%;
+            //border:1px solid red;
+        }
+
+        td.dashboard
         {
             background:white;
-            padding:0;
+            padding:5px;
         }
 
-        .dashboardContainer
+        div.dashboardContainer
         {
-            padding:10px;
+            border:1px solid #d8d8d8;
+            padding:0;
+            overflow:auto;
         }
 
         </style>
-        '''
 
-        html += "<table class='dashboardTable'>"
+        <script language="javascript">
+        function
+        size_%(id)s()
+        {
+            var div = document.getElementById("%(id)s_div");
+            var d = div;
+
+            while (d != null)
+            {
+                if (d.className != null)
+                {
+                    if (d.className.indexOf("output_html") != -1)
+                    {
+                        div.style.width = (d.offsetWidth - 10) + "px";
+                        div.style.height = d.offsetHeight + "px";
+                        break;
+                    }
+                }
+                d = d.parentNode;
+            }
+        }
+
+        </script>
+
+        <div class='dashboard' id='%(id)s_div'>
+
+        ''' % dict(id=self._id)
 
         for row in self._rows:
+            html += "<table class='dashboard'>"
             html += "<tr>"
             for i in range(0,row.size):
                 component = row.get(i)
                 component.setHeight(row.height);
-                html += "<td class='dashboardCell'"
+                html += "<td class='dashboard'"
                 if i == 0 and row.size < maxcols:
                     html += " colspan='" + str(maxcols - row.size + 1) + "'"
                 html += ">"
-                html += "<div class='dashboardContainer' style='height:" + str(row.height) + "px'>";
+                #html += "<div class='dashboardContainer' style='height:" + str(row.height) + "px'>";
+                html += "<div class='dashboardContainer'>";
                 html += component.getHtml()
                 html += "</div>";
                 html += "</td>"
             html += "</tr>"
+            html += "</table>"
 
-        html += "</table>"
+        html += "</div>"
+        html += "\n"
+
+        html += '''
+        <script language="javascript">
+        size_%(id)s();
+        </script>
+        ''' % dict(id=self._id)
 
         return(html)
 

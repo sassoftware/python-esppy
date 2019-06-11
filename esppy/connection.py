@@ -783,7 +783,8 @@ class ESP(RESTHelpers):
                   params=get_params(overwrite=overwrite,
                                     connectors=start_connectors,
                                     projectUrl=project_url,
-                                    start=start),
+                                    start=start,
+                                    log=True),
                   data=data.encode('utf-8'))
 
         return self.get_project(name)
