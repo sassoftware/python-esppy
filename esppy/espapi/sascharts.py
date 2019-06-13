@@ -10,9 +10,15 @@ import json
 import re
 
 class Charts(object):
-    def __init__(self,server):
+    def __init__(self,server,options):
         self._server = server
         self._charts = []
+        self._options = api.Options(options)
+        self._url = self._options.get("url","")
+        self._theme = self._options.get("theme","sas_corporate")
+        self._dataSkin = self._options.get("dataSkin","crisp")
+        self._kpiSkin = self._options.get("kpiSkin","charcoal")
+        self._id = 1
 
     def createChart(self,type,datasource,values,options = None):
 
@@ -45,11 +51,17 @@ class Charts(object):
                 o["indices"] = message["indices"]
                 c.send(o)
 
+    def getId(self):
+        id = self._id
+        self._id += 1
+        return(str(id))
+
 class Chart(object):
 
-    def __init__(self,charts,type,datasource,values,options,**kwargs):
+    def __init__(self,charts,type,datasource,values,options):
         self._charts = charts
         self._id = str(uuid.uuid4()).replace('-', '_')
+        self._id = self._charts.getId()
         self._type = type
         self._datasource = datasource
         self.values = values
@@ -99,24 +111,22 @@ class Chart(object):
 
         i = 0
 
-        for i in range(0,len(self._values)):
-            if i > 0:
-                values += ","
-            values += (self._values[i])
+        if len(self._values) > 0:
+            for i in range(0,len(self._values)):
+                if i > 0:
+                    values += ","
+                values += (self._values[i])
 
         html = ""
+
+        url = self._charts._url
+
+        if len(url) > 0:
+            url  += "/esp/js/libs"
 
         html += '''
 
         <style type="text/css">
-        /*
-        .visualContainer
-        {
-            position:relative;
-            overflow:auto;
-        }
-        */
-
         @font-face
         {
             font-family:AvenirNextforSAS;
@@ -166,6 +176,23 @@ class Chart(object):
             src:url(/static/fonts/sas-icons.ttf);
         }
 
+        .visualContainer
+        {
+            position:relative;
+            overflow:auto;
+        }
+
+        div.chart
+        {
+            border:1px solid #d8d8d8;
+        }
+
+        div.chartContainer
+        {
+            border:6px solid #d8d8d8;
+            border:0;
+        }
+
         .icon
         {
             font-family:sas-icons;
@@ -192,11 +219,10 @@ class Chart(object):
 
         <script type="text/javascript">
 
-        var _sascharts = null;
-        var _datasources = new Object();
         var _chart%(id)s = null;
         var _schema%(id)s = null;
         var _options%(id)s = %(options)s;
+        var _container%(id)s = null;
 
         </script>
 
@@ -270,15 +296,7 @@ class Chart(object):
                         var page = new Number(msg.content.data.info.page);
                         var pages = msg.content.data.info.pages;
 
-                        var pageText = document.getElementById("%(id)s_page");
-                        var pagesText = document.getElementById("%(id)s_pages");
-
-                        if (pageText != null)
-                        {
-                            pageText.innerText = (page + 1);
-                            pagesText.innerText = pages;
-                        }
-
+                        pages_%(id)s(page,pages);
                     }
                     draw%(id)s();
                 }
@@ -291,21 +309,7 @@ class Chart(object):
                 {
                     var page = new Number(msg.content.data.page);
                     var pages = msg.content.data.pages;
-
-                    var pageText = document.getElementById("%(id)s_page");
-                    var pagesText = document.getElementById("%(id)s_pages");
-
-                    if (pageText != null)
-                    {
-                        pageText.innerText = (page + 1);
-                        pagesText.innerText = pages;
-                    }
-
-                    var buttons = document.getElementById("%(id)s_buttons");
-                    if (buttons != null)
-                    {
-                        buttons.style.display = (pages <= 1) ? "none" : "block";
-                    }
+                    pages_%(id)s(page,pages);
                 }
                 else if (type == "selection")
                 {
@@ -323,23 +327,40 @@ class Chart(object):
             send_%(id)s("init");
         }
 
-        if (require.defined("sascharts") == false)
+        if (window.hasOwnProperty("_sascharts") == false)
         {
-            require(["sascharts"],
+            var baseUrl = "%(url)s";
+
+            if (baseUrl.length > 0)
+            {
+                requirejs.config({baseUrl:baseUrl});
+            }
+
+            require(["common/sascharts"],
             function(sascharts)
             {
-                sascharts.initPy({"ready":ready},"sas_corporate");
+                window._sascharts = sascharts;
+                sascharts.initPy({"ready":ready_%(id)s},"%(theme)s");
             });
         }
         else
         {
-            ready(require("sascharts"));
+            create_%(id)s(window._sascharts);
         }
 
         function
-        ready(sascharts)
+        ready_%(id)s(sascharts)
+        {
+            create_%(id)s(sascharts);
+        }
+
+        function
+        create_%(id)s(sascharts)
         {
             var charts = sascharts.create(null);
+
+            charts.setDataSkin("%(dataSkin)s");
+            charts.setKpiSkin("%(kpiSkin)s");
 
             var values = "%(values)s".split(",");
             _chart%(id)s = charts.createChart("%(type)s",null,values,document.getElementById("%(id)s_div"),%(options)s);
@@ -359,35 +380,88 @@ class Chart(object):
 
             _chart%(id)s.create();
 
+            var div = document.getElementById("%(id)s_div");
+
+            while (div != null)
+            {
+                if (div.className != null)
+                {
+                    if (div.className.indexOf("output_html") != -1 || div.className == "dashboardContainer")
+                    {
+                        _container%(id)s = div;
+                        break;
+                    }
+                }
+                div = div.parentNode;
+            }
+
             size_%(id)s();
         }
 
         function
         size_%(id)s()
         {
-            var div = document.getElementById("%(id)s_div");
-            var d = div;
-
-            while (d != null)
+            if (_container%(id)s != null)
             {
-                if (d.className != null)
+                var c = _container%(id)s;
+
+                //c.style.overflow = "hidden";
+
+                var inset = 0;
+
+                if (c.className.indexOf("output_html") != -1)
                 {
-                    if (d.className.indexOf("output_html") != -1 || d.className == "dashboardContainer")
-                    {
-                        div.style.width = (d.offsetWidth - 20) + "px";
-                        div.style.height = d.offsetHeight + "px";
-                        break;
-                    }
+                    inset = 10;
                 }
-                d = d.parentNode;
+
+                var container = document.getElementById("%(id)s_container");
+                var div = document.getElementById("%(id)s_div");
+                var buttons = document.getElementById("%(id)s_buttons");
+                if (container == null || div == null || buttons == null)
+                {
+                    return;
+                }
+                container.style.width = (c.clientWidth - inset) + "px";
+                container.style.height = (c.clientHeight - inset) + "px";
+                div.style.width = (container.clientWidth - inset) + "px";
+                var height = container.clientHeight;
+
+                if (buttons != null)
+                {
+                    buttons.style.width = div.offsetWidth + "px";
+                    height -= buttons.offsetHeight;
+                }
+
+                div.style.height = height + "px";
             }
 
             _chart%(id)s.size();
         }
 
+        function
+        pages_%(id)s(page,pages)
+        {
+            var pageText = document.getElementById("%(id)s_page");
+            var pagesText = document.getElementById("%(id)s_pages");
+
+            if (pageText != null)
+            {
+                pageText.innerText = (page + 1);
+                pagesText.innerText = pages;
+            }
+
+            var buttons = document.getElementById("%(id)s_buttons");
+            if (buttons != null)
+            {
+                buttons.style.display = (pages <= 1) ? "none" : "block";
+            }
+
+            size_%(id)s();
+        }
+
         </script>
 
-        ''' % dict(id=self._id,type=self._type,values=values,options=json.dumps(self._options),chartHtml=self.getChartHtml())
+        ''' % dict(id=self._id,type=self._type,values=values,options=json.dumps(self._options),chartHtml=self.getChartHtml(),url=url,theme=self._charts._theme,dataSkin=self._charts._dataSkin,kpiSkin=self._charts._kpiSkin)
 
         return(html)
 
@@ -399,8 +473,12 @@ class Chart(object):
 
         html += '''
 
-        <div class='espapiContainer'>
+        <div id='%(id)s_container' class='chartContainer' style='width:%(width)spx;height:%(height)spx'>
+        <!--
         <div class='chart' id='%(id)s_div' style='width:%(width)spx;height:%(height)spx;position:relative'>
+        <div class="chart" id="%(id)s_div" style="width:100%%;height:100%%;position:relative">
+        -->
+        <div class="chart" id="%(id)s_div" style="position:relative">
         </div>
         ''' % dict(id=self._id,width=width,height=height)
 
@@ -408,22 +486,24 @@ class Chart(object):
             html += '''
             <div id='%(id)s_buttons' class='espButtons' style='display:none'>
                 <table style='width:100%%'>
-                <td>
-                <table class='espButtons'>
-                <tr>
-                <td class='icon'><button onclick='javascript:send_%(id)s("prev")'>&#xf043;</button></td>
-                <td class='icon'><button onclick='javascript:send_%(id)s("next")'>&#xf045;</button></td>
-                <td class='icon'><button onclick='javascript:send_%(id)s("first")'>&#xf044;</button></td>
-                <td class='icon'><button onclick='javascript:send_%(id)s("last")'>&#xf046;</button></td>
-                </tr>
-                </table>
-                <td>
-                    <span>Page</span>
-                    <span id='%(id)s_page'></span>
-                    <span>of</span>
-                    <span id='%(id)s_pages'></span>
-                </td>
-                </td>
+                    <tr>
+                        <td>
+                            <table class='espButtons'>
+                                <tr>
+                                    <td class='icon'><button onclick='javascript:send_%(id)s("prev")'>&#xf043;</button></td>
+                                    <td class='icon'><button onclick='javascript:send_%(id)s("next")'>&#xf045;</button></td>
+                                    <td class='icon'><button onclick='javascript:send_%(id)s("first")'>&#xf044;</button></td>
+                                    <td class='icon'><button onclick='javascript:send_%(id)s("last")'>&#xf046;</button></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <span>Page</span>
+                            <span id='%(id)s_page'></span>
+                            <span>of</span>
+                            <span id='%(id)s_pages'></span>
+                        </td>
+                    </tr>
                 </table>
             </div>
 
@@ -498,11 +578,12 @@ class Chart(object):
 
         self._values = []
 
-        if type(value) is list:
-            for v in value:
-                self._values.append(v)
-        else:
-            self._values.append(value)
+        if value != None:
+            if type(value) is list:
+                for v in value:
+                    self._values.append(v)
+            else:
+                self._values.append(value)
 
         #self.data = self.getData()
 
@@ -608,17 +689,31 @@ class ModelViewer(object):
 
         html = ""
 
+        url = self._charts._url;
+
+        if len(url) > 0:
+            url  += "/esp/js/libs";
+
         html += '''
 
         <style type="text/css">
 
-        /*
         .visualContainer
         {
             position:relative;
             overflow:auto;
         }
-        */
+
+        div.chart
+        {
+            border:1px solid #d8d8d8;
+        }
+
+        div.chartContainer
+        {
+            border:6px solid #d8d8d8;
+            border:0;
+        }
 
         div.rendered_html td
         {
@@ -685,10 +780,20 @@ class ModelViewer(object):
 
         </style>
 
+        <div id='%(id)s_container' class='chartContainer' style='width:%(width)spx;height:%(height)spx'>
+        <div class="chart" id="%(id)s_div" style="position:relative;overflow:hidden"></div>
+        </div>
+
+        <!--
         <table>
-        <tr><td><div id="%(id)s_div" style="width:%(width)spx;height:%(height)spx;position:relative;overflow:hidden"></div></td></tr>
+        <tr><td><div class="chart" id="%(id)s_div" style="width:%(width)spx;height:%(height)spx;position:relative;overflow:hidden"></div></td></tr>
         </table>
+        -->
         <script language="javascript">
+
+        var mv_%(id)s = null;
+        var model_%(id)s = null;
+        var container_%(id)s = null;
 
         if (Jupyter.notebook.kernel != null)
         {
@@ -700,11 +805,21 @@ class ModelViewer(object):
                 //console.log(msg.content.data);
                 if (type == "model")
                 {
-                    mv_%(id)s.loadFromModel(msg.content.data.chartdata);
+                    if (mv_%(id)s != null)
+                    {
+                        mv_%(id)s.loadFromModel(msg.content.data.chartdata);
+                    }
+                    else
+                    {
+                        model_%(id)s = msg.content.data.chartdata;
+                    }
                 }
                 else if (type == "stats")
                 {
-                    mv_%(id)s.setProjectStats(msg.content.data.statsdata);
+                    if (mv_%(id)s != null)
+                    {
+                        mv_%(id)s.setProjectStats(msg.content.data.statsdata);
+                    }
                 }
                 else
                 {
@@ -727,27 +842,63 @@ class ModelViewer(object):
             send_%(id)s("init");
         }
 
-        if (require.defined("sascharts") == false)
+        if (window.hasOwnProperty("_sascharts") == false)
         {
-            require(["sascharts"],
+            var baseUrl = "%(url)s";
+
+            if (baseUrl.length > 0)
+            {
+                window._tmpBaseUrl = require.toUrl("");
+                requirejs.config({baseUrl:baseUrl});
+            }
+
+            require(["common/sascharts"],
             function(sascharts)
             {
-                sascharts.initPy({"ready":ready_%(id)s},"sas_corporate");
+                window._sascharts = sascharts;
+                sascharts.initPy({"ready":ready_%(id)s},"%(theme)s");
             });
         }
         else
         {
-            ready_%(id)s(require("sascharts"));
+            create_%(id)s(window._sascharts);
         }
 
         function
         ready_%(id)s(sascharts)
         {
+            create_%(id)s(sascharts);
+        }
+
+        function
+        create_%(id)s(sascharts)
+        {
             var charts = sascharts.create();
-            charts.loadResources("/static/resources");
+            charts.loadResources();
             var options = %(options)s;
             mv_%(id)s = charts.createModelViewer("%(id)s_div",options);
             mv_%(id)s.nodeSelected = nodeSelected_%(id)s;
+
+            if (model_%(id)s != null)
+            {
+                model_%(id)s = msg.content.data.chartdata;
+                mv_%(id)s.loadFromModel(model_%(id)s);
+            }
+
+            var div = document.getElementById("%(id)s_div");
+
+            while (div != null)
+            {
+                if (div.className != null)
+                {
+                    if (div.className.indexOf("output_html") != -1 || div.className == "dashboardContainer")
+                    {
+                        _container%(id)s = div;
+                        break;
+                    }
+                }
+                div = div.parentNode;
+            }
 
             size_%(id)s();
         }
@@ -755,21 +906,25 @@ class ModelViewer(object):
         function
         size_%(id)s()
         {
-            var div = document.getElementById("%(id)s_div");
-            var d = div;
-
-            while (d != null)
+            if (_container%(id)s != null)
             {
-                if (d.className != null)
+                var c = _container%(id)s;
+
+                c.style.overflow = "hidden";
+
+                var inset = 0;
+
+                if (c.className.indexOf("output_html") != -1)
                 {
-                    if (d.className.indexOf("output_html") != -1 || d.className == "dashboardContainer")
-                    {
-                        div.style.width = (d.offsetWidth - 20) + "px";
-                        div.style.height = d.offsetHeight + "px";
-                        break;
-                    }
+                    inset = 0;
                 }
-                d = d.parentNode;
+
+                var container = document.getElementById("%(id)s_container");
+                var div = document.getElementById("%(id)s_div");
+                container.style.width = (c.clientWidth - inset) + "px";
+                container.style.height = (c.clientHeight - inset) + "px";
+                div.style.width = (container.clientWidth - inset) + "px";
+                div.style.height = (container.clientHeight - inset) + "px";
             }
 
             mv_%(id)s.size();
@@ -790,7 +945,7 @@ class ModelViewer(object):
 
         </script>
 
-        ''' % dict(id=self._id,width=width,height=height,options=json.dumps(self._options.options))
+        ''' % dict(id=self._id,width=width,height=height,options=json.dumps(self._options.options),url=url,theme=self._charts._theme)
 
         return(html)
 

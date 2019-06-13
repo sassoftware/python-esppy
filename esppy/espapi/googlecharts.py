@@ -32,7 +32,7 @@ class Chart(object):
 
     _chartsLoaded = False
 
-    def __init__(self,type,datasource,values,options,**kwargs):
+    def __init__(self,type,datasource,values,options):
         self._id = str(uuid.uuid4()).replace('-', '_')
         self._type = type
         self._datasource = datasource
@@ -71,26 +71,24 @@ class Chart(object):
 
         <style type="text/css">
 
-        .espapiContainer
-        {
-            width:100%%;
-        }
-
-        .espapiContainer td.espButton
-        {
-        }
-
-        div.espButtons
-        {
-            background:white;
-            border:1px solid #d8d8d8;
-            border-top:0;
-        }
-
         div.chart
         {
-            border:2px solid blue;
             border:1px solid #d8d8d8;
+        }
+
+        @font-face
+        {
+            font-family:sas-icons;
+            src:url(/static/fonts/sas-icons.ttf);
+        }
+
+        .icon
+        {
+            font-family:sas-icons;
+            font-weight:regular;
+            font-size:1.5rem;
+            color:#4e4e4e;
+            padding:0;
         }
 
         </style>
@@ -272,15 +270,15 @@ class Chart(object):
 
         if self._datasource.type == "updating":
             html += '''
-            <div class='espButtons'>
+            <div id='%(id)s_buttons' class='espButtons' style='display:none'>
                 <table style='width:100%%'>
                 <td>
                 <table class='espButtons'>
                 <tr>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("prev")'>Prev</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("next")'>Next</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("first")'>First</button></td>
-                <td class='espButton'><button onclick='javascript:send_%(id)s("last")'>Last</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("prev")'>&#xf043;</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("next")'>&#xf045;</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("first")'>&#xf044;</button></td>
+                <td class='icon'><button onclick='javascript:send_%(id)s("last")'>&#xf046;</button></td>
                 </tr>
                 </table>
                 </td>

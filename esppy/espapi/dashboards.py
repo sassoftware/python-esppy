@@ -31,21 +31,21 @@ class Dashboard(object):
             border:1px solid #d8d8d8;
             margin:auto;
             overflow:auto;
-            padding:0;
             padding:5px;
+            padding:0;
         }
 
         table.dashboard
         {
-            width:98%%;
             width:100%%;
-            //border:1px solid red;
         }
 
         td.dashboard
         {
             background:white;
             padding:5px;
+            padding-bottom:0;
+            padding-top:0;
         }
 
         div.dashboardContainer
@@ -81,12 +81,16 @@ class Dashboard(object):
 
         </script>
 
+        <!--
         <div class='dashboard' id='%(id)s_div'>
+        -->
+        <table id='%(id)s_div' cellspacing='0' cellpadding='0'>
 
         ''' % dict(id=self._id)
 
         for row in self._rows:
-            html += "<table class='dashboard'>"
+            html += "<tr><td style='padding:0'>";
+            html += "<table class='dashboard' cellspacing='0' cellpadding='0'>"
             html += "<tr>"
             for i in range(0,row.size):
                 component = row.get(i)
@@ -95,15 +99,17 @@ class Dashboard(object):
                 if i == 0 and row.size < maxcols:
                     html += " colspan='" + str(maxcols - row.size + 1) + "'"
                 html += ">"
-                #html += "<div class='dashboardContainer' style='height:" + str(row.height) + "px'>";
+                #html += " style='border:2px solid red'>"
                 html += "<div class='dashboardContainer'>";
                 html += component.getHtml()
                 html += "</div>";
                 html += "</td>"
             html += "</tr>"
             html += "</table>"
+            html += "</td></tr>";
 
-        html += "</div>"
+        #html += "</div>"
+        html += "</table>"
         html += "\n"
 
         html += '''

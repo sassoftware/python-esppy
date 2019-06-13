@@ -8,7 +8,7 @@ import re
 import esppy.websocket
 import esppy
 
-logging.basicConfig(filename="/tmp/py.log",level=logging.DEBUG)
+logging.basicConfig(filename="/mnt/data/home/roleve/etc/py.log",level=logging.DEBUG)
 
 class Server(object):
 
@@ -186,11 +186,11 @@ class Server(object):
 
         return(win)
 
-    def getStreamingDatasource(self,window,**kwargs):
-        return(StreamingDatasource(self,window,**kwargs))
+    def getStreamingDatasource(self,window,options = None):
+        return(StreamingDatasource(self,window,options))
 
-    def getUpdatingDatasource(self,window,**kwargs):
-        return(UpdatingDatasource(self,window,**kwargs))
+    def getUpdatingDatasource(self,window,options = None):
+        return(UpdatingDatasource(self,window,options))
 
     def getStats(self,cpu = 0,interval = 5,counts = True,delegate = None):
         return(ProjectStats(self,cpu,interval,counts,delegate))
@@ -262,14 +262,14 @@ class Datasource(object):
         self._type = value
 
 class Connection(Datasource):
-    def __init__(self,server,delegate = None):
+    def __init__(self,server,delegate = None,options = None):
         Datasource.__init__(self,server)
         self._delegate = delegate
         self._websocket = None
         self._connected = False
         self._handshakeComplete = False
         self._headers = None
-        self._options = {}
+        self._options = Options(options)
 
     def start(self):
         if (self.isConnected):
@@ -385,24 +385,10 @@ class Connection(Datasource):
         pass
 
     def setOption(self,name,value):
-        s = name.lower()
-
-        if value != None:
-            self._options[s] = value
-        else:
-            del self._options[s]
+        self._options.set(name,value)
 
     def getOption(self,name,dv = None):
-        s = name.lower()
-
-        value = None
-
-        if hasattr(self._options,s):
-            value = self._options[s]
-        elif dv != None:
-            value = dv
-
-        return(value)
+        return(self._options.get(name,dv))
 
     def clear(self):
         if (self._websocket != None):
@@ -435,8 +421,8 @@ class Connection(Datasource):
 
 class PubSub(Connection):
 
-    def __init__(self,server,window,delegate = None):
-        Connection.__init__(self,server,delegate)
+    def __init__(self,server,window,delegate = None,options = None):
+        Connection.__init__(self,server,delegate,options)
 
         self._name = ""
 
@@ -489,17 +475,20 @@ class PubSub(Connection):
     def clear(self):
         Connection.clear(self)
 
+    @property
+    def window(self):
+        return(self._window)
+
 class Subscriber(PubSub):
 
-    def __init__(self,server,window,mode,delegate = None,**kwargs):
-        PubSub.__init__(self,server,window,delegate)
+    def __init__(self,server,window,mode,delegate = None,options = None):
+        PubSub.__init__(self,server,window,delegate,options)
         self.type = mode
         self._page = 0
         self._pages = 0
         self._pageSize = 50
         self._filter = None
         self._sort = None
-        self._args = kwargs != None and kwargs.copy() or None
 
     @property
     def isUpdating(self):
@@ -512,9 +501,10 @@ class Subscriber(PubSub):
     def getUrl(self):
         url = PubSub.getUrl(self)
         url += "&mode=" + self.type
-        if self._args != None:
-            for key,value in self._args.items():
-                url += "&" + key + "=" + str(value)
+        for key,value in self._options.items():
+            url += "&" + key + "=" + str(value)
+        logging.debug("OPTIONS: " + str(self._options.options))
+        logging.debug("URL: " + url)
         return(url)
 
     def message(self,message):
@@ -702,8 +692,8 @@ class Subscriber(PubSub):
         self._sort = value;
 
 class EventCollection(Subscriber):
-    def __init__(self,server,window,type,delegate = None,**kwargs):
-        Subscriber.__init__(self,server,window,type,self,**kwargs)
+    def __init__(self,server,window,type,delegate = None,options = None):
+        Subscriber.__init__(self,server,window,type,self,options)
         if self.isUpdating:
             self._events = {}
         else:
@@ -737,8 +727,8 @@ class EventCollection(Subscriber):
 
 class UpdatingDatasource(EventCollection):
 
-    def __init__(self,server,window,**kwargs):
-        EventCollection.__init__(self,server,window,"updating",self,**kwargs)
+    def __init__(self,server,window,options = None):
+        EventCollection.__init__(self,server,window,"updating",self,options)
         self.start()
 
     def process(self,events):
@@ -787,8 +777,8 @@ class UpdatingDatasource(EventCollection):
 
 class StreamingDatasource(EventCollection):
 
-    def __init__(self,server,window,**kwargs):
-        EventCollection.__init__(self,server,window,"streaming",self,**kwargs)
+    def __init__(self,server,window,options = None):
+        EventCollection.__init__(self,server,window,"streaming",self,options)
 
         for f in self._schema._fields:
             f["isKey"] = False
@@ -1197,6 +1187,9 @@ class Options(object):
                 del self._options[name]
         else:
             self._options[name] = value
+
+    def items(self):
+        return(self._options.items())
 
     @property
     def options(self):
