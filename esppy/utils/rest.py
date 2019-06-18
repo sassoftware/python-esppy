@@ -383,8 +383,8 @@ class RESTHelpers(object):
             if error != None:
                 details = elem.findall('./details/detail')
                 for detail in details:
-                    error += detail.text;
                     error += "\n";
+                    error += detail.text;
             else:
                 error = resp.content
 
