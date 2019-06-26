@@ -6,11 +6,12 @@ except ImportError:
 from ..utils.notebook import scale_svg
 from IPython.display import display, Javascript
 from ipykernel.comm import Comm
-import uuid
+
+import esppy.espapi.tools as tools
 
 class StatsChart(object):
     def __init__(self,server):
-        self._id = str(uuid.uuid4()).replace("-", "_")
+        self._id = tools.guid()
         self._server = server
         self._stats = self._server.getStats(interval=4)
         self._stats.addChangeDelegate(self)

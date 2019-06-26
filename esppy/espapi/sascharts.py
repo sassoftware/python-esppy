@@ -1,19 +1,20 @@
 from IPython.display import display, Javascript
+import esppy.espapi.connections as connections
 from ipykernel.comm import Comm
 from xml.etree import ElementTree
 import logging
 import copy
 import datetime
 import esppy.espapi.api as api
-import uuid
+import esppy.espapi.tools as tools
 import json
 import re
 
 class Charts(object):
-    def __init__(self,server,options):
-        self._server = server
+    def __init__(self,connection,options = None):
+        self._connection = connection
         self._charts = []
-        self._options = api.Options(options)
+        self._options = tools.Options(options)
         self._url = self._options.get("url","")
         self._theme = self._options.get("theme","sas_corporate")
         self._dataSkin = self._options.get("dataSkin","crisp")
@@ -22,7 +23,7 @@ class Charts(object):
 
     def createChart(self,type,datasource,values,options = None):
 
-        datasource.addChangeDelegate(self)
+        datasource.addDelegate(self)
 
         chart = Chart(self,type,datasource,values,options)
         self._charts.append(chart)
@@ -31,6 +32,11 @@ class Charts(object):
     def createModelViewer(self,options):
         mv = ModelViewer(self,options)
         return(mv)
+
+    def schemaSet(self,datasource):
+        for chart in self._charts:
+            if chart._datasource == datasource:
+                chart.initialize()
 
     def dataChanged(self,datasource):
         for chart in self._charts:
@@ -60,7 +66,7 @@ class Chart(object):
 
     def __init__(self,charts,type,datasource,values,options):
         self._charts = charts
-        self._id = str(uuid.uuid4()).replace('-', '_')
+        self._id = tools.guid()
         self._id = self._charts.getId()
         self._type = type
         self._datasource = datasource
@@ -69,6 +75,7 @@ class Chart(object):
         self._data = self.getData()
         self._comm = None
         self.options = options
+        self._initialized = False
 
     def draw(self):
         self.data = self.getData()
@@ -85,11 +92,8 @@ class Chart(object):
 
     def target(self,comm,msg):
         self._comm = comm
-        o = {}
-        o["type"] = "schema"
-        o["schema"] = self._datasource.schema.toJson()
-        self._comm.send(o)
-        self.data = self.getData()
+        if self._datasource.schema.hasFields():
+            self.initialize()
         @comm.on_msg
         def _recv(msg):
             message = msg["content"]["data"]
@@ -97,6 +101,15 @@ class Chart(object):
                 self._charts.deliverSelection(self,message)
             else:
                 self._datasource.handleMessage(message)
+
+    def initialize(self):
+        if self._initialized == False:
+            o = {}
+            o["type"] = "schema"
+            o["schema"] = self._datasource.schema.toJson()
+            self._comm.send(o)
+            self.data = self.getData()
+            self._initialized = True
 
     def _repr_html_(self):
         self.data = self.getData()
@@ -123,6 +136,8 @@ class Chart(object):
 
         if len(url) > 0:
             url  += "/esp/js/libs"
+
+        height = self.getHeight()
 
         html += '''
 
@@ -250,6 +265,7 @@ class Chart(object):
             {
                 o["data"] = data;
             }
+                console.log(JSON.stringify(o));
             _comm%(id)s.send(o);
         }
 
@@ -422,7 +438,8 @@ class Chart(object):
                     return;
                 }
                 container.style.width = (c.clientWidth - inset) + "px";
-                container.style.height = (c.clientHeight - inset) + "px";
+                //container.style.height = (c.clientHeight - inset) + "px";
+                container.style.height = "%(height)spx";
                 div.style.width = (container.clientWidth - inset) + "px";
                 var height = container.clientHeight;
 
@@ -441,18 +458,28 @@ class Chart(object):
         function
         pages_%(id)s(page,pages)
         {
-            var pageText = document.getElementById("%(id)s_page");
-            var pagesText = document.getElementById("%(id)s_pages");
+            var buttons = document.getElementById("%(id)s_buttons");
 
-            if (pageText != null)
+            if (buttons == null)
             {
-                pageText.innerText = (page + 1);
-                pagesText.innerText = pages;
+                return;
             }
 
-            var buttons = document.getElementById("%(id)s_buttons");
-            if (buttons != null)
+            if (isNaN(page))
             {
+                buttons.style.display = "none";
+            }
+            else
+            {
+                var pageText = document.getElementById("%(id)s_page");
+                var pagesText = document.getElementById("%(id)s_pages");
+
+                if (pageText != null)
+                {
+                    pageText.innerText = (page + 1);
+                    pagesText.innerText = pages;
+                }
+
                 buttons.style.display = (pages <= 1) ? "none" : "block";
             }
 
@@ -461,7 +488,7 @@ class Chart(object):
 
         </script>
 
-        ''' % dict(id=self._id,type=self._type,values=values,options=json.dumps(self._options),chartHtml=self.getChartHtml(),url=url,theme=self._charts._theme,dataSkin=self._charts._dataSkin,kpiSkin=self._charts._kpiSkin)
+        ''' % dict(id=self._id,type=self._type,values=values,options=json.dumps(self._options),chartHtml=self.getChartHtml(),url=url,theme=self._charts._theme,dataSkin=self._charts._dataSkin,kpiSkin=self._charts._kpiSkin,height=height)
 
         return(html)
 
@@ -482,7 +509,8 @@ class Chart(object):
         </div>
         ''' % dict(id=self._id,width=width,height=height)
 
-        if self._datasource.type == "updating":
+        #if self._datasource.type == "updating":
+        if True:
             html += '''
             <div id='%(id)s_buttons' class='espButtons' style='display:none'>
                 <table style='width:100%%'>
@@ -523,9 +551,7 @@ class Chart(object):
         events = self._datasource.getData()
         fields = self._datasource.schema.fields;
 
-        updating = (self._datasource.type == "updating");
-
-        if updating == True:
+        if isinstance(self._datasource,connections.EventCollection):
             for key,e in events.items():
                 o = {}
 
@@ -642,10 +668,10 @@ class ModelViewer(object):
 
     def __init__(self,charts,options):
         self._charts = charts
-        self._id = str(uuid.uuid4()).replace('-', '_')
+        self._id = tools.guid()
         self._comm = None
         self._project = None
-        self._options = api.Options(options)
+        self._options = tools.Options(options)
         self._stats = None
         self._selectionCb = None
 
@@ -655,7 +681,6 @@ class ModelViewer(object):
         @comm.on_msg
         def _recv(msg):
             message = msg["content"]["data"]
-            logging.debug("HERE: " + str(self._selectionCb))
             if message["type"] == "selection":
                 if self._selectionCb != None:
                     self._selectionCb(message["data"])
@@ -959,7 +984,7 @@ class ModelViewer(object):
         model["windows"] = windows
         model["edges"] = edges
 
-        for a in self._charts._server.windows:
+        for a in self._charts._connection._server.windows:
             if self._project == "*" or a["p"] == self._project:
                 if a["type"] == "source" or a["type"] == "window-source" or len(a["incoming"]) > 0 or len(a["outgoing"]) > 0:
                     window = {}
@@ -984,7 +1009,7 @@ class ModelViewer(object):
     def setShowStats(self,value):
         if value:
             if self._stats == None:
-                self._stats = ModelViewerStats(self._charts._server,self)
+                self._stats = ModelViewerStats(self._charts._connection,self)
         elif self._stats != None:
             self._stats.stop()
             self._stats = None
@@ -1020,19 +1045,19 @@ class ModelViewer(object):
 
 class ModelViewerStats(object):
 
-    def __init__(self,server,modelViewer):
-        self._server = server
+    def __init__(self,connection,modelViewer):
+        self._connection = connection
         self._modelViewer = modelViewer
-        self._stats = self._server.getStats(0,2)
-        self._stats.addChangeDelegate(self)
-        self._stats.start()
+        #self._stats = self._connection._server.getStats(0,2)
+        self._stats = self._connection.getStats();
+        self._stats.addDelegate(self)
 
     def __del__(self):
         self._stats.stop()
 
     def stop(self):
-        self._stats.removeChangeDelegate(self)
+        self._stats.removeDelegate(self)
         del self
 
-    def dataChanged(self,datasource):
-        self._modelViewer.sendStats(datasource.getData())
+    def handleStats(self,stats):
+        self._modelViewer.sendStats(stats.getData())

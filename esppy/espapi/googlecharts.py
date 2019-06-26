@@ -3,7 +3,7 @@ from ipykernel.comm import Comm
 import datetime
 import esppy.espapi.api
 import esppy.espapi.dashboards
-import uuid
+import esppy.espapi.tools as tools
 import json
 import re
 
@@ -33,7 +33,7 @@ class Chart(object):
     _chartsLoaded = False
 
     def __init__(self,type,datasource,values,options):
-        self._id = str(uuid.uuid4()).replace('-', '_')
+        self._id = tools.guid()
         self._type = type
         self._datasource = datasource
         self.values = values

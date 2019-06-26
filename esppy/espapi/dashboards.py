@@ -1,13 +1,12 @@
 import esppy.espapi.api as api
+import esppy.espapi.tools as tools
 import logging
-import uuid
 
 class Dashboard(object):
 
     def __init__(self):
-        self._id = str(uuid.uuid4()).replace('-', '_')
+        self._id = tools.guid()
         self._rows = []
-        self._current = None
 
     def addRow(self,height = 300):
         row = DashboardRow(height)
@@ -126,9 +125,9 @@ class DashboardRow(object):
         self._components = []
 
     def add(self,component):
-        if api.Delegate.supports(component,"setHeight") == False:
+        if tools.supports(component,"setHeight") == False:
             raise Exception("Dashboard component must support the setHeight() method")
-        if api.Delegate.supports(component,"getHtml") == False:
+        if tools.supports(component,"getHtml") == False:
             raise Exception("Dashboard component must support the getHtml() method")
         self._components.append(component)
 
