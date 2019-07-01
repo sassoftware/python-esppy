@@ -2,7 +2,7 @@ from urllib.parse import urlparse
 
 import esppy.espapi.connections as connections
 
-def connect(url,delegate = None,options = None):
+def connect(url,delegate = None,**kwargs):
 
     u = urlparse(url)
 
@@ -16,4 +16,8 @@ def connect(url,delegate = None,options = None):
     host = s[0]
     port = s[1]
 
-    return(connections.ServerConnection(host,port,secure,delegate,options))
+    conn = connections.ServerConnection(host,port,secure,delegate,**kwargs)
+
+    conn.start()
+
+    return(conn)

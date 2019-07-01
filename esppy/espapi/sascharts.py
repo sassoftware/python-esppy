@@ -11,26 +11,26 @@ import json
 import re
 
 class Charts(object):
-    def __init__(self,connection,options = None):
+    def __init__(self,connection,**kwargs):
         self._connection = connection
         self._charts = []
-        self._options = tools.Options(options)
+        self._options = tools.Options(**kwargs)
         self._url = self._options.get("url","")
         self._theme = self._options.get("theme","sas_corporate")
         self._dataSkin = self._options.get("dataSkin","crisp")
         self._kpiSkin = self._options.get("kpiSkin","charcoal")
         self._id = 1
 
-    def createChart(self,type,datasource,values,options = None):
+    def createChart(self,type,datasource,values,**kwargs):
 
         datasource.addDelegate(self)
 
-        chart = Chart(self,type,datasource,values,options)
+        chart = Chart(self,type,datasource,values,**kwargs)
         self._charts.append(chart)
         return(chart)
 
-    def createModelViewer(self,options):
-        mv = ModelViewer(self,options)
+    def createModelViewer(self,**kwargs):
+        mv = ModelViewer(self,**kwargs)
         return(mv)
 
     def schemaSet(self,datasource):
@@ -64,8 +64,9 @@ class Charts(object):
 
 class Chart(object):
 
-    def __init__(self,charts,type,datasource,values,options):
+    def __init__(self,charts,type,datasource,values,**kwargs):
         self._charts = charts
+        self._options = tools.Options(**kwargs)
         self._id = tools.guid()
         self._id = self._charts.getId()
         self._type = type
@@ -74,7 +75,6 @@ class Chart(object):
         self._info = self._datasource.getInfo()
         self._data = self.getData()
         self._comm = None
-        self.options = options
         self._initialized = False
 
     def draw(self):
@@ -452,7 +452,10 @@ class Chart(object):
                 div.style.height = height + "px";
             }
 
-            _chart%(id)s.size();
+            if (_chart%(id)s != null)
+            {
+                _chart%(id)s.size();
+            }
         }
 
         function
@@ -488,7 +491,7 @@ class Chart(object):
 
         </script>
 
-        ''' % dict(id=self._id,type=self._type,values=values,options=json.dumps(self._options),chartHtml=self.getChartHtml(),url=url,theme=self._charts._theme,dataSkin=self._charts._dataSkin,kpiSkin=self._charts._kpiSkin,height=height)
+        ''' % dict(id=self._id,type=self._type,values=values,options=json.dumps(self._options.options),chartHtml=self.getChartHtml(),url=url,theme=self._charts._theme,dataSkin=self._charts._dataSkin,kpiSkin=self._charts._kpiSkin,height=height)
 
         return(html)
 
@@ -509,8 +512,7 @@ class Chart(object):
         </div>
         ''' % dict(id=self._id,width=width,height=height)
 
-        #if self._datasource.type == "updating":
-        if True:
+        if isinstance(self._datasource,connections.EventCollection):
             html += '''
             <div id='%(id)s_buttons' class='espButtons' style='display:none'>
                 <table style='width:100%%'>
@@ -632,33 +634,20 @@ class Chart(object):
         return(self._options)
 
     @options.setter
-    def options(self,options):
-        if options == None:
-            self._options = {}
-        else:
-            self._options = options
+    def options(self,**kwargs):
+        self._options.setOptions(**kwargs)
 
         if self._comm != None:
             o = {}
             o["type"] = "options"
-            o["options"] = self._options
+            o["options"] = self._options.options
             self._comm.send(o)
 
     def getOption(self,name,dv = None):
-        if dv != None:
-            value = dv
-        else:
-            value = None
-        if name in self._options:
-            value = self._options[name]
-        return(value)
+        return(self._options.get(name,dv))
 
     def setOption(self,name,value):
-        if value != None:
-            self._options[name] = value
-        else:
-            self._options.pop(value,None)
-        return(value)
+        self._options.set(name,value)
 
     @property
     def type(self):
@@ -666,14 +655,20 @@ class Chart(object):
 
 class ModelViewer(object):
 
-    def __init__(self,charts,options):
+    def __init__(self,charts,**kwargs):
         self._charts = charts
         self._id = tools.guid()
         self._comm = None
         self._project = None
-        self._options = tools.Options(options)
+        self._options = tools.Options(**kwargs)
         self._stats = None
         self._selectionCb = None
+        self._model = None
+        self._charts._connection.loadModel(self)
+
+    def modelLoaded(self,model,conn):
+        self._model = model
+        self.sendModel()
 
     def target(self,comm,msg):
         self._comm = comm
@@ -688,10 +683,12 @@ class ModelViewer(object):
 
     def sendModel(self):
         if self._comm != None:
-            o = {}
-            o["type"] = "model"
-            o["chartdata"] = self.build()
-            self._comm.send(o)
+            model = self.build()
+            if model != None:
+                o = {}
+                o["type"] = "model"
+                o["chartdata"] = self.build()
+                self._comm.send(o)
 
     def sendStats(self,data):
         if self._comm != None:
@@ -901,6 +898,7 @@ class ModelViewer(object):
             var charts = sascharts.create();
             charts.loadResources();
             var options = %(options)s;
+            console.log(JSON.stringify(options));
             mv_%(id)s = charts.createModelViewer("%(id)s_div",options);
             mv_%(id)s.nodeSelected = nodeSelected_%(id)s;
 
@@ -931,6 +929,7 @@ class ModelViewer(object):
         function
         size_%(id)s()
         {
+            console.log("============= 3: " + _container%(id)s);
             if (_container%(id)s != null)
             {
                 var c = _container%(id)s;
@@ -951,6 +950,7 @@ class ModelViewer(object):
                 div.style.width = (container.clientWidth - inset) + "px";
                 div.style.height = (container.clientHeight - inset) + "px";
             }
+            console.log("============= 4");
 
             mv_%(id)s.size();
         }
@@ -975,7 +975,7 @@ class ModelViewer(object):
         return(html)
 
     def build(self):
-        if self._project == None:
+        if self._model == None or self._project == None:
             return
 
         model = {}
@@ -984,7 +984,7 @@ class ModelViewer(object):
         model["windows"] = windows
         model["edges"] = edges
 
-        for a in self._charts._connection._server.windows:
+        for a in self._model.windows:
             if self._project == "*" or a["p"] == self._project:
                 if a["type"] == "source" or a["type"] == "window-source" or len(a["incoming"]) > 0 or len(a["outgoing"]) > 0:
                     window = {}
@@ -994,8 +994,8 @@ class ModelViewer(object):
                     window["index"] = a["index"]
                     window["xml"] = ElementTree.tostring(a["xml"]).decode()
                     window["schema"] = a["schema"].toString()
-                    if window["type"] in api.Server._windowClasses:
-                        window["class"] = api.Server._windowClasses[window["type"]]
+                    if window["type"] in connections.ServerConnection._windowClasses:
+                        window["class"] = connections.ServerConnection._windowClasses[window["type"]]
                     windows.append(window)
 
                     for z in a["outgoing"]:
@@ -1048,7 +1048,6 @@ class ModelViewerStats(object):
     def __init__(self,connection,modelViewer):
         self._connection = connection
         self._modelViewer = modelViewer
-        #self._stats = self._connection._server.getStats(0,2)
         self._stats = self._connection.getStats();
         self._stats.addDelegate(self)
 

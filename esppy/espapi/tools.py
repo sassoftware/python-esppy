@@ -1,19 +1,21 @@
 import uuid
 
 class Options(object):
-    def __init__(self,options = None):
+    def __init__(self,**kwargs):
         self._options = {}
 
-        if options != None:
-            for name,value in options.items():
-                self._options[name] = value
+        for name,value in kwargs.items():
+            self.set(name,value)
+
+    def has(self,name):
+        return(name.lower() in self._options)
 
     def get(self,name,dv = None):
         value = None
+        s = name.lower()
 
-        if self._options != None:
-            if name in self._options:
-                value = self._options[name]
+        if s in self._options:
+            value = self._options[s]
 
         if value == None and dv != None:
             value = dv
@@ -21,11 +23,16 @@ class Options(object):
         return(value)
 
     def set(self,name,value):
+        s = name.lower()
         if value == None:
-            if name in self._options:
-                del self._options[name]
+            if s in self._options:
+                del self._options[s]
         else:
-            self._options[name] = value
+            self._options[s] = value
+
+    def setOptions(**kwargs):
+        for name,value in kwargs.items():
+            self.set(name,value)
 
     def items(self):
         return(self._options.items())

@@ -11,14 +11,14 @@ import re
 logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
 
 class Connection(object):
-    def __init__(self,host,port,secure,options = None):
+    def __init__(self,host,port,secure,**kwargs):
         self._host = host
         self._port = port
         self._secure = secure
         self._websocket = None
         self._handshakeComplete = False
         self._headers = None
-        self._options = tools.Options(options)
+        self._options = tools.Options(**kwargs)
         self._authorization = None
 
     def start(self,readyCb = None):
@@ -197,8 +197,8 @@ class ServerConnection(Connection):
         "text-topic":"textanalytics"
     }
 
-    def __init__(self,host,port,secure,delegate = None,options = None):
-        Connection.__init__(self,host,port,secure,options)
+    def __init__(self,host,port,secure,delegate,**kwargs):
+        Connection.__init__(self,host,port,secure,**kwargs)
         self._delegate = delegate
         self._collections = {}
         self._streams = {}
@@ -214,7 +214,6 @@ class ServerConnection(Connection):
 
         xml = ElementTree.fromstring(str(message))
 
-        #print("MSG: " + message)
         #logging.info("MSG: " + message)
 
         datasource = None
@@ -262,17 +261,17 @@ class ServerConnection(Connection):
         url += "/eventStreamProcessing/v2/connect"
         return(url)
 
-    def getEventCollection(self,path,options = None,open = True):
-        ec = EventCollection(self,path,options)
+    def getEventCollection(self,path,**kwargs):
+        ec = EventCollection(self,path,**kwargs)
         self._collections[ec._id] = ec
-        if open:
+        if self.isHandshakeComplete:
             ec.open()
         return(ec)
 
-    def getEventStream(self,path,options = None,open = True):
-        es = EventStream(self,path,options)
+    def getEventStream(self,path,**kwargs):
+        es = EventStream(self,path,**kwargs)
         self._streams[es._id] = es
-        if open:
+        if self.isHandshakeComplete:
             es.open()
         return(es)
 
@@ -328,31 +327,36 @@ class ServerConnection(Connection):
 
     def reconnect(self):
         while self.isConnected == False:
-            time.sleep(1)
+            #time.sleep(1)
+            time.sleep(30)
             try:
                 self.start()
             except:
                 pass
 
 class Datasource(object):
-    def __init__(self,conn,path,options):
+    def __init__(self,conn,path,**kwargs):
         self._conn = conn
         self._id = tools.guid()
         self._path = path
-        self._filter = None
         self._fields = None
         self._keyFields = None
-        #self._collection = collections.create(self._path)
         self._schema = Schema()
         self._delegates = []
-        self._options = tools.Options(options)
+        self._options = tools.Options(**kwargs)
 
     def setSchema(self,xml):
         self._schema.fromXml(xml)
-        if True:
-            for d in self._delegates:
-                if tools.supports(d,"schemaSet"):
-                    d.schemaSet(self)
+        for d in self._delegates:
+            if tools.supports(d,"schemaSet"):
+                d.schemaSet(self)
+
+    def setFilter(self,value):
+        self._options.set("filter",value)
+        self.set()
+
+    def getFilter(self):
+        return(self._options.get("filter",""))
 
     def getKey(self,o):
         key = ""
@@ -396,6 +400,11 @@ class Datasource(object):
         for d in self._delegates:
             d.dataChanged(self)
 
+    def deliverInfoChange(self):
+        for d in self._delegates:
+            if tools.supports(d,"infoChanged"):
+                d.infoChanged(self)
+
     def handleMessage(self,msg):
         pass
 
@@ -410,8 +419,8 @@ class Datasource(object):
         return(self._schema)
 
 class EventCollection(Datasource):
-    def __init__(self,conn,path,options):
-        Datasource.__init__(self,conn,path,options)
+    def __init__(self,conn,path,**kwargs):
+        Datasource.__init__(self,conn,path,**kwargs)
         self._page = 0
         self._pages = 0
         self._events = {}
@@ -423,14 +432,28 @@ class EventCollection(Datasource):
         o["action"]= "open"
         o["window"]= self._path
         o["schema"]= True
-        #o["info"]= 5
+        o["info"]= 5
         o["format"]= "xml"
 
         for key,value in self._options.options.items():
             o[key] = value
 
-        if self._filter != None:
-            o["filter"]= self._filter
+        if self._options.has("filter") == False:
+            o["filter"]= ""
+
+        self._conn.send(o)
+
+    def set(self):
+        o = {}
+        o["request"]= "event-collection"
+        o["id"]= self._id
+        o["action"]= "set"
+
+        for key,value in self._options.options.items():
+            o[key] = value
+
+        if self._options.has("filter") == False:
+            o["filter"]= ""
 
         self._conn.send(o)
 
@@ -517,7 +540,10 @@ class EventCollection(Datasource):
         self.process(data)
 
     def info(self,xml):
-        pass
+        if "page" in xml.attrib:
+            self._page = xml.get("page")
+            self._pages = xml.get("pages")
+            self.deliverInfoChange()
 
     def process(self,events):
         for e in events:
@@ -562,8 +588,38 @@ class EventCollection(Datasource):
     def getKeyTuple(self):
         values = self.getKeyValues()
         return(tuple(values))
- 
-    def getValues(self,names):
+
+    def getValues(self,name):
+        values = {}
+
+        fields = []
+
+        f = self._schema.getField(name)
+
+        #if f == None:
+            #logging.info("RAISE EXC")
+            #raise Exception("field " + name + " is not found")
+
+        values = []
+
+        for key,value in self._events.items():
+            if name in value:
+                if f["isNumber"]:
+                    values.append(float(value[name]))
+                else:
+                    values.append(value[name])
+            elif f["isNumber"]:
+                values.append(0.0)
+            else:
+                values.append("")
+
+        return(values)
+
+    def getTuple(self,name):
+        values = self.getValues(name)
+        return(tuple(values))
+
+    def getValuesForFields(self,names):
         values = {}
 
         fields = []
@@ -589,11 +645,13 @@ class EventCollection(Datasource):
 
         return(values)
 
-    def getTuples(self,names):
-        tuples = self.getValues(names)
+    def getTuplesForFields(self,names):
+        values = self.getValuesForFields(names)
 
-        for key,value in tuples.items():
-            v = tuples[key]
+        tuples = {}
+
+        for key,value in values.items():
+            v = values[key]
             tuples[key] = tuple(v)
 
         return(tuples)
@@ -632,8 +690,8 @@ class EventCollection(Datasource):
         #self.deliverDataChange()
 
 class EventStream(Datasource):
-    def __init__(self,conn,path,options):
-        Datasource.__init__(self,conn,path,options)
+    def __init__(self,conn,path,**kwargs):
+        Datasource.__init__(self,conn,path,**kwargs)
         self._events = []
         self._counter = 1
 
@@ -649,8 +707,8 @@ class EventStream(Datasource):
         for n,v in self._options.options.items():
             o[n] = v
 
-        if self._filter != None:
-            o["filter"] = self._filter
+        if self._options.has("filter") == False:
+            o["filter"]= ""
 
         self._conn.send(o)
 
@@ -664,8 +722,8 @@ class EventStream(Datasource):
         for n,v in self._options.options.items():
             o[n] = v
 
-        if self._filter != None:
-            o["filter"] = self._filter
+        if self._options.has("filter") == False:
+            o["filter"]= ""
 
         self._conn.send(o)
 
@@ -847,7 +905,6 @@ class EventStream(Datasource):
                     columns.append(f["name"])
 
         for value in self._events:
-            print(str(value))
             rows.append(value["__counter"])
             cell = []
             for f in a:
@@ -892,8 +949,8 @@ class Stats(object):
         for d in self._delegates:
             d.handleStats(self)
 
-    def setOptions(self,options):
-        self._options.setOptions(options)
+    def setOptions(self,**kwargs):
+        self._options.setOptions(**kwargs)
         if len(self._delegates) > 0:
             self.set()
 
@@ -945,7 +1002,11 @@ class Log(object):
         self._delegates = []
 
     def process(self,xml):
-        logger.debug("log process")
+        nodes = xml.findall(".")
+        if len(nodes) > 0:
+            message = nodes[0].text
+        for d in self._delegates:
+            d.handleLog(self,message)
 
     def start(self):
         o = {}
