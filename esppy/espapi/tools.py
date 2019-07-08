@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 class Options(object):
@@ -8,14 +9,26 @@ class Options(object):
             self.set(name,value)
 
     def has(self,name):
-        return(name.lower() in self._options)
+        code = False
 
-    def get(self,name,dv = None):
+        if isinstance(name,list):
+            for n in name:
+                if n.lower() in self._options:
+                    code = True
+                    break
+        else:
+            code = name.lower() in self._options
+
+        return(code)
+
+    def get(self,name,dv = None,clear = False):
         value = None
         s = name.lower()
 
         if s in self._options:
             value = self._options[s]
+            if clear:
+                self.clear(s)
 
         if value == None and dv != None:
             value = dv
@@ -30,7 +43,12 @@ class Options(object):
         else:
             self._options[s] = value
 
-    def setOptions(**kwargs):
+    def clear(self,name):
+        s = name.lower()
+        if s in self._options:
+            del self._options[s]
+
+    def setOptions(self,**kwargs):
         for name,value in kwargs.items():
             self.set(name,value)
 
@@ -87,3 +105,27 @@ def removeFrom(list,o):
 
 def guid():
     return(str(uuid.uuid4()).replace('-', '_'))
+
+def brighten(color,offset):
+    if len(color) != 7:
+        return("#ffffff")
+
+    rgbHex = [color[x:x + 2] for x in [1, 3, 5]]
+    rgbInt = [int(value, 16) + offset for value in rgbHex]
+    rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+
+    c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+
+    return(c)
+
+def darken(color,offset):
+    if len(color) != 7:
+        return("#ffffff")
+
+    rgbHex = [color[x:x + 2] for x in [1, 3, 5]]
+    rgbInt = [int(value, 16) - offset for value in rgbHex]
+    rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+
+    c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+
+    return(c)

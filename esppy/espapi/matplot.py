@@ -1,8 +1,14 @@
 import matplotlib.animation as animation
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
+import pandas as pd
+import threading
+import time
+import seaborn as sns
 import matplotlib
 import numpy as np
+
+import matplotlib.ticker as ticker
 
 import esppy.espapi.connections as connections
 
@@ -30,17 +36,21 @@ class Charts(object):
 
         plt.ioff()
 
-        style = self._options.get("style","seaborn-pastel")
-        matplotlib.style.use(style)
+
+        if self._options.has("style"):
+            matplotlib.style.use(self._options.get("style"))
+
+        if self._options.has("palette"):
+            sns.set_palette(self._options.get("palette"))
 
     def display(self):
         plt.show()
 
-    def createChart(self,type,datasource,**kwargs):
+    def createChart(self,datasource,**kwargs):
 
         datasource.addDelegate(self)
 
-        chart = Chart(self,type,datasource,**kwargs)
+        chart = Chart(self,datasource,**kwargs)
         self._charts.append(chart)
 
         return(chart)
@@ -61,17 +71,22 @@ class Charts(object):
     def infoChanged(self,datasource):
         pass
 
+    def handleStats(self,datasource):
+        for chart in self._charts:
+            if chart._datasource == datasource:
+                chart.draw()
+
     def clear(self):
         self._charts = []
         plt.close()
 
 class Chart(object):
-    def __init__(self,charts,type,datasource,**kwargs):
+    def __init__(self,charts,datasource,**kwargs):
         self._charts = charts
-        self._type = type
         self._datasource = datasource
-        self._dashboard = None
         self._options = tools.Options(**kwargs)
+        self._type = self._options.get("type","vbar")
+        self._dashboard = None
         self._figure = None
         self._axis = None
 
@@ -85,6 +100,8 @@ class Chart(object):
             self._figure = plt.figure(num=name,figsize=(width,height));
         else:
             self._figure = plt.figure(figsize=(width,height));
+
+        #self._figure.subplots_adjust(top=1,bottom=1)
 
         self._axis = self._figure.add_subplot(111)
         self.draw()
@@ -101,8 +118,8 @@ class Chart(object):
         if name != None:
             self._axis.set_title(name)
         self.draw()
-        if self._charts._jupyter:
-            plt.show()
+        #if self._charts._jupyter:
+            #plt.show()
 
     def clear(self):
         if self._dashboard == None:
@@ -119,6 +136,14 @@ class Chart(object):
 
         self._axis.clear()
 
+        xmin = self._options.get("xmin")
+        xmax = self._options.get("xmax")
+
+        if xmin != None:
+            self._axis.set_xlim(left=xmin)
+        if xmax != None:
+            self._axis.set_xlim(right=xmax)
+
         ymin = self._options.get("ymin")
         ymax = self._options.get("ymax")
 
@@ -127,129 +152,179 @@ class Chart(object):
         if ymax != None:
             self._axis.set_ylim(top=ymax)
 
+        if self._type == "vbarx":
+
+            keys = self._datasource.getKeyFields()
+            y = self.getValues("y")
+
+            values = []
+            values.extend(keys)
+            values.extend(y)
+
+            df = self._datasource.getDataFrame(values)
+
+            if df.empty:
+                return
+
+            df = df.melt(id_vars=keys)
+
+            chart = sns.barplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df)
+            #chart.set_xticklabels(chart.get_xticklabels(),rotation=45,horizontalAlignment="right",fontweight="light")
+            self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+
         if self._type == "vbar":
-            x = self._datasource.getKeyTuple()
-            values = self.getValues("y")
-            tuples = self._datasource.getTuplesForFields(values)
-            ind = np.arange(len(x))
 
-            if len(tuples) == 0:
+            keys = self._datasource.getKeyFields()
+            y = self.getValues("y")
+
+            values = []
+            values.extend(keys)
+            values.extend(y)
+
+            df = self._datasource.getDataFrame(values)
+
+            if df.empty:
                 return
 
-            w = 0.8 / len(tuples)
+            #df = df.melt(id_vars=keys)
 
-            if len(tuples) == 1:
-                num = 0
+            if len(keys) > 1:
+                if len(keys) == 3:
+                    df = df.melt(id_vars=keys)
+                    #logging.info(str(df))
+                    #sns.catplot(y="value",x=keys[0],kind="bar",data=df)
+                    logging.info("1")
+                    #sns.catplot(y="cpu",x="window",row="project",col="contquery",kind="bar",data=df,ax=self._axis)
+                    #sns.catplot(y="cpu",x="project",row="project",col="contquery",kind="bar",data=df,ax=self._axis)
+                    #g = sns.catplot(y="value",x="project",row="contquery",col="window",kind="bar",data=df,ax=self._axis)
+                    #g = sns.catplot(y="value",x="project",row="contquery",col="window",kind="bar",data=df,ax=self._axis)
+                    sns.catplot(x="project",y="value",kind="bar",data=df,ax=self._axis)
+                    logging.info("2")
             else:
-                num = -(w / len(tuples)) * (len(tuples) / 2)
-                if len(tuples) % 2 != 0:
-                    num -= w / 2
+                df = df.melt(id_vars=keys)
+                chart = sns.barplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df)
+                #chart.set_xticklabels(chart.get_xticklabels(),rotation=45,horizontalAlignment="right",fontweight="light")
+                self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
 
-            for key,value in tuples.items():
-                y = value
-                self._axis.bar(ind + num,y,w,label=key)
-                num += w
-            self._axis.set_xticks(ind)
-            self._axis.set_xticklabels(x)
-            self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+            self._axis.set_xlabel("")
+            self._axis.set_ylabel("")
+
         elif self._type == "hbar":
-            x = self._datasource.getKeyTuple()
-            values = self.getValues("y")
-            tuples = self._datasource.getTuplesForFields(values)
 
-            ind = np.arange(len(x))
+            keys = self._datasource.getKeyFields()
+            y = self.getValues("y")
 
-            if len(tuples) == 0:
+            values = []
+            values.extend(keys)
+            values.extend(y)
+
+            df = self._datasource.getDataFrame(values)
+
+            if df.empty:
                 return
 
-            w = 0.8 / len(tuples)
+            df = df.melt(id_vars=keys)
 
-            if len(tuples) == 1:
-                num = 0
-            else:
-                num = -(w / len(tuples)) * (len(tuples) / 2)
-                if len(tuples) % 2 != 0:
-                    num -= w / 2
-
-            for key,value in tuples.items():
-                y = value
-                self._axis.barh(ind + num,y,w,label=key)
-                num += w
-            self._axis.set_yticks(ind)
-            self._axis.set_yticklabels(x)
+            sns.barplot(x="value",y=keys[0],hue="variable",ax=self._axis,data=df,orient="h")
             self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
-        elif self._type == "pie":
-            values = self.getValues("values")
-            tuples = self._datasource.getTuplesForFields(values)
-            keyTuple = self._datasource.getKeyTuple()
-            for key,value in tuples.items():
-                self._axis.pie(value,labels=keyTuple,shadow=True,autopct='%1.1f%%')
-        elif self._type == "scatter":
-            opt = self._options.get("x")
-            xKeys = False
-            if opt != None:
-                x = self._datasource.getTuple(opt)
-            else:
-                x = self._datasource.getKeyValues()
-                xKeys = True
-            opt = self._options.get("y")
-            if opt == None:
-                raise Exception("must specify y")
-            y = self._datasource.getTuple(opt)
-            size = None
-            opt = self._options.get("size")
-            if opt != None:
-                size = self._datasource.getTuple(opt)
-            opt = self._options.get("color")
-            if opt != None:
-                color = self._datasource.getTuple(opt)
 
-            if xKeys:
+        elif self._type == "line":
 
-                ind = np.arange(len(x))
-                self._axis.scatter(ind,y,s=size,c=color,alpha=.5)
+            keys = self._datasource.getKeyFields()
+            y = self.getValues("y")
 
-                self._axis.set_xticks(ind)
-                self._axis.set_xticklabels(x)
+            values = []
+            values.extend(keys)
+            values.extend(y)
 
-                labels = self.getValues("labels")
+            df = self._datasource.getDataFrame(values)
 
-                if labels != None:
+            if df.empty:
+                return
 
-                    a = []
+            df = df.melt(id_vars=keys)
 
-                    for i in range(0,len(x)):
-                        a.append("")
+            lineWidth = self.getOption("linewidth",2)
 
+            chart = sns.lineplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df,linewidth=lineWidth)
+            self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
 
-                    for l in labels:
-                        t = self._datasource.getTuple(l)
-                        if t != None:
-                            for i,label in enumerate(t):
-                                a[i] += str(label)
-
-                for i,label in enumerate(a):
-                    logging.info("LABEL:  " + str(label))
-                    self._axis.annotate(label,xy=(ind[i],t[i]),cmap=plt.cm.jet)
-
-            else:
-                self._axis.scatter(x,y,s=size,c=color,alpha=.5)
-                keys = self._datasource.getKeyValues()
-                for i,label in enumerate(keys):
-                    logging.info("LABEL: " + label + " :: " + str((x[i],y[i])))
-                    self._axis.annotate(label,xy=(x[i],y[i]))
+            self._axis.set_xlabel("")
+            self._axis.set_ylabel("")
 
         elif self._type == "series":
             lineWidth = self.getOption("linewidth",1)
             lineStyle = self.getOption("linestyle","solid")
-            x = self._datasource.getKeyTuple()
-            values = self.getValues("y")
-            tuples = self._datasource.getTuplesForFields(values)
-            logging.info(str(tuples))
-            for key,value in tuples.items():
-                y = value
-                self._axis.plot(x,y,linewidth=lineWidth,linestyle=lineStyle,solid_joinstyle="round",label=key)
+            keys = self._datasource.getKeyFields()
+            y = self.getValues("y")
+            values = []
+            values.extend(keys)
+            values.extend(y)
+            df = self._datasource.getDataFrame(values)
+            df = df.melt(id_vars=keys)
+            if df.empty:
+                return
+            #sns.pointplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df,markers="None")
+            sns.pointplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df,markers="o")
             self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+            #self._axis.xaxis.set_major_locator(ticker.MultipleLocator(10))
+
+        elif self._type == "pie":
+            values = self._datasource.getValuesForFields(self.getValues("values"))
+            keys = self._datasource.getKeyValues()
+            for key,value in values.items():
+                self._axis.pie(value,labels=keys,shadow=True,autopct='%1.1f%%')
+
+        elif self._type == "scatter":
+            keys = self._datasource.getKeyFields()
+            y = self._options.get("y")
+            size = self._options.get("size")
+
+            values = []
+            values.extend(keys)
+
+            if y != None:
+                if (y in values) == False:
+                    values.append(y)
+
+            if size != None:
+                if (size in values) == False:
+                    values.append(size)
+
+            df = self._datasource.getDataFrame(values)
+
+            if df.empty:
+                return
+
+            chart = sns.scatterplot(x=keys[0],y=y,size=size,data=df,ax=self._axis,legend=False)
+
+            labels = self.getValues("labels")
+
+            if labels != None:
+
+                a = []
+
+                ind = np.arange(len(chart.get_xticklabels()))
+
+                data = self._datasource.getValues(y)
+
+                for i in range(0,len(ind)):
+                    a.append("")
+
+                for i,l in enumerate(labels):
+                    v = self._datasource.getValues(l)
+                    if v != None:
+                        for j,label in enumerate(v):
+                            if i > 0:
+                                a[j] += "\n"
+                            a[j] += l + "=" + str(label)
+
+                for i,label in enumerate(a):
+                    self._axis.annotate(label,xy=(ind[i] + .1,data[i]))
+
+            self._axis.set_xlabel("")
+            self._axis.set_ylabel("")
+
         elif self._type == "table":
             self._axis.axis("off")
             values = self.getValues("values")
@@ -310,6 +385,8 @@ class Dashboard(object):
         else:
             self._figure = plt.figure(figsize=(width,height));
 
+        #self._figure.subplots_adjust(bottom=.50)
+
         dim = (len(self._rows),maxcols)
 
         rownum = 0
@@ -325,6 +402,14 @@ class Dashboard(object):
                 chart.displayInDashboard(self,dim,coordinate,1,colspan)
                 colnum += 1
             rownum += 1
+
+            thread = threading.Thread(target = self.show)
+            thread.daemon = True
+            thread.start()
+
+    def show(self):
+        time.sleep(1)
+        plt.show()
 
 class DashboardRow(object):
     def __init__(self,height):

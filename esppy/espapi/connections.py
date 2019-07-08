@@ -1,4 +1,5 @@
 from xml.etree import ElementTree
+import pandas as pd
 import esppy.espapi.api as api
 import esppy.espapi.tools as tools
 import threading
@@ -328,22 +329,22 @@ class ServerConnection(Connection):
     def reconnect(self):
         while self.isConnected == False:
             #time.sleep(1)
-            time.sleep(30)
+            time.sleep(300)
             try:
                 self.start()
             except:
                 pass
 
 class Datasource(object):
-    def __init__(self,conn,path,**kwargs):
+    def __init__(self,conn,**kwargs):
         self._conn = conn
         self._id = tools.guid()
-        self._path = path
         self._fields = None
         self._keyFields = None
         self._schema = Schema()
         self._delegates = []
         self._options = tools.Options(**kwargs)
+        self._data = None
 
     def setSchema(self,xml):
         self._schema.fromXml(xml)
@@ -357,6 +358,14 @@ class Datasource(object):
 
     def getFilter(self):
         return(self._options.get("filter",""))
+
+    def getKeyFields(self):
+        keys = []
+        if self._schema != None:
+            for f in self._schema._keyFields:
+                keys.append(f["name"])
+
+        return(keys)
 
     def getKey(self,o):
         key = ""
@@ -376,13 +385,141 @@ class Datasource(object):
         return(key)
 
     def getData(self):
-        return({})
+        return(self._data)
+
+    def getValues(self,name):
+
+        f = self._schema.getField(name)
+
+        if f == None:
+            return(None)
+
+        values = []
+
+        if isinstance(self._data,dict):
+            for key,value in self._data.items():
+                if name in value:
+                    if f["isNumber"]:
+                        values.append(float(value[name]))
+                    else:
+                        values.append(value[name])
+                elif f["isNumber"]:
+                    values.append(0.0)
+                else:
+                    values.append("")
+        elif isinstance(self._data,list):
+            for value in self._data:
+                if name in value:
+                    if f["isNumber"]:
+                        values.append(float(value[name]))
+                    else:
+                        values.append(value[name])
+                elif f["isNumber"]:
+                    values.append(0.0)
+                else:
+                    values.append("")
+
+        return(values)
+
+    def getValuesForFields(self,names):
+        data = {}
+
+        fields = []
+
+        for n in names:
+            f = self._schema.getField(n)
+            if f != None:
+                fields.append(f)
+                data[n] = []
+
+        if isinstance(self._data,dict):
+            for key,value in self._data.items():
+                for f in fields:
+                    n = f["name"]
+                    if n in value:
+                        if f["isNumber"]:
+                            data[n].append(float(value[n]))
+                        else:
+                            data[n].append(value[n])
+                    elif f["isNumber"]:
+                        data[n].append(0.0)
+                    else:
+                        data[n].append("")
+        elif isinstance(self._data,list):
+            for o in self._data:
+                for f in fields:
+                    name = f["name"]
+                    if name in o:
+                        if f["isNumber"]:
+                            data[name].append(float(o[name]))
+                        else:
+                            data[name].append(o[name])
+                    elif f["isNumber"]:
+                        data[name].append(0.0)
+                    else:
+                        data[name].append("")
+
+        return(data)
+
+    def getDataFrame(self,values = None):
+        if self._data == None:
+            return(None)
+
+        data = {}
+
+        fields = []
+
+        if values != None:
+            for v in values:
+                f = self._schema.getField(v)
+                if f != None:
+                    fields.append(f)
+        else:
+            fields = self._schema._fields
+
+        if isinstance(self._data,dict):
+            #data["__key"] = []
+
+            for f in fields:
+                data[f["name"]] = []
+
+            for key,o in self._data.items():
+                #data["__key"].append(key)
+                for f in fields:
+                    name = f["name"]
+                    if name in o:
+                        if f["isNumber"]:
+                            data[name].append(float(o[name]))
+                        else:
+                            data[name].append(o[name])
+                    elif f["isNumber"]:
+                        data[name].append(0.0)
+                    else:
+                        data[name].append("")
+        elif isinstance(self._data,list):
+
+            for f in fields:
+                data[f["name"]] = []
+
+            for o in self._data:
+                for f in fields:
+                    name = f["name"]
+                    if name in o:
+                        if f["isNumber"]:
+                            data[name].append(float(o[name]))
+                        else:
+                            data[name].append(o[name])
+                    elif f["isNumber"]:
+                        data[name].append(0.0)
+                    else:
+                        data[name].append("")
+
+        df = pd.DataFrame(data)
+
+        return(df)
 
     def getInfo(self):
         return({})
-
-    def getValues(self,names):
-        return(None)
 
     def addDelegate(self,delegate):
         if tools.supports(delegate,"dataChanged") == False:
@@ -420,10 +557,11 @@ class Datasource(object):
 
 class EventCollection(Datasource):
     def __init__(self,conn,path,**kwargs):
-        Datasource.__init__(self,conn,path,**kwargs)
+        Datasource.__init__(self,conn,**kwargs)
+        self._path = path
         self._page = 0
         self._pages = 0
-        self._events = {}
+        self._data = {}
 
     def open(self):
         o = {}
@@ -535,7 +673,7 @@ class EventCollection(Datasource):
         if "page" in xml.attrib:
             self._page = xml.get("page")
             self._pages = xml.get("pages")
-            self._events = {}
+            self._data = {}
 
         self.process(data)
 
@@ -551,8 +689,8 @@ class EventCollection(Datasource):
             if key != None:
                 opcode = e["__opcode"]
                 if opcode == "delete":
-                    if key in self._events:
-                        del self._events[key]
+                    if key in self._data:
+                        del self._data[key]
                 else:
                     o = {}
 
@@ -561,16 +699,9 @@ class EventCollection(Datasource):
                     for column in self._schema._columns:
                         if column in e:
                             o[column] = e[column]
-                    self._events[key] = o
-
-        a = []
-        for e in six.itervalues(self._events):
-            a.append(e)
+                    self._data[key] = o
 
         self.deliverDataChange()
-
-    def getData(self):
-        return(self._events)
 
     def getInfo(self):
         info = {}
@@ -581,80 +712,9 @@ class EventCollection(Datasource):
     def getKeyValues(self):
         values = []
 
-        for key,value in self._events.items():
+        for key,value in self._data.items():
             values.append(key)
         return(values)
-
-    def getKeyTuple(self):
-        values = self.getKeyValues()
-        return(tuple(values))
-
-    def getValues(self,name):
-        values = {}
-
-        fields = []
-
-        f = self._schema.getField(name)
-
-        #if f == None:
-            #logging.info("RAISE EXC")
-            #raise Exception("field " + name + " is not found")
-
-        values = []
-
-        for key,value in self._events.items():
-            if name in value:
-                if f["isNumber"]:
-                    values.append(float(value[name]))
-                else:
-                    values.append(value[name])
-            elif f["isNumber"]:
-                values.append(0.0)
-            else:
-                values.append("")
-
-        return(values)
-
-    def getTuple(self,name):
-        values = self.getValues(name)
-        return(tuple(values))
-
-    def getValuesForFields(self,names):
-        values = {}
-
-        fields = []
-
-        for n in names:
-            f = self._schema.getField(n)
-            if f != None:
-                fields.append(f)
-                values[n] = []
-
-        for key,value in self._events.items():
-            for f in fields:
-                n = f["name"]
-                if n in value:
-                    if f["isNumber"]:
-                        values[n].append(float(value[n]))
-                    else:
-                        values[n].append(value[n])
-                elif f["isNumber"]:
-                    values[n].append(0.0)
-                else:
-                    values[n].append("")
-
-        return(values)
-
-    def getTuplesForFields(self,names):
-        values = self.getValuesForFields(names)
-
-        tuples = {}
-
-        for key,value in values.items():
-            v = values[key]
-            tuples[key] = tuple(v)
-
-        return(tuples)
 
     def getTableData(self,values):
 
@@ -676,7 +736,7 @@ class EventCollection(Datasource):
                     a.append(f)
                     columns.append(f["name"])
 
-        for key,value in self._events.items():
+        for key,value in self._data.items():
             rows.append(key)
             cell = []
             for f in a:
@@ -686,13 +746,14 @@ class EventCollection(Datasource):
         return({"rows":rows,"columns":columns,"cells":cells});
 
     def clear(self):
-        self._events = {}
+        self._data = {}
         #self.deliverDataChange()
 
 class EventStream(Datasource):
     def __init__(self,conn,path,**kwargs):
-        Datasource.__init__(self,conn,path,**kwargs)
-        self._events = []
+        Datasource.__init__(self,conn,**kwargs)
+        self._path = path
+        self._data = []
         self._counter = 1
 
     def open(self):
@@ -739,43 +800,24 @@ class EventStream(Datasource):
         for f in self._schema.fields:
             f["isKey"] = False
 
-        f = {}
-        f["name"] = "__opcode"
-        f["espType"] = "utf8str"
-        f["type"] = "string"
-        f["isKey"] = False
-        f["isNumber"] = False
-        f["isDate"] = False
-        f["isTime"] = False
+        self._keyFields = []
+
+        f = {"name":"__opcode","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False}
         self._schema._fields.insert(0,f)
         self._schema._fieldMap["__opcode"] = f
         self._schema._columns.insert(0,f["name"])
 
-        f = {}
-        f["name"] = "__timestamp"
-        f["espType"] = "timestamp"
-        f["type"] = "date"
-        f["isKey"] = False
-        f["isNumber"] = True
-        f["isDate"] = False
-        f["isTime"] = True
+        f = {"name":"__timestamp","espType":"timestamp","type":"date","isKey":False,"isNumber":True,"isDate":False,"isTime":True}
         self._schema._fields.insert(0,f)
         self._schema._fieldMap["__timestamp"] = f
         self._schema._columns.insert(0,f["name"])
 
-        f = {}
-        f["name"] = "__counter"
-        f["espType"] = "utf8str"
-        f["type"] = "int"
-        f["isKey"] = True
-        f["isNumber"] = True
-        f["isDate"] = False
-        f["isTime"] = False
+        f = {"name":"__counter","espType":"int32","type":"int","isKey":True,"isNumber":True,"isDate":False,"isTime":False}
         self._schema._fields.insert(0,f)
         self._schema._fieldMap["__counter"] = f
         self._schema._columns.insert(0,f["name"])
 
-        self._keyFields = [f]
+        self._schema._keyFields = [f]
 
         self._counter = 1
 
@@ -823,32 +865,28 @@ class EventStream(Datasource):
                 if column in e:
                     o[column] = e[column]
 
-            self._events.append(o)
+            self._data.append(o)
 
         maxEvents = self._options.get("maxevents",50)
 
-        diff = len(self._events) - maxEvents
+        diff = len(self._data) - maxEvents
 
         if diff > 0:
             for i in range(0,diff):
-                del self._events[0]
+                del self._data[0]
  
         self.deliverDataChange()
 
     def getData(self):
-        return(self._events)
- 
+        return(self._data)
+
     def getKeyValues(self):
         values = []
 
-        for value in self._events:
+        for value in self._data:
             values.append(value["__counter"])
         return(values)
 
-    def getKeyTuple(self):
-        values = self.getKeyValues()
-        return(tuple(values))
- 
     def getValues(self,names):
         values = {}
 
@@ -860,7 +898,7 @@ class EventStream(Datasource):
                 fields.append(f)
                 values[n] = []
 
-        for value in self._events:
+        for value in self._data:
             for f in fields:
                 n = f["name"]
                 if n in value:
@@ -874,15 +912,6 @@ class EventStream(Datasource):
                     values[n].append("")
 
         return(values)
-
-    def getTuples(self,names):
-        tuples = self.getValues(names)
-
-        for key,value in tuples.items():
-            v = tuples[key]
-            tuples[key] = tuple(v)
-
-        return(tuples)
 
     def getTableData(self,values):
 
@@ -904,7 +933,7 @@ class EventStream(Datasource):
                     a.append(f)
                     columns.append(f["name"])
 
-        for value in self._events:
+        for value in self._data:
             rows.append(value["__counter"])
             cell = []
             for f in a:
@@ -914,20 +943,36 @@ class EventStream(Datasource):
         return({"rows":rows,"columns":columns,"cells":cells});
 
     def clear(self):
-        self._events = []
+        self._data = []
         self.deliverDataChange()
 
-class Stats(object):
-    def __init__(self,connection):
-        self._connection = connection
+class Stats(Datasource):
+    def __init__(self,conn,**kwargs):
+        Datasource.__init__(self,conn,**kwargs)
+        self._connection = conn
         self._delegates = []
         self._options = tools.Options()
         self._data = {}
 
+        #self._schema.addField({"name":"__key","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
+        #self._schema.addField({"name":"project","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
+        #self._schema.addField({"name":"contquery","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
+        #self._schema.addField({"name":"window","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
+
+        self._schema.addField({"name":"project","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"contquery","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"window","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"cpu","espType":"double","type":"double","isKey":False,"isNumber":True,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"interval","espType":"int64","type":"int","isKey":False,"isNumber":True,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"count","espType":"int64","type":"int","isKey":False,"isNumber":True,"isDate":False,"isTime":False})
+
+    def sortValue(self,o):
+        return(o["cpu"])
+
     def process(self,xml):
         projects = xml.findall(".//project")
 
-        self._data = []
+        stats = []
 
         for p in projects:
             contqueries = p.findall(".//contquery")
@@ -944,7 +989,29 @@ class Stats(object):
                     o["interval"] = float(w.get("interval"))
                     o["count"] = w.get("count") != None and float(w.get("count")) or 0
                     o["__key"] = o["project"] + "." + o["contquery"] + "." + o["window"]
-                    self._data.append(o)
+                    stats.append(o)
+
+        stats.sort(key = self.sortValue, reverse = True)
+
+        nodes = xml.findall(".//server-memory")
+
+        self._memory = None
+
+        if len(nodes) == 1:
+            self._memory = {}
+            node = nodes[0].find("system")
+            if node != None:
+                self._memory["system"] = int(node.text)
+            node = nodes[0].find("virtual")
+            if node != None:
+                self._memory["virtual"] = int(node.text)
+            node = nodes[0].find("resident")
+            if node != None:
+                self._memory["resident"] = int(node.text)
+
+        self._data = {}
+        self._data["stats"] = stats
+        self._data["memory"] = self._memory
 
         for d in self._delegates:
             d.handleStats(self)
@@ -971,7 +1038,7 @@ class Stats(object):
         o["minCpu"] = self.getOption("cpu",5)
         o["counts"] = self.getOption("counts",False)
         o["config"] = self.getOption("config",False)
-        o["memory"] = self.getOption("memory",False)
+        o["memory"] = self.getOption("memory",True)
         self._connection.send(o)
 
     def stop(self):
@@ -995,6 +1062,34 @@ class Stats(object):
 
     def getData(self):
         return(self._data)
+
+    def getMemoryData(self):
+        return(self._data)
+ 
+    def getKeyValues(self):
+        values = []
+        for o in self._data:
+            values.append(o["__key"])
+        return(values)
+
+    def getValuesForFields(self,names):
+        data = {}
+
+        for n in names:
+            data[n] = []
+
+        for o in self._data:
+            for key in data:
+                value = ""
+                if key in o:
+                    value = o[key]
+
+                if key == "cpu":
+                    data[key].append(float(value))
+                else:
+                    data[key].append(value)
+
+        return(data)
 
 class Log(object):
     def __init__(self,connection):
@@ -1269,6 +1364,17 @@ class Schema(object):
             if o["isKey"]:
                 self._keyFields.append(o)
 
+    def addField(self,field):
+        name = field["name"]
+        if (name in self._fieldMap) == False:
+            self._fields.append(field)
+            self._columns.append(name)
+
+            self._fieldMap[name] = field
+
+            if field["isKey"]:
+                self._keyFields.append(field)
+
     def getField(self,name):
         if name in self._fieldMap:
             return(self._fieldMap[name])
@@ -1341,8 +1447,13 @@ class Schema(object):
             f["name"] = field["name"]
             f["espType"] = field["espType"]
             f["type"] = field["type"]
+            f["isNumber"] = field["isNumber"]
+            f["isDate"] = field["isDate"]
+            f["isTime"] = field["isTime"]
             if field["isKey"]:
                 f["isKey"] = "true"
+            else:
+                f["isKey"] = "false"
             fields.append(f)
         return(fields)
 
