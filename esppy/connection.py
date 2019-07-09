@@ -31,7 +31,6 @@ import sys
 import textwrap
 import threading
 import warnings
-import esppy.espapi.api
 import xml.etree.ElementTree as ET
 from numpy import nan
 from six.moves import urllib
@@ -57,7 +56,7 @@ from .utils.keyword import dekeywordify
 from .utils.project import expand_path
 from .websocket import WebSocketClient
 from .windows import BaseWindow, get_window_class
-
+from .espapi import api
 
 class ProjectStats(object):
     '''
@@ -386,7 +385,7 @@ class ESP(RESTHelpers):
         requests_log.propagate = True
 
     def createServerConnection(self):
-        return(esppy.espapi.api.connect(self.session.conn_url))
+        return(api.connect(self.session.conn_url))
 
     @property
     def metadata(self):

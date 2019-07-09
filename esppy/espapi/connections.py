@@ -1,6 +1,5 @@
 from xml.etree import ElementTree
 import pandas as pd
-import esppy.espapi.api as api
 import esppy.espapi.tools as tools
 import threading
 import logging
@@ -9,7 +8,7 @@ import time
 import six
 import re
 
-logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
+#logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
 
 class Connection(object):
     def __init__(self,host,port,secure,**kwargs):
@@ -48,7 +47,7 @@ class Connection(object):
 
     def send(self,data):
         if self._websocket != None:
-            logging.debug("SEND: " + str(data))
+            #logging.debug("SEND: " + str(data))
             self._websocket.send(str(data))
 
     def getUrl(self):
