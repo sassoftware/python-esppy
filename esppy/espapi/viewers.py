@@ -248,3 +248,42 @@ class ModelViewer(object):
 
     def display(self):
         return(self._html)
+
+class LogViewer(object):
+    def __init__(self,connection,**kwargs):
+        self._connection = connection
+        self._options = tools.Options(**kwargs)
+        self._connection.getLog().addDelegate(self)
+
+        #width = self._options.get("width","800px")
+        width = self._options.get("width","98%")
+        height = self._options.get("height","200px")
+
+        self._max = self._options.get("max",50);
+
+        self._log = widgets.HTML(value="",layout=widgets.Layout(width=width,height=height,border="1px solid #c0c0c0",overflow="auto"))
+
+        self._messages = []
+
+    def handleLog(self,connection,message):
+        self._messages.insert(0,message)
+
+        if self._max != None and len(self._messages) > self._max:
+            diff = len(self._messages) - self._max
+
+            for i in range(0,diff):
+                self._messages.pop(self._max + i)
+
+        s = ""
+
+        s += "<pre>"
+
+        for message in self._messages:
+            s += message;
+
+        s += "</pre>"
+
+        self._log.value = s
+
+    def display(self):
+        return(self._log)

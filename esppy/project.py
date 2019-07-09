@@ -831,7 +831,7 @@ class Project(ESPObject, collections.MutableMapping):
 
         '''
         self._put('state', params=get_params(value='modified'),
-                  data=get_project_data(project))
+                  data=get_project_data(project).encode())
 
     def delete(self):
         ''' Delete the project '''

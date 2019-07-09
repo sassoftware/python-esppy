@@ -157,6 +157,12 @@ class Connection(object):
         else:
             return("ws")
 
+    def getHttpProtocol(self):
+        if self._secure:
+            return("https")
+        else:
+            return("http")
+
     def isSecure(self):
         return(self._secure)
 
@@ -203,9 +209,10 @@ class ServerConnection(Connection):
         self._delegate = delegate
         self._collections = {}
         self._streams = {}
+        self._publishers = {}
         self._stats = Stats(self)
         self._log = Log(self)
-        self._modelDelegates = {};
+        self._modelDelegates = {}
         self._autoReconnect = True
 
     def message(self,message):
@@ -243,12 +250,12 @@ class ServerConnection(Connection):
             self._log.process(xml)
         elif (xml.tag == "model"):
             if "id" in xml.attrib:
-                id = xml.get("id");
+                id = xml.get("id")
 
                 if id in self._modelDelegates:
-                    delegate = self._modelDelegates[id];
-                    delegate.deliver(xml);
-                    del self._modelDelegates[id];
+                    delegate = self._modelDelegates[id]
+                    delegate.deliver(xml)
+                    del self._modelDelegates[id]
         else:
             print("THE MSG: " + message)
 
@@ -275,6 +282,13 @@ class ServerConnection(Connection):
         if self.isHandshakeComplete:
             es.open()
         return(es)
+
+    def getPublisher(self,path,**kwargs):
+        publisher = Publisher(self,path,**kwargs);
+        self._publishers[publisher._id] = publisher;
+        if self.isHandshakeComplete:
+            publisher.open();
+        return(publisher);
 
     def getStats(self):
         return(self._stats)
@@ -305,6 +319,9 @@ class ServerConnection(Connection):
 
         for s in self._streams.values():
             s.open()
+
+        for p in self._publishers.values():
+            p.open()
 
         if tools.supports(self._delegate,"connected"):
             self._delegate.connected(self)
@@ -718,11 +735,11 @@ class EventCollection(Datasource):
 
     def getTableData(self,values):
 
-        rows = [];
-        columns = [];
-        cells = [];
+        rows = []
+        columns = []
+        cells = []
 
-        a = [];
+        a = []
 
         if values != None and len(values) > 0:
             for v in values:
@@ -741,9 +758,9 @@ class EventCollection(Datasource):
             cell = []
             for f in a:
                 cell.append(value[f["name"]])
-            cells.append(cell);
+            cells.append(cell)
 
-        return({"rows":rows,"columns":columns,"cells":cells});
+        return({"rows":rows,"columns":columns,"cells":cells})
 
     def clear(self):
         self._data = {}
@@ -915,11 +932,11 @@ class EventStream(Datasource):
 
     def getTableData(self,values):
 
-        rows = [];
-        columns = [];
-        cells = [];
+        rows = []
+        columns = []
+        cells = []
 
-        a = [];
+        a = []
 
         if values != None and len(values) > 0:
             for v in values:
@@ -938,13 +955,77 @@ class EventStream(Datasource):
             cell = []
             for f in a:
                 cell.append(value[f["name"]])
-            cells.append(cell);
+            cells.append(cell)
 
-        return({"rows":rows,"columns":columns,"cells":cells});
+        return({"rows":rows,"columns":columns,"cells":cells})
 
     def clear(self):
         self._data = []
         self.deliverDataChange()
+
+class Publisher(object):
+    def __init__(self,conn,path,**kwargs):
+        self._conn = conn
+        self._path = path
+        self._id = tools.guid()
+        self._data = []
+        self._options = tools.Options(**kwargs)
+
+    def open(self):
+        o = {}
+        o["request"] = "publisher"
+        o["id"] = self._id
+        o["action"] = "open"
+        o["window"] = self._path
+        o["schema"] = True
+        self._conn.send(o)
+
+    def close(self):
+        o = {}
+        o["request"] = "publisher"
+        o["id"] = self._id
+        o["action"] = "delete"
+        self._conn.send(o)
+
+    def begin(self):
+        self._o = {}
+
+    def set(self,name,value):
+        self._o[name] = value
+
+    def end(self):
+        if self._o != None:
+            self._data.append(self._o)
+            self._o = {}
+
+    def add(self,o):
+        self._data.append(o)
+
+    def publish(self):
+        if len(self._data.length) > 0:
+            o = {}
+            o["request"] = "publisher"
+            o["id"] = self._id
+            o["action"] = "publish"
+            if len(self._data.length) == 1:
+                o["data"] = {"event":self._data[0]}
+            else:
+                o["data"] = self._data
+            self._conn.send(o)
+            self._data = []
+
+    def publishUrl(self,url,blocksize = None):
+        o = {}
+        o["request"] = "publisher"
+        o["id"] = self._id
+        o["action"] = "publish"
+
+        source = {}
+        source["url"] = url
+        if blocksize != None:
+            source["blocksize"] = blocksize
+        o["source"] = source
+        self._conn.send(o)
 
 class Stats(Datasource):
     def __init__(self,conn,**kwargs):

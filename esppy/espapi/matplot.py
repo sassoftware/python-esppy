@@ -36,7 +36,6 @@ class Charts(object):
 
         plt.ioff()
 
-
         if self._options.has("style"):
             matplotlib.style.use(self._options.get("style"))
 
@@ -117,9 +116,6 @@ class Chart(object):
         name = self._options.get("name")
         if name != None:
             self._axis.set_title(name)
-        self.draw()
-        #if self._charts._jupyter:
-            #plt.show()
 
     def clear(self):
         if self._dashboard == None:
@@ -188,26 +184,29 @@ class Chart(object):
 
             #df = df.melt(id_vars=keys)
 
+            legendLoc = self._options.get("legend","upper right")
+
             if len(keys) > 1:
                 if len(keys) == 3:
                     df = df.melt(id_vars=keys)
                     #logging.info(str(df))
                     #sns.catplot(y="value",x=keys[0],kind="bar",data=df)
-                    logging.info("1")
                     #sns.catplot(y="cpu",x="window",row="project",col="contquery",kind="bar",data=df,ax=self._axis)
                     #sns.catplot(y="cpu",x="project",row="project",col="contquery",kind="bar",data=df,ax=self._axis)
                     #g = sns.catplot(y="value",x="project",row="contquery",col="window",kind="bar",data=df,ax=self._axis)
                     #g = sns.catplot(y="value",x="project",row="contquery",col="window",kind="bar",data=df,ax=self._axis)
                     sns.catplot(x="project",y="value",kind="bar",data=df,ax=self._axis)
-                    logging.info("2")
             else:
                 df = df.melt(id_vars=keys)
                 chart = sns.barplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df)
                 #chart.set_xticklabels(chart.get_xticklabels(),rotation=45,horizontalAlignment="right",fontweight="light")
-                self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+                #self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+                #self._axis.legend(loc="best",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+                self._axis.legend(loc=legendLoc,fancybox=True,shadow=True)
 
             self._axis.set_xlabel("")
             self._axis.set_ylabel("")
+            self._axis.xaxis.labelpad = 50
 
         elif self._type == "hbar":
 
@@ -225,8 +224,15 @@ class Chart(object):
 
             df = df.melt(id_vars=keys)
 
+            legendLoc = self._options.get("legend","upper right")
+
             sns.barplot(x="value",y=keys[0],hue="variable",ax=self._axis,data=df,orient="h")
-            self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+            #self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+            self._axis.legend(loc=legendLoc,fancybox=True,shadow=True)
+
+            self._axis.set_xlabel("")
+            self._axis.set_ylabel("")
+            #self._axis.tick_params(axis="x",rotation=70)
 
         elif self._type == "line":
 
@@ -246,11 +252,19 @@ class Chart(object):
 
             lineWidth = self.getOption("linewidth",2)
 
+            legendLoc = self._options.get("legend","upper right")
+
             chart = sns.lineplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df,linewidth=lineWidth)
-            self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+            self._axis.legend(loc=legendLoc,fancybox=True,shadow=True)
 
             self._axis.set_xlabel("")
             self._axis.set_ylabel("")
+
+            labels = chart.get_xticklabels()
+            empty = [""] * len(labels)
+            chart.set_xticklabels(empty)
+
+            #chart.set_xticklabels(chart.get_xticklabels(),rotation=45,horizontalAlignment="right",fontweight="light")
 
         elif self._type == "series":
             lineWidth = self.getOption("linewidth",1)
@@ -266,7 +280,7 @@ class Chart(object):
                 return
             #sns.pointplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df,markers="None")
             sns.pointplot(x=keys[0],y="value",hue="variable",ax=self._axis,data=df,markers="o")
-            self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
+            #self._axis.legend(loc="upper center",bbox_to_anchor=(0.5,-0.05),fancybox=True,shadow=True,ncol=len(values))
             #self._axis.xaxis.set_major_locator(ticker.MultipleLocator(10))
 
         elif self._type == "pie":
@@ -279,24 +293,35 @@ class Chart(object):
             keys = self._datasource.getKeyFields()
             y = self._options.get("y")
             size = self._options.get("size")
+            color = self._options.get("color")
 
             values = []
+            labels = []
+
             values.extend(keys)
 
             if y != None:
                 if (y in values) == False:
                     values.append(y)
+                    labels.append(y)
 
             if size != None:
                 if (size in values) == False:
                     values.append(size)
+                    labels.append(size)
+
+            if color != None:
+                if (color in values) == False:
+                    values.append(color)
+                    labels.append(color)
 
             df = self._datasource.getDataFrame(values)
 
             if df.empty:
                 return
 
-            chart = sns.scatterplot(x=keys[0],y=y,size=size,data=df,ax=self._axis,legend=False)
+            #chart = sns.scatterplot(x=keys[0],y=y,size=size,hue=color,data=df,ax=self._axis,legend="brief")
+            chart = sns.scatterplot(x=keys[0],y=y,size=size,hue=color,data=df,ax=self._axis,legend=False,sizes=(100,300))
 
             labels = self.getValues("labels")
 
@@ -324,6 +349,9 @@ class Chart(object):
 
             self._axis.set_xlabel("")
             self._axis.set_ylabel("")
+
+            #legendLoc = self._options.get("legend","upper right")
+            #self._axis.legend(loc="best",fancybox=True,shadow=True)
 
         elif self._type == "table":
             self._axis.axis("off")
@@ -385,8 +413,6 @@ class Dashboard(object):
         else:
             self._figure = plt.figure(figsize=(width,height));
 
-        #self._figure.subplots_adjust(bottom=.50)
-
         dim = (len(self._rows),maxcols)
 
         rownum = 0
@@ -403,9 +429,17 @@ class Dashboard(object):
                 colnum += 1
             rownum += 1
 
-            thread = threading.Thread(target = self.show)
-            thread.daemon = True
-            thread.start()
+            #thread = threading.Thread(target = self.show)
+            #thread.daemon = True
+            #thread.start()
+
+        time.sleep(1)
+
+        plt.show()
+
+        for row in self._rows:
+            for chart in row._charts:
+                chart.draw()
 
     def show(self):
         time.sleep(1)
