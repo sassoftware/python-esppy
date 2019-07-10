@@ -374,9 +374,8 @@ class Subscriber(object):
                                     single=True, format=self.format,
                                     separator=self.separator,
                                     server_info=self.server_info)
-                    self.callbacks['on_event'](sock,
-                                               pd.concat([state['dataframe'], df],
-                                                         **CONCAT_OPTIONS))
+                    #self.callbacks['on_event'](sock, pd.concat([state['dataframe'], df], **CONCAT_OPTIONS))
+                    self.callbacks['on_event'](sock, pd.concat([state['dataframe'], df]))
                 except:
                     import traceback
                     traceback.print_exc()
