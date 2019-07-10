@@ -8,7 +8,7 @@ import time
 import six
 import re
 
-#logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
+logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
 
 class Connection(object):
     def __init__(self,host,port,secure,**kwargs):
@@ -322,12 +322,13 @@ class ServerConnection(Connection):
         for p in self._publishers.values():
             p.open()
 
+        if len(self._stats._delegates) > 0:
+            self._stats.set()
+
         if tools.supports(self._delegate,"connected"):
             self._delegate.connected(self)
 
     def closed(self):
-        print("server conn closed")
-
         for c in self._collections.values():
             c.clear()
 
@@ -344,8 +345,7 @@ class ServerConnection(Connection):
 
     def reconnect(self):
         while self.isConnected == False:
-            #time.sleep(1)
-            time.sleep(300)
+            time.sleep(1)
             try:
                 self.start()
             except:
@@ -607,7 +607,7 @@ class EventCollection(Datasource):
             o[key] = value
 
         if self._options.has("filter") == False:
-            o["filter"]= ""
+            o["filter"] = ""
 
         self._conn.send(o)
 

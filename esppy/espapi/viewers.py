@@ -65,15 +65,31 @@ class ModelViewer(object):
         w.append(widgets.Label(value="Resident Memory:",layout=l1))
         w.append(self._residentMem)
 
+        cbLayout = layout=widgets.Layout(margin="0px 0px 0px 10px")
+
         self._memory = widgets.HBox(w)
 
-        banner = widgets.HBox([self._projects,self._memory])
+        if False:
+            showcpu = widgets.Checkbox(description="Show CPU")
+            showcounts = widgets.Checkbox(description="Show Counts",indent=False,layout=cbLayout)
+            showtypes = widgets.Checkbox(description="Show Types",indent=False,layout=cbLayout)
+            showindices = widgets.Checkbox(description="Show Indices",indent=False,layout=cbLayout)
+            show = widgets.HBox([showcpu,showcounts,showtypes,showindices])
 
-        self._graph = widgets.HTML(background="red",layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",padding="20px"))
-        self._html = widgets.VBox([banner,self._graph])
+        #top = widgets.HBox([self._projects,show])
+        top = widgets.HBox([self._projects,self._memory])
 
-        if self._options.get("showstats",False):
+        self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",padding="10px"))
+        self._html = widgets.VBox([top,self._graph])
+
+        #showcpu.observe(self.showCpu,names='value')
+
+        if self._options.get("showcpu",False):
             self.showStats()
+
+    def showCpu(self,b):
+        self.setOption("showcpu",b.value)
+        self.setContent()
 
     def setOptions(self,**kwargs):
         self._options.setOptions(**kwargs)
@@ -87,6 +103,8 @@ class ModelViewer(object):
         if self._stats == None:
             self._data = {}
             self._stats = self._connection.getStats()
+            if self._options.get("showcounts",False):
+                self._stats.setOption("counts",True)
             self._stats.addDelegate(self)
 
     def hideStats(self):
@@ -175,16 +193,18 @@ class ModelViewer(object):
 
         cpuColor = self._options.get("cpucolor")
 
-        showStats = self._options.get("showstats",False)
+        showStats = self._options.get("showcpu",False)
+        showCounts = self._options.get("showcounts",False)
         showType = self._options.get("showtype",False)
         showIndex = self._options.get("showindex",False)
+        showSchema = self._options.get("showschema",False)
 
         if showStats:
             self._memory.layout.display = "flex"
         else:
             self._memory.layout.display = "none"
 
-        showProperties = showStats or showType or showIndex
+        showProperties = showStats or showCounts or showType or showIndex
 
         for a in self._model._windows:
             if self._project == "*" or a["p"] == self._project:
@@ -198,19 +218,37 @@ class ModelViewer(object):
                         label.append("<tr><td align='right'>type:</td><td>&nbsp;</td><td align='left'>" + a["type"] + "</td></tr>")
                     color = None
                     cpu = None
+                    count = None
                     if self._data != None:
                         o = self._data.get(a["key"])
                         cpu = 0
+                        count = 0
                         if o != None:
                             cpu = int(o["cpu"])
+                            count = int(o["count"])
 
                         label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + str(cpu) + "</td></tr>")
                         if cpuColor != None:
                             color = tools.darken(cpuColor,cpu)
+                        if showCounts:
+                            label.append("<tr><td align='right'>count:</td><td>&nbsp;</td><td align='left'>" + str(count) + "</td></tr>")
                     if showIndex:
                         label.append("<tr><td align='right'>index:</td><td>&nbsp;</td><td align='left'>" + a["index"] + "</td></tr>")
                     if showProperties:
                         label.append("</table></td></tr>")
+                    if showSchema:
+                        label.append("<tr><td>")
+                        label.append("<table border='0' cellspacing='0' cellpadding='1'>")
+                        label.append("<tr><td colspan='2'>&nbsp;</td></tr>")
+                        label.append("<tr><td colspan='2'>Schema</td></tr>")
+                        for f in a["schema"]._fields:
+                            if f["isKey"]:
+                                label.append("<tr><td align='left'>" + f["name"] + "*</td><td align='left'>" + f["type"] + "</td></tr>")
+                        for f in a["schema"]._fields:
+                            if f["isKey"] == False:
+                                label.append("<tr><td align='left'>" + f["name"] + "</td><td align='left'>" + f["type"] + "</td></tr>")
+                        label.append("</table>")
+                        label.append("</td></tr>")
                     label.append("</table>>")
                     label = "".join(label)
                     if color == None:
@@ -247,7 +285,7 @@ class ModelViewer(object):
         self.setContent()
 
     def display(self):
-        return(self._html)
+        display(self._html)
 
 class LogViewer(object):
     def __init__(self,connection,**kwargs):
@@ -286,4 +324,4 @@ class LogViewer(object):
         self._log.value = s
 
     def display(self):
-        return(self._log)
+        display(self._log)

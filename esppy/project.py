@@ -421,7 +421,7 @@ class Project(ESPObject, collections.MutableMapping):
         self._put(params=get_params(overwrite=overwrite,
                                     connectors=start_connectors,
                                     start=start),
-                  data=get_project_data(self))
+                  data=get_project_data(self).encode())
 
     def copy(self, deep=False):
         '''

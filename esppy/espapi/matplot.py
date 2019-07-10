@@ -90,6 +90,7 @@ class Chart(object):
         self._axis = None
 
     def display(self):
+        logging.info("display")
         self.clear()
         width = self.getOption("width",10)
         height = self.getOption("height",5)
@@ -103,9 +104,9 @@ class Chart(object):
         #self._figure.subplots_adjust(top=1,bottom=1)
 
         self._axis = self._figure.add_subplot(111)
-        self.draw()
         if self._charts._jupyter:
             plt.show()
+        self.draw()
 
     def displayInDashboard(self,dashboard,dim,coordinate,rowspan,colspan):
         self.clear()
@@ -260,9 +261,10 @@ class Chart(object):
             self._axis.set_xlabel("")
             self._axis.set_ylabel("")
 
-            labels = chart.get_xticklabels()
-            empty = [""] * len(labels)
-            chart.set_xticklabels(empty)
+            if isinstance(self._datasource,connections.EventStream):
+                labels = chart.get_xticklabels()
+                empty = [""] * len(labels)
+                chart.set_xticklabels(empty)
 
             #chart.set_xticklabels(chart.get_xticklabels(),rotation=45,horizontalAlignment="right",fontweight="light")
 
