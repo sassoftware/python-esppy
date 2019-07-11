@@ -969,9 +969,8 @@ class Project(ESPObject, collections.MutableMapping):
 
         '''
         try:
-            res = self._post(urllib.parse.urljoin(self.base_url,
-                                                  'projectValidationResults'),
-                             data=self.to_xml())
+            xml = self.to_xml().encode()
+            res = self._post(urllib.parse.urljoin(self.base_url,'projectValidationResults'),data=xml)
             if res.tag != 'schema-validation-success':
                 return False
         except ESPError:
