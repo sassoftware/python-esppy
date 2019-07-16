@@ -1,6 +1,8 @@
 import logging
 import uuid
 
+import numpy as np
+
 class Options(object):
     def __init__(self,**kwargs):
         self._options = {}
@@ -63,6 +65,44 @@ class Options(object):
     def options(self,options):
         for name,value in six.iteritems(options):
             self.set(name,value)
+
+class Gradient(object):
+    def __init__(self,color,**kwargs):
+        if len(color) != 7:
+            raise Exception("invalid color: " + str(color))
+
+        self._color = color
+        self._options = Options(**kwargs)
+        self._levels = self._options.get("levels",100)
+
+        minv = self._options.get("min",0)
+        maxv = self._options.get("max",100)
+
+        self._a = np.arange(minv,maxv,(maxv - minv) / self._levels)
+
+    def darken(self,value):
+        a = np.where(value >= self._a)[0]
+        level = len(a) - 1
+
+        rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
+        rgbInt = [int(v, 16) - level for v in rgbHex]
+        rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+
+        c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+
+        return(c)
+
+    def brighten(self,value):
+        a = np.where(value >= self._a)[0]
+        level = len(a) - 1
+
+        rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
+        rgbInt = [int(value, 16) + level for value in rgbHex]
+        rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+
+        c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+
+        return(c)
 
 def supports(o,method):
     code = False

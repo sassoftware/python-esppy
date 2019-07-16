@@ -344,8 +344,10 @@ class ServerConnection(Connection):
             thread.start()
 
     def reconnect(self):
+        logging.info("RECONNECT")
         while self.isConnected == False:
             time.sleep(1)
+            #time.sleep(300)
             try:
                 self.start()
             except:
@@ -375,13 +377,23 @@ class Datasource(object):
     def getFilter(self):
         return(self._options.get("filter",""))
 
-    def getKeyFields(self):
-        keys = []
+    def getFields(self):
+        fields = None
         if self._schema != None:
-            for f in self._schema._keyFields:
-                keys.append(f["name"])
+            fields = self._schema.getFields()
+        return(fields)
 
-        return(keys)
+    def getKeyFields(self):
+        fields = None
+        if self._schema != None:
+            fields = self._schema.getKeyFields()
+        return(fields)
+
+    def getColumnFields(self):
+        fields = None
+        if self._schema != None:
+            fields = self._schema.getColumnFields()
+        return(fields)
 
     def getKey(self,o):
         key = ""
@@ -567,6 +579,9 @@ class Datasource(object):
     def info(self,xml):
         pass
 
+    def getOption(self,name,dv = None):
+        return(self._options.get(name,dv))
+
     @property
     def schema(self):
         return(self._schema)
@@ -687,16 +702,16 @@ class EventCollection(Datasource):
             data.append(o)
 
         if "page" in xml.attrib:
-            self._page = xml.get("page")
-            self._pages = xml.get("pages")
+            self._page = int(xml.get("page"))
+            self._pages = int(xml.get("pages"))
             self._data = {}
 
         self.process(data)
 
     def info(self,xml):
         if "page" in xml.attrib:
-            self._page = xml.get("page")
-            self._pages = xml.get("pages")
+            self._page = int(xml.get("page"))
+            self._pages = int(xml.get("pages"))
             self.deliverInfoChange()
 
     def process(self,events):
@@ -901,32 +916,6 @@ class EventStream(Datasource):
 
         for value in self._data:
             values.append(value["__counter"])
-        return(values)
-
-    def getValues(self,names):
-        values = {}
-
-        fields = []
-
-        for n in names:
-            f = self._schema.getField(n)
-            if f != None:
-                fields.append(f)
-                values[n] = []
-
-        for value in self._data:
-            for f in fields:
-                n = f["name"]
-                if n in value:
-                    if f["isNumber"]:
-                        values[n].append(float(value[n]))
-                    else:
-                        values[n].append(value[n])
-                elif f["isNumber"]:
-                    values[n].append(0.0)
-                else:
-                    values[n].append("")
-
         return(values)
 
     def getTableData(self,values):
@@ -1459,6 +1448,20 @@ class Schema(object):
         if name in self._fieldMap:
             return(self._fieldMap[name])
         return(None)
+
+    def getFields(self):
+        return(self._fields)
+
+    def getKeyFields(self):
+        return(self._keyFields)
+
+    def getColumnFields(self):
+        fields = []
+        for f in self._fields:
+            if field["isKey"] == False:
+                keys.append(f)
+
+        return(keys)
 
     def getFieldType(self,name):
         type = "string"

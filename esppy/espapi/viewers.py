@@ -14,10 +14,20 @@ import logging
 
 import esppy.espapi.tools as tools
 
-class ModelViewer(object):
+class ViewerBase(object):
     def __init__(self,connection,**kwargs):
         self._connection = connection
         self._options = tools.Options(**kwargs)
+
+    def setWidth(self,value):
+        self._options.set("width",value)
+
+    def setHeight(self,value):
+        self._options.set("height",value)
+
+class ModelViewer(ViewerBase):
+    def __init__(self,connection,**kwargs):
+        ViewerBase.__init__(self,connection,**kwargs)
         self._stats = None
         self._connection.loadModel(self)
         self._data = None
@@ -284,8 +294,9 @@ class ModelViewer(object):
         self._project = value;
         self.setContent()
 
+    @property
     def display(self):
-        display(self._html)
+        return(self._html)
 
 class LogViewer(object):
     def __init__(self,connection,**kwargs):
@@ -323,5 +334,47 @@ class LogViewer(object):
 
         self._log.value = s
 
+    @property
     def display(self):
         display(self._log)
+
+class StatsViewer(object):
+    def __init__(self,connection,**kwargs):
+        self._connection = connection
+        self._options = tools.Options(**kwargs)
+        self._stats = self._connection.getStats();
+        self._stats.addDelegate(self)
+
+        width = self._options.get("width","90%",True)
+        height = self._options.get("height","400px",True)
+
+        self._stats.setOptions(**self._options.options)
+
+        self._log = widgets.HTML()
+
+    def handleStats(self,stats):
+        data = stats.getData()
+        s = ""
+        s += "<table border='1' cellspacing='0' cellpadding='4'>"
+        s += "<tr>"
+        s += "<td>Project</td>"
+        s += "<td>Contquery</td>"
+        s += "<td>Window</td>"
+        s += "<td>CPU</td>"
+        s += "</tr>"
+
+        for o in data:
+            s += "<tr>"
+            s += "<td>" + o["project"] + "</td>"
+            s += "<td>" + o["contquery"] + "</td>"
+            s += "<td>" + o["window"] + "</td>"
+            s += "<td>" + str(o["cpu"]) + "</td>"
+            s += "</tr>"
+
+        s += "</table>"
+
+        self._log.value = s
+
+    @property
+    def display(self):
+        return(self._log)

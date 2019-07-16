@@ -823,7 +823,6 @@ class Router(ESPObject):
 
         '''
         data=get_project_data(self).encode()
-        print(data)
         self._put(urllib.parse.urljoin(self.base_url,
                                        'routers/%s' % self.name),
                   params=get_params(overwrite=overwrite),
