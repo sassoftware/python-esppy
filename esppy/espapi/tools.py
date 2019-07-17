@@ -1,5 +1,13 @@
 import logging
 import uuid
+import sys
+import matplotlib
+
+from base64 import b16encode
+
+import plotly.colors as clrs
+
+from matplotlib import cm
 
 import numpy as np
 
@@ -85,24 +93,235 @@ class Gradient(object):
         level = len(a) - 1
 
         rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
-        rgbInt = [int(v, 16) - level for v in rgbHex]
-        rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+        rgb = [int(v, 16) - level for v in rgbHex]
+        rgb = [min([255, max([0,i])]) for i in rgb]
 
-        c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+        s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
-        return(c)
+        return(s)
 
     def brighten(self,value):
         a = np.where(value >= self._a)[0]
         level = len(a) - 1
 
         rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
-        rgbInt = [int(value, 16) + level for value in rgbHex]
-        rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+        rgb = [int(value, 16) + level for value in rgbHex]
+        rgb = [min([255, max([0,i])]) for i in rgb]
 
-        c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+        s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
-        return(c)
+        return(s)
+
+    @property
+    def color(self):
+        return(self._color)
+
+    @color.setter
+    def color(self,value):
+        self._color = value
+
+class Colors(object):
+    def __init__(self,colormap = None):
+        colors = []
+        colorscale = []
+        luma = []
+
+        if colormap != None:
+            if colormap in clrs.PLOTLY_SCALES:
+                cmap = clrs.PLOTLY_SCALES[colormap]
+                interval = 1 / (len(cmap) - 1)
+                index = 0
+                for i,c in enumerate(cmap):
+                    s = c[1]
+                    if s[0] == '#':
+                        colors.append(s)
+                    else:
+                        i1 = s.index("(")
+                        i2 = s.index(")")
+                        s = s[i1 + 1:i2]
+                        colorscale.append([index,"rgb(" + s + ")"])
+                        a = s.split(",")
+                        r = int(a[0])
+                        g = int(a[1])
+                        b = int(a[2])
+                        value = (r,g,b)
+                        luma.append(0.2126 * r + 0.7152 * g + 0.0722 * b)
+                        s = "#" + b16encode(bytes(value)).decode()
+                        colors.append(s)
+
+                    if i == (len(cmap) - 2):
+                        index = 1
+                    else:
+                        index += interval
+            else:
+                try:
+                    cmap = matplotlib.cm.get_cmap(colormap)
+                    norm = matplotlib.colors.Normalize(vmin = 0,vmax = 255)
+                    rgb = []
+
+                    for i in range(0, 255):
+                        k = matplotlib.colors.colorConverter.to_rgb(cmap(norm(i)))
+                        rgb.append(k)
+
+                    entries = 255
+
+                    h = 1.0 / (entries - 1)
+
+                    prev = None
+
+                    a = []
+
+                    for i in range(entries):
+                        c = list(map(np.uint8,np.array(cmap(i * h)[:3]) * 255))
+                        value = (c[0],c[1],c[2])
+                        if value == prev:
+                            continue
+                        luma.append(0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2])
+                        prev = value
+                        a.append(["#" + b16encode(bytes(value)).decode(),"rgb(" + str(c[0]) + "," + str(c[1]) + "," + str(c[2]) + ")"])
+
+                    if len(a) > 1:
+                        interval = 1 / (len(a) - 1)
+                        index = 0
+
+                        for i,x in enumerate(a):
+                            colors.append(x[0])
+                            colorscale.append([index,x[1]])
+                            if i == (len(a) - 2):
+                                index = 1
+                            else:
+                                index += interval
+
+                except:
+                    pass
+
+        if len(colors) == 0:
+            interval = 1 / (len(clrs.DEFAULT_PLOTLY_COLORS) - 1)
+            index = 0
+            for i,c in enumerate(clrs.DEFAULT_PLOTLY_COLORS):
+                i1 = c.index("(")
+                i2 = c.index(")")
+                s = c[i1 + 1:i2]
+                colorscale.append([index,"rgb(" + s + ")"])
+                a = s.split(",")
+                r = int(a[0])
+                g = int(a[1])
+                b = int(a[2])
+                luma.append(0.2126 * r + 0.7152 * g + 0.0722 * b)
+                value = (r,g,b)
+                colors.append("#" + b16encode(bytes(value)).decode())
+
+                if i == (len(clrs.DEFAULT_PLOTLY_COLORS) - 2):
+                    index = 1
+                else:
+                    index += interval
+        elif len(colorscale) == 0:
+            interval = 1 / (len(colors) - 1)
+            index = 0
+            for i,c in enumerate(colors):
+                logging.info("color: " + c)
+                logging.info("r: " + c[1:3])
+                logging.info("g: " + c[3:5])
+                logging.info("b: " + c[5:7])
+
+                r = int(c[1:3],16)
+                g = int(c[3:5],16)
+                b = int(c[5:7],16)
+
+                colorscale.append([index,"rgb(" + str(r) + "," + str(g) + "," + str(b) + ")"])
+                luma.append(0.2126 * r + 0.7152 * g + 0.0722 * b)
+
+                if i == (len(colors) - 2):
+                    index = 1
+                else:
+                    index += interval
+
+        self._colors = colors
+        self._colorscale = colorscale
+        self._luma = luma 
+
+    def getColors(self,num,increment):
+        index = 0
+        colors = []
+
+        for i in range(0,num):
+            colors.append(self._colors[index])
+            index += increment
+            if index == len(self._colors):
+                index = 0
+
+        return(colors)
+
+    def getSpread(self,num):
+        delta = int(len(self._colors) / num)
+        return(self.getColors(num,delta))
+
+    def getFirst(self,num = 1):
+        colors = []
+
+        index = 0
+
+        for i in range(0,num):
+            colors.append(self._colors[index])
+            index += 1
+            if index == len(self._colors):
+                index = 0
+
+        return(colors)
+
+    def getClosestTo(self,luma):
+        color = None
+        if len(self._colors) > 0:
+            index = -1
+            diff = sys.maxsize
+            for i,l in enumerate(self._luma):
+                d = abs(luma - l)
+                if d < diff:
+                    diff = d
+                    index = i
+
+            if index >= 0:
+                color = self._colors[index]
+
+        return(color)
+
+    @property
+    def colors(self):
+        return(self._colors)
+
+    @property
+    def colorscale(self):
+        return(self._colorscale)
+
+    @property
+    def first(self):
+        color = None
+        if len(self._colors) > 0:
+            color = self._colors[0]
+        return(color)
+
+    @property
+    def last(self):
+        color = None
+        if len(self._colors) > 0:
+            color = self._colors[len(self._colors) - 1]
+        return(color)
+
+    @property
+    def lightest(self):
+        color = None
+        if len(self._colors) > 0:
+            maxLuma = 0
+            index = -1
+            for i,l in enumerate(self._luma):
+                if l > maxLuma:
+                    maxLuma = l
+                    index = i
+
+            if index >= 0:
+                color = self._colors[index]
+
+        return(color)
 
 def supports(o,method):
     code = False
@@ -151,10 +370,10 @@ def brighten(color,offset):
         return("#ffffff")
 
     rgbHex = [color[x:x + 2] for x in [1, 3, 5]]
-    rgbInt = [int(value, 16) + offset for value in rgbHex]
-    rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+    rgb = [int(value, 16) + offset for value in rgbHex]
+    rgb = [min([255, max([0,i])]) for i in rgb]
 
-    c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+    c = "#" + "".join([hex(i)[2:] for i in rgb])
 
     return(c)
 
@@ -163,9 +382,56 @@ def darken(color,offset):
         return("#ffffff")
 
     rgbHex = [color[x:x + 2] for x in [1, 3, 5]]
-    rgbInt = [int(value, 16) - offset for value in rgbHex]
-    rgbInt = [min([255, max([0,i])]) for i in rgbInt]
+    rgb = [int(value, 16) - offset for value in rgbHex]
+    rgb = [min([255, max([0,i])]) for i in rgb]
 
-    c = "#" + "".join([hex(i)[2:] for i in rgbInt])
+    c = "#" + "".join([hex(i)[2:] for i in rgb])
 
     return(c)
+
+def convertColormap(name):
+    cmap = matplotlib.cm.get_cmap(name)
+    norm = matplotlib.colors.Normalize(vmin = 0,vmax = 255)
+    rgb = []
+ 
+    for i in range(0, 255):
+        k = matplotlib.colors.colorConverter.to_rgb(cmap(norm(i)))
+        rgb.append(k)
+
+    entries = 255
+
+    h = 1.0 / (entries - 1)
+    colorscale = []
+
+    for k in range(entries):
+        C = list(map(np.uint8,np.array(cmap(k * h)[:3]) * 255))
+        colorscale.append([k * h,"rgb" + str((C[0], C[1], C[2]))])
+
+    return(colorscale)
+
+def convertColormapToPalette(name):
+    cmap = matplotlib.cm.get_cmap(name)
+    norm = matplotlib.colors.Normalize(vmin = 0,vmax = 255)
+    rgb = []
+ 
+    for i in range(0, 255):
+        k = matplotlib.colors.colorConverter.to_rgb(cmap(norm(i)))
+        rgb.append(k)
+
+    entries = 255
+
+    h = 1.0 / (entries - 1)
+    colorscale = []
+
+    prev = None
+
+    for k in range(entries):
+        c = list(map(np.uint8,np.array(cmap(k * h)[:3]) * 255))
+        value = (c[0],c[1],c[2])
+        if value == prev:
+            continue
+        prev = value
+        s = "#" + b16encode(bytes(value)).decode()
+        colorscale.append(s)
+
+    return(colorscale)

@@ -8,7 +8,7 @@ import time
 import six
 import re
 
-logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
+#logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
 
 class Connection(object):
     def __init__(self,host,port,secure,**kwargs):
@@ -346,7 +346,8 @@ class ServerConnection(Connection):
     def reconnect(self):
         logging.info("RECONNECT")
         while self.isConnected == False:
-            time.sleep(1)
+            time.sleep(5)
+            #time.sleep(1)
             #time.sleep(300)
             try:
                 self.start()

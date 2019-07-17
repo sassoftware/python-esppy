@@ -4,24 +4,21 @@ import plotly.graph_objs as go
 
 import esppy.espapi.connections as connections
 import esppy.espapi.tools as tools
+import esppy.espapi.viewers as viewers
+import esppy.espapi.dashboard as dashboard
 
 import ipywidgets as widgets
 
 import logging
 
-class Charts(object):
+class Visuals(object):
 
     def __init__(self,**kwargs):
         self._options = tools.Options(**kwargs)
         self._charts = []
 
-        self._jupyter = False
-
-        try:
-            get_ipython
-            self._jupyter = True
-        except:
-            pass
+        colormap = self._options.get("colors")
+        self._colors = tools.Colors(colormap)
 
     def createChart(self,datasource,**kwargs):
 
@@ -31,6 +28,15 @@ class Charts(object):
         self._charts.append(chart)
 
         return(chart)
+
+    def createModelViewer(self,connection,**kwargs):
+        return(viewers.ModelViewer(self,connection,colors=self._options.get("colors"),**kwargs))
+
+    def createLogViewer(self,connection,**kwargs):
+        return(viewers.LogViewer(self,connection,colors=self._options.get("colors"),**kwargs))
+
+    def createDashboard(self,**kwargs):
+        return(dashboard.Dashboard(**kwargs))
 
     def dataChanged(self,datasource):
         for chart in self._charts:
@@ -74,7 +80,7 @@ class Chart(object):
         if self._box == None:
             figure = self.build()
             w = [figure]
-            if self._options.get("showcontrols",True):
+            if self._options.get("showcontrols",False):
                 self._controls = ControlPanel(self._datasource) 
                 w.append(self._controls.display)
             self._box = widgets.VBox(w)
@@ -96,31 +102,34 @@ class Chart(object):
         if yRange != None:
             self._layout["yaxis"]["range"] = yRange
 
-        # themes ggplot2 plotly_white seaborn plotly_dark presentation xgridoff
-        #self._layout.template = "seaborn+presentation"
+        self._layout["xaxis"]["showticklabels"] = self._options.get("showticks",True)
 
         if self._type == "vbar":
 
             keys = self._datasource.getKeyValues()
             values = self.getValues("y")
 
+            colors = self._charts._colors.getFirst(len(values))
+
             self._data = []
 
-            for v in values:
+            for i,v in enumerate(values):
                 y = self._datasource.getValues(v)
                 #self._data.append(go.Bar(x=keys,y=y,name=v))
-                self._data.append(go.Bar(x=keys,y=y,name=v,opacity=opacity))
+                self._data.append(go.Bar(x=keys,y=y,name=v,opacity=opacity,marker_color=colors[i]))
 
         elif self._type == "hbar":
 
             keys = self._datasource.getKeyValues()
             values = self.getValues("y")
 
+            colors = self._charts._colors.getFirst(len(values))
+
             self._data = []
 
-            for v in values:
+            for i,v in enumerate(values):
                 y = self._datasource.getValues(v)
-                self._data.append(go.Bar(x=y,y=keys,name=v,orientation="h"))
+                self._data.append(go.Bar(x=y,y=keys,name=v,orientation="h",marker_color=colors[i]))
 
         elif self._type == "line":
 
@@ -129,9 +138,13 @@ class Chart(object):
 
             self._data = []
 
-            line = {"width":4,"shape":"spline"}
+            width = self._options.get("linewidth",2)
+            shape = self._options.get("linetype")
+            line = {"width":width,"shape":shape}
 
             fill = self._options.get("fill",False)
+
+            colors = self._charts._colors.getFirst(len(values))
 
             for i,v in enumerate(values):
                 y = self._datasource.getValues(v)
@@ -141,6 +154,7 @@ class Chart(object):
                     else:
                         self._data.append(go.Scatter(x=keys,y=y,name=v,mode="none",fill="tonexty"))
                 else:
+                    line["color"] = colors[i]
                     self._data.append(go.Scatter(x=keys,y=y,name=v,mode="lines",line=line))
 
         elif self._type == "bubble":
@@ -283,7 +297,7 @@ class Chart(object):
                     if s != None:
                         marker["color"] = s
                         marker["showscale"] = True
-                        marker["colorscale"] = "Portland"
+                        marker["colorscale"] = self._charts._colors.colorscale
 
                         for i,v in enumerate(s):
                             if size != None:
@@ -367,7 +381,8 @@ class Chart(object):
                 if len(v) > 0:
                     cells.append(v)
                     if color != None and f["name"] == color:
-                        gradient = tools.Gradient("#bae6e2",levels=100,min=min(v),max=max(v))
+                        baseColor = self._charts._colors.lightest
+                        gradient = tools.Gradient(baseColor,levels=100,min=min(v),max=max(v))
                         fill = []
                         bg = []
                         for value in v:
@@ -444,7 +459,7 @@ class Chart(object):
                 s = self._datasource.getValues(color)
                 marker["color"] = s
                 marker["showscale"] = True
-                marker["colorscale"] = "Portland"
+                marker["colorscale"] = self._charts._colors.colorscale
 
                 if size == None or color != size:
                     for i,v in enumerate(s):

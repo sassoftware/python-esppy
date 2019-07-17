@@ -6,16 +6,13 @@ except ImportError:
 from ..utils.notebook import scale_svg
 import ipywidgets as widgets
 
-import matplotlib
-
-import seaborn as sns
-
 import logging
 
 import esppy.espapi.tools as tools
 
 class ViewerBase(object):
-    def __init__(self,connection,**kwargs):
+    def __init__(self,visuals,connection,**kwargs):
+        self._visuals = visuals
         self._connection = connection
         self._options = tools.Options(**kwargs)
 
@@ -26,31 +23,25 @@ class ViewerBase(object):
         self._options.set("height",value)
 
 class ModelViewer(ViewerBase):
-    def __init__(self,connection,**kwargs):
-        ViewerBase.__init__(self,connection,**kwargs)
+    def __init__(self,visuals,connection,**kwargs):
+        ViewerBase.__init__(self,visuals,connection,**kwargs)
         self._stats = None
         self._connection.loadModel(self)
         self._data = None
         self._project = "*"
         self._model = None
+        self._projects = None
+        self._memory = None
 
-        if self._options.has("style"):
-            matplotlib.style.use(self._options.get("style"))
+        color = self._options.get("cpucolor","#ffffff")
+        self._gradient = tools.Gradient(color,levels=100,min=0,max=100)
 
-        if self._options.has("palette"):
-            sns.set_palette(self._options.get("palette"))
+        self._windowColors = None
 
-        self._colors = None
-
-        palette = sns.color_palette()
-        if palette != None:
-            colors = palette.as_hex()
-            self._colors = {}
-            self._colors["input"] = colors[0]
-            self._colors["transformation"] = colors[1]
-            self._colors["utility"] = colors[2]
-            self._colors["analytics"] = colors[3]
-            self._colors["textanalytics"] = colors[4]
+        colors = self._visuals._colors.getSpread(5)
+        self._windowColors = {}
+        for i,type in enumerate(["input","utility","analytics","textanalytics","transformation"]):
+            self._windowColors[type] = colors[i]
 
         width = self._options.get("width","98%",True)
         height = self._options.get("height","400px",True)
@@ -154,10 +145,11 @@ class ModelViewer(ViewerBase):
 
         a = [("ALL","*")]
 
-        for p in self._model._projects:
-            a.append((p["name"],p["name"]))
+        if self._projects != None:
+            for p in self._model._projects:
+                a.append((p["name"],p["name"]))
 
-        self._projects.options = a
+            self._projects.options = a
 
         rankdir = "LR"
 
@@ -203,16 +195,21 @@ class ModelViewer(ViewerBase):
 
         cpuColor = self._options.get("cpucolor")
 
+        if cpuColor != None:
+            #self._gradient.color = cpuColor
+            self._gradient.color = self._visuals._colors.lightest
+
         showStats = self._options.get("showcpu",False)
         showCounts = self._options.get("showcounts",False)
         showType = self._options.get("showtype",False)
         showIndex = self._options.get("showindex",False)
         showSchema = self._options.get("showschema",False)
 
-        if showStats:
-            self._memory.layout.display = "flex"
-        else:
-            self._memory.layout.display = "none"
+        if self._memory != None:
+            if showStats:
+                self._memory.layout.display = "flex"
+            else:
+                self._memory.layout.display = "none"
 
         showProperties = showStats or showCounts or showType or showIndex
 
@@ -239,7 +236,8 @@ class ModelViewer(ViewerBase):
 
                         label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + str(cpu) + "</td></tr>")
                         if cpuColor != None:
-                            color = tools.darken(cpuColor,cpu)
+                            #color = tools.darken(cpuColor,cpu)
+                            color = self._gradient.darken(cpu)
                         if showCounts:
                             label.append("<tr><td align='right'>count:</td><td>&nbsp;</td><td align='left'>" + str(count) + "</td></tr>")
                     if showIndex:
@@ -262,8 +260,8 @@ class ModelViewer(ViewerBase):
                     label.append("</table>>")
                     label = "".join(label)
                     if color == None:
-                        if self._colors != None:
-                            color = self._colors.get(a["class"])
+                        if self._windowColors != None:
+                            color = self._windowColors.get(a["class"])
 
                     graph = graphs[a["p"]]
 
@@ -298,19 +296,25 @@ class ModelViewer(ViewerBase):
     def display(self):
         return(self._html)
 
-class LogViewer(object):
-    def __init__(self,connection,**kwargs):
-        self._connection = connection
-        self._options = tools.Options(**kwargs)
+class LogViewer(ViewerBase):
+    def __init__(self,visuals,connection,**kwargs):
+        ViewerBase.__init__(self,visuals,connection,**kwargs)
         self._connection.getLog().addDelegate(self)
 
-        #width = self._options.get("width","800px")
         width = self._options.get("width","98%")
         height = self._options.get("height","200px")
 
         self._max = self._options.get("max",50);
 
-        self._log = widgets.HTML(value="",layout=widgets.Layout(width=width,height=height,border="1px solid #c0c0c0",overflow="auto"))
+        self._bg = self._options.get("bg",self._visuals._colors.getClosestTo(127))
+        self._border = self._options.get("border","4px solid " + self._visuals._colors.last)
+
+        self._log = widgets.HTML(value="",layout=widgets.Layout(width=width,height=height,border=self._border,overflow="auto"))
+
+        s = ""
+        s += "<div style='width:100%;height:100%;background:" + self._bg + "'>"
+        s += "</div>"
+        self._log.value = s
 
         self._messages = []
 
@@ -325,12 +329,16 @@ class LogViewer(object):
 
         s = ""
 
-        s += "<pre>"
+        s += "<div style='width:100%;height:100%;background:" + self._bg + "'>"
+        s += "<pre style='width:100%;height:100%;background:" + self._bg + "'>"
 
         for message in self._messages:
             s += message;
+            s += "\n"
+            s += "\n"
 
         s += "</pre>"
+        s += "</div>"
 
         self._log.value = s
 
@@ -338,10 +346,9 @@ class LogViewer(object):
     def display(self):
         display(self._log)
 
-class StatsViewer(object):
-    def __init__(self,connection,**kwargs):
-        self._connection = connection
-        self._options = tools.Options(**kwargs)
+class StatsViewer(ViewerBase):
+    def __init__(self,visuals,connection,**kwargs):
+        ViewerBase.__init__(self,visuals,connection,**kwargs)
         self._stats = self._connection.getStats();
         self._stats.addDelegate(self)
 
