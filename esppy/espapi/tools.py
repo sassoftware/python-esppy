@@ -219,11 +219,6 @@ class Colors(object):
             interval = 1 / (len(colors) - 1)
             index = 0
             for i,c in enumerate(colors):
-                logging.info("color: " + c)
-                logging.info("r: " + c[1:3])
-                logging.info("g: " + c[3:5])
-                logging.info("b: " + c[5:7])
-
                 r = int(c[1:3],16)
                 g = int(c[3:5],16)
                 b = int(c[5:7],16)

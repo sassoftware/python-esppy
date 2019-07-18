@@ -104,6 +104,9 @@ class Connection(object):
     def error(self):
         pass
 
+    def closed(self):
+        pass
+
     def on_open(self,ws):
         self._websocket = ws
 
@@ -322,6 +325,9 @@ class ServerConnection(Connection):
         for p in self._publishers.values():
             p.open()
 
+        if len(self._log._delegates) > 0:
+            self._log.start()
+
         if len(self._stats._delegates) > 0:
             self._stats.set()
 
@@ -355,8 +361,8 @@ class ServerConnection(Connection):
                 pass
 
 class Datasource(object):
-    def __init__(self,conn,**kwargs):
-        self._conn = conn
+    def __init__(self,connection,**kwargs):
+        self._connection = connection
         self._id = tools.guid()
         self._fields = None
         self._keyFields = None
@@ -611,7 +617,7 @@ class EventCollection(Datasource):
         if self._options.has("filter") == False:
             o["filter"]= ""
 
-        self._conn.send(o)
+        self._connection.send(o)
 
     def set(self):
         o = {}
@@ -625,14 +631,14 @@ class EventCollection(Datasource):
         if self._options.has("filter") == False:
             o["filter"] = ""
 
-        self._conn.send(o)
+        self._connection.send(o)
 
     def close(self):
         o = {}
         o["request"] = "event-collection"
         o["id"] = self._id
         o["action"] = "close"
-        self._conn.send(o)
+        self._connection.send(o)
 
     def handleMessage(self,msg):
         self.loadPage(msg["type"])
@@ -659,7 +665,7 @@ class EventCollection(Datasource):
         o["action"] = "load"
         if page != None:
             o["page"] = page
-        self._conn.send(o)
+        self._connection.send(o)
 
     def events(self,xml):
         data = []
@@ -803,7 +809,7 @@ class EventStream(Datasource):
         if self._options.has("filter") == False:
             o["filter"]= ""
 
-        self._conn.send(o)
+        self._connection.send(o)
 
     def set(self):
         o = {}
@@ -818,14 +824,14 @@ class EventStream(Datasource):
         if self._options.has("filter") == False:
             o["filter"]= ""
 
-        self._conn.send(o)
+        self._connection.send(o)
 
     def close(self):
         o = {}
         o["request"] = "event-stream"
         o["id"] = self._id
         o["action"] = "close"
-        self._conn.send(o)
+        self._connection.send(o)
 
     def setSchema(self,xml):
         Datasource.setSchema(self,xml)
@@ -953,8 +959,8 @@ class EventStream(Datasource):
         self.deliverDataChange()
 
 class Publisher(object):
-    def __init__(self,conn,path,**kwargs):
-        self._conn = conn
+    def __init__(self,connection,path,**kwargs):
+        self._connection = connection
         self._path = path
         self._id = tools.guid()
         self._data = []
@@ -967,14 +973,14 @@ class Publisher(object):
         o["action"] = "open"
         o["window"] = self._path
         o["schema"] = True
-        self._conn.send(o)
+        self._connection.send(o)
 
     def close(self):
         o = {}
         o["request"] = "publisher"
         o["id"] = self._id
         o["action"] = "delete"
-        self._conn.send(o)
+        self._connection.send(o)
 
     def begin(self):
         self._o = {}
@@ -1000,7 +1006,7 @@ class Publisher(object):
                 o["data"] = {"event":self._data[0]}
             else:
                 o["data"] = self._data
-            self._conn.send(o)
+            self._connection.send(o)
             self._data = []
 
     def publishUrl(self,url,blocksize = None):
@@ -1014,12 +1020,11 @@ class Publisher(object):
         if blocksize != None:
             source["blocksize"] = blocksize
         o["source"] = source
-        self._conn.send(o)
+        self._connection.send(o)
 
 class Stats(Datasource):
-    def __init__(self,conn,**kwargs):
-        Datasource.__init__(self,conn,**kwargs)
-        self._connection = conn
+    def __init__(self,connection,**kwargs):
+        Datasource.__init__(self,connection,**kwargs)
         self._delegates = []
         self._options = tools.Options()
         self._data = {}

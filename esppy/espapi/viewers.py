@@ -26,7 +26,6 @@ class ModelViewer(ViewerBase):
     def __init__(self,visuals,connection,**kwargs):
         ViewerBase.__init__(self,visuals,connection,**kwargs)
         self._stats = None
-        self._connection.loadModel(self)
         self._data = None
         self._project = "*"
         self._model = None
@@ -87,6 +86,8 @@ class ModelViewer(ViewerBase):
 
         if self._options.get("showcpu",False):
             self.showStats()
+
+        self._connection.loadModel(self)
 
     def showCpu(self,b):
         self.setOption("showcpu",b.value)
