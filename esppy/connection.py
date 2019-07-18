@@ -56,7 +56,7 @@ from .utils.keyword import dekeywordify
 from .utils.project import expand_path
 from .websocket import WebSocketClient
 from .windows import BaseWindow, get_window_class
-
+from .espapi import api
 
 class ProjectStats(object):
     '''
@@ -302,11 +302,14 @@ class ESP(RESTHelpers):
             if not base_url.endswith('/'):
                 base_url = '%s/' % base_url
             if not re.search(r'%s/' % ESP_ROOT, base_url):
+                conn_url = base_url
                 base_url = urllib.parse.urljoin(base_url, '%s/' % ESP_ROOT)
         else:
+            conn_url = '%s://%s:%s' % (protocol, hostname, port)
             base_url = '%s://%s:%s/%s/' % (protocol, hostname, port, ESP_ROOT)
 
         session = requests.Session()
+        session.conn_url = conn_url
         session.base_url = base_url
 
         # Set certificate verification
@@ -380,6 +383,9 @@ class ESP(RESTHelpers):
         requests_log = logging.getLogger('requests.packages.urllib3')
         requests_log.setLevel(logging.DEBUG)
         requests_log.propagate = True
+
+    def createServerConnection(self):
+        return(api.connect(self.session.conn_url))
 
     @property
     def metadata(self):
@@ -783,7 +789,8 @@ class ESP(RESTHelpers):
                   params=get_params(overwrite=overwrite,
                                     connectors=start_connectors,
                                     projectUrl=project_url,
-                                    start=start),
+                                    start=start,
+                                    log=True),
                   data=data.encode('utf-8'))
 
         return self.get_project(name)

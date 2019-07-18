@@ -421,7 +421,7 @@ class Project(ESPObject, collections.MutableMapping):
         self._put(params=get_params(overwrite=overwrite,
                                     connectors=start_connectors,
                                     start=start),
-                  data=get_project_data(self))
+                  data=get_project_data(self).encode())
 
     def copy(self, deep=False):
         '''
@@ -831,7 +831,7 @@ class Project(ESPObject, collections.MutableMapping):
 
         '''
         self._put('state', params=get_params(value='modified'),
-                  data=get_project_data(project))
+                  data=get_project_data(project).encode())
 
     def delete(self):
         ''' Delete the project '''
@@ -969,9 +969,8 @@ class Project(ESPObject, collections.MutableMapping):
 
         '''
         try:
-            res = self._post(urllib.parse.urljoin(self.base_url,
-                                                  'projectValidationResults'),
-                             data=self.to_xml())
+            xml = self.to_xml().encode()
+            res = self._post(urllib.parse.urljoin(self.base_url,'projectValidationResults'),data=xml)
             if res.tag != 'schema-validation-success':
                 return False
         except ESPError:

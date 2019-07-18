@@ -693,7 +693,8 @@ class EventGenerator(ESPObject):
             Optional name override
 
         '''
+        xml = self.to_xml().encode()
         self._put(urllib.parse.urljoin(self.base_url,
                                        'eventGenerators/%s' % (name or self.name)),
                   params=get_params(overwrite=overwrite),
-                  data=self.to_xml())
+                  data=xml)

@@ -822,10 +822,11 @@ class Router(ESPObject):
             Should an existing router of the same name be overwritten?
 
         '''
+        data=get_project_data(self).encode()
         self._put(urllib.parse.urljoin(self.base_url,
                                        'routers/%s' % self.name),
                   params=get_params(overwrite=overwrite),
-                  data=get_project_data(self))
+                  data=data)
 
     def delete(self):
         ''' Delete the router '''
