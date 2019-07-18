@@ -2,10 +2,9 @@ import logging
 import uuid
 import sys
 import matplotlib
+import plotly
 
 from base64 import b16encode
-
-import plotly.colors as clrs
 
 from matplotlib import cm
 
@@ -127,8 +126,8 @@ class Colors(object):
         luma = []
 
         if colormap != None:
-            if colormap in clrs.PLOTLY_SCALES:
-                cmap = clrs.PLOTLY_SCALES[colormap]
+            if colormap in plotly.colors.PLOTLY_SCALES:
+                cmap = plotly.colors.PLOTLY_SCALES[colormap]
                 interval = 1 / (len(cmap) - 1)
                 index = 0
                 for i,c in enumerate(cmap):
@@ -196,9 +195,9 @@ class Colors(object):
                     pass
 
         if len(colors) == 0:
-            interval = 1 / (len(clrs.DEFAULT_PLOTLY_COLORS) - 1)
+            interval = 1 / (len(plotly.colors.DEFAULT_PLOTLY_COLORS) - 1)
             index = 0
-            for i,c in enumerate(clrs.DEFAULT_PLOTLY_COLORS):
+            for i,c in enumerate(plotly.colors.DEFAULT_PLOTLY_COLORS):
                 i1 = c.index("(")
                 i2 = c.index(")")
                 s = c[i1 + 1:i2]
@@ -211,7 +210,7 @@ class Colors(object):
                 value = (r,g,b)
                 colors.append("#" + b16encode(bytes(value)).decode())
 
-                if i == (len(clrs.DEFAULT_PLOTLY_COLORS) - 2):
+                if i == (len(plotly.colors.DEFAULT_PLOTLY_COLORS) - 2):
                     index = 1
                 else:
                     index += interval
