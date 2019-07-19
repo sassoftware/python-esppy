@@ -120,13 +120,28 @@ class Gradient(object):
         self._color = value
 
 class Colors(object):
+    _sasThemes = {
+        "sas_base":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
+        "sas_dark":["#90b328", "#9c2910", "#ffca39", "#00929f", "#736519", "#f08000", "#a6427c"],
+        "sas_highcontrast":["#a1d73b", "#ff791d", "#ffd736", "#cb66ff", "#ff5252", "#57b2ff", "#fa96e0", "#33f7b0"],
+        "sas_light":["#3d5aae", "#90b328", "#9c2910", "#ffca39", "#00929f", "#736519", "#f08000", "#a6427c"],
+        "sas_marine":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
+        "sas_midnight":["#2470ad", "#98863c", "#5954ad", "#985b30", "#238a92", "#84414b", "#17785f", "#985186"],
+        "sas_opal":["#33a3ff", "#ffcc32", "#9471ff", "#ff8224", "#2ad1d1", "#dd5757", "#15b57b", "#ff6fbd"],
+        "sas_sail":["#21b9b7", "#4141e0", "#7db71a", "#8e2f8a", "#d38506", "#0abf85", "#2f90ec", "#db3851"],
+        "sas_snow":["#3d5aae", "#90b328", "#9c2910", "#ffca39", "#00929f", "#736519", "#f08000", "#a6427c"],
+        "sas_umstead":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"]
+    }
     def __init__(self,colormap = None):
         colors = []
         colorscale = []
         luma = []
 
         if colormap != None:
-            if colormap in plotly.colors.PLOTLY_SCALES:
+            if colormap.index("sas_") == 0:
+                if colormap in Colors._sasThemes:
+                    colors.extend(Colors._sasThemes[colormap])
+            elif colormap in plotly.colors.PLOTLY_SCALES:
                 cmap = plotly.colors.PLOTLY_SCALES[colormap]
                 interval = 1 / (len(cmap) - 1)
                 index = 0
