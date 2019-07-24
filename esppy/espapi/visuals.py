@@ -20,20 +20,50 @@ class Visuals(object):
         colormap = self._options.get("colors")
         self._colors = tools.Colors(colormap)
 
-    def createChart(self,datasource,**kwargs):
-
+    def createBarChart(self,datasource,**kwargs):
         datasource.addDelegate(self)
-
-        chart = Chart(self,datasource,**kwargs)
+        chart = BarChart(self,datasource,**kwargs)
         self._charts.append(chart)
+        return(chart)
 
+    def createLineChart(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = LineChart(self,datasource,**kwargs)
+        self._charts.append(chart)
+        return(chart)
+
+    def createBubbleChart(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = BubbleChart(self,datasource,**kwargs)
+        self._charts.append(chart)
+        return(chart)
+
+    def createPieChart(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = PieChart(self,datasource,**kwargs)
+        self._charts.append(chart)
+        return(chart)
+
+    def createMap(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = Map(self,datasource,**kwargs)
+        self._charts.append(chart)
+        return(chart)
+
+    def createTable(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = Table(self,datasource,**kwargs)
+        self._charts.append(chart)
         return(chart)
 
     def createModelViewer(self,connection,**kwargs):
-        return(viewers.ModelViewer(self,connection,colors=self._options.get("colors"),**kwargs))
+        return(viewers.ModelViewer(self,connection,**kwargs))
 
     def createLogViewer(self,connection,**kwargs):
-        return(viewers.LogViewer(self,connection,colors=self._options.get("colors"),**kwargs))
+        return(viewers.LogViewer(self,connection,**kwargs))
+
+    def createStatsViewer(self,connection,**kwargs):
+        return(viewers.StatsViewer(self,connection,**kwargs))
 
     def createDashboard(self,**kwargs):
         return(dashboard.Dashboard(**kwargs))
@@ -61,7 +91,6 @@ class Chart(object):
         self._charts = charts
         self._datasource = datasource
         self._options = tools.Options(**kwargs)
-        self._type = self._options.get("type","vbar")
         self._dashboard = None
         self._figure = None
         self._data = None
@@ -78,8 +107,9 @@ class Chart(object):
     @property
     def display(self):
         if self._box == None:
-            figure = self.build()
-            w = [figure]
+            self.build()
+            self._figure = go.FigureWidget(data=self._data,layout=self._layout)
+            w = [self._figure]
             if self._options.get("showcontrols",False):
                 self._controls = ControlPanel(self._datasource) 
                 w.append(self._controls.display)
@@ -88,8 +118,6 @@ class Chart(object):
         return(self._box)
 
     def build(self):
-        opacity = self._options.get("opacity")
-
         width = self._options.get("width")
         height = self._options.get("height")
 
@@ -103,305 +131,6 @@ class Chart(object):
             self._layout["yaxis"]["range"] = yRange
 
         self._layout["xaxis"]["showticklabels"] = self._options.get("showticks",True)
-
-        if self._type == "vbar":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            colors = self._charts._colors.getFirst(len(values))
-
-            self._data = []
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                #self._data.append(go.Bar(x=keys,y=y,name=v))
-                self._data.append(go.Bar(x=keys,y=y,name=v,opacity=opacity,marker_color=colors[i]))
-
-        elif self._type == "hbar":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            colors = self._charts._colors.getFirst(len(values))
-
-            self._data = []
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                self._data.append(go.Bar(x=y,y=keys,name=v,orientation="h",marker_color=colors[i]))
-
-        elif self._type == "line":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            self._data = []
-
-            width = self._options.get("linewidth",2)
-            shape = self._options.get("linetype")
-            line = {"width":width,"shape":shape}
-
-            fill = self._options.get("fill",False)
-
-            colors = self._charts._colors.getFirst(len(values))
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                if fill:
-                    if i == 0:
-                        self._data.append(go.Scatter(x=keys,y=y,name=v,mode="none",fill="tozeroy"))
-                    else:
-                        self._data.append(go.Scatter(x=keys,y=y,name=v,mode="none",fill="tonexty"))
-                else:
-                    line["color"] = colors[i]
-                    self._data.append(go.Scatter(x=keys,y=y,name=v,mode="lines",line=line))
-
-        elif self._type == "bubble":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            self._data = []
-
-            for v in values:
-                y = self._datasource.getValues(v)
-                self._data.append(go.Scatter(x=keys,y=y,name=v,mode="markers"))
-
-        elif self._type == "pie":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("values")
-
-            self._data = []
-
-            for v in values:
-                value = self._datasource.getValues(v)
-                self._data.append(go.Pie(labels=keys,values=value,name=v))
-
-        elif self._type == "map":
-
-            keys = self._datasource.getKeyValues()
-
-            values = self.getValues("values")
-            lat = []
-            lon = []
-
-            opt = self._options.get("lat")
-            if opt != None:
-                lat = self._datasource.getValues(opt)
-
-            opt = self._options.get("lon")
-            if opt != None:
-                lon = self._datasource.getValues(opt)
-
-            self._data = []
-
-            geo = go.layout.Geo()
-            geo.scope = "usa"
-            #geo.projection = go.layout.geo.Projection(type='albers usa')
-            #geo.showland = True
-            #geo.landcolor = "rgb(217, 217, 217)"
-            self._layout.geo = geo
-
-            self._data.append(go.Scattergeo(text=keys,lat=lat,lon=lon,locationmode="USA-states"))
-
-        elif self._type == "table":
-            fields = self._datasource.getFields()
-
-            header = []
-
-            for f in fields:
-                header.append(f["name"])
-
-            self._data = []
-            self._data.append(go.Table(header=dict(values=header)))
-
-        self._figure = go.FigureWidget(data=self._data,layout=self._layout)
-
-        return(self._figure)
-
-    def draw(self):
-
-        if self._figure == None:
-            return
-
-        if self._type == "vbar":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                self._figure.data[i].x = keys
-                self._figure.data[i].y = y
-
-        elif self._type == "hbar":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                self._figure.data[i].x = y
-                self._figure.data[i].y = keys
-
-        elif self._type == "line":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                self._figure.data[i].x = keys
-                self._figure.data[i].y = y
-
-        elif self._type == "bubble":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("y")
-
-            marker = {}
-
-            size = self._options.get("size")
-            color = self._options.get("color")
-
-            text = None
-
-            if size != None or color != None:
-
-                text = []
-
-                for i in range(0,len(keys)):
-                    text.append("")
-
-                if size != None:
-                    s = self._datasource.getValues(size)
-                    if s != None and len(s) > 0:
-                        maxsize = 60.
-                        minsize = 5
-                        marker["size"] = s
-                        marker["sizemode"] = "area"
-                        marker["sizeref"] = 2. * max(s) / (maxsize ** 2)
-                        marker["sizemin"] = minsize
-
-                        for i,v in enumerate(s):
-                            text[i] += size + "=" + str(v)
-
-                #["Greens", "YlOrRd", "Bluered", "RdBu", "Reds", "Blues", "Picnic", "Rainbow", "Portland", "Jet", "Hot", "Blackbody", "Earth", "Electric", "Viridis", "Cividis"]
-
-                color = self._options.get("color")
-
-                if color != None:
-                    s = self._datasource.getValues(color)
-                    if s != None:
-                        marker["color"] = s
-                        marker["showscale"] = True
-                        marker["colorscale"] = self._charts._colors.colorscale
-
-                        for i,v in enumerate(s):
-                            if size != None:
-                                text[i] += "<br>"
-                            text[i] += color + "=" + str(v)
-
-            for i,v in enumerate(values):
-                y = self._datasource.getValues(v)
-                self._figure.data[i].x = keys
-                self._figure.data[i].y = y
-                self._figure.data[i].marker = marker
-                self._figure.data[i].text = text
-
-        elif self._type == "pie":
-
-            keys = self._datasource.getKeyValues()
-            values = self.getValues("values")
-
-            for i,v in enumerate(values):
-                value = self._datasource.getValues(v)
-                self._figure.data[i].labels = keys
-                self._figure.data[i].values = value
-
-        elif self._type == "map":
-
-            keys = self._datasource.getKeyValues()
-
-            lat = []
-            lon = []
-
-            opt = self._options.get("lat")
-            if opt != None:
-                lat = self._datasource.getValues(opt)
-
-            opt = self._options.get("lon")
-            if opt != None:
-                lon = self._datasource.getValues(opt)
-
-            o = self.createMarkers()
-
-            i = 0
-            self._figure.data[i].lat = lat
-            self._figure.data[i].lon = lon
-            self._figure.data[i].text = keys
-            self._figure.data[i].marker = o["marker"]
-            self._figure.data[i].text = o["text"]
-
-        elif self._type == "table":
-
-            allfields = self._datasource.getFields()
-            columns = self.getValues("values")
-
-            fields = []
-
-            for f in allfields:
-                if f["isKey"]:
-                    fields.append(f)
-                elif len(columns) > 0:
-                    if f["name"] in columns:
-                        fields.append(f)
-                else:
-                    fields.append(f)
-
-            header = []
-
-            for f in fields:
-                header.append(f["name"])
-
-            color = self._options.get("color")
-
-            fill = None
-            bg = None
-            numcolors = 100
-
-            cells = []
-
-            numrows = 0
-
-            for i,f in enumerate(fields):
-                v = self._datasource.getValues(f["name"])
-                if len(v) > 0:
-                    cells.append(v)
-                    if color != None and f["name"] == color:
-                        baseColor = self._charts._colors.lightest
-                        gradient = tools.Gradient(baseColor,levels=100,min=min(v),max=max(v))
-                        fill = []
-                        bg = []
-                        for value in v:
-                            fill.append(gradient.darken(value))
-                            bg.append("#ffffff")
-
-            self._figure.data[0].header.values = header
-            self._figure.data[0].cells.values = cells
-
-            if fill != None:
-                a = []
-                for f in fields:
-                    if f["name"] == color:
-                        a.append(fill)
-                    else:
-                        a.append(bg)
-                self._figure.data[0].cells.fill = dict(color=a)
-
-        self.setTitle()
 
     def setTitle(self):
         title = self._options.get("title")
@@ -451,8 +180,6 @@ class Chart(object):
                         text[i] += "<br>"
                         text[i] += size + "=" + str(v)
 
-            #["Greens", "YlOrRd", "Bluered", "RdBu", "Reds", "Blues", "Picnic", "Rainbow", "Portland", "Jet", "Hot", "Blackbody", "Earth", "Electric", "Viridis", "Cividis"]
-
             color = self._options.get("color")
 
             if color != None:
@@ -496,6 +223,352 @@ class Chart(object):
 
     def getOption(self,name,dv):
         return(self._options.get(name,dv))
+
+class BarChart(Chart):
+    def __init__(self,charts,datasource,**kwargs):
+        Chart.__init__(self,charts,datasource,**kwargs)
+        self._orientation = self._options.get("orientation","vertical")
+
+    def build(self):
+        Chart.build(self)
+
+        if self._orientation == "horizontal":
+            keys = self._datasource.getKeyValues()
+            values = self.getValues("y")
+
+            colors = self._charts._colors.getFirst(len(values))
+
+            self._data = []
+
+            for i,v in enumerate(values):
+                y = self._datasource.getValues(v)
+                self._data.append(go.Bar(x=y,y=keys,name=v,orientation="h",marker_color=colors[i]))
+
+        else:
+            keys = self._datasource.getKeyValues()
+            values = self.getValues("y")
+
+            colors = self._charts._colors.getFirst(len(values))
+
+            self._data = []
+
+            opacity = self._options.get("opacity")
+
+            for i,v in enumerate(values):
+                y = self._datasource.getValues(v)
+                #self._data.append(go.Bar(x=keys,y=y,name=v))
+                self._data.append(go.Bar(x=keys,y=y,name=v,opacity=opacity,marker_color=colors[i]))
+
+    def draw(self):
+
+        if self._figure == None:
+            return
+
+        if self._orientation == "horizontal":
+            keys = self._datasource.getKeyValues()
+            values = self.getValues("y")
+
+            for i,v in enumerate(values):
+                y = self._datasource.getValues(v)
+                self._figure.data[i].x = y
+                self._figure.data[i].y = keys
+
+        else:
+            keys = self._datasource.getKeyValues()
+            values = self.getValues("y")
+
+            for i,v in enumerate(values):
+                y = self._datasource.getValues(v)
+                self._figure.data[i].x = keys
+                self._figure.data[i].y = y
+
+        self.setTitle()
+
+class LineChart(Chart):
+    def __init__(self,charts,datasource,**kwargs):
+        Chart.__init__(self,charts,datasource,**kwargs)
+
+    def build(self):
+        Chart.build(self)
+
+        keys = self._datasource.getKeyValues()
+        values = self.getValues("y")
+
+        self._data = []
+
+        width = self._options.get("linewidth",2)
+        shape = "linear"
+        if self._options.get("curved",False):
+            shape = "spline"
+        line = {"width":width,"shape":shape}
+
+        fill = self._options.get("fill",False)
+
+        colors = self._charts._colors.getFirst(len(values))
+
+        for i,v in enumerate(values):
+            y = self._datasource.getValues(v)
+            if fill:
+                if i == 0:
+                    self._data.append(go.Scatter(x=keys,y=y,name=v,mode="none",fill="tozeroy",fillcolor=colors[i]))
+                else:
+                    self._data.append(go.Scatter(x=keys,y=y,name=v,mode="none",fill="tonexty",fillcolor=colors[i]))
+            else:
+                line["color"] = colors[i]
+                self._data.append(go.Scatter(x=keys,y=y,name=v,mode="lines",line=line))
+
+    def draw(self):
+        if self._figure == None:
+            return
+
+        keys = self._datasource.getKeyValues()
+        values = self.getValues("y")
+
+        for i,v in enumerate(values):
+            y = self._datasource.getValues(v)
+            self._figure.data[i].x = keys
+            self._figure.data[i].y = y
+
+        self.setTitle()
+
+class PieChart(Chart):
+    def __init__(self,charts,datasource,**kwargs):
+        Chart.__init__(self,charts,datasource,**kwargs)
+
+    def build(self):
+        Chart.build(self)
+
+        keys = self._datasource.getKeyValues()
+        value = self.getValues("value")
+
+        self._data = []
+
+        if len(value) == 1:
+            v = self._datasource.getValues(value[0])
+            self._data.append(go.Pie(labels=keys,values=v,name=value[0]))
+
+    def draw(self):
+        if self._figure == None:
+            return
+
+        keys = self._datasource.getKeyValues()
+        value = self.getValues("value")
+
+        if len(value) == 1:
+            v = self._datasource.getValues(value[0])
+            self._figure.data[0].labels = keys
+            self._figure.data[0].values = v
+
+        self.setTitle()
+
+class BubbleChart(Chart):
+    def __init__(self,charts,datasource,**kwargs):
+        Chart.__init__(self,charts,datasource,**kwargs)
+
+    def build(self):
+        Chart.build(self)
+        keys = self._datasource.getKeyValues()
+        values = self.getValues("y")
+
+        self._data = []
+
+        for v in values:
+            y = self._datasource.getValues(v)
+            self._data.append(go.Scatter(x=keys,y=y,name=v,mode="markers"))
+
+    def draw(self):
+        if self._figure == None:
+            return
+
+        keys = self._datasource.getKeyValues()
+        values = self.getValues("y")
+
+        marker = {}
+
+        size = self._options.get("size")
+        color = self._options.get("color")
+
+        text = None
+
+        if size != None or color != None:
+
+            text = []
+
+            for i in range(0,len(keys)):
+                text.append("")
+
+            if size != None:
+                s = self._datasource.getValues(size)
+                if s != None and len(s) > 0:
+                    maxsize = 60.
+                    minsize = 5
+                    marker["size"] = s
+                    marker["sizemode"] = "area"
+                    marker["sizeref"] = 2. * max(s) / (maxsize ** 2)
+                    marker["sizemin"] = minsize
+
+                    for i,v in enumerate(s):
+                        text[i] += size + "=" + str(v)
+
+            #["Greens", "YlOrRd", "Bluered", "RdBu", "Reds", "Blues", "Picnic", "Rainbow", "Portland", "Jet", "Hot", "Blackbody", "Earth", "Electric", "Viridis", "Cividis"]
+
+            color = self._options.get("color")
+
+            if color != None:
+                s = self._datasource.getValues(color)
+                if s != None:
+                    marker["color"] = s
+                    marker["showscale"] = True
+                    marker["colorscale"] = self._charts._colors.colorscale
+
+                    for i,v in enumerate(s):
+                        if size != None:
+                            text[i] += "<br>"
+                        text[i] += color + "=" + str(v)
+
+        for i,v in enumerate(values):
+            y = self._datasource.getValues(v)
+            self._figure.data[i].x = keys
+            self._figure.data[i].y = y
+            self._figure.data[i].marker = marker
+            self._figure.data[i].text = text
+
+        self.setTitle()
+
+class Map(Chart):
+    def __init__(self,charts,datasource,**kwargs):
+        Chart.__init__(self,charts,datasource,**kwargs)
+
+    def build(self):
+        Chart.build(self)
+        keys = self._datasource.getKeyValues()
+
+        values = self.getValues("values")
+        lat = []
+        lon = []
+
+        opt = self._options.get("lat")
+        if opt != None:
+            lat = self._datasource.getValues(opt)
+
+        opt = self._options.get("lon")
+        if opt != None:
+            lon = self._datasource.getValues(opt)
+
+        self._data = []
+
+        geo = go.layout.Geo()
+        geo.scope = "usa"
+        #geo.projection = go.layout.geo.Projection(type='albers usa')
+        #geo.showland = True
+        #geo.landcolor = "rgb(217, 217, 217)"
+        self._layout.geo = geo
+
+        self._data.append(go.Scattergeo(text=keys,lat=lat,lon=lon,locationmode="USA-states"))
+
+    def draw(self):
+        if self._figure == None:
+            return
+
+        keys = self._datasource.getKeyValues()
+
+        lat = []
+        lon = []
+
+        opt = self._options.get("lat")
+        if opt != None:
+            lat = self._datasource.getValues(opt)
+
+        opt = self._options.get("lon")
+        if opt != None:
+            lon = self._datasource.getValues(opt)
+
+        o = self.createMarkers()
+
+        i = 0
+        self._figure.data[i].lat = lat
+        self._figure.data[i].lon = lon
+        self._figure.data[i].text = keys
+        self._figure.data[i].marker = o["marker"]
+        self._figure.data[i].text = o["text"]
+
+        self.setTitle()
+
+class Table(Chart):
+    def __init__(self,charts,datasource,**kwargs):
+        Chart.__init__(self,charts,datasource,**kwargs)
+
+    def build(self):
+        Chart.build(self)
+        fields = self._datasource.getFields()
+
+        header = []
+
+        for f in fields:
+            header.append(f["name"])
+
+        self._data = []
+        self._data.append(go.Table(header=dict(values=header)))
+
+    def draw(self):
+        if self._figure == None:
+            return
+
+        allfields = self._datasource.getFields()
+        columns = self.getValues("values")
+
+        fields = []
+
+        for f in allfields:
+            if f["isKey"]:
+                fields.append(f)
+            elif len(columns) > 0:
+                if f["name"] in columns:
+                    fields.append(f)
+            else:
+                fields.append(f)
+
+        header = []
+
+        for f in fields:
+            header.append(f["name"])
+
+        color = self._options.get("color")
+
+        fill = None
+        bg = None
+        numcolors = 100
+
+        cells = []
+
+        numrows = 0
+
+        for i,f in enumerate(fields):
+            v = self._datasource.getValues(f["name"])
+            if len(v) > 0:
+                cells.append(v)
+                if color != None and f["name"] == color:
+                    baseColor = self._charts._colors.lightest
+                    gradient = tools.Gradient(baseColor,levels=100,min=min(v),max=max(v))
+                    fill = []
+                    bg = []
+                    for value in v:
+                        fill.append(gradient.darken(value))
+                        bg.append("#ffffff")
+
+        self._figure.data[0].header.values = header
+        self._figure.data[0].cells.values = cells
+
+        if fill != None:
+            a = []
+            for f in fields:
+                if f["name"] == color:
+                    a.append(fill)
+                else:
+                    a.append(bg)
+            self._figure.data[0].cells.fill = dict(color=a)
+
+        self.setTitle()
 
 class ControlPanel(object):
     def __init__(self,datasource):

@@ -2,9 +2,10 @@ import logging
 import uuid
 import sys
 import matplotlib
-import plotly
 
 from base64 import b16encode
+
+import plotly.colors as clrs
 
 from matplotlib import cm
 
@@ -85,29 +86,40 @@ class Gradient(object):
         minv = self._options.get("min",0)
         maxv = self._options.get("max",100)
 
-        self._a = np.arange(minv,maxv,(maxv - minv) / self._levels)
+        self._a = []
+
+        if maxv > minv:
+            self._a = np.arange(minv,maxv,(maxv - minv) / self._levels)
 
     def darken(self,value):
-        a = np.where(value >= self._a)[0]
-        level = len(a) - 1
 
-        rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
-        rgb = [int(v, 16) - level for v in rgbHex]
-        rgb = [min([255, max([0,i])]) for i in rgb]
+        s = self._color
 
-        s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
+        if len(self._a) > 0:
+            a = np.where(value >= self._a)[0]
+            level = len(a) - 1
+
+            rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
+            rgb = [int(v, 16) - level for v in rgbHex]
+            rgb = [min([255, max([0,i])]) for i in rgb]
+
+            s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
         return(s)
 
     def brighten(self,value):
-        a = np.where(value >= self._a)[0]
-        level = len(a) - 1
 
-        rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
-        rgb = [int(value, 16) + level for value in rgbHex]
-        rgb = [min([255, max([0,i])]) for i in rgb]
+        s = self._color
 
-        s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
+        if len(self._a) > 0:
+            a = np.where(value >= self._a)[0]
+            level = len(a) - 1
+
+            rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
+            rgb = [int(value, 16) + level for value in rgbHex]
+            rgb = [min([255, max([0,i])]) for i in rgb]
+
+            s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
         return(s)
 
@@ -130,7 +142,11 @@ class Colors(object):
         "sas_opal":["#33a3ff", "#ffcc32", "#9471ff", "#ff8224", "#2ad1d1", "#dd5757", "#15b57b", "#ff6fbd"],
         "sas_sail":["#21b9b7", "#4141e0", "#7db71a", "#8e2f8a", "#d38506", "#0abf85", "#2f90ec", "#db3851"],
         "sas_snow":["#3d5aae", "#90b328", "#9c2910", "#ffca39", "#00929f", "#736519", "#f08000", "#a6427c"],
-        "sas_umstead":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"]
+        "sas_umstead":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
+        "sas_corporate":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
+        "sas_hcb":["#7cbf00", "#f77107", "#f1d700", "#bd77ff", "#ff6d65", "#4aacff", "#ff6fbd", "#00d692"],
+        "sas_ignite":["#2470ad", "#98863c", "#5954ad", "#985b30", "#238a92", "#84414b", "#17785f", "#985186"],
+        "sas_inspire":["#21b9b7", "#4141e0", "#7db71a", "#8e2f8a", "#d38506", "#0abf85", "#2f90ec", "#db3851"]
     }
     def __init__(self,colormap = None):
         colors = []
@@ -138,11 +154,11 @@ class Colors(object):
         luma = []
 
         if colormap != None:
-            if colormap.index("sas_") == 0:
+            if colormap.find("sas_") == 0:
                 if colormap in Colors._sasThemes:
                     colors.extend(Colors._sasThemes[colormap])
-            elif colormap in plotly.colors.PLOTLY_SCALES:
-                cmap = plotly.colors.PLOTLY_SCALES[colormap]
+            elif colormap in clrs.PLOTLY_SCALES:
+                cmap = clrs.PLOTLY_SCALES[colormap]
                 interval = 1 / (len(cmap) - 1)
                 index = 0
                 for i,c in enumerate(cmap):
@@ -210,9 +226,9 @@ class Colors(object):
                     pass
 
         if len(colors) == 0:
-            interval = 1 / (len(plotly.colors.DEFAULT_PLOTLY_COLORS) - 1)
+            interval = 1 / (len(clrs.DEFAULT_PLOTLY_COLORS) - 1)
             index = 0
-            for i,c in enumerate(plotly.colors.DEFAULT_PLOTLY_COLORS):
+            for i,c in enumerate(clrs.DEFAULT_PLOTLY_COLORS):
                 i1 = c.index("(")
                 i2 = c.index(")")
                 s = c[i1 + 1:i2]
@@ -225,7 +241,7 @@ class Colors(object):
                 value = (r,g,b)
                 colors.append("#" + b16encode(bytes(value)).decode())
 
-                if i == (len(plotly.colors.DEFAULT_PLOTLY_COLORS) - 2):
+                if i == (len(clrs.DEFAULT_PLOTLY_COLORS) - 2):
                     index = 1
                 else:
                     index += interval

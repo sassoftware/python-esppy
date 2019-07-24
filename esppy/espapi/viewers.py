@@ -32,8 +32,7 @@ class ModelViewer(ViewerBase):
         self._projects = None
         self._memory = None
 
-        color = self._options.get("cpucolor","#ffffff")
-        self._gradient = tools.Gradient(color,levels=100,min=0,max=100)
+        self._gradient = tools.Gradient("#ffffff",levels=100,min=0,max=100)
 
         self._windowColors = None
 
@@ -84,13 +83,13 @@ class ModelViewer(ViewerBase):
 
         #showcpu.observe(self.showCpu,names='value')
 
-        if self._options.get("showcpu",False):
+        if self._options.get("cpu",False):
             self.showStats()
 
         self._connection.loadModel(self)
 
     def showCpu(self,b):
-        self.setOption("showcpu",b.value)
+        self.setOption("cpu",b.value)
         self.setContent()
 
     def setOptions(self,**kwargs):
@@ -105,7 +104,7 @@ class ModelViewer(ViewerBase):
         if self._stats == None:
             self._data = {}
             self._stats = self._connection.getStats()
-            if self._options.get("showcounts",False):
+            if self._options.get("counts",False):
                 self._stats.setOption("counts",True)
             self._stats.addDelegate(self)
 
@@ -152,6 +151,9 @@ class ModelViewer(ViewerBase):
 
             self._projects.options = a
 
+            if self._project != "*":
+                self._projects.value = self._project
+
         rankdir = "LR"
 
         opt = self._options.get("orientation","horizontal")
@@ -194,17 +196,16 @@ class ModelViewer(ViewerBase):
             #graph.attr(label=self._project,labeljust='l')
             graphs[self._project] = graph
 
-        cpuColor = self._options.get("cpucolor")
+        cpuColor = self._options.get("cpucolor",False)
 
-        if cpuColor != None:
-            #self._gradient.color = cpuColor
+        if cpuColor:
             self._gradient.color = self._visuals._colors.lightest
 
-        showStats = self._options.get("showcpu",False)
-        showCounts = self._options.get("showcounts",False)
-        showType = self._options.get("showtype",False)
-        showIndex = self._options.get("showindex",False)
-        showSchema = self._options.get("showschema",False)
+        showStats = self._options.get("cpu",False)
+        showCounts = self._options.get("counts",False)
+        showType = self._options.get("type",False)
+        showIndex = self._options.get("index",False)
+        showSchema = self._options.get("schema",False)
 
         if self._memory != None:
             if showStats:
@@ -235,12 +236,12 @@ class ModelViewer(ViewerBase):
                             cpu = int(o["cpu"])
                             count = int(o["count"])
 
-                        label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + str(cpu) + "</td></tr>")
-                        if cpuColor != None:
-                            #color = tools.darken(cpuColor,cpu)
+                        #label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + str(cpu) + "</td></tr>")
+                        label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + "{0:4}".format(cpu) + "</td></tr>")
+                        if cpuColor:
                             color = self._gradient.darken(cpu)
                         if showCounts:
-                            label.append("<tr><td align='right'>count:</td><td>&nbsp;</td><td align='left'>" + str(count) + "</td></tr>")
+                            label.append("<tr><td align='right'>count:</td><td>&nbsp;</td><td align='left'>" + "{0:4}".format(count) + "</td></tr>")
                     if showIndex:
                         label.append("<tr><td align='right'>index:</td><td>&nbsp;</td><td align='left'>" + a["index"] + "</td></tr>")
                     if showProperties:
@@ -307,8 +308,8 @@ class LogViewer(ViewerBase):
 
         self._max = self._options.get("max",50);
 
-        self._bg = self._options.get("bg",self._visuals._colors.getClosestTo(127))
-        self._border = self._options.get("border","4px solid " + self._visuals._colors.last)
+        self._bg = self._options.get("bg","#f8f8f8")
+        self._border = self._options.get("border","1px solid #d8d8d8")
 
         self._log = widgets.HTML(value="",layout=widgets.Layout(width=width,height=height,border=self._border,overflow="auto"))
 
@@ -371,13 +372,14 @@ class StatsViewer(ViewerBase):
         s += "<td>CPU</td>"
         s += "</tr>"
 
-        for o in data:
-            s += "<tr>"
-            s += "<td>" + o["project"] + "</td>"
-            s += "<td>" + o["contquery"] + "</td>"
-            s += "<td>" + o["window"] + "</td>"
-            s += "<td>" + str(o["cpu"]) + "</td>"
-            s += "</tr>"
+        for o in data["stats"]:
+            if o["cpu"] >= 1:
+                s += "<tr>"
+                s += "<td>" + o["project"] + "</td>"
+                s += "<td>" + o["contquery"] + "</td>"
+                s += "<td>" + o["window"] + "</td>"
+                s += "<td>" + str(int(o["cpu"])) + "</td>"
+                s += "</tr>"
 
         s += "</table>"
 
