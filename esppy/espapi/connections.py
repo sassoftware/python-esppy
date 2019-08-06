@@ -10,7 +10,7 @@ import time
 import six
 import re
 
-logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
+#logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
 
 class Connection(tools.Options):
     def __init__(self,host,port,secure,**kwargs):
