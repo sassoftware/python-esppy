@@ -4,10 +4,12 @@ import ipywidgets as widgets
 
 import logging
 
-class Dashboard(object):
+from esppy.espapi.tools import Options
+
+class Dashboard(Options):
 
     def __init__(self,**kwargs):
-        self._options = tools.Options(**kwargs)
+        Options.__init__(self,**kwargs)
         self._rows = []
         self._container = None
 
@@ -52,6 +54,15 @@ class Dashboard(object):
 
         areas = ""
 
+        border = self.getOpt("border","1px solid #d8d8d8")
+
+        margin = self.getOpt("spacing")
+
+        if margin != None:
+            margin = str(margin) + "px"
+        else:
+            margin = "3px"
+
         charts = []
 
         for i,row in enumerate(self._rows):
@@ -66,7 +77,10 @@ class Dashboard(object):
                 areas += "cell" + str(i) + "_" + str(j)
                 area="cell" + str(i) + "_" + str(j)
                 chart.setHeight(row.height)
-                charts.append(widgets.HBox([chart.display],layout=widgets.Layout(border="1px solid #d8d8d8",padding="0px",margin="5px 5px 5px 5px",grid_area=area,justify_content="center",overflow="auto")))
+                layout = widgets.Layout(grid_area=area,justify_content="center",overflow="auto")
+                layout.border = border
+                layout.margin = margin
+                charts.append(widgets.HBox([chart.display],layout=layout))
                 if j == (row.size - 1):
                     if j < (maxcols - 1):
                         while j < (maxcols - 1):

@@ -7,25 +7,28 @@ from ..utils.notebook import scale_svg
 import ipywidgets as widgets
 
 import logging
+import re
 
 import esppy.espapi.tools as tools
 
-class ViewerBase(object):
+from esppy.espapi.tools import Options
+
+class ViewerBase(Options):
     def __init__(self,visuals,connection,**kwargs):
+        Options.__init__(self,**kwargs)
         self._visuals = visuals
         self._connection = connection
-        self._options = tools.Options(**kwargs)
 
     def setWidth(self,value):
-        self._options.set("width",value)
+        self.setOpt("width",value)
 
     def setHeight(self,value):
-        self._options.set("height",value)
+        self.setOpt("height",value)
 
 class ModelViewer(ViewerBase):
     def __init__(self,visuals,connection,**kwargs):
         ViewerBase.__init__(self,visuals,connection,**kwargs)
-        self._stats = None
+        self._stats = self._connection.getStats()
         self._data = None
         self._project = "*"
         self._model = None
@@ -41,8 +44,8 @@ class ModelViewer(ViewerBase):
         for i,type in enumerate(["input","utility","analytics","textanalytics","transformation"]):
             self._windowColors[type] = colors[i]
 
-        width = self._options.get("width","98%",True)
-        height = self._options.get("height","400px",True)
+        width = self.getOpt("width","98%",True)
+        height = self.getOpt("height","400px",True)
 
         self._projects = widgets.Dropdown(description="Projects")
 
@@ -64,55 +67,76 @@ class ModelViewer(ViewerBase):
         w.append(widgets.Label(value="Resident Memory:",layout=l1))
         w.append(self._residentMem)
 
-        cbLayout = layout=widgets.Layout(margin="0px 0px 0px 10px")
+        cbLayout = widgets.Layout(max_width="100px")
 
         self._memory = widgets.HBox(w)
 
-        if False:
-            showcpu = widgets.Checkbox(description="Show CPU")
-            showcounts = widgets.Checkbox(description="Show Counts",indent=False,layout=cbLayout)
-            showtypes = widgets.Checkbox(description="Show Types",indent=False,layout=cbLayout)
-            showindices = widgets.Checkbox(description="Show Indices",indent=False,layout=cbLayout)
-            show = widgets.HBox([showcpu,showcounts,showtypes,showindices])
+        showcpu = widgets.Checkbox(description="CPU",indent=False,layout=widgets.Layout(max_width="100px",margin="0px 0px 0px 50px"),value=self.getOpt("cpu"))
+        showcounts = widgets.Checkbox(description="Counts",indent=False,layout=cbLayout,value=self.getOpt("counts"))
+        showtypes = widgets.Checkbox(description="Types",indent=False,layout=cbLayout,value=self.getOpt("type"))
+        showindices = widgets.Checkbox(description="Indices",indent=False,layout=cbLayout,value=self.getOpt("index"))
+        showschema = widgets.Checkbox(description="Schema",indent=False,layout=cbLayout,value=self.getOpt("schema"))
 
-        #top = widgets.HBox([self._projects,show])
-        top = widgets.HBox([self._projects,self._memory])
+        show = widgets.HBox([showcpu,showcounts,showtypes,showindices,showschema])
 
-        self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",padding="10px"))
-        self._html = widgets.VBox([top,self._graph])
+        box = widgets.HBox([self._projects,show])
+        #top = widgets.VBox([box,self._memory],layout=widgets.Layout(border="1px solid #c0c0c0"))
+        top = widgets.VBox([box,self._memory],layout=widgets.Layout(border="1px solid #c0c0c0",padding="10px",margin="5px 5px 0px 5px"))
 
-        #showcpu.observe(self.showCpu,names='value')
+        #self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",padding="10px"))
+        self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",margin="5px"))
+        self._html = widgets.VBox([top,self._graph],layout=widgets.Layout(border="1px solid #c0c0c0"))
 
-        if self._options.get("cpu",False):
-            self.showStats()
+        showcpu.observe(self.showCpu,names="value")
+        showcounts.observe(self.showCounts,names="value")
+        showtypes.observe(self.showTypes,names="value")
+        showindices.observe(self.showIndices,names="value")
+        showschema.observe(self.showSchema,names="value")
+
+        self.setStats()
 
         self._connection.loadModel(self)
 
+    def setStats(self):
+        cpu = self.getOpt("cpu",False)
+        counts = self.getOpt("counts",False)
+        cpuColor = self.getOpt("cpucolor")
+
+        if cpu or counts or (cpuColor != None):
+            if self._data == None:
+                self._data = {}
+                self._stats.addDelegate(self)
+            self._stats.setOpt("counts",counts)
+        else:
+            self._data = None
+            self._stats.removeDelegate(self)
+
     def showCpu(self,b):
-        self.setOption("cpu",b.value)
+        self.setOpt("cpu",b["new"])
+        self.setStats()
         self.setContent()
 
-    def setOptions(self,**kwargs):
-        self._options.setOptions(**kwargs)
+    def showCounts(self,b):
+        self.setOpt("counts",b["new"])
+        self.setStats()
+        self.setContent()
+
+    def showTypes(self,b):
+        self.setOpt("type",b["new"])
+        self.setContent()
+
+    def showIndices(self,b):
+        self.setOpt("index",b["new"])
+        self.setContent()
+
+    def showSchema(self,b):
+        self.setOpt("schema",b["new"])
+        self.setContent()
 
     def setContent(self):
         content = self.build()
         if content != None:
             self._graph.value = content
-
-    def showStats(self):
-        if self._stats == None:
-            self._data = {}
-            self._stats = self._connection.getStats()
-            if self._options.get("counts",False):
-                self._stats.setOption("counts",True)
-            self._stats.addDelegate(self)
-
-    def hideStats(self):
-        if self._stats != None:
-            self._data = None
-            self._stats.removeDelegate(self)
-            self._stats = None
 
     def modelLoaded(self,model,conn):
         self._model = model
@@ -121,8 +145,9 @@ class ModelViewer(ViewerBase):
     def handleStats(self,stats):
         self._data = {}
         data = stats.getData();
+        memory = stats.getMemoryData();
 
-        for o in data["stats"]:
+        for o in data:
             key = o["project"]
             key += "/"
             key += o["contquery"]
@@ -130,12 +155,10 @@ class ModelViewer(ViewerBase):
             key += o["window"]
             self._data[key] = o;
 
-        if "memory" in data:
-            memory = data["memory"]
-            if memory != None:
-                self._systemMem.value = str(memory["system"])
-                self._virtualMem.value = str(memory["virtual"])
-                self._residentMem.value = str(memory["resident"])
+        if memory != None:
+            self._systemMem.value = str(memory["system"])
+            self._virtualMem.value = str(memory["virtual"])
+            self._residentMem.value = str(memory["resident"])
 
         self.setContent()
 
@@ -156,7 +179,7 @@ class ModelViewer(ViewerBase):
 
         rankdir = "LR"
 
-        opt = self._options.get("orientation","horizontal")
+        opt = self.getOpt("orientation","horizontal")
 
         if opt == "vertical":
             rankdir = "TB"
@@ -196,24 +219,24 @@ class ModelViewer(ViewerBase):
             #graph.attr(label=self._project,labeljust='l')
             graphs[self._project] = graph
 
-        cpuColor = self._options.get("cpucolor",False)
+        cpuColor = self.getOpt("cpucolor")
 
-        if cpuColor:
-            self._gradient.color = self._visuals._colors.lightest
+        if cpuColor != None:
+            self._gradient.color = self._visuals._colors.getColor(cpuColor)
 
-        showStats = self._options.get("cpu",False)
-        showCounts = self._options.get("counts",False)
-        showType = self._options.get("type",False)
-        showIndex = self._options.get("index",False)
-        showSchema = self._options.get("schema",False)
+        showCpu = self.getOpt("cpu",False)
+        showCounts = self.getOpt("counts",False)
+        showType = self.getOpt("type",False)
+        showIndex = self.getOpt("index",False)
+        showSchema = self.getOpt("schema",False)
 
         if self._memory != None:
-            if showStats:
+            if showCpu:
                 self._memory.layout.display = "flex"
             else:
                 self._memory.layout.display = "none"
 
-        showProperties = showStats or showCounts or showType or showIndex
+        showProperties = showCpu or showCounts or showType or showIndex
 
         for a in self._model._windows:
             if self._project == "*" or a["p"] == self._project:
@@ -236,8 +259,8 @@ class ModelViewer(ViewerBase):
                             cpu = int(o["cpu"])
                             count = int(o["count"])
 
-                        #label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + str(cpu) + "</td></tr>")
-                        label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + "{0:4}".format(cpu) + "</td></tr>")
+                        if showCpu:
+                            label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + "{0:4}".format(cpu) + "</td></tr>")
                         if cpuColor:
                             color = self._gradient.darken(cpu)
                         if showCounts:
@@ -301,17 +324,33 @@ class ModelViewer(ViewerBase):
 class LogViewer(ViewerBase):
     def __init__(self,visuals,connection,**kwargs):
         ViewerBase.__init__(self,visuals,connection,**kwargs)
-        self._connection.getLog().addDelegate(self)
 
-        width = self._options.get("width","98%")
-        height = self._options.get("height","200px")
+        width = self.getOpt("width","98%")
+        height = self.getOpt("height","200px")
 
-        self._max = self._options.get("max",50);
+        self._max = self.getOpt("max",50);
 
-        self._bg = self._options.get("bg","#f8f8f8")
-        self._border = self._options.get("border","1px solid #d8d8d8")
+        self._bg = self.getOpt("bg","#f8f8f8")
+        self._border = self.getOpt("border","1px solid #d8d8d8")
 
+        components = []
         self._log = widgets.HTML(value="",layout=widgets.Layout(width=width,height=height,border=self._border,overflow="auto"))
+        components.append(self._log)
+
+        self._filter = self.getOpt("filter")
+        self._regex = None
+
+        if self._filter != None:
+            self._filterText = widgets.Text(description="Filter",value=self._filter,layout=widgets.Layout(width="70%"))
+            if len(self._filter) > 0:
+                self._regex = re.compile(self._filter,re.I)
+            setButton = widgets.Button(description="Set")
+            clearButton = widgets.Button(description="Clear")
+            setButton.on_click(self.filter)
+            clearButton.on_click(self.clearFilter)
+            components.append(widgets.HBox([self._filterText,setButton,clearButton]))
+
+        self._box = widgets.VBox(components)
 
         s = ""
         s += "<div style='width:100%;height:100%;background:" + self._bg + "'>"
@@ -319,6 +358,8 @@ class LogViewer(ViewerBase):
         self._log.value = s
 
         self._messages = []
+
+        self._connection.getLog().addDelegate(self)
 
     def handleLog(self,connection,message):
         self._messages.insert(0,message)
@@ -329,12 +370,19 @@ class LogViewer(ViewerBase):
             for i in range(0,diff):
                 self._messages.pop(self._max + i)
 
+        self.load()
+
+    def load(self):
         s = ""
 
         s += "<div style='width:100%;height:100%;background:" + self._bg + "'>"
         s += "<pre style='width:100%;height:100%;background:" + self._bg + "'>"
 
         for message in self._messages:
+            if self._regex != None:
+                if self._regex.search(message) == None:
+                    continue
+                
             s += message;
             s += "\n"
             s += "\n"
@@ -344,9 +392,23 @@ class LogViewer(ViewerBase):
 
         self._log.value = s
 
+    def filter(self,b):
+        self._filter = self._filterText.value.strip()
+        if len(self._filter) == 0:
+            self._filter = None
+        else:
+            self._regex = re.compile(self._filter,re.I)
+        self.load()
+
+    def clearFilter(self,b):
+        self._filterText.value = ""
+        self._filter = None
+        self._regex = None
+        self.load()
+
     @property
     def display(self):
-        display(self._log)
+        display(self._box)
 
 class StatsViewer(ViewerBase):
     def __init__(self,visuals,connection,**kwargs):
@@ -354,10 +416,10 @@ class StatsViewer(ViewerBase):
         self._stats = self._connection.getStats();
         self._stats.addDelegate(self)
 
-        width = self._options.get("width","90%",True)
-        height = self._options.get("height","400px",True)
+        width = self.getOpt("width","90%",True)
+        height = self.getOpt("height","400px",True)
 
-        self._stats.setOptions(**self._options.options)
+        self._stats.setOpts(**self._options.options)
 
         self._log = widgets.HTML()
 
