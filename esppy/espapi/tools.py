@@ -9,34 +9,36 @@ import plotly.colors as clrs
 
 from matplotlib import cm
 
+import matplotlib.colors as mcolors
+
 import numpy as np
 
 class Options(object):
     def __init__(self,**kwargs):
-        self._options = {}
+        self._opts = {}
 
         for name,value in kwargs.items():
-            self.set(name,value)
+            self.setOpt(name,value)
 
-    def has(self,name):
+    def hasOpt(self,name):
         code = False
 
         if isinstance(name,list):
             for n in name:
-                if n.lower() in self._options:
+                if n.lower() in self._opts:
                     code = True
                     break
         else:
-            code = name.lower() in self._options
+            code = name.lower() in self._opts
 
         return(code)
 
-    def get(self,name,dv = None,clear = False):
+    def getOpt(self,name,dv = None,clear = False):
         value = None
         s = name.lower()
 
-        if s in self._options:
-            value = self._options[s]
+        if s in self._opts:
+            value = self._opts[s]
             if clear:
                 self.clear(s)
 
@@ -45,70 +47,81 @@ class Options(object):
         
         return(value)
 
-    def set(self,name,value):
+    def setOpt(self,name,value):
         s = name.lower()
         if value == None:
-            if s in self._options:
-                del self._options[s]
+            if s in self._opts:
+                del self._opts[s]
         else:
-            self._options[s] = value
+            self._opts[s] = value
 
     def clear(self,name):
         s = name.lower()
-        if s in self._options:
-            del self._options[s]
+        if s in self._opts:
+            del self._opts[s]
 
-    def setOptions(self,**kwargs):
+    def setOpts(self,**kwargs):
         for name,value in kwargs.items():
-            self.set(name,value)
+            self.setOpt(name,value)
 
     def items(self):
-        return(self._options.items())
+        return(self._opts.items())
 
     @property
     def options(self):
-        return(self._options)
+        return(self._opts)
 
     @options.setter
     def options(self,options):
         for name,value in six.iteritems(options):
-            self.set(name,value)
+            self.setOpt(name,value)
 
-class Gradient(object):
+class Gradient(Options):
     def __init__(self,color,**kwargs):
+        Options.__init__(self,**kwargs)
         if len(color) != 7:
             raise Exception("invalid color: " + str(color))
 
         self._color = color
-        self._options = Options(**kwargs)
-        self._levels = self._options.get("levels",100)
+        self._levels = self.getOpt("levels",100)
 
-        minv = self._options.get("min",0)
-        maxv = self._options.get("max",100)
+        minv = self.getOpt("min",0)
+        maxv = self.getOpt("max",100)
 
-        self._a = np.arange(minv,maxv,(maxv - minv) / self._levels)
+        self._a = []
+
+        if maxv > minv:
+            self._a = np.arange(minv,maxv,(maxv - minv) / self._levels)
 
     def darken(self,value):
-        a = np.where(value >= self._a)[0]
-        level = len(a) - 1
 
-        rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
-        rgb = [int(v, 16) - level for v in rgbHex]
-        rgb = [min([255, max([0,i])]) for i in rgb]
+        s = self._color
 
-        s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
+        if len(self._a) > 0:
+            a = np.where(value >= self._a)[0]
+            level = len(a) - 1
+
+            rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
+            rgb = [int(v, 16) - level for v in rgbHex]
+            rgb = [min([255, max([0,i])]) for i in rgb]
+
+            s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
         return(s)
 
     def brighten(self,value):
-        a = np.where(value >= self._a)[0]
-        level = len(a) - 1
 
-        rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
-        rgb = [int(value, 16) + level for value in rgbHex]
-        rgb = [min([255, max([0,i])]) for i in rgb]
+        s = self._color
 
-        s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
+        if len(self._a) > 0:
+            a = np.where(value >= self._a)[0]
+            level = len(a) - 1
+
+            rgbHex = [self._color[x:x + 2] for x in [1, 3, 5]]
+            rgb = [int(value, 16) + level for value in rgbHex]
+            rgb = [min([255, max([0,i])]) for i in rgb]
+
+            s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
         return(s)
 
@@ -131,7 +144,11 @@ class Colors(object):
         "sas_opal":["#33a3ff", "#ffcc32", "#9471ff", "#ff8224", "#2ad1d1", "#dd5757", "#15b57b", "#ff6fbd"],
         "sas_sail":["#21b9b7", "#4141e0", "#7db71a", "#8e2f8a", "#d38506", "#0abf85", "#2f90ec", "#db3851"],
         "sas_snow":["#3d5aae", "#90b328", "#9c2910", "#ffca39", "#00929f", "#736519", "#f08000", "#a6427c"],
-        "sas_umstead":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"]
+        "sas_umstead":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
+        "sas_corporate":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
+        "sas_hcb":["#7cbf00", "#f77107", "#f1d700", "#bd77ff", "#ff6d65", "#4aacff", "#ff6fbd", "#00d692"],
+        "sas_ignite":["#2470ad", "#98863c", "#5954ad", "#985b30", "#238a92", "#84414b", "#17785f", "#985186"],
+        "sas_inspire":["#21b9b7", "#4141e0", "#7db71a", "#8e2f8a", "#d38506", "#0abf85", "#2f90ec", "#db3851"]
     }
     def __init__(self,colormap = None):
         colors = []
@@ -139,7 +156,7 @@ class Colors(object):
         luma = []
 
         if colormap != None:
-            if colormap.index("sas_") == 0:
+            if colormap.find("sas_") == 0:
                 if colormap in Colors._sasThemes:
                     colors.extend(Colors._sasThemes[colormap])
             elif colormap in clrs.PLOTLY_SCALES:
@@ -250,6 +267,23 @@ class Colors(object):
         self._colorscale = colorscale
         self._luma = luma 
 
+    def getColor(self,name):
+        if name.find("#") == 0:
+            return(name)
+
+        colors = mcolors.get_named_colors_mapping()
+
+        color = None
+
+        if name in colors:
+            color = colors[name]
+        elif name == "lightest":
+            color = self.lightest
+        elif name == "darkest":
+            color = self.darkest
+
+        return(color)
+
     def getColors(self,num,increment):
         index = 0
         colors = []
@@ -333,6 +367,44 @@ class Colors(object):
 
         return(color)
 
+    @property
+    def darkest(self):
+        color = None
+        if len(self._colors) > 0:
+            minLuma = sys.maxsize
+            index = -1
+            for i,l in enumerate(self._luma):
+                if l < minLuma:
+                    minLuma = l
+                    index = i
+
+            if index >= 0:
+                color = self._colors[index]
+
+        return(color)
+
+class ColorRange(object):
+    def __init__(self,colors,minv,maxv):
+        self._colors = colors
+        self._minv = minv
+        self._maxv = maxv
+        self._a = []
+        if self._maxv > self._minv and len(self._colors.colors) > 0:
+            self._a = np.arange(self._minv,self._maxv,(self._maxv - self._minv) / len(self._colors.colors))
+
+    def getColor(self,value):
+        color = None
+
+        if len(self._a) > 0:
+            index = np.where(value >= self._a)[0]
+            color = self._colors.colors[len(index) - 1]
+        elif len(self._colors.colors) > 0:
+            color = self._colors.colors[0]
+        else:
+            color = "#ffffff"
+
+        return(color)
+
 def supports(o,method):
     code = False
     if (o != None):
@@ -368,9 +440,12 @@ def addTo(list,o):
     return(False);
 
 def removeFrom(list,o):
+    code = False
     index = indexOf(list,o)
     if index >= 0:
         list.pop(index)
+        code = True
+    return(code)
 
 def guid():
     return(str(uuid.uuid4()).replace('-', '_'))
