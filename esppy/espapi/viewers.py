@@ -13,8 +13,9 @@ import esppy.espapi.tools as tools
 
 from esppy.espapi.tools import Options
 
-class ViewerBase(Options):
+class ViewerBase(widgets.VBox,Options):
     def __init__(self,visuals,connection,**kwargs):
+        widgets.VBox.__init__(self,layout=widgets.Layout(border=visuals.getOpt("border","0"),padding=visuals.getOpt("padding","10px"),margin=visuals.getOpt("margin","10px")))
         Options.__init__(self,**kwargs)
         self._visuals = visuals
         self._connection = connection
@@ -85,7 +86,8 @@ class ModelViewer(ViewerBase):
 
         #self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",padding="10px"))
         self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",margin="5px"))
-        self._html = widgets.VBox([top,self._graph],layout=widgets.Layout(border="1px solid #c0c0c0"))
+        #self._html = widgets.VBox([top,self._graph],layout=widgets.Layout(border="1px solid #c0c0c0"))
+        #self._html = widgets.VBox([top,self._graph],layout=widgets.Layout(border="1px solid #c0c0c0"))
 
         showcpu.observe(self.showCpu,names="value")
         showcounts.observe(self.showCounts,names="value")
@@ -97,10 +99,12 @@ class ModelViewer(ViewerBase):
 
         self._connection.loadModel(self)
 
+        self.children = [top,self._graph]
+
     def setStats(self):
         cpu = self.getOpt("cpu",False)
         counts = self.getOpt("counts",False)
-        cpuColor = self.getOpt("cpucolor")
+        cpuColor = self.getOpt("cpu_color")
 
         if cpu or counts or (cpuColor != None):
             if self._data == None:
@@ -219,10 +223,10 @@ class ModelViewer(ViewerBase):
             #graph.attr(label=self._project,labeljust='l')
             graphs[self._project] = graph
 
-        cpuColor = self.getOpt("cpucolor")
+        cpuColor = self.getOpt("cpu_color")
 
         if cpuColor != None:
-            self._gradient.color = self._visuals._colors.getColor(cpuColor)
+            self._gradient.color = tools.Colors.getColorFromName(cpuColor)
 
         showCpu = self.getOpt("cpu",False)
         showCounts = self.getOpt("counts",False)
@@ -247,7 +251,7 @@ class ModelViewer(ViewerBase):
                     if showProperties:
                         label.append("<tr><td><table border='0' cellspacing='0' cellpadding='1'>")
                     if showType:
-                        label.append("<tr><td align='right'>type:</td><td>&nbsp;</td><td align='left'>" + a["type"] + "</td></tr>")
+                        label.append("<tr><td align='right'>type:</td><td> </td><td align='left'>" + a["type"] + "</td></tr>")
                     color = None
                     cpu = None
                     count = None
@@ -260,19 +264,19 @@ class ModelViewer(ViewerBase):
                             count = int(o["count"])
 
                         if showCpu:
-                            label.append("<tr><td align='right'>cpu:</td><td>&nbsp;</td><td align='left'>" + "{0:4}".format(cpu) + "</td></tr>")
+                            label.append("<tr><td align='right'>cpu:</td><td> </td><td align='left'>" + "{0:5}".format(cpu) + "</td></tr>")
                         if cpuColor:
                             color = self._gradient.darken(cpu)
                         if showCounts:
-                            label.append("<tr><td align='right'>count:</td><td>&nbsp;</td><td align='left'>" + "{0:4}".format(count) + "</td></tr>")
+                            label.append("<tr><td align='right'>count:</td><td> </td><td align='left'>" + "{0:5}".format(count) + "</td></tr>")
                     if showIndex:
-                        label.append("<tr><td align='right'>index:</td><td>&nbsp;</td><td align='left'>" + a["index"] + "</td></tr>")
+                        label.append("<tr><td align='right'>index:</td><td> </td><td align='left'>" + a["index"] + "</td></tr>")
                     if showProperties:
                         label.append("</table></td></tr>")
                     if showSchema:
                         label.append("<tr><td>")
                         label.append("<table border='0' cellspacing='0' cellpadding='1'>")
-                        label.append("<tr><td colspan='2'>&nbsp;</td></tr>")
+                        label.append("<tr><td colspan='2'> </td></tr>")
                         label.append("<tr><td colspan='2'>Schema</td></tr>")
                         for f in a["schema"]._fields:
                             if f["isKey"]:
@@ -308,6 +312,9 @@ class ModelViewer(ViewerBase):
     def setProject(self,change):
         self.project = self._projects.value
 
+    def dataChanged(self,datasource,data,clear):
+        pass
+
     @property
     def project(self):
         return(self._project)
@@ -316,10 +323,6 @@ class ModelViewer(ViewerBase):
     def project(self,value):
         self._project = value;
         self.setContent()
-
-    @property
-    def display(self):
-        return(self._html)
 
 class LogViewer(ViewerBase):
     def __init__(self,visuals,connection,**kwargs):
@@ -350,7 +353,7 @@ class LogViewer(ViewerBase):
             clearButton.on_click(self.clearFilter)
             components.append(widgets.HBox([self._filterText,setButton,clearButton]))
 
-        self._box = widgets.VBox(components)
+        self._box = widgets.VBox(components,layout=widgets.Layout(width="100%"))
 
         s = ""
         s += "<div style='width:100%;height:100%;background:" + self._bg + "'>"
@@ -360,9 +363,11 @@ class LogViewer(ViewerBase):
         self._messages = []
 
         self._connection.getLog().addDelegate(self)
+        
+        self.children = [self._box]
 
     def handleLog(self,connection,message):
-        self._messages.insert(0,message)
+        self._messages.append(message)
 
         if self._max != None and len(self._messages) > self._max:
             diff = len(self._messages) - self._max
@@ -378,7 +383,8 @@ class LogViewer(ViewerBase):
         s += "<div style='width:100%;height:100%;background:" + self._bg + "'>"
         s += "<pre style='width:100%;height:100%;background:" + self._bg + "'>"
 
-        for message in self._messages:
+        #for message in self._messages:
+        for message in reversed(self._messages):
             if self._regex != None:
                 if self._regex.search(message) == None:
                     continue
@@ -406,10 +412,6 @@ class LogViewer(ViewerBase):
         self._regex = None
         self.load()
 
-    @property
-    def display(self):
-        display(self._box)
-
 class StatsViewer(ViewerBase):
     def __init__(self,visuals,connection,**kwargs):
         ViewerBase.__init__(self,visuals,connection,**kwargs)
@@ -419,9 +421,11 @@ class StatsViewer(ViewerBase):
         width = self.getOpt("width","90%",True)
         height = self.getOpt("height","400px",True)
 
-        self._stats.setOpts(**self._options.options)
+        self._stats.setOpts(**self.options)
 
         self._log = widgets.HTML()
+
+        self.children = [self._log]
 
     def handleStats(self,stats):
         data = stats.getData()
@@ -434,7 +438,7 @@ class StatsViewer(ViewerBase):
         s += "<td>CPU</td>"
         s += "</tr>"
 
-        for o in data["stats"]:
+        for o in data:
             if o["cpu"] >= 1:
                 s += "<tr>"
                 s += "<td>" + o["project"] + "</td>"
@@ -446,7 +450,3 @@ class StatsViewer(ViewerBase):
         s += "</table>"
 
         self._log.value = s
-
-    @property
-    def display(self):
-        return(self._log)

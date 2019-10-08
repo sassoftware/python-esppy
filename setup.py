@@ -23,7 +23,6 @@ import io
 import os
 from setuptools import setup, find_packages
 
-
 def get_file(fname):
     with io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), fname),
                  encoding='utf8') as infile:
@@ -32,7 +31,7 @@ def get_file(fname):
 
 setup(
     name='sas-esppy',
-    version='6.2-dev',
+    version='6.2.dev6',
     description='SAS Event Stream Processing Python Interface',
     long_description=get_file('README.md'),
     long_description_content_type='text/markdown',
@@ -41,6 +40,7 @@ setup(
     url='https://github.com/sassoftware/python-esppy/',
     license='Apache 2.0',
     packages=find_packages(),
+    package_data={"esppy.templates.xmls":["*.xml"]},
     install_requires=[
         'pandas >= 0.16.0',
         'pillow',

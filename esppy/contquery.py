@@ -31,6 +31,7 @@ from .base import ESPObject, attribute
 from .config import get_option
 from .metadata import Metadata
 from .windows import BaseWindow, get_window_class
+from .templates.template import Template
 from .utils import xml
 from .utils.rest import get_params
 from .utils.data import gen_name
@@ -135,8 +136,8 @@ class WindowDict(collections.MutableMapping):
         value._register_to_project(self.project_handle)
 
         oldname = value.name
-
-        value.name = key
+        if not value.template:
+            value.base_name = key
         value.project = self.project
         value.contquery = self.contquery
         value.session = self.session
@@ -167,6 +168,45 @@ class WindowDict(collections.MutableMapping):
 
     def __repr__(self):
         return repr(self._data)
+
+
+class TemplateDict(WindowDict):
+    '''
+    Dictionary for holding template objects
+
+    Attributes
+    ----------
+    project : string
+        The name of the project
+    contquery : string
+        The name of the continuous query
+    session : requests.Session
+        The session for the windows
+
+    Parameters
+    ----------
+    *args : one-or-more arguments, optional
+        Positional arguments to MutableMapping
+    **kwargs : keyword arguments, optional
+        Keyword arguments to MutableMapping
+
+    '''
+
+    def __init__(self, *args, **kwargs):
+        WindowDict.__init__(self, *args, **kwargs)
+
+    def __setitem__(self, key, value):
+        if not isinstance(value, Template):
+            raise TypeError('Only Template objects are valid values')
+
+        value.name = key
+        value.project = self.project
+        value.contquery = self.contquery
+        value.session = self.session
+        self._data[key] = value
+
+    def __delitem__(self, key):
+        del self._data[key]
 
 
 class ContinuousQuery(ESPObject, collections.MutableMapping):
@@ -222,6 +262,7 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
     def __init__(self, name=None, trace=None, index_type=None,
                  timing_threshold=None, include_singletons=None, description=None):
         self.windows = WindowDict()
+        self.templates = TemplateDict()
         ESPObject.__init__(self, attrs=locals())
         self.project = None
         self.name = name or gen_name(prefix='cq_')
@@ -261,6 +302,7 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
     def name(self, value):
         self._name = value
         self.windows.contquery = value
+        self.templates.contquery = value
 
     @property
     def project(self):
@@ -278,6 +320,7 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
     def project(self, value):
         self._project = getattr(value, 'name', value)
         self.windows.project = self._project
+        self.templates.project = self._project
 
     def add_window(self, window):
         '''
@@ -317,6 +360,52 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
         for item in windows:
             self.add_window(item)
         return windows
+
+    def add_template(self, template):
+        '''
+        Add a template object
+
+        Parameters
+        ----------
+        template : Template
+        a Template object to add to the project
+
+        Returns
+        -------
+        :class:`Template`
+
+        '''
+        if not template.name:
+            template.name = gen_name(prefix='t_')
+
+        self.templates[template.name] = template
+
+        for key, window in sorted(six.iteritems(template.windows)):
+            self.add_window(window)
+        return template
+
+    def delete_templates(self, *templates):
+        '''
+        Delete templates and related windows
+
+        Parameters
+        ----------
+        templates : one-or-more strings or Template objects
+            The template to delete
+
+        '''
+        for item in templates:
+            template_key = getattr(item, 'name', item)
+            template = self.templates[template_key]
+            self.delete_windows(*six.itervalues(template.windows))
+            del self.templates[template_key]
+
+        return self.templates
+
+    delete_template = delete_templates
+
+    # def get_template(self, template):
+    #     return
 
     def copy(self, deep=False):
         '''
@@ -551,7 +640,7 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
         else:
             dest.write(self.to_xml(pretty=pretty))
 
-    def to_graph(self, graph=None, schema=False):
+    def to_graph(self, graph=None, schema=False, template_detail=False):
         '''
         Export continuous query definition to graphviz.Digraph
 
@@ -561,6 +650,8 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
             The parent graph to add to
         schema : bool, optional
             Should window schemas be included?
+        template_detail : bool, optional
+            Should template detail be shown?
 
         Returns
         -------
@@ -579,21 +670,30 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
             graph.attr('edge', fontname='times-italic')
 
         if self.windows:
-            qgraph = gv.Digraph(format='svg',
-                               name='cluster_%s' % self.fullname.replace('.', '_'))
+            qgraph = gv.Digraph(format='svg', name='cluster_%s' % self.fullname.replace('.', '_'))
             qgraph.attr('node', shape='rect')
             qgraph.attr('graph', fontname='helvetica')
             qgraph.attr('edge', fontname='times-italic')
             qgraph.attr(label=self.name, labeljust='l',
-                       style='filled,rounded', color='#a0a0a0', fillcolor='#f0f0f0',
-                       fontcolor='black')
+                        style='filled,rounded', color='#a0a0a0', fillcolor='#f0f0f0',
+                        fontcolor='black')
 
-            for wkey, window in sorted(self.windows.items()):
-                window.to_graph(graph=qgraph,
-                                schema=schema or get_option('display.show_schema'))
-                for target in window.targets:
-                    graph.edge(window.fullname, self.windows[target.name].fullname,
-                               label=target.role or '')
+            if self.templates:
+                for tkey, template in sorted(self.templates.items()):
+                    qgraph.subgraph(template.to_graph(schema=schema, detail=template_detail))
+
+            for wkey, win in sorted(self.windows.items()):
+                if not win.template:
+                    win.to_graph(graph=qgraph, schema=schema or get_option('display.show_schema'))
+                for target in win.targets:
+                    if target.name not in self.windows:
+                        continue
+                    tail_name = win.template.fullname if win.template and not template_detail else win.fullname
+                    head_name = target.template.fullname if target.template and not template_detail \
+                        else self.windows[target.name].fullname
+                    if win.template and target.template and win.template == target.template:
+                        continue
+                    graph.edge(tail_name, head_name, label=target.role or '')
 
             graph.subgraph(qgraph)
 

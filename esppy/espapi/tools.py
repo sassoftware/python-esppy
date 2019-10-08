@@ -52,8 +52,13 @@ class Options(object):
         if value == None:
             if s in self._opts:
                 del self._opts[s]
+                self.optionSet(name,None)
         else:
             self._opts[s] = value
+            self.optionSet(s,value)
+
+    def optionSet(self,name,value):
+        pass
 
     def clear(self,name):
         s = name.lower()
@@ -79,10 +84,16 @@ class Options(object):
 class Gradient(Options):
     def __init__(self,color,**kwargs):
         Options.__init__(self,**kwargs)
-        if len(color) != 7:
+
+        c = Colors.getColorFromName(color)
+
+        if c == None:
             raise Exception("invalid color: " + str(color))
 
-        self._color = color
+        if len(c) != 7:
+            raise Exception("invalid color: " + str(color))
+
+        self._color = c
         self._levels = self.getOpt("levels",100)
 
         minv = self.getOpt("min",0)
@@ -133,7 +144,7 @@ class Gradient(Options):
     def color(self,value):
         self._color = value
 
-class Colors(object):
+class Colors(Options):
     _sasThemes = {
         "sas_base":["#00929f", "#f08000", "#90b328", "#3d5aae", "#ffca39", "#a6427c", "#9c2910", "#736519"],
         "sas_dark":["#90b328", "#9c2910", "#ffca39", "#00929f", "#736519", "#f08000", "#a6427c"],
@@ -150,7 +161,43 @@ class Colors(object):
         "sas_ignite":["#2470ad", "#98863c", "#5954ad", "#985b30", "#238a92", "#84414b", "#17785f", "#985186"],
         "sas_inspire":["#21b9b7", "#4141e0", "#7db71a", "#8e2f8a", "#d38506", "#0abf85", "#2f90ec", "#db3851"]
     }
-    def __init__(self,colormap = None):
+
+    @staticmethod
+    def getColorFromName(name):
+        if name.find("#") == 0:
+            return(name)
+
+        colors = mcolors.get_named_colors_mapping()
+
+        color = None
+
+        if name in colors:
+            color = colors[name]
+
+        return(color)
+
+    @staticmethod
+    def getLuma(name):
+        luma = None
+        color = Colors.getColorFromName(name)
+        if color != None:
+            r = int(color[1:3],16)
+            g = int(color[3:5],16)
+            b = int(color[5:7],16)
+
+            luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+        return(luma)
+
+    def __init__(self,**kwargs):
+        Options.__init__(self,**kwargs)
+
+        if self.hasOpt("colormap"):
+            self.createFromColorMap(self.getOpt("colormap"))
+        elif self.hasOpt("colors"):
+            self.createFromColors(self.getOpt("colors"))
+
+    def createFromColorMap(self,colormap):
         colors = []
         colorscale = []
         luma = []
@@ -267,6 +314,35 @@ class Colors(object):
         self._colorscale = colorscale
         self._luma = luma 
 
+    def createFromColors(self,colors):
+        if len(colors) < 2:
+            raise Exception("must have at least 2 colors")
+            
+        colorscale = []
+        luma = []
+
+        interval = 1 / (len(colors) - 1)
+        index = 0
+
+        for i,c in enumerate(colors):
+            r = int(c[1:3],16)
+            g = int(c[3:5],16)
+            b = int(c[5:7],16)
+
+            colorscale.append([index,"rgb(" + str(r) + "," + str(g) + "," + str(b) + ")"])
+            luma.append(0.2126 * r + 0.7152 * g + 0.0722 * b)
+
+            if i == (len(colors) - 2):
+                index = 1
+            else:
+                index += interval
+
+        self._colors = []
+        self._colors.extend(colors)
+
+        self._colorscale = colorscale
+        self._luma = luma 
+
     def getColor(self,name):
         if name.find("#") == 0:
             return(name)
@@ -328,6 +404,10 @@ class Colors(object):
                 color = self._colors[index]
 
         return(color)
+
+    @property
+    def size(self):
+        return(len(self._colors))
 
     @property
     def colors(self):
@@ -458,9 +538,9 @@ def brighten(color,offset):
     rgb = [int(value, 16) + offset for value in rgbHex]
     rgb = [min([255, max([0,i])]) for i in rgb]
 
-    c = "#" + "".join([hex(i)[2:] for i in rgb])
+    s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
-    return(c)
+    return(s)
 
 def darken(color,offset):
     if len(color) != 7:
@@ -470,9 +550,9 @@ def darken(color,offset):
     rgb = [int(value, 16) - offset for value in rgbHex]
     rgb = [min([255, max([0,i])]) for i in rgb]
 
-    c = "#" + "".join([hex(i)[2:] for i in rgb])
+    s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
-    return(c)
+    return(s)
 
 def convertColormap(name):
     cmap = matplotlib.cm.get_cmap(name)

@@ -1,0 +1,107 @@
+<template tag="KeypointsDetection" input-windows="w_resized" output-windows="w_score">
+  <description>sample description</description>
+  <windows>
+    <window-calculate index="pi_EMPTY" algorithm="ImageProcessing" name="w_resized" output-insert-only="true">
+      <schema>
+        <fields>
+          <field key="true" name="id" type="int32" />
+          <field key="true" name="board_id" type="int64"/>
+          <field key="false" name="_image_" type="blob" />
+          <field key="false" name="_board_image_" type="blob" />
+          <field key="false" name="rx_min" type="double"/>
+          <field key="false" name="rx_max" type="double"/>
+          <field key="false" name="ry_min" type="double"/>
+          <field key="false" name="ry_max" type="double"/>
+        </fields>
+      </schema>
+      <parameters>
+        <properties>
+          <property name="alpha">0.0</property>
+          <property name="beta">0.0</property>
+          <property name="delta">0.0</property>
+          <property name="flag1">0.0</property>
+          <property name="flag2">0.0</property>
+          <property name="flag3">0.0</property>
+          <property name="flag4">0.0</property>
+          <property name="flag5">0.0</property>
+          <property name="function">resize</property>
+          <property name="height">110</property>
+          <property name="maxValue">0.0</property>
+          <property name="minValue">0.0</property>
+          <property name="outputHeight">0</property>
+          <property name="outputWidth">0</property>
+          <property name="preFlip">-1000</property>
+          <property name="theta">0.0</property>
+          <property name="type">0.0</property>
+          <property name="value">0.0</property>
+          <property name="width">110</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </properties>
+      </parameters>
+      <input-map>
+        <properties>
+          <property name="imageInput">_board_image_</property>
+        </properties>
+      </input-map>
+      <output-map>
+        <properties>
+          <property name="imageOutput">_board_image_</property>
+        </properties>
+      </output-map>
+    </window-calculate>
+    <window-model-reader name="w_reader" model-type="astore">
+      <parameters>
+        <properties>
+          <property name="usegpuesp">1</property>
+          <property name="NDEVICES">1</property>
+          <property name="DEVICE0">0</property>
+          <property name="TENSORRTESP">1</property>
+        </properties>
+      </parameters>
+    </window-model-reader>
+    <window-score name="w_score">
+      <schema>
+        <fields>
+          <field key="true" name="id" type="int32" />
+          <field key="true" name="board_id" type="int64"/>
+          <field key="false" name="_image_" type="blob" />
+          <field key="false" name="rx_min" type="double"/>
+          <field key="false" name="rx_max" type="double"/>
+          <field key="false" name="ry_min" type="double"/>
+          <field key="false" name="ry_max" type="double"/>
+          <field name="I_x1" type="double" key="false"/>
+          <field name="I_y1" type="double" key="false"/>
+          <field name="I_x2" type="double" key="false"/>
+          <field name="I_y2" type="double" key="false"/>
+          <field name="I_x3" type="double" key="false"/>
+          <field name="I_y3" type="double" key="false"/>
+          <field name="I_x4" type="double" key="false"/>
+          <field name="I_y4" type="double" key="false"/>
+          <field name="I_x5" type="double" key="false"/>
+          <field name="I_y5" type="double" key="false"/>
+        </fields>
+      </schema>
+      <models>
+        <offline model-type="astore">
+          <input-map>
+            <properties>
+              <property name="_image_">_board_image_</property>
+            </properties>
+          </input-map>
+        </offline>
+      </models>
+    </window-score>
+  </windows>
+  <edges>
+    <edge role="data" source="w_resized" target="w_score" />
+    <edge role="model" source="w_reader" target="w_score" />
+  </edges>
+  <required-parameter-map>
+    <properties>
+      <property name="astore">w_reader.reference</property>
+      <property name="device_index">w_reader.DEVICE0</property>
+      <property name="enable_gpu">w_reader.usegpuesp</property>
+    </properties>
+  </required-parameter-map>
+</template>

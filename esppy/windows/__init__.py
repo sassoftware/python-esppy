@@ -57,5 +57,5 @@ def get_subclasses(cls):
 
 
 for cls in get_subclasses(BaseWindow):
-    if cls.window_type:
+    if cls.window_type and not cls.is_hidden:
         BaseWindow.window_classes['window-%s' % cls.window_type] = cls

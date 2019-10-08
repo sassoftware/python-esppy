@@ -7,8 +7,10 @@ import esppy
 import time
 import six
 import re
+import os
 
-#logging.basicConfig(filename="/tmp/py.log",level=logging.INFO)
+if os.getenv("ESPPY_LOG") != None:
+    logging.basicConfig(filename=os.getenv("ESPPY_LOG"),level=logging.INFO)
 
 class Connection(tools.Options):
     def __init__(self,host,port,secure,**kwargs):
@@ -47,7 +49,7 @@ class Connection(tools.Options):
 
     def send(self,data):
         if self._websocket != None:
-            #logging.debug("SEND: " + str(data))
+            #logging.info("SEND: " + str(data))
             self._websocket.send(str(data))
 
     def getUrl(self):
@@ -138,7 +140,8 @@ class Connection(tools.Options):
     def getHeader(self,name):
         value = None
         if (self._headers != None):
-            value = self._headers[name]
+            if name in self._headers:
+                value = self._headers[name]
         return(value)
 
     def getHost(self):
@@ -236,10 +239,8 @@ class ServerConnection(Connection):
                     datasource.info(xml)
         elif xml.tag == "stats":
             self._stats.process(xml)
-
         elif xml.tag == "log":
             self._log.process(xml)
-
         elif (xml.tag == "model"):
             if "id" in xml.attrib:
                 id = xml.get("id")
@@ -248,6 +249,15 @@ class ServerConnection(Connection):
                     delegate = self._modelDelegates[id]
                     delegate.deliver(xml)
                     del self._modelDelegates[id]
+        elif (xml.tag == "publisher"):
+            if "id" in xml.attrib:
+                id = xml.get("id")
+                if id in self._publishers:
+                    publisher = self._publishers[id]
+                    if "complete" in xml.attrib:
+                        complete = xml.get("complete")
+                        publisher._complete = (complete == "true")
+
         else:
             print("THE MSG: " + message)
 
@@ -353,6 +363,7 @@ class Datasource(tools.Options):
         self._keyFields = None
         self._schema = Schema()
         self._delegates = []
+        self._paused = False
         self._data = None
 
     def setSchema(self,xml):
@@ -367,6 +378,18 @@ class Datasource(tools.Options):
 
     def getFilter(self):
         return(self.getOpt("filter",""))
+
+    def togglePlay(self):
+
+        code = False
+
+        if self._paused:
+            self.play()
+            code = True
+        else:
+            self.pause()
+
+        return(code)
 
     def getFields(self):
         fields = None
@@ -394,25 +417,36 @@ class Datasource(tools.Options):
             fields = self._schema.getColumnFields()
         return(fields)
 
+    def getField(self,name):
+        field = None
+        if self._schema != None:
+            field = self._schema.getField(name)
+        return(field)
+
     def getKey(self,o):
         key = ""
 
-        #for j in range(0,len(self._schema._keyFields)):
-            #f = self._schema._keyFields[j]
         for f in self._schema._keyFields:
-            try:
-                value = o[f["name"]]
-                if len(key) > 0:
-                    key += "-"
-                key += value
-            except KeyError:
-                key = None
+            name = f["name"]
+            if (name in o) == False:
                 break
+            if len(key) > 0:
+                key += "-"
+            key += str(o[name])
 
         return(key)
 
     def getData(self):
         return(self._data)
+
+    def getList(self):
+        if isinstance(self._data,dict):
+            l = []
+            for k,v in self._data.items():
+                l.append(v)
+            return(l)
+        elif isinstance(self._data,list):
+            return(self._data)
 
     def getValues(self,name):
 
@@ -492,7 +526,7 @@ class Datasource(tools.Options):
                 if name in o:
                     if len(key) > 0:
                         key += delimiter
-                    key += o[name]
+                    key += str(o[name])
 
             if key in data:
                 entry = data[key]
@@ -517,7 +551,8 @@ class Datasource(tools.Options):
 
         for k,v in data.items():
             if timeKeys:
-                keyValues.append(np.datetime64(long(k)))
+                dt = pd.to_datetime(k,unit="us")
+                keyValues.append(dt)
             else:
                 keyValues.append(k)
             for f in valueFields:
@@ -545,13 +580,13 @@ class Datasource(tools.Options):
             fields = self._schema._fields
 
         if isinstance(self._data,dict):
-            #data["__key"] = []
+            #data["_key_"] = []
 
             for f in fields:
                 data[f["name"]] = []
 
             for key,o in self._data.items():
-                #data["__key"].append(key)
+                #data["_key_"].append(key)
                 for f in fields:
                     name = f["name"]
                     if name in o:
@@ -600,14 +635,20 @@ class Datasource(tools.Options):
     def clear(self):
         pass
 
-    def deliverDataChange(self,data):
+    def deliverDataChange(self,data,clear):
         for d in self._delegates:
-            d.dataChanged(self,data)
+            d.dataChanged(self,data,clear)
 
     def deliverInfoChange(self):
         for d in self._delegates:
             if tools.supports(d,"infoChanged"):
                 d.infoChanged(self)
+
+    def isList(self):
+        return(self._data != None and isinstance(self._data,list))
+
+    def isDict(self):
+        return(self._data != None and isinstance(self._data,dict))
 
     def handleMessage(self,msg):
         pass
@@ -640,6 +681,18 @@ class EventCollection(Datasource):
         o["info"]= 5
         o["format"]= "xml"
 
+        interval = None
+
+        if self.hasOpt("interval"):
+            interval = self.getOpt("interval")
+        elif self._connection.hasOpt("interval"):
+            interval = self._connection.getOpt("interval")
+
+        if interval == None:
+            interval = 1000
+
+        self.setOpt("interval",interval)
+
         for key,value in self.options.items():
             o[key] = value
 
@@ -649,6 +702,9 @@ class EventCollection(Datasource):
         self._connection.send(o)
 
     def set(self):
+        if self._connection.isHandshakeComplete == False:
+            return
+
         o = {}
         o["request"]= "event-collection"
         o["id"]= self._id
@@ -668,6 +724,22 @@ class EventCollection(Datasource):
         o["id"] = self._id
         o["action"] = "close"
         self._connection.send(o)
+
+    def play(self):
+        if self._paused:
+            self._paused = False
+            o["request"]= "event-collection"
+            o["id"]= self._id
+            o["action"]= "play"
+            self.deliverInfoChange()
+
+    def pause(self):
+        if self._paused == False:
+            self._paused = True
+            o["request"]= "event-collection"
+            o["id"]= self._id
+            o["action"]= "pause"
+            self.deliverInfoChange()
 
     def handleMessage(self,msg):
         self.loadPage(msg["type"])
@@ -716,12 +788,12 @@ class EventCollection(Datasource):
                     continue
 
             o = {}
-            o["__opcode"] = opcode
+            o["_opcode"] = opcode
 
             s = n.get("timestamp")
 
             if s != None:
-                o["__timestamp"] = s
+                o["_timestamp"] = s
 
             values = n.findall("./*")
 
@@ -734,15 +806,15 @@ class EventCollection(Datasource):
                 else:
                     o[v.tag] = content
 
-            o["__key"] = self.getKey(o)
+            o["_key_"] = self.getKey(o)
             data.append(o)
 
-        if "page" in xml.attrib:
-            self._page = int(xml.get("page"))
-            self._pages = int(xml.get("pages"))
-            self._data = {}
+        clear = "page" in xml.attrib
 
-        self.process(data)
+        self.process(data,clear)
+
+        if clear:
+            self.info(xml)
 
     def info(self,xml):
         if "page" in xml.attrib:
@@ -750,25 +822,28 @@ class EventCollection(Datasource):
             self._pages = int(xml.get("pages"))
             self.deliverInfoChange()
 
-    def process(self,events):
+    def process(self,events,clear):
+        if clear:
+            self._data = {}
+
         for e in events:
-            key = e["__key"]
+            key = e["_key_"]
             if key != None:
-                opcode = e["__opcode"]
+                opcode = e["_opcode"]
                 if opcode == "delete":
                     if key in self._data:
                         del self._data[key]
                 else:
                     o = {}
 
-                    o["__key"] = key
+                    o["_key_"] = key
 
                     for column in self._schema._columns:
                         if column in e:
                             o[column] = e[column]
                     self._data[key] = o
 
-        self.deliverDataChange(events)
+        self.deliverDataChange(events,clear)
 
     def getInfo(self):
         info = {}
@@ -814,7 +889,7 @@ class EventCollection(Datasource):
 
     def clear(self):
         self._data = {}
-        #self.deliverDataChange(None)
+        self.deliverDataChange(None,True)
 
 class EventStream(Datasource):
     def __init__(self,conn,path,**kwargs):
@@ -831,6 +906,18 @@ class EventStream(Datasource):
         o["window"] = self._path
         o["schema"] = True
         o["format"] = "xml"
+
+        interval = None
+
+        if self.hasOpt("interval"):
+            interval = self.getOpt("interval")
+        elif self._connection.hasOpt("interval"):
+            interval = self._connection.getOpt("interval")
+
+        if interval == None:
+            interval = 1000
+
+        self.setOpt("interval",interval)
 
         for n,v in self.options.items():
             o[n] = v
@@ -862,6 +949,22 @@ class EventStream(Datasource):
         o["action"] = "close"
         self._connection.send(o)
 
+    def play(self):
+        if self._paused:
+            self._paused = False
+            o["request"]= "event-stream"
+            o["id"]= self._id
+            o["action"]= "play"
+            self.deliverInfoChange()
+
+    def pause(self):
+        if self._paused == False:
+            self._paused = True
+            o["request"]= "event-stream"
+            o["id"]= self._id
+            o["action"]= "pause"
+            self.deliverInfoChange()
+
     def setSchema(self,xml):
         Datasource.setSchema(self,xml)
         for f in self._schema.fields:
@@ -869,19 +972,19 @@ class EventStream(Datasource):
 
         self._keyFields = []
 
-        f = {"name":"__opcode","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False}
+        f = {"name":"_opcode","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False}
         self._schema._fields.insert(0,f)
-        self._schema._fieldMap["__opcode"] = f
+        self._schema._fieldMap["_opcode"] = f
         self._schema._columns.insert(0,f["name"])
 
-        f = {"name":"__timestamp","espType":"timestamp","type":"date","isKey":False,"isNumber":True,"isDate":False,"isTime":True}
+        f = {"name":"_timestamp","espType":"timestamp","type":"date","isKey":False,"isNumber":True,"isDate":False,"isTime":True}
         self._schema._fields.insert(0,f)
-        self._schema._fieldMap["__timestamp"] = f
+        self._schema._fieldMap["_timestamp"] = f
         self._schema._columns.insert(0,f["name"])
 
-        f = {"name":"__counter","espType":"int32","type":"int","isKey":True,"isNumber":True,"isDate":False,"isTime":False}
+        f = {"name":"_counter","espType":"int32","type":"int","isKey":True,"isNumber":True,"isDate":False,"isTime":False}
         self._schema._fields.insert(0,f)
-        self._schema._fieldMap["__counter"] = f
+        self._schema._fieldMap["_counter"] = f
         self._schema._columns.insert(0,f["name"])
 
         self._schema._keyFields = [f]
@@ -893,18 +996,23 @@ class EventStream(Datasource):
 
         nodes = xml.findall("entries/event")
 
+        ignoreDeletes = self.getOpt("ignore_deletes",False)
+
         for n in nodes:
             opcode = n.get("opcode")
             if opcode == None:
                 opcode = "insert"
 
+            if opcode == "delete" and ignoreDeletes:
+                continue
+
             o = {}
-            o["__opcode"] = opcode
+            o["_opcode"] = opcode
 
             s = n.get("timestamp")
 
             if s != None:
-                o["__timestamp"] = s
+                o["_timestamp"] = s
 
             values = n.findall("./*")
 
@@ -917,7 +1025,6 @@ class EventStream(Datasource):
                 else:
                     o[v.tag] = content
 
-            o["__key"] = self.getKey(o)
             data.append(o)
 
         self.process(data)
@@ -925,12 +1032,17 @@ class EventStream(Datasource):
     def process(self,events):
         for e in events:
             o = {}
-            o["__counter"] = self._counter
-            self._counter += 1
 
             for column in self._schema._columns:
                 if column in e:
                     o[column] = e[column]
+
+            o["_counter"] = self._counter
+            o["_key_"] = self.getKey(o)
+            e["_counter"] = o["_counter"]
+            e["_key_"] = o["_key_"]
+
+            self._counter += 1
 
             self._data.append(o)
 
@@ -942,7 +1054,7 @@ class EventStream(Datasource):
             for i in range(0,diff):
                 del self._data[0]
  
-        self.deliverDataChange(events)
+        self.deliverDataChange(events,False)
 
     def getData(self):
         return(self._data)
@@ -951,7 +1063,7 @@ class EventStream(Datasource):
         values = []
 
         for value in self._data:
-            values.append(value["__counter"])
+            values.append(value["_counter"])
         return(values)
 
     def getTableData(self,values):
@@ -975,7 +1087,7 @@ class EventStream(Datasource):
                     columns.append(f["name"])
 
         for value in self._data:
-            rows.append(value["__counter"])
+            rows.append(value["_counter"])
             cell = []
             for f in a:
                 cell.append(value[f["name"]])
@@ -985,7 +1097,7 @@ class EventStream(Datasource):
 
     def clear(self):
         self._data = []
-        self.deliverDataChange(None)
+        self.deliverDataChange(None,True)
 
 class Publisher(tools.Options):
     def __init__(self,connection,path,**kwargs):
@@ -994,6 +1106,7 @@ class Publisher(tools.Options):
         self._path = path
         self._id = tools.guid()
         self._data = []
+        self._complete = True
 
     def open(self):
         o = {}
@@ -1026,19 +1139,23 @@ class Publisher(tools.Options):
         self._data.append(o)
 
     def publish(self):
-        if len(self._data.length) > 0:
+        if len(self._data) > 0:
             o = {}
             o["request"] = "publisher"
             o["id"] = self._id
             o["action"] = "publish"
-            if len(self._data.length) == 1:
+            if len(self._data) == 1:
                 o["data"] = {"event":self._data[0]}
             else:
                 o["data"] = self._data
             self._connection.send(o)
             self._data = []
 
-    def publishUrl(self,url,blocksize = None):
+    def publishUrl(self,url,**kwargs):
+        opts = tools.Options(**kwargs)
+        blocksize = opts.getOpt("blocksize")
+        wait = opts.getOpt("wait",False)
+
         o = {}
         o["request"] = "publisher"
         o["id"] = self._id
@@ -1051,6 +1168,11 @@ class Publisher(tools.Options):
         o["source"] = source
         self._connection.send(o)
 
+        if wait:
+            self._complete = False
+            while self._complete == False:
+                time.sleep(1)
+
 class Stats(Datasource):
     def __init__(self,connection,**kwargs):
         Datasource.__init__(self,connection,**kwargs)
@@ -1058,7 +1180,7 @@ class Stats(Datasource):
         self._data = []
         self._memory = {}
 
-        self._schema.addField({"name":"__key","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"_key_","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
         self._schema.addField({"name":"project","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
         self._schema.addField({"name":"contquery","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
         self._schema.addField({"name":"window","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
@@ -1093,10 +1215,10 @@ class Stats(Datasource):
                     o["cpu"] = float(w.get("cpu"))
                     o["interval"] = float(w.get("interval"))
                     o["count"] = w.get("count") != None and float(w.get("count")) or 0
-                    o["__key"] = o["project"] + "." + o["contquery"] + "." + o["window"]
+                    o["_key_"] = o["project"] + "." + o["contquery"] + "." + o["window"]
                     stats.append(o)
 
-        stats.sort(key = self.sortValue, reverse = True)
+        stats.sort(key = self.sortValue,reverse = True)
 
         nodes = xml.findall(".//server-memory")
 
@@ -1134,7 +1256,7 @@ class Stats(Datasource):
         o["action"] = "set"
         o["interval"] = self.getOpt("interval",1)
 
-        o["minCpu"] = self.getOpt("cpu",5)
+        o["minCpu"] = self.getOpt("mincpu",5)
         o["counts"] = self.getOpt("counts",False)
         o["config"] = self.getOpt("config",False)
         o["memory"] = self.getOpt("memory",True)
@@ -1155,7 +1277,7 @@ class Stats(Datasource):
                 self.set()
 
     def removeDelegate(self,delegate):
-        if tools.removeFrom(self,_delegates,delegate):
+        if tools.removeFrom(self._delegates,delegate):
             if len(self._delegates) == 0:
                 self.stop()
 
@@ -1168,7 +1290,7 @@ class Stats(Datasource):
     def getKeyValues(self):
         values = []
         for o in self._data:
-            values.append(o["__key"])
+            values.append(o["_key_"])
         return(values)
 
 class Log(object):

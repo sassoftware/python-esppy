@@ -1,0 +1,682 @@
+<template tag="ObjectDetection" input-windows="w_resized" output-windows="w_score">
+  <description>sample description</description>
+  <windows>
+    <window-calculate index="pi_EMPTY" algorithm="ImageProcessing" name="w_resized">
+      <schema>
+        <fields>
+          <field key="true" name="id" type="int64" />
+          <field key="false" name="_image_" type="blob" />
+        </fields>
+      </schema>
+      <parameters>
+        <properties>
+          <property name="alpha">0.0</property>
+          <property name="beta">0.0</property>
+          <property name="delta">0.0</property>
+          <property name="flag1">0.0</property>
+          <property name="flag2">0.0</property>
+          <property name="flag3">0.0</property>
+          <property name="flag4">0.0</property>
+          <property name="flag5">0.0</property>
+          <property name="function">resize</property>
+          <property name="height">416</property>
+          <property name="maxValue">0.0</property>
+          <property name="minValue">0.0</property>
+          <property name="outputHeight">0</property>
+          <property name="outputWidth">0</property>
+          <property name="preFlip">-1000</property>
+          <property name="theta">0.0</property>
+          <property name="type">0.0</property>
+          <property name="value">0.0</property>
+          <property name="width">416</property>
+          <property name="x">0</property>
+          <property name="y">0</property>
+        </properties>
+      </parameters>
+      <input-map>
+        <properties>
+          <property name="imageInput">_image_</property>
+        </properties>
+      </input-map>
+      <output-map>
+        <properties>
+          <property name="imageOutput">_image_</property>
+        </properties>
+      </output-map>
+    </window-calculate>
+    <window-model-reader name="w_reader" model-type="astore">
+      <parameters>
+        <properties>
+          <property name="usegpuesp">0</property>
+          <property name="NDEVICES">1</property>
+          <property name="DEVICE0">0</property>
+          <property name="TENSORRTESP">1</property>
+        </properties>
+      </parameters>
+    </window-model-reader>
+    <window-score name="w_score">
+      <schema>
+        <fields>
+          <field key="true" name="id" type="int64" />
+          <!--field key="false" name="time" type="string"/-->
+          <field key="false" name="_image_" type="blob" />
+          <field key="false" name="_nObjects_" type="double" />
+          <field key="false" name="_Object0_" type="string" />
+          <field key="false" name="_P_Object0_" type="double" />
+          <field key="false" name="_Object0_x" type="double" />
+          <field key="false" name="_Object0_y" type="double" />
+          <field key="false" name="_Object0_width" type="double" />
+          <field key="false" name="_Object0_height" type="double" />
+          <field key="false" name="_Object1_" type="string" />
+          <field key="false" name="_P_Object1_" type="double" />
+          <field key="false" name="_Object1_x" type="double" />
+          <field key="false" name="_Object1_y" type="double" />
+          <field key="false" name="_Object1_width" type="double" />
+          <field key="false" name="_Object1_height" type="double" />
+          <field key="false" name="_Object2_" type="string" />
+          <field key="false" name="_P_Object2_" type="double" />
+          <field key="false" name="_Object2_x" type="double" />
+          <field key="false" name="_Object2_y" type="double" />
+          <field key="false" name="_Object2_width" type="double" />
+          <field key="false" name="_Object2_height" type="double" />
+          <field key="false" name="_Object3_" type="string" />
+          <field key="false" name="_P_Object3_" type="double" />
+          <field key="false" name="_Object3_x" type="double" />
+          <field key="false" name="_Object3_y" type="double" />
+          <field key="false" name="_Object3_width" type="double" />
+          <field key="false" name="_Object3_height" type="double" />
+          <field key="false" name="_Object4_" type="string" />
+          <field key="false" name="_P_Object4_" type="double" />
+          <field key="false" name="_Object4_x" type="double" />
+          <field key="false" name="_Object4_y" type="double" />
+          <field key="false" name="_Object4_width" type="double" />
+          <field key="false" name="_Object4_height" type="double" />
+          <field key="false" name="_Object5_" type="string" />
+          <field key="false" name="_P_Object5_" type="double" />
+          <field key="false" name="_Object5_x" type="double" />
+          <field key="false" name="_Object5_y" type="double" />
+          <field key="false" name="_Object5_width" type="double" />
+          <field key="false" name="_Object5_height" type="double" />
+          <field key="false" name="_Object6_" type="string" />
+          <field key="false" name="_P_Object6_" type="double" />
+          <field key="false" name="_Object6_x" type="double" />
+          <field key="false" name="_Object6_y" type="double" />
+          <field key="false" name="_Object6_width" type="double" />
+          <field key="false" name="_Object6_height" type="double" />
+          <field key="false" name="_Object7_" type="string" />
+          <field key="false" name="_P_Object7_" type="double" />
+          <field key="false" name="_Object7_x" type="double" />
+          <field key="false" name="_Object7_y" type="double" />
+          <field key="false" name="_Object7_width" type="double" />
+          <field key="false" name="_Object7_height" type="double" />
+          <field key="false" name="_Object8_" type="string" />
+          <field key="false" name="_P_Object8_" type="double" />
+          <field key="false" name="_Object8_x" type="double" />
+          <field key="false" name="_Object8_y" type="double" />
+          <field key="false" name="_Object8_width" type="double" />
+          <field key="false" name="_Object8_height" type="double" />
+          <field key="false" name="_Object9_" type="string" />
+          <field key="false" name="_P_Object9_" type="double" />
+          <field key="false" name="_Object9_x" type="double" />
+          <field key="false" name="_Object9_y" type="double" />
+          <field key="false" name="_Object9_width" type="double" />
+          <field key="false" name="_Object9_height" type="double" />
+          <field key="false" name="_Object10_" type="string" />
+          <field key="false" name="_P_Object10_" type="double" />
+          <field key="false" name="_Object10_x" type="double" />
+          <field key="false" name="_Object10_y" type="double" />
+          <field key="false" name="_Object10_width" type="double" />
+          <field key="false" name="_Object10_height" type="double" />
+          <field key="false" name="_Object11_" type="string" />
+          <field key="false" name="_P_Object11_" type="double" />
+          <field key="false" name="_Object11_x" type="double" />
+          <field key="false" name="_Object11_y" type="double" />
+          <field key="false" name="_Object11_width" type="double" />
+          <field key="false" name="_Object11_height" type="double" />
+          <field key="false" name="_Object12_" type="string" />
+          <field key="false" name="_P_Object12_" type="double" />
+          <field key="false" name="_Object12_x" type="double" />
+          <field key="false" name="_Object12_y" type="double" />
+          <field key="false" name="_Object12_width" type="double" />
+          <field key="false" name="_Object12_height" type="double" />
+          <field key="false" name="_Object13_" type="string" />
+          <field key="false" name="_P_Object13_" type="double" />
+          <field key="false" name="_Object13_x" type="double" />
+          <field key="false" name="_Object13_y" type="double" />
+          <field key="false" name="_Object13_width" type="double" />
+          <field key="false" name="_Object13_height" type="double" />
+          <field key="false" name="_Object14_" type="string" />
+          <field key="false" name="_P_Object14_" type="double" />
+          <field key="false" name="_Object14_x" type="double" />
+          <field key="false" name="_Object14_y" type="double" />
+          <field key="false" name="_Object14_width" type="double" />
+          <field key="false" name="_Object14_height" type="double" />
+          <field key="false" name="_Object15_" type="string" />
+          <field key="false" name="_P_Object15_" type="double" />
+          <field key="false" name="_Object15_x" type="double" />
+          <field key="false" name="_Object15_y" type="double" />
+          <field key="false" name="_Object15_width" type="double" />
+          <field key="false" name="_Object15_height" type="double" />
+          <field key="false" name="_Object16_" type="string" />
+          <field key="false" name="_P_Object16_" type="double" />
+          <field key="false" name="_Object16_x" type="double" />
+          <field key="false" name="_Object16_y" type="double" />
+          <field key="false" name="_Object16_width" type="double" />
+          <field key="false" name="_Object16_height" type="double" />
+          <field key="false" name="_Object17_" type="string" />
+          <field key="false" name="_P_Object17_" type="double" />
+          <field key="false" name="_Object17_x" type="double" />
+          <field key="false" name="_Object17_y" type="double" />
+          <field key="false" name="_Object17_width" type="double" />
+          <field key="false" name="_Object17_height" type="double" />
+          <field key="false" name="_Object18_" type="string" />
+          <field key="false" name="_P_Object18_" type="double" />
+          <field key="false" name="_Object18_x" type="double" />
+          <field key="false" name="_Object18_y" type="double" />
+          <field key="false" name="_Object18_width" type="double" />
+          <field key="false" name="_Object18_height" type="double" />
+          <field key="false" name="_Object19_" type="string" />
+          <field key="false" name="_P_Object19_" type="double" />
+          <field key="false" name="_Object19_x" type="double" />
+          <field key="false" name="_Object19_y" type="double" />
+          <field key="false" name="_Object19_width" type="double" />
+          <field key="false" name="_Object19_height" type="double" />
+          <field key="false" name="_Object20_" type="string" />
+          <field key="false" name="_P_Object20_" type="double" />
+          <field key="false" name="_Object20_x" type="double" />
+          <field key="false" name="_Object20_y" type="double" />
+          <field key="false" name="_Object20_width" type="double" />
+          <field key="false" name="_Object20_height" type="double" />
+          <field key="false" name="_Object21_" type="string" />
+          <field key="false" name="_P_Object21_" type="double" />
+          <field key="false" name="_Object21_x" type="double" />
+          <field key="false" name="_Object21_y" type="double" />
+          <field key="false" name="_Object21_width" type="double" />
+          <field key="false" name="_Object21_height" type="double" />
+          <field key="false" name="_Object22_" type="string" />
+          <field key="false" name="_P_Object22_" type="double" />
+          <field key="false" name="_Object22_x" type="double" />
+          <field key="false" name="_Object22_y" type="double" />
+          <field key="false" name="_Object22_width" type="double" />
+          <field key="false" name="_Object22_height" type="double" />
+          <field key="false" name="_Object23_" type="string" />
+          <field key="false" name="_P_Object23_" type="double" />
+          <field key="false" name="_Object23_x" type="double" />
+          <field key="false" name="_Object23_y" type="double" />
+          <field key="false" name="_Object23_width" type="double" />
+          <field key="false" name="_Object23_height" type="double" />
+          <field key="false" name="_Object24_" type="string" />
+          <field key="false" name="_P_Object24_" type="double" />
+          <field key="false" name="_Object24_x" type="double" />
+          <field key="false" name="_Object24_y" type="double" />
+          <field key="false" name="_Object24_width" type="double" />
+          <field key="false" name="_Object24_height" type="double" />
+          <field key="false" name="_Object25_" type="string" />
+          <field key="false" name="_P_Object25_" type="double" />
+          <field key="false" name="_Object25_x" type="double" />
+          <field key="false" name="_Object25_y" type="double" />
+          <field key="false" name="_Object25_width" type="double" />
+          <field key="false" name="_Object25_height" type="double" />
+          <field key="false" name="_Object26_" type="string" />
+          <field key="false" name="_P_Object26_" type="double" />
+          <field key="false" name="_Object26_x" type="double" />
+          <field key="false" name="_Object26_y" type="double" />
+          <field key="false" name="_Object26_width" type="double" />
+          <field key="false" name="_Object26_height" type="double" />
+          <field key="false" name="_Object27_" type="string" />
+          <field key="false" name="_P_Object27_" type="double" />
+          <field key="false" name="_Object27_x" type="double" />
+          <field key="false" name="_Object27_y" type="double" />
+          <field key="false" name="_Object27_width" type="double" />
+          <field key="false" name="_Object27_height" type="double" />
+          <field key="false" name="_Object28_" type="string" />
+          <field key="false" name="_P_Object28_" type="double" />
+          <field key="false" name="_Object28_x" type="double" />
+          <field key="false" name="_Object28_y" type="double" />
+          <field key="false" name="_Object28_width" type="double" />
+          <field key="false" name="_Object28_height" type="double" />
+          <field key="false" name="_Object29_" type="string" />
+          <field key="false" name="_P_Object29_" type="double" />
+          <field key="false" name="_Object29_x" type="double" />
+          <field key="false" name="_Object29_y" type="double" />
+          <field key="false" name="_Object29_width" type="double" />
+          <field key="false" name="_Object29_height" type="double" />
+          <field key="false" name="_Object30_" type="string" />
+          <field key="false" name="_P_Object30_" type="double" />
+          <field key="false" name="_Object30_x" type="double" />
+          <field key="false" name="_Object30_y" type="double" />
+          <field key="false" name="_Object30_width" type="double" />
+          <field key="false" name="_Object30_height" type="double" />
+          <field key="false" name="_Object31_" type="string" />
+          <field key="false" name="_P_Object31_" type="double" />
+          <field key="false" name="_Object31_x" type="double" />
+          <field key="false" name="_Object31_y" type="double" />
+          <field key="false" name="_Object31_width" type="double" />
+          <field key="false" name="_Object31_height" type="double" />
+          <field key="false" name="_Object32_" type="string" />
+          <field key="false" name="_P_Object32_" type="double" />
+          <field key="false" name="_Object32_x" type="double" />
+          <field key="false" name="_Object32_y" type="double" />
+          <field key="false" name="_Object32_width" type="double" />
+          <field key="false" name="_Object32_height" type="double" />
+          <field key="false" name="_Object33_" type="string" />
+          <field key="false" name="_P_Object33_" type="double" />
+          <field key="false" name="_Object33_x" type="double" />
+          <field key="false" name="_Object33_y" type="double" />
+          <field key="false" name="_Object33_width" type="double" />
+          <field key="false" name="_Object33_height" type="double" />
+          <field key="false" name="_Object34_" type="string" />
+          <field key="false" name="_P_Object34_" type="double" />
+          <field key="false" name="_Object34_x" type="double" />
+          <field key="false" name="_Object34_y" type="double" />
+          <field key="false" name="_Object34_width" type="double" />
+          <field key="false" name="_Object34_height" type="double" />
+          <field key="false" name="_Object35_" type="string" />
+          <field key="false" name="_P_Object35_" type="double" />
+          <field key="false" name="_Object35_x" type="double" />
+          <field key="false" name="_Object35_y" type="double" />
+          <field key="false" name="_Object35_width" type="double" />
+          <field key="false" name="_Object35_height" type="double" />
+          <field key="false" name="_Object36_" type="string" />
+          <field key="false" name="_P_Object36_" type="double" />
+          <field key="false" name="_Object36_x" type="double" />
+          <field key="false" name="_Object36_y" type="double" />
+          <field key="false" name="_Object36_width" type="double" />
+          <field key="false" name="_Object36_height" type="double" />
+          <field key="false" name="_Object37_" type="string" />
+          <field key="false" name="_P_Object37_" type="double" />
+          <field key="false" name="_Object37_x" type="double" />
+          <field key="false" name="_Object37_y" type="double" />
+          <field key="false" name="_Object37_width" type="double" />
+          <field key="false" name="_Object37_height" type="double" />
+          <field key="false" name="_Object38_" type="string" />
+          <field key="false" name="_P_Object38_" type="double" />
+          <field key="false" name="_Object38_x" type="double" />
+          <field key="false" name="_Object38_y" type="double" />
+          <field key="false" name="_Object38_width" type="double" />
+          <field key="false" name="_Object38_height" type="double" />
+          <field key="false" name="_Object39_" type="string" />
+          <field key="false" name="_P_Object39_" type="double" />
+          <field key="false" name="_Object39_x" type="double" />
+          <field key="false" name="_Object39_y" type="double" />
+          <field key="false" name="_Object39_width" type="double" />
+          <field key="false" name="_Object39_height" type="double" />
+          <field key="false" name="_Object40_" type="string" />
+          <field key="false" name="_P_Object40_" type="double" />
+          <field key="false" name="_Object40_x" type="double" />
+          <field key="false" name="_Object40_y" type="double" />
+          <field key="false" name="_Object40_width" type="double" />
+          <field key="false" name="_Object40_height" type="double" />
+          <field key="false" name="_Object41_" type="string" />
+          <field key="false" name="_P_Object41_" type="double" />
+          <field key="false" name="_Object41_x" type="double" />
+          <field key="false" name="_Object41_y" type="double" />
+          <field key="false" name="_Object41_width" type="double" />
+          <field key="false" name="_Object41_height" type="double" />
+          <field key="false" name="_Object42_" type="string" />
+          <field key="false" name="_P_Object42_" type="double" />
+          <field key="false" name="_Object42_x" type="double" />
+          <field key="false" name="_Object42_y" type="double" />
+          <field key="false" name="_Object42_width" type="double" />
+          <field key="false" name="_Object42_height" type="double" />
+          <field key="false" name="_Object43_" type="string" />
+          <field key="false" name="_P_Object43_" type="double" />
+          <field key="false" name="_Object43_x" type="double" />
+          <field key="false" name="_Object43_y" type="double" />
+          <field key="false" name="_Object43_width" type="double" />
+          <field key="false" name="_Object43_height" type="double" />
+          <field key="false" name="_Object44_" type="string" />
+          <field key="false" name="_P_Object44_" type="double" />
+          <field key="false" name="_Object44_x" type="double" />
+          <field key="false" name="_Object44_y" type="double" />
+          <field key="false" name="_Object44_width" type="double" />
+          <field key="false" name="_Object44_height" type="double" />
+          <field key="false" name="_Object45_" type="string" />
+          <field key="false" name="_P_Object45_" type="double" />
+          <field key="false" name="_Object45_x" type="double" />
+          <field key="false" name="_Object45_y" type="double" />
+          <field key="false" name="_Object45_width" type="double" />
+          <field key="false" name="_Object45_height" type="double" />
+          <field key="false" name="_Object46_" type="string" />
+          <field key="false" name="_P_Object46_" type="double" />
+          <field key="false" name="_Object46_x" type="double" />
+          <field key="false" name="_Object46_y" type="double" />
+          <field key="false" name="_Object46_width" type="double" />
+          <field key="false" name="_Object46_height" type="double" />
+          <field key="false" name="_Object47_" type="string" />
+          <field key="false" name="_P_Object47_" type="double" />
+          <field key="false" name="_Object47_x" type="double" />
+          <field key="false" name="_Object47_y" type="double" />
+          <field key="false" name="_Object47_width" type="double" />
+          <field key="false" name="_Object47_height" type="double" />
+          <field key="false" name="_Object48_" type="string" />
+          <field key="false" name="_P_Object48_" type="double" />
+          <field key="false" name="_Object48_x" type="double" />
+          <field key="false" name="_Object48_y" type="double" />
+          <field key="false" name="_Object48_width" type="double" />
+          <field key="false" name="_Object48_height" type="double" />
+          <field key="false" name="_Object49_" type="string" />
+          <field key="false" name="_P_Object49_" type="double" />
+          <field key="false" name="_Object49_x" type="double" />
+          <field key="false" name="_Object49_y" type="double" />
+          <field key="false" name="_Object49_width" type="double" />
+          <field key="false" name="_Object49_height" type="double" />
+          <field key="false" name="_Object50_" type="string" />
+          <field key="false" name="_P_Object50_" type="double" />
+          <field key="false" name="_Object50_x" type="double" />
+          <field key="false" name="_Object50_y" type="double" />
+          <field key="false" name="_Object50_width" type="double" />
+          <field key="false" name="_Object50_height" type="double" />
+          <field key="false" name="_Object51_" type="string" />
+          <field key="false" name="_P_Object51_" type="double" />
+          <field key="false" name="_Object51_x" type="double" />
+          <field key="false" name="_Object51_y" type="double" />
+          <field key="false" name="_Object51_width" type="double" />
+          <field key="false" name="_Object51_height" type="double" />
+          <field key="false" name="_Object52_" type="string" />
+          <field key="false" name="_P_Object52_" type="double" />
+          <field key="false" name="_Object52_x" type="double" />
+          <field key="false" name="_Object52_y" type="double" />
+          <field key="false" name="_Object52_width" type="double" />
+          <field key="false" name="_Object52_height" type="double" />
+          <field key="false" name="_Object53_" type="string" />
+          <field key="false" name="_P_Object53_" type="double" />
+          <field key="false" name="_Object53_x" type="double" />
+          <field key="false" name="_Object53_y" type="double" />
+          <field key="false" name="_Object53_width" type="double" />
+          <field key="false" name="_Object53_height" type="double" />
+          <field key="false" name="_Object54_" type="string" />
+          <field key="false" name="_P_Object54_" type="double" />
+          <field key="false" name="_Object54_x" type="double" />
+          <field key="false" name="_Object54_y" type="double" />
+          <field key="false" name="_Object54_width" type="double" />
+          <field key="false" name="_Object54_height" type="double" />
+          <field key="false" name="_Object55_" type="string" />
+          <field key="false" name="_P_Object55_" type="double" />
+          <field key="false" name="_Object55_x" type="double" />
+          <field key="false" name="_Object55_y" type="double" />
+          <field key="false" name="_Object55_width" type="double" />
+          <field key="false" name="_Object55_height" type="double" />
+          <field key="false" name="_Object56_" type="string" />
+          <field key="false" name="_P_Object56_" type="double" />
+          <field key="false" name="_Object56_x" type="double" />
+          <field key="false" name="_Object56_y" type="double" />
+          <field key="false" name="_Object56_width" type="double" />
+          <field key="false" name="_Object56_height" type="double" />
+          <field key="false" name="_Object57_" type="string" />
+          <field key="false" name="_P_Object57_" type="double" />
+          <field key="false" name="_Object57_x" type="double" />
+          <field key="false" name="_Object57_y" type="double" />
+          <field key="false" name="_Object57_width" type="double" />
+          <field key="false" name="_Object57_height" type="double" />
+          <field key="false" name="_Object58_" type="string" />
+          <field key="false" name="_P_Object58_" type="double" />
+          <field key="false" name="_Object58_x" type="double" />
+          <field key="false" name="_Object58_y" type="double" />
+          <field key="false" name="_Object58_width" type="double" />
+          <field key="false" name="_Object58_height" type="double" />
+          <field key="false" name="_Object59_" type="string" />
+          <field key="false" name="_P_Object59_" type="double" />
+          <field key="false" name="_Object59_x" type="double" />
+          <field key="false" name="_Object59_y" type="double" />
+          <field key="false" name="_Object59_width" type="double" />
+          <field key="false" name="_Object59_height" type="double" />
+          <field key="false" name="_Object60_" type="string" />
+          <field key="false" name="_P_Object60_" type="double" />
+          <field key="false" name="_Object60_x" type="double" />
+          <field key="false" name="_Object60_y" type="double" />
+          <field key="false" name="_Object60_width" type="double" />
+          <field key="false" name="_Object60_height" type="double" />
+          <field key="false" name="_Object61_" type="string" />
+          <field key="false" name="_P_Object61_" type="double" />
+          <field key="false" name="_Object61_x" type="double" />
+          <field key="false" name="_Object61_y" type="double" />
+          <field key="false" name="_Object61_width" type="double" />
+          <field key="false" name="_Object61_height" type="double" />
+          <field key="false" name="_Object62_" type="string" />
+          <field key="false" name="_P_Object62_" type="double" />
+          <field key="false" name="_Object62_x" type="double" />
+          <field key="false" name="_Object62_y" type="double" />
+          <field key="false" name="_Object62_width" type="double" />
+          <field key="false" name="_Object62_height" type="double" />
+          <field key="false" name="_Object63_" type="string" />
+          <field key="false" name="_P_Object63_" type="double" />
+          <field key="false" name="_Object63_x" type="double" />
+          <field key="false" name="_Object63_y" type="double" />
+          <field key="false" name="_Object63_width" type="double" />
+          <field key="false" name="_Object63_height" type="double" />
+          <field key="false" name="_Object64_" type="string" />
+          <field key="false" name="_P_Object64_" type="double" />
+          <field key="false" name="_Object64_x" type="double" />
+          <field key="false" name="_Object64_y" type="double" />
+          <field key="false" name="_Object64_width" type="double" />
+          <field key="false" name="_Object64_height" type="double" />
+          <field key="false" name="_Object65_" type="string" />
+          <field key="false" name="_P_Object65_" type="double" />
+          <field key="false" name="_Object65_x" type="double" />
+          <field key="false" name="_Object65_y" type="double" />
+          <field key="false" name="_Object65_width" type="double" />
+          <field key="false" name="_Object65_height" type="double" />
+          <field key="false" name="_Object66_" type="string" />
+          <field key="false" name="_P_Object66_" type="double" />
+          <field key="false" name="_Object66_x" type="double" />
+          <field key="false" name="_Object66_y" type="double" />
+          <field key="false" name="_Object66_width" type="double" />
+          <field key="false" name="_Object66_height" type="double" />
+          <field key="false" name="_Object67_" type="string" />
+          <field key="false" name="_P_Object67_" type="double" />
+          <field key="false" name="_Object67_x" type="double" />
+          <field key="false" name="_Object67_y" type="double" />
+          <field key="false" name="_Object67_width" type="double" />
+          <field key="false" name="_Object67_height" type="double" />
+          <field key="false" name="_Object68_" type="string" />
+          <field key="false" name="_P_Object68_" type="double" />
+          <field key="false" name="_Object68_x" type="double" />
+          <field key="false" name="_Object68_y" type="double" />
+          <field key="false" name="_Object68_width" type="double" />
+          <field key="false" name="_Object68_height" type="double" />
+          <field key="false" name="_Object69_" type="string" />
+          <field key="false" name="_P_Object69_" type="double" />
+          <field key="false" name="_Object69_x" type="double" />
+          <field key="false" name="_Object69_y" type="double" />
+          <field key="false" name="_Object69_width" type="double" />
+          <field key="false" name="_Object69_height" type="double" />
+          <field key="false" name="_Object70_" type="string" />
+          <field key="false" name="_P_Object70_" type="double" />
+          <field key="false" name="_Object70_x" type="double" />
+          <field key="false" name="_Object70_y" type="double" />
+          <field key="false" name="_Object70_width" type="double" />
+          <field key="false" name="_Object70_height" type="double" />
+          <field key="false" name="_Object71_" type="string" />
+          <field key="false" name="_P_Object71_" type="double" />
+          <field key="false" name="_Object71_x" type="double" />
+          <field key="false" name="_Object71_y" type="double" />
+          <field key="false" name="_Object71_width" type="double" />
+          <field key="false" name="_Object71_height" type="double" />
+          <field key="false" name="_Object72_" type="string" />
+          <field key="false" name="_P_Object72_" type="double" />
+          <field key="false" name="_Object72_x" type="double" />
+          <field key="false" name="_Object72_y" type="double" />
+          <field key="false" name="_Object72_width" type="double" />
+          <field key="false" name="_Object72_height" type="double" />
+          <field key="false" name="_Object73_" type="string" />
+          <field key="false" name="_P_Object73_" type="double" />
+          <field key="false" name="_Object73_x" type="double" />
+          <field key="false" name="_Object73_y" type="double" />
+          <field key="false" name="_Object73_width" type="double" />
+          <field key="false" name="_Object73_height" type="double" />
+          <field key="false" name="_Object74_" type="string" />
+          <field key="false" name="_P_Object74_" type="double" />
+          <field key="false" name="_Object74_x" type="double" />
+          <field key="false" name="_Object74_y" type="double" />
+          <field key="false" name="_Object74_width" type="double" />
+          <field key="false" name="_Object74_height" type="double" />
+          <field key="false" name="_Object75_" type="string" />
+          <field key="false" name="_P_Object75_" type="double" />
+          <field key="false" name="_Object75_x" type="double" />
+          <field key="false" name="_Object75_y" type="double" />
+          <field key="false" name="_Object75_width" type="double" />
+          <field key="false" name="_Object75_height" type="double" />
+          <field key="false" name="_Object76_" type="string" />
+          <field key="false" name="_P_Object76_" type="double" />
+          <field key="false" name="_Object76_x" type="double" />
+          <field key="false" name="_Object76_y" type="double" />
+          <field key="false" name="_Object76_width" type="double" />
+          <field key="false" name="_Object76_height" type="double" />
+          <field key="false" name="_Object77_" type="string" />
+          <field key="false" name="_P_Object77_" type="double" />
+          <field key="false" name="_Object77_x" type="double" />
+          <field key="false" name="_Object77_y" type="double" />
+          <field key="false" name="_Object77_width" type="double" />
+          <field key="false" name="_Object77_height" type="double" />
+          <field key="false" name="_Object78_" type="string" />
+          <field key="false" name="_P_Object78_" type="double" />
+          <field key="false" name="_Object78_x" type="double" />
+          <field key="false" name="_Object78_y" type="double" />
+          <field key="false" name="_Object78_width" type="double" />
+          <field key="false" name="_Object78_height" type="double" />
+          <field key="false" name="_Object79_" type="string" />
+          <field key="false" name="_P_Object79_" type="double" />
+          <field key="false" name="_Object79_x" type="double" />
+          <field key="false" name="_Object79_y" type="double" />
+          <field key="false" name="_Object79_width" type="double" />
+          <field key="false" name="_Object79_height" type="double" />
+          <field key="false" name="_Object80_" type="string" />
+          <field key="false" name="_P_Object80_" type="double" />
+          <field key="false" name="_Object80_x" type="double" />
+          <field key="false" name="_Object80_y" type="double" />
+          <field key="false" name="_Object80_width" type="double" />
+          <field key="false" name="_Object80_height" type="double" />
+          <field key="false" name="_Object81_" type="string" />
+          <field key="false" name="_P_Object81_" type="double" />
+          <field key="false" name="_Object81_x" type="double" />
+          <field key="false" name="_Object81_y" type="double" />
+          <field key="false" name="_Object81_width" type="double" />
+          <field key="false" name="_Object81_height" type="double" />
+          <field key="false" name="_Object82_" type="string" />
+          <field key="false" name="_P_Object82_" type="double" />
+          <field key="false" name="_Object82_x" type="double" />
+          <field key="false" name="_Object82_y" type="double" />
+          <field key="false" name="_Object82_width" type="double" />
+          <field key="false" name="_Object82_height" type="double" />
+          <field key="false" name="_Object83_" type="string" />
+          <field key="false" name="_P_Object83_" type="double" />
+          <field key="false" name="_Object83_x" type="double" />
+          <field key="false" name="_Object83_y" type="double" />
+          <field key="false" name="_Object83_width" type="double" />
+          <field key="false" name="_Object83_height" type="double" />
+          <field key="false" name="_Object84_" type="string" />
+          <field key="false" name="_P_Object84_" type="double" />
+          <field key="false" name="_Object84_x" type="double" />
+          <field key="false" name="_Object84_y" type="double" />
+          <field key="false" name="_Object84_width" type="double" />
+          <field key="false" name="_Object84_height" type="double" />
+          <field key="false" name="_Object85_" type="string" />
+          <field key="false" name="_P_Object85_" type="double" />
+          <field key="false" name="_Object85_x" type="double" />
+          <field key="false" name="_Object85_y" type="double" />
+          <field key="false" name="_Object85_width" type="double" />
+          <field key="false" name="_Object85_height" type="double" />
+          <field key="false" name="_Object86_" type="string" />
+          <field key="false" name="_P_Object86_" type="double" />
+          <field key="false" name="_Object86_x" type="double" />
+          <field key="false" name="_Object86_y" type="double" />
+          <field key="false" name="_Object86_width" type="double" />
+          <field key="false" name="_Object86_height" type="double" />
+          <field key="false" name="_Object87_" type="string" />
+          <field key="false" name="_P_Object87_" type="double" />
+          <field key="false" name="_Object87_x" type="double" />
+          <field key="false" name="_Object87_y" type="double" />
+          <field key="false" name="_Object87_width" type="double" />
+          <field key="false" name="_Object87_height" type="double" />
+          <field key="false" name="_Object88_" type="string" />
+          <field key="false" name="_P_Object88_" type="double" />
+          <field key="false" name="_Object88_x" type="double" />
+          <field key="false" name="_Object88_y" type="double" />
+          <field key="false" name="_Object88_width" type="double" />
+          <field key="false" name="_Object88_height" type="double" />
+          <field key="false" name="_Object89_" type="string" />
+          <field key="false" name="_P_Object89_" type="double" />
+          <field key="false" name="_Object89_x" type="double" />
+          <field key="false" name="_Object89_y" type="double" />
+          <field key="false" name="_Object89_width" type="double" />
+          <field key="false" name="_Object89_height" type="double" />
+          <field key="false" name="_Object90_" type="string" />
+          <field key="false" name="_P_Object90_" type="double" />
+          <field key="false" name="_Object90_x" type="double" />
+          <field key="false" name="_Object90_y" type="double" />
+          <field key="false" name="_Object90_width" type="double" />
+          <field key="false" name="_Object90_height" type="double" />
+          <field key="false" name="_Object91_" type="string" />
+          <field key="false" name="_P_Object91_" type="double" />
+          <field key="false" name="_Object91_x" type="double" />
+          <field key="false" name="_Object91_y" type="double" />
+          <field key="false" name="_Object91_width" type="double" />
+          <field key="false" name="_Object91_height" type="double" />
+          <field key="false" name="_Object92_" type="string" />
+          <field key="false" name="_P_Object92_" type="double" />
+          <field key="false" name="_Object92_x" type="double" />
+          <field key="false" name="_Object92_y" type="double" />
+          <field key="false" name="_Object92_width" type="double" />
+          <field key="false" name="_Object92_height" type="double" />
+          <field key="false" name="_Object93_" type="string" />
+          <field key="false" name="_P_Object93_" type="double" />
+          <field key="false" name="_Object93_x" type="double" />
+          <field key="false" name="_Object93_y" type="double" />
+          <field key="false" name="_Object93_width" type="double" />
+          <field key="false" name="_Object93_height" type="double" />
+          <field key="false" name="_Object94_" type="string" />
+          <field key="false" name="_P_Object94_" type="double" />
+          <field key="false" name="_Object94_x" type="double" />
+          <field key="false" name="_Object94_y" type="double" />
+          <field key="false" name="_Object94_width" type="double" />
+          <field key="false" name="_Object94_height" type="double" />
+          <field key="false" name="_Object95_" type="string" />
+          <field key="false" name="_P_Object95_" type="double" />
+          <field key="false" name="_Object95_x" type="double" />
+          <field key="false" name="_Object95_y" type="double" />
+          <field key="false" name="_Object95_width" type="double" />
+          <field key="false" name="_Object95_height" type="double" />
+          <field key="false" name="_Object96_" type="string" />
+          <field key="false" name="_P_Object96_" type="double" />
+          <field key="false" name="_Object96_x" type="double" />
+          <field key="false" name="_Object96_y" type="double" />
+          <field key="false" name="_Object96_width" type="double" />
+          <field key="false" name="_Object96_height" type="double" />
+          <field key="false" name="_Object97_" type="string" />
+          <field key="false" name="_P_Object97_" type="double" />
+          <field key="false" name="_Object97_x" type="double" />
+          <field key="false" name="_Object97_y" type="double" />
+          <field key="false" name="_Object97_width" type="double" />
+          <field key="false" name="_Object97_height" type="double" />
+        </fields>
+      </schema>
+      <models>
+        <offline model-type="astore" />
+      </models>
+<!--
+      <connectors>
+         <connector class='fs' name='sub'>
+          <properties>
+            <property name='type'>sub</property>
+            <property name='fstype'>csv</property>
+            <property name='fsname'>result.out</property>
+            <property name='snapshot'>true</property>
+          </properties>
+        </connector>
+      </connectors>
+-->
+    </window-score>
+  </windows>
+  <edges>
+    <edge role="data" source="w_resized" target="w_score" />
+    <edge role="model" source="w_reader" target="w_score" />
+  </edges>
+  <required-parameter-map>
+    <properties>
+      <property name="astore">w_reader.reference</property>
+      <property name="device_index">w_reader.DEVICE0</property>
+      <property name="enable_gpu">w_reader.usegpuesp</property>
+    </properties>
+  </required-parameter-map>
+</template>

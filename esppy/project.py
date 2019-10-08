@@ -370,6 +370,21 @@ class Project(ESPObject, collections.MutableMapping):
         return self.queries[self.default_query].windows
 
     @property
+    def templates(self):
+        '''
+        Return collection of templates from the default query
+
+        Returns
+        -------
+        dict
+
+        '''
+        if self.default_query not in self.queries:
+            self.queries[self.default_query] = ContinuousQuery()
+            self.queries[self.default_query].templates.project_handle = self
+        return self.queries[self.default_query].templates
+
+    @property
     def trace(self):
         '''
         Set the trace property on the default continuous query
@@ -670,7 +685,7 @@ class Project(ESPObject, collections.MutableMapping):
         else:
             dest.write(self.to_xml(pretty=pretty))
 
-    def to_graph(self, graph=None, schema=False):
+    def to_graph(self, graph=None, schema=False, template_detail=False):
         '''
         Export project definition to graphviz.Digraph
 
@@ -680,6 +695,8 @@ class Project(ESPObject, collections.MutableMapping):
             The parent graph to add to
         schema : bool, optional
             Should window schemas be included?
+        template_detail : bool, optional
+            Should template detail be shown?
 
         Returns
         -------
@@ -707,11 +724,22 @@ class Project(ESPObject, collections.MutableMapping):
                         fillcolor='#dadada', fontcolor='black')
 
             if list(self.queries.keys()) == [self.default_query]:
+                if self.templates:
+                    for tkey, template in sorted(self.templates.items()):
+                        pgraph.subgraph(template.to_graph(schema=schema, detail=template_detail))
+
                 for wkey, win in sorted(self.windows.items()):
-                    pgraph.subgraph(win.to_graph(schema=schema))
+                    if not win.template:
+                        pgraph.subgraph(win.to_graph(schema=schema))
                     for target in win.targets:
-                        graph.edge(win.fullname, self.windows[target.name].fullname,
-                                   label=target.role or '')
+                        if target.name not in self.windows:
+                            continue
+                        tail_name = win.template.fullname if win.template and not template_detail else win.fullname
+                        head_name = target.template.fullname if target.template and not template_detail \
+                            else self.windows[target.name].fullname
+                        if win.template and target.template and win.template == target.template:
+                            continue
+                        graph.edge(tail_name, head_name, label=target.role or '')
             else:
                 for qkey, query in sorted(self.queries.items()):
                     pgraph.subgraph(query.to_graph(schema=schema))
@@ -1007,6 +1035,51 @@ class Project(ESPObject, collections.MutableMapping):
         self.queries[contquery].add_window(window)
 
         return window
+
+    def add_template(self, template, contquery=None):
+        '''
+        Add a template object
+
+        Parameters
+        ----------
+        template : Template
+        a Template object to add to the project
+
+        Returns
+        -------
+        :class:`Template`
+
+        '''
+        if contquery is None:
+            contquery = self.default_query
+        else:
+            contquery = getattr(contquery, 'name', contquery)
+
+        if contquery not in self.queries:
+            self.queries[contquery] = ContinuousQuery()
+            self.queries[self.default_query].windows.project_handle = self
+
+        self.queries[contquery].add_template(template)
+
+        return template
+
+    def add_templates(self, *templates):
+        '''
+        Add one or more templates to the project
+
+        Parameters
+        ----------
+        templates : one-or-more-Templates
+            The Template objects to add
+
+        Returns
+        -------
+        tuple of :class:`Templates`s
+
+        '''
+        for item in templates:
+            self.add_template(item)
+        return templates
 
     def add_query(self, contquery):
         '''

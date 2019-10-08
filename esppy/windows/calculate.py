@@ -66,7 +66,7 @@ class CalculateWindow(BaseWindow, SchemaFeature,
 
     algorithm = attribute('algorithm', dtype='string')
     index_type = attribute('index', dtype='string', values=INDEX_TYPES)
-    produces_only_inserts = attribute('produces-only-inserts', dtype='bool')
+    produces_only_inserts = attribute('output-insert-only', dtype='bool')
 
     def __init__(self, name=None, schema=None, pubsub=None,
                  description=None, algorithm=None, index_type=None,

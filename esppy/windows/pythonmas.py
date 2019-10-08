@@ -72,6 +72,8 @@ class PythonHelper(BaseWindow, SchemaFeature,
 
     window_type = 'calculate'
 
+    is_hidden = True
+
     algorithm = attribute('algorithm', dtype='string')
     index_type = attribute('index', dtype='string', values=INDEX_TYPES)
     produces_only_inserts = attribute('produces-only-inserts', dtype='bool')

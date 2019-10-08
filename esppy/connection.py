@@ -40,6 +40,7 @@ from .config import get_option, ESP_ROOT, CONCAT_OPTIONS
 from .connectorinfo import ConnectorInfo
 from .mas import MASModule
 from .router import Router
+from .templates import template
 from . import contquery
 from . import project
 from . import windows
@@ -273,6 +274,7 @@ class ESP(RESTHelpers):
 
     Project = project.Project
     Query = ContinuousQuery = contquery.ContinuousQuery
+    Template = template.Template
 
     def __init__(self, hostname=None, port=None, username=None,
                  password=None, protocol=None, ca_bundle=None,
@@ -384,8 +386,8 @@ class ESP(RESTHelpers):
         requests_log.setLevel(logging.DEBUG)
         requests_log.propagate = True
 
-    def createServerConnection(self):
-        return(api.connect(self.session.conn_url))
+    def createServerConnection(self,**kwargs):
+        return(api.connect(self.session.conn_url,**kwargs))
 
     @property
     def metadata(self):
@@ -1219,7 +1221,7 @@ class ESP(RESTHelpers):
 
         '''
         try:
-            res = self._post('projectValidationResults', data=get_project_data(project).encode())
+            res = self._post('projectValidationResults', data=get_project_data(project))
             if res.tag != 'schema-validation-success':
                 return False
         except ESPError:

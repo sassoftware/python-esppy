@@ -193,11 +193,26 @@ class Target(object):
     _index = 0
     _index_lock = threading.Lock()
 
-    def __init__(self, name, role=None, slot=None):
-        self.name = name
+    def __init__(self, name, template=None, role=None, slot=None):
+        self.base_name = name
+        self.template = template
         self.role = role
         self.slot = slot
         self._index = self._get_new_index()
+
+    @property
+    def name(self):
+        '''
+        The true name of the window
+
+        Returns
+        -------
+        string
+
+        '''
+        if not self.template:
+            return self.base_name
+        return '%s_%s' % (self.template.name, self.base_name)
 
     @classmethod
     def _get_new_index(cls):
@@ -263,8 +278,10 @@ class BaseWindow(ESPObject):
 
     window_type = None
     window_classes = {}
+    is_hidden = False
 
-    name = attribute('name', dtype='string')
+    properties = ['name']
+    base_name = attribute('name', dtype='string')
     pubsub = attribute('pubsub', dtype='bool')
 
     def __init__(self, name=None, **kwargs):
@@ -274,7 +291,8 @@ class BaseWindow(ESPObject):
         self.schema = Schema()
         if schema is not None:
             self.schema = schema
-        self.name = name or gen_name(prefix='w_')
+        self.base_name = name or gen_name(prefix='w_')
+        self.template = None
         self.contquery = None
         self.project = None
         self.targets = set()
@@ -916,6 +934,36 @@ class BaseWindow(ESPObject):
         return data
 
     @property
+    def template(self):
+        '''
+        The name of the template the window is associated with
+
+        Returns
+        -------
+        string
+
+        '''
+        return self._template
+
+    @template.setter
+    def template(self, value):
+        '''
+        Set the template value
+
+        Parameters
+        ----------
+        value : Template
+            The name of the template.  If a :class:`Template`
+            object is used, the name will be extracted from it.
+
+        '''
+        self._template = value
+        if hasattr(value, 'contquery'):
+            self.project = value.contquery
+        if hasattr(value, 'project'):
+            self.project = value.project
+
+    @property
     def contquery(self):
         '''
         The name of the continuous query the window is associated with
@@ -1041,10 +1089,13 @@ class BaseWindow(ESPObject):
         ``self``
 
         '''
+
         self.delete_targets(*windows)
         for item in windows:
-            self.targets.add(Target(name=getattr(item, 'name', item).split('.')[-1],
-                             role=kwargs.get('role', None), slot=kwargs.get('slot', None)))
+            item = item if isinstance(item, (six.string_types, BaseWindow)) else item.windows[item._input_windows[0]]
+            self.targets.add(Target(name=getattr(item, 'base_name', item).split('.')[-1],
+                                    template=getattr(item, 'template', None),
+                                    role=kwargs.get('role', None), slot=kwargs.get('slot', None)))
 
     add_target = add_targets
 
@@ -1071,14 +1122,28 @@ class BaseWindow(ESPObject):
         ``self``
 
         '''
-        windows = set([getattr(x, 'name', x).split('.')[-1]
-                       for x in windows])
+        windows = set([getattr(x, 'name', x).split('.')[-1] if isinstance(x, (six.string_types, BaseWindow))
+                       else x.windows[x._input_windows[0]].name for x in windows])
         for item in windows:
             for target in set(self.targets):
                 if target.name in windows:
                     self.targets.remove(target)
 
     delete_target = delete_targets
+
+    @property
+    def name(self):
+        '''
+        The true name of the window
+
+        Returns
+        -------
+        string
+
+        '''
+        if not self.template:
+            return self.base_name
+        return '%s_%s' % (self.template.name, self.base_name)
 
     @property
     def fullname(self):
@@ -1147,13 +1212,15 @@ class BaseWindow(ESPObject):
         out = type(self)()
 
         out.session = self.session
+        out.template = self.template
         out.contquery = self.contquery
         out.project = self.project
         out.targets = set(self.targets)
         out.description = self.description
 
         for key, value in self._get_attributes(use_xml_values=False).items():
-            setattr(out, key, value)
+            if key not in self.properties:
+                setattr(out, key, value)
 
         if self.data is not None:
             out.data = self.data.copy(deep=True)
@@ -1261,6 +1328,7 @@ class BaseWindow(ESPObject):
         '''
         attrs = xml.get_attrs(self, exclude='project')
         attrs.pop('contquery', None)
+
         out = xml.new_elem('window-%s' % self.window_type, attrs)
 
         if self.description:

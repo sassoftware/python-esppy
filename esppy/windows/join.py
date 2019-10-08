@@ -18,6 +18,7 @@
 
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+import copy
 import re
 import six
 from .base import Window, attribute
@@ -656,7 +657,7 @@ class JoinWindow(Window, InitializeExpressionFeature):
         out.left_index = self.left_index
         out.right_index = self.right_index
         if deep:
-            out.conditions = [x.copy(deep=deep) for x in self.conditions]
+            out.conditions = copy.deepcopy(self.conditions)
             out.output = [x.copy(deep=deep) for x in self.output]
         else:
             out.conditions = list(self.conditions)

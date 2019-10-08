@@ -1,0 +1,73 @@
+<template tag="Logistic" input-windows=" w_train_logis, w_score_logis" output-windows="w_score_logis">
+  <description>sample description</description>
+  <windows>
+    <window-score name="w_score_logis">
+      <schema>
+        <fields>
+          <field key="true" name="id" type="int64" />
+          <field key="false" name="content" type="string" />
+          <field key="false" name="sentiment" type="string" />
+          <field key="false" name="vector" type="array(dbl)" />
+          <field key="false" name="predicted_y" type="double" />
+          <field key="false" name="model_id" type="int64" />
+        </fields>
+      </schema>
+      <models>
+        <online algorithm="LogisticRegression">
+          <input-map>
+            <properties>
+              <property name="inputs">vector[1-200]</property>
+            </properties>
+          </input-map>
+          <output-map>
+            <properties>
+              <property name="modelIdOut">model_id</property>
+              <property name="yPredictOut">predicted_y</property>
+            </properties>
+          </output-map>
+        </online>
+      </models>
+    </window-score>
+    <window-train algorithm="LogisticRegression" name="w_train_logis">
+      <parameters>
+        <properties>
+          <property name="augmentedValue">1.0</property>
+          <property name="batchSize">0</property>
+          <property name="c">1.0</property>
+          <property name="centerFlag">0</property>
+          <property name="choose">-2.0</property>
+          <property name="commitInterval">500</property>
+          <property name="dampingFactor">1.0</property>
+          <property name="maxSparseIndex">0</property>
+          <property name="modelChoice">2</property>
+          <property name="nInit">1500</property>
+          <property name="numC">20</property>
+          <property name="outerIterMax">1</property>
+          <property name="outerIterMaxInit">1</property>
+          <property name="positiveClass">1.0</property>
+          <property name="randSeed">123</property>
+          <property name="ratioC">2.5</property>
+          <property name="scaleFlag">0</property>
+        </properties>
+      </parameters>
+      <input-map>
+        <properties>
+          <property name="inputs">vector[1-200],sentiment</property>
+          <property name="target">sentiment</property>
+        </properties>
+      </input-map>
+    </window-train>
+  </windows>
+  <edges>
+    <edge role="model" source="w_train_logis" target="w_score_logis" />
+  </edges>
+  <required-parameter-map>
+    <properties>
+      <property name="target">w_train_logis.target</property>
+      <property name="nInit">w_train_logis.nInit</property>
+      <property name="commitInterval">w_train_logis.commitInterval</property>
+      <property name="numC">w_train_logis.numC,w_train_logis.nInit</property>
+      <property name="ratioC">w_train_logis.ratioC</property>
+    </properties>
+  </required-parameter-map>
+</template>
