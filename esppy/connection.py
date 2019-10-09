@@ -1221,8 +1221,8 @@ class ESP(RESTHelpers):
 
         '''
         try:
-            res = self._post('projectValidationResults', data=get_project_data(project))
-            if res.tag != 'schema-validation-success':
+            res = self._post('projectValidationResults', data=get_project_data(project).encode("utf-8"))
+            if res.tag != 'project-validation-success':
                 return False
         except ESPError:
             return False
