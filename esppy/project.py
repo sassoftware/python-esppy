@@ -958,7 +958,7 @@ class Project(ESPObject, collections.MutableMapping):
         '''
         self._put(urllib.parse.urljoin(self.base_url,
                                        'masModules/%s/%s' % (self.name, name)),
-                  data=get_project_data(module))
+                  data=get_project_data(module).encode("utf-8"))
 
     def get_stats(self, interval=None, min_cpu=None, limit=20):
         '''
