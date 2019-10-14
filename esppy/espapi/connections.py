@@ -211,6 +211,7 @@ class ServerConnection(Connection):
         self._stats = Stats(self)
         self._log = Log(self)
         self._modelDelegates = {}
+        self._urlPublishers = {}
         self._autoReconnect = True
 
     def message(self,message):
@@ -249,14 +250,15 @@ class ServerConnection(Connection):
                     delegate = self._modelDelegates[id]
                     delegate.deliver(xml)
                     del self._modelDelegates[id]
-        elif (xml.tag == "publisher"):
+        elif (xml.tag == "url-publisher"):
             if "id" in xml.attrib:
                 id = xml.get("id")
-                if id in self._publishers:
-                    publisher = self._publishers[id]
+                if id in self._urlPublishers:
+                    publisher = self._urlPublishers[id]
                     if "complete" in xml.attrib:
                         complete = xml.get("complete")
-                        publisher._complete = (complete == "true")
+                        publisher["complete"] = (complete == "true")
+                        del self._urlPublishers[id]
 
         else:
             print("THE MSG: " + message)
@@ -291,6 +293,103 @@ class ServerConnection(Connection):
         if self.isHandshakeComplete:
             publisher.open();
         return(publisher);
+
+    def publishUrl(self,path,url,**kwargs):
+        opts = tools.Options(**kwargs)
+        blocksize = opts.getOpt("blocksize",1)
+        wait = opts.getOpt("wait",False)
+
+        id = tools.guid();
+
+        o = {}
+        o["request"] = "url-publisher"
+        o["id"] = id
+        o["window"] = path;
+        o["url"] = url;
+        o["blocksize"] = blocksize
+
+        publisher = {"complete":False}
+        self._urlPublishers[id] = publisher
+
+        self.send(o)
+
+        if wait:
+            while publisher["complete"] == False:
+                time.sleep(1)
+
+    def publishDataFrame(self,path,df,**kwargs):
+        opts = tools.Options(**kwargs)
+
+        size = opts.getOpt("size",100)
+        blocksize = opts.getOpt("blocksize",1)
+
+        id = tools.guid()
+
+        request = {}
+        request["request"] = "publisher"
+        request["id"] = id
+        request["action"] = "set"
+        request["window"] = path
+        self.send(request)
+
+        request["action"] = "publish"
+
+        data = []
+
+        for index, row in df.iterrows():
+            o = {}
+            for col in df.columns:
+                o[col] = row[col]
+            data.append(o)
+            if len(data) == size:
+                request["data"] = data
+                self.send(request)
+                data = []
+
+        if len(data) > 0:
+            request["data"] = data
+            self.send(request)
+
+        request["data"] = None
+        request["action"] = "delete"
+        self.send(request)
+
+    def publishList(self,path,l,**kwargs):
+        opts = tools.Options(**kwargs)
+
+        size = opts.getOpt("size",100)
+        blocksize = opts.getOpt("blocksize",1)
+
+        id = tools.guid()
+
+        request = {}
+        request["request"] = "publisher"
+        request["id"] = id
+        request["action"] = "set"
+        request["window"] = path
+        self.send(request)
+
+        request["action"] = "publish"
+
+        data = []
+
+        for i in l:
+            o = {}
+            for key,value in i.items():
+                o[key] = i[key]
+            data.append(o)
+            if len(data) == size:
+                request["data"] = data
+                self.send(request)
+                data = []
+
+        if len(data) > 0:
+            request["data"] = data
+            self.send(request)
+
+        request["data"] = None
+        request["action"] = "delete"
+        self.send(request)
 
     def getStats(self):
         return(self._stats)
@@ -1106,7 +1205,6 @@ class Publisher(tools.Options):
         self._path = path
         self._id = tools.guid()
         self._data = []
-        self._complete = True
 
     def open(self):
         o = {}
@@ -1114,7 +1212,7 @@ class Publisher(tools.Options):
         o["id"] = self._id
         o["action"] = "set"
         o["window"] = self._path
-        o["schema"] = "xml"
+        o["schema"] = True
         self._connection.send(o)
 
     def close(self):
@@ -1144,34 +1242,12 @@ class Publisher(tools.Options):
             o["request"] = "publisher"
             o["id"] = self._id
             o["action"] = "publish"
-            if len(self._data) == 1:
-                o["data"] = {"event":self._data[0]}
-            else:
-                o["data"] = self._data
+            o["data"] = self._data
             self._connection.send(o)
             self._data = []
 
     def publishUrl(self,url,**kwargs):
-        opts = tools.Options(**kwargs)
-        blocksize = opts.getOpt("blocksize")
-        wait = opts.getOpt("wait",False)
-
-        o = {}
-        o["request"] = "publisher"
-        o["id"] = self._id
-        o["action"] = "publish"
-
-        source = {}
-        source["url"] = url
-        if blocksize != None:
-            source["blocksize"] = blocksize
-        o["source"] = source
-        self._connection.send(o)
-
-        if wait:
-            self._complete = False
-            while self._complete == False:
-                time.sleep(1)
+        self._connection.publishUrl(self._path,url,**kwargs)
 
 class Stats(Datasource):
     def __init__(self,connection,**kwargs):
