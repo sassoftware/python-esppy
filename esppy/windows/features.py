@@ -19,6 +19,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import collections
+import copy
 import re
 import six
 from .utils import ensure_element
