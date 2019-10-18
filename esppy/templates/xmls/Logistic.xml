@@ -1,5 +1,5 @@
 <template tag="Logistic" input-windows=" w_train_logis, w_score_logis" output-windows="w_score_logis">
-  <description>sample description</description>
+  <description>The Logistic Template contains TWO essential windows for the logistic regression model: a Train Window, and a Score Window.</description>
   <windows>
     <window-score name="w_score_logis">
       <schema>

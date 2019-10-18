@@ -1,5 +1,5 @@
 <template tag="TextEmbedding" input-windows="w_tok" output-windows="w_join">
-  <description>sample description</description>
+  <description>The TextEmbedding Template contains THREE essential windows for text embedding: a Calculate Window for tokenization, a Calculate Window for vectorization, and a Join Window.</description>
   <windows>
     <window-join name="w_join">
       <join type="inner">

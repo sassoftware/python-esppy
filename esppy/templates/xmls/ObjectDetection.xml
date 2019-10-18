@@ -1,5 +1,5 @@
 <template tag="ObjectDetection" input-windows="w_resized" output-windows="w_score">
-  <description>sample description</description>
+  <description>The ObjectDetection Template contains THERE essential windows for object detection: a Calculate Window for image processing, a ModelReader Window to import pretrained astore, and a Score Window.</description>
   <windows>
     <window-calculate index="pi_EMPTY" algorithm="ImageProcessing" name="w_resized">
       <schema>

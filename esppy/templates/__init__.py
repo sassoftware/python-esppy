@@ -23,13 +23,14 @@ from.template import Template
 
 import logging
 
-logging.basicConfig(filename=os.getenv("ESPPY_LOG"),level=logging.INFO)
+logging.basicConfig(filename=os.getenv("ESPPY_LOG"), level=logging.INFO)
+
 
 def builtin_template_helper(cls, template_name, file_name,  **kwargs):
     '''
     Helper function during initialization
-
     '''
+
     out = cls.from_xml(os.path.join(cls.file_dir, 'xmls', file_name), template_name)
 
     for key, value in six.iteritems(kwargs):
@@ -49,14 +50,29 @@ def builtin_template_helper(cls, template_name, file_name,  **kwargs):
 def add_method(cls, file_name):
     ky = file_name.split('.xml')[0]
 
-    def builtin_template(template_name, **kwargs):
-        return builtin_template_helper(cls, template_name, file_name, **kwargs)
-
-    builtin_template.__name__ = ky
-    setattr(cls, builtin_template.__name__, builtin_template)
     temp = cls.from_xml(os.path.join(cls.file_dir, 'xmls', file_name), None)
     cls.template_list[ky]['description'] = temp.description
     cls.template_list[ky]['required_parameter_map'] = temp.required_parameter_map
+
+    def builtin_template(template_name, **kwargs):
+        '''
+        Create a %s template
+
+        Parameters
+        ----------
+        template_name: string
+            the name of template
+
+        Returns
+        -------
+        :class:`Template`
+
+        '''
+        return builtin_template_helper(cls, template_name, file_name, **kwargs)
+
+    builtin_template.__name__ = ky
+    builtin_template.__doc__ %= builtin_template.__name__
+    setattr(cls, builtin_template.__name__, builtin_template)
 
 
 for builtin_file in os.listdir(os.path.join(Template.file_dir, "xmls")):

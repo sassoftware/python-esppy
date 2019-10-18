@@ -35,6 +35,7 @@ from ..utils import xml
 from ..utils.data import gen_name
 from ..utils.notebook import scale_svg
 
+
 class WindowDict(collections.MutableMapping):
     '''
     Dictionary for holding window objects
@@ -509,7 +510,7 @@ class Template(ESPObject, collections.MutableMapping):
         '''
         Set inputs
 
-        input_map
+        Parameters
         ----------
         window : the name of window or a window object
         **input_map : keyword-arguments, optional
@@ -517,9 +518,10 @@ class Template(ESPObject, collections.MutableMapping):
 
         '''
 
-        if not window:
+        if window is None:
             try:
-                window = self.input_windows[0]
+                window = self._input_windows[0]
+                print("window is not specified, set inputs for first input window %s" % window)
             except IndexError:
                 raise IndexError("Please specify input_windows for Template %s first" % self.name)
 
@@ -539,7 +541,7 @@ class Template(ESPObject, collections.MutableMapping):
         '''
         Set outputs
 
-        output_map
+        Parameters
         ----------
         window : the name of window or a window object
         **output_map : keyword-arguments, optional
@@ -548,7 +550,8 @@ class Template(ESPObject, collections.MutableMapping):
         '''
         if window is None:
             try:
-                window = self.output_windows[0]
+                window = self._output_windows[0]
+                print("window is not specified, set inputs for first input window %s" % window)
             except IndexError:
                 raise IndexError("Please specify output_windows for Template %s first" % self.name)
 
@@ -787,7 +790,7 @@ class Template(ESPObject, collections.MutableMapping):
             XML template definition
         template_name: string
 
-        tag: type of imported template
+        tag: type of imported template, optional
         contquery : contquery name, optional
         project : project name, optional
         session : requests.Session, optionals
@@ -817,7 +820,11 @@ class Template(ESPObject, collections.MutableMapping):
         except:
             pass
 
-        out.tag = data.attrib['tag'] if not tag else tag
+        try:
+            out.tag = data.attrib['tag']
+        except:
+            out.tag = tag
+
         out._set_attributes(data.attrib)
 
         for desc in data.findall('./description'):
@@ -837,10 +844,10 @@ class Template(ESPObject, collections.MutableMapping):
 
         for item in data.findall('./edges/*'):
             for target in re.split(r'\s+', item.attrib.get('target', '').strip()):
-                if not target:
+                if not target or target not in out.windows:
                     continue
                 for source in re.split(r'\s+', item.attrib.get('source', '').strip()):
-                    if not source:
+                    if not source or source not in out.windows:
                         continue
                     out.windows[source].add_target(out.windows[target], role=item.get('role'),
                                                    slot=item.get('slot'))
@@ -1113,8 +1120,10 @@ class Template(ESPObject, collections.MutableMapping):
             The new name of the window
 
         '''
-        self.windows[newname] = self.windows[getattr(window, 'base_name', window)]
-        self.delete_window(window)
+
+        oldname = getattr(window, 'base_name', window)
+        self.windows[newname] = self.windows[oldname]
+        del self.windows[oldname]
 
     def delete_windows(self, *windows):
         '''
@@ -1127,6 +1136,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         '''
         for item in windows:
+            to_delete = self.windows[getattr(item, 'base_name', item)]
+            to_delete.template = None
             del self.windows[getattr(item, 'base_name', item)]
 
     delete_window = delete_windows
