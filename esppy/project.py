@@ -742,7 +742,7 @@ class Project(ESPObject, collections.MutableMapping):
                         graph.edge(tail_name, head_name, label=target.role or '')
             else:
                 for qkey, query in sorted(self.queries.items()):
-                    pgraph.subgraph(query.to_graph(schema=schema))
+                    pgraph.subgraph(query.to_graph(schema=schema, template_detail=template_detail))
 
             graph.subgraph(pgraph)
 

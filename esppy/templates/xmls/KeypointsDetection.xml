@@ -53,10 +53,10 @@
     <window-model-reader name="w_reader" model-type="astore">
       <parameters>
         <properties>
-          <property name="usegpuesp">1</property>
-          <property name="NDEVICES">1</property>
+          <property name="usegpuesp">0</property>
+          <property name="NDEVICES">0</property>
           <property name="DEVICE0">0</property>
-          <property name="TENSORRTESP">1</property>
+          <property name="TENSORRTESP">0</property>
         </properties>
       </parameters>
     </window-model-reader>

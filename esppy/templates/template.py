@@ -525,17 +525,16 @@ class Template(ESPObject, collections.MutableMapping):
             except IndexError:
                 raise IndexError("Please specify input_windows for Template %s first" % self.name)
 
-        if window:
-            base_name = getattr(window, 'base_name', window)
-            try:
-                window = self.windows[base_name]
-            except KeyError:
-                raise ValueError('%s is not a one of Template %s' %
-                                             (base_name, self.name))
+        base_name = getattr(window, 'base_name', window)
+        try:
+            window = self.windows[base_name]
+        except KeyError:
+            raise ValueError('%s is not a one of Template %s' %
+                             (base_name, self.name))
 
-            if not isinstance(window, (TrainWindow, CalculateWindow, ScoreWindow)):
-                raise TypeError('Only CalculationWindow, TrainWindow and ScoreWindow objects support the method')
-            return window.set_inputs(**input_map)
+        if not isinstance(window, (TrainWindow, CalculateWindow, ScoreWindow)):
+            raise TypeError('Only CalculationWindow, TrainWindow and ScoreWindow objects support the method')
+        return window.set_inputs(**input_map)
 
     def set_outputs(self, window=None, **output_map):
         '''
@@ -555,13 +554,12 @@ class Template(ESPObject, collections.MutableMapping):
             except IndexError:
                 raise IndexError("Please specify output_windows for Template %s first" % self.name)
 
-        if window:
-            base_name = getattr(window, 'base_name', window)
-            try:
-                window = self.windows[base_name]
-            except KeyError:
-                raise ValueError('%s is not a one of Template %s' %
-                                 (base_name, self.name))
+        base_name = getattr(window, 'base_name', window)
+        try:
+            window = self.windows[base_name]
+        except KeyError:
+            raise ValueError('%s is not a one of Template %s' %
+                             (base_name, self.name))
 
         if not isinstance(window, (CalculateWindow, ScoreWindow)):
             raise TypeError('Only CalculationWindow and ScoreWindow objects support the method')
@@ -710,7 +708,7 @@ class Template(ESPObject, collections.MutableMapping):
 
     def copy(self, name, deep=True, internal_only=True):
         '''
-        Return a copy of the object
+        Return a copy of the template
 
         Parameters
         ----------
