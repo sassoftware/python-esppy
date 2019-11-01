@@ -179,6 +179,70 @@ min    69.370000  -7.436700   4.862500  -5.175700
 max    69.940000  -1.566300  14.601000   3.214400
 ```
 
+### Using ESPPY Visualizations with Jupyter LAB
+
+NOTE: These instructions assume you have Anaconda installed.
+
+The steps to use the new ESPPY 6.2 jupyterlab visualizations are:
+
+1. Create new Anaconda environment. This can be called anything you want, but for this demonstration the environment will be called esp
+```
+    $ conda create -n esp python=3.7
+```
+2. Activate the new environment, i.e. make it your current environment
+```
+$ conda activate esp
+```
+3. Install the following packages:
+```
+$ pip install jupyter
+$ pip install jupyterlab
+$ pip install matplotlib
+$ pip install ipympl
+$ pip install pandas
+$ pip install requests
+$ pip install image
+$ pip install ws4py
+$ pip install plotly
+$ pip install ipyleaflet
+$ pip install graphviz
+```
+4. Install the following Jupyterlab extensions:
+```
+$ jupyter labextension install @jupyter-widgets/jupyterlab-manager
+$ jupyter labextension install plotlywidget
+$ jupyter labextension install jupyter-leaflet
+```
+
+5. Install the following packages (WINDOWS ONLY):
+```
+$ conda install -c conda-forge python-graphviz
+```
+
+6. Create a working directory and change to it
+```
+$ cd $HOME
+$ mkdir esppy
+$ cd esppy
+```
+
+7. Install ESPPY
+```
+pip install sas-esppy==6.2
+```
+
+8. Create a notebooks directory to store your notebooks
+```
+$ mkdir notebooks
+```
+
+9. Start the Jupyterlab server (Pick an available port of your choosing, this example uses 35000)
+```
+$ jupyter lab --port 35000
+```
+
+Once these steps are complete, you should be able to use the latest ESP graphics in your Jupyter notebooks.
+
 ### Documentation
 
 The full API documentation of ESPPy is available at 
