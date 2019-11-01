@@ -521,7 +521,7 @@ class Template(ESPObject, collections.MutableMapping):
         if window is None:
             try:
                 window = self._input_windows[0]
-                print("window is not specified, set inputs for first input window %s" % window)
+                print("INFO: window is not specified, default for first input window %s" % window)
             except IndexError:
                 raise IndexError("Please specify input_windows for Template %s first" % self.name)
 
@@ -550,7 +550,7 @@ class Template(ESPObject, collections.MutableMapping):
         if window is None:
             try:
                 window = self._output_windows[0]
-                print("window is not specified, set inputs for first input window %s" % window)
+                print("INFO: window is not specified, default for first output window %s" % window)
             except IndexError:
                 raise IndexError("Please specify output_windows for Template %s first" % self.name)
 

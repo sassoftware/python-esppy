@@ -5,9 +5,7 @@
       <schema>
         <fields>
           <field key="true" name="id" type="int64" />
-          <field key="false" name="content" type="string" />
           <field key="false" name="sentiment" type="string" />
-          <field key="false" name="vector" type="array(dbl)" />
           <field key="false" name="predicted_y" type="double" />
           <field key="false" name="model_id" type="int64" />
         </fields>
@@ -36,11 +34,9 @@
           <property name="c">1.0</property>
           <property name="centerFlag">0</property>
           <property name="choose">-2.0</property>
-          <property name="commitInterval">500</property>
           <property name="dampingFactor">1.0</property>
           <property name="maxSparseIndex">0</property>
           <property name="modelChoice">2</property>
-          <property name="nInit">1500</property>
           <property name="numC">20</property>
           <property name="outerIterMax">1</property>
           <property name="outerIterMaxInit">1</property>
@@ -66,7 +62,7 @@
       <property name="target">w_train_logis.target</property>
       <property name="nInit">w_train_logis.nInit</property>
       <property name="commitInterval">w_train_logis.commitInterval</property>
-      <property name="numC">w_train_logis.numC,w_train_logis.nInit</property>
+      <property name="numC">w_train_logis.numC</property>
       <property name="ratioC">w_train_logis.ratioC</property>
     </properties>
   </required-parameter-map>

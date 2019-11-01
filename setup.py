@@ -40,7 +40,7 @@ setup(
     url='https://github.com/sassoftware/python-esppy/',
     license='Apache 2.0',
     packages=find_packages(),
-    package_data={"esppy.templates.xmls":["*.xml"]},
+    package_data={"esppy.templates": ["xmls/*.xml"]},
     install_requires=[
         'pandas >= 0.16.0',
         'pillow',

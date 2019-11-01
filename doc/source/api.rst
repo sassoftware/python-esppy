@@ -195,6 +195,8 @@ Project Construction Methods
    Project.add_query
    Project.add_continuous_query
    Project.add_contquery
+   Project.add_template
+   Project.add_templates
    Project.add_window
    Project.add_edge
    Project.add_connectors
@@ -227,6 +229,9 @@ Continuous Queries
    :toctree: generated/
 
    ContinuousQuery
+   ContinuousQuery.add_template
+   ContinuousQuery.delete_template
+   ContinuousQuery.delete_templates
    ContinuousQuery.get_window
    ContinuousQuery.get_windows
    ContinuousQuery.add_window
@@ -239,6 +244,41 @@ Continuous Queries
    ContinuousQuery.to_xml
    ContinuousQuery.save_xml
    ContinuousQuery.to_graph
+
+
+Template
+~~~~~~~~~~~~~~~~~~
+
+.. currentmodule:: esppy.templates
+
+.. autosummary::
+   :toctree: generated/
+
+   Template
+   Template.TextEmbedding
+   Template.Logistic
+   Template.ObjectDetection
+   Template.KeypointsDetection
+   Template.add_input_windows
+   Template.delete_input_windows
+   Template.add_output_windows
+   Template.delete_output_windows
+   Template.set_parameters
+   Template.set_inputs
+   Template.set_outputs
+   Template.add_target
+   Template.delete_target
+   Template.add_window
+   Template.add_windows
+   Template.import_template
+   Template.rename_window
+   Template.delete_window
+   Template.delete_windows
+   Template.copy
+   Template.from_xml
+   Template.to_xml
+   Template.save_xml
+   Template.to_graph
 
 
 Windows
