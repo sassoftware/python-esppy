@@ -310,6 +310,12 @@ class MQTTPublisher(Connector):
     mqttsslpassword : string, optional
         If mqttssl=true, and if key file is encrypted, specifies the
         password for decryption.
+    addcsvopcode : boolean, optional
+        Prepends an opcode and comma to input CSV events. The opcode is Insert
+        unless publishwithupsert is enabled.
+    addcsvflags : string, optional
+        Specifies the event type to insert into input CSV events (with a comma).
+        Valid values are "normal" and "partialupdate".
     configfilesection : string, optional
         Specifies the name of the section in the config file to parse for
         configuration parameters. Specify the value as [configfilesection].
@@ -353,6 +359,8 @@ class MQTTPublisher(Connector):
         mqttsslkeyfile=prop('mqttsslkeyfile', dtype='string'),
         mqttsslpassword=prop('mqttsslpassword', dtype='string'),
         configfilesection=prop('configfilesection', dtype='string'),
+        addcsvopcode=prop('addcsvopcode', dtype='boolean'),
+        addcsvflags=prop('addcsvflags', dtype='string'),
         mqttpasswordencrypted=prop('mqttpasswordencrypted', dtype='boolean'),
         maxevents=prop('maxevents', dtype='int')
     )
@@ -368,6 +376,7 @@ class MQTTPublisher(Connector):
                  mqttssl=None, mqttsslcafile=None, mqttsslcapath=None,
                  mqttsslcertfile=None, mqttsslkeyfile=None,
                  mqttsslpassword=None, configfilesection=None,
+                 addcsvopcode=None, addcsvflags=None,
                  mqttpasswordencrypted=None, maxevents=None):
         params = dict(**locals())
         params.pop('is_active')
