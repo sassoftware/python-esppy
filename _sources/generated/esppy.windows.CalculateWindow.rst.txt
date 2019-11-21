@@ -63,19 +63,23 @@ esppy.windows.CalculateWindow
    .. autosummary::
    
       ~CalculateWindow.algorithm
+      ~CalculateWindow.base_name
       ~CalculateWindow.base_url
       ~CalculateWindow.contquery
       ~CalculateWindow.fullname
       ~CalculateWindow.index_type
+      ~CalculateWindow.is_hidden
       ~CalculateWindow.name
       ~CalculateWindow.produces_only_inserts
       ~CalculateWindow.project
+      ~CalculateWindow.properties
       ~CalculateWindow.publisher_url
       ~CalculateWindow.pubsub
       ~CalculateWindow.schema
       ~CalculateWindow.schema_string
       ~CalculateWindow.session
       ~CalculateWindow.subscriber_url
+      ~CalculateWindow.template
       ~CalculateWindow.url
       ~CalculateWindow.window_classes
       ~CalculateWindow.window_type

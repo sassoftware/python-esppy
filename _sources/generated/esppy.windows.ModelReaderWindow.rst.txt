@@ -59,18 +59,22 @@ esppy.windows.ModelReaderWindow
 
    .. autosummary::
    
+      ~ModelReaderWindow.base_name
       ~ModelReaderWindow.base_url
       ~ModelReaderWindow.contquery
       ~ModelReaderWindow.fullname
+      ~ModelReaderWindow.is_hidden
       ~ModelReaderWindow.model_type
       ~ModelReaderWindow.name
       ~ModelReaderWindow.project
+      ~ModelReaderWindow.properties
       ~ModelReaderWindow.publisher_url
       ~ModelReaderWindow.pubsub
       ~ModelReaderWindow.schema
       ~ModelReaderWindow.schema_string
       ~ModelReaderWindow.session
       ~ModelReaderWindow.subscriber_url
+      ~ModelReaderWindow.template
       ~ModelReaderWindow.url
       ~ModelReaderWindow.window_classes
       ~ModelReaderWindow.window_type

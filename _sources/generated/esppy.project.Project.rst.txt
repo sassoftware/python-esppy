@@ -19,6 +19,8 @@ esppy.project.Project
       ~Project.add_contquery
       ~Project.add_edge
       ~Project.add_query
+      ~Project.add_template
+      ~Project.add_templates
       ~Project.add_window
       ~Project.clear
       ~Project.copy
@@ -72,6 +74,7 @@ esppy.project.Project
       ~Project.port
       ~Project.pubsub
       ~Project.session
+      ~Project.templates
       ~Project.trace
       ~Project.url
       ~Project.use_retention_tracking

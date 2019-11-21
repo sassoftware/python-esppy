@@ -62,15 +62,18 @@ esppy.windows.CopyWindow
 
    .. autosummary::
    
+      ~CopyWindow.base_name
       ~CopyWindow.base_url
       ~CopyWindow.collapse_updates
       ~CopyWindow.contquery
       ~CopyWindow.exp_max_string
       ~CopyWindow.fullname
       ~CopyWindow.index_type
+      ~CopyWindow.is_hidden
       ~CopyWindow.name
       ~CopyWindow.output_insert_only
       ~CopyWindow.project
+      ~CopyWindow.properties
       ~CopyWindow.publisher_url
       ~CopyWindow.pubsub
       ~CopyWindow.pubsub_index_type
@@ -79,6 +82,7 @@ esppy.windows.CopyWindow
       ~CopyWindow.schema_string
       ~CopyWindow.session
       ~CopyWindow.subscriber_url
+      ~CopyWindow.template
       ~CopyWindow.url
       ~CopyWindow.window_classes
       ~CopyWindow.window_type

@@ -69,15 +69,18 @@ esppy.windows.ComputeWindow
 
    .. autosummary::
    
+      ~ComputeWindow.base_name
       ~ComputeWindow.base_url
       ~ComputeWindow.collapse_updates
       ~ComputeWindow.contquery
       ~ComputeWindow.exp_max_string
       ~ComputeWindow.fullname
       ~ComputeWindow.index_type
+      ~ComputeWindow.is_hidden
       ~ComputeWindow.name
       ~ComputeWindow.output_insert_only
       ~ComputeWindow.project
+      ~ComputeWindow.properties
       ~ComputeWindow.publisher_url
       ~ComputeWindow.pubsub
       ~ComputeWindow.pubsub_index_type
@@ -86,6 +89,7 @@ esppy.windows.ComputeWindow
       ~ComputeWindow.schema_string
       ~ComputeWindow.session
       ~ComputeWindow.subscriber_url
+      ~ComputeWindow.template
       ~ComputeWindow.url
       ~ComputeWindow.window_classes
       ~ComputeWindow.window_type

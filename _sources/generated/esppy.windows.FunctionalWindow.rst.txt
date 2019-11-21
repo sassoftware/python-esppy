@@ -68,16 +68,19 @@ esppy.windows.FunctionalWindow
 
    .. autosummary::
    
+      ~FunctionalWindow.base_name
       ~FunctionalWindow.base_url
       ~FunctionalWindow.collapse_updates
       ~FunctionalWindow.contquery
       ~FunctionalWindow.exp_max_string
       ~FunctionalWindow.fullname
       ~FunctionalWindow.index_type
+      ~FunctionalWindow.is_hidden
       ~FunctionalWindow.name
       ~FunctionalWindow.output_insert_only
       ~FunctionalWindow.produces_only_inserts
       ~FunctionalWindow.project
+      ~FunctionalWindow.properties
       ~FunctionalWindow.publisher_url
       ~FunctionalWindow.pubsub
       ~FunctionalWindow.pubsub_index_type
@@ -86,6 +89,7 @@ esppy.windows.FunctionalWindow
       ~FunctionalWindow.schema_string
       ~FunctionalWindow.session
       ~FunctionalWindow.subscriber_url
+      ~FunctionalWindow.template
       ~FunctionalWindow.url
       ~FunctionalWindow.window_classes
       ~FunctionalWindow.window_type

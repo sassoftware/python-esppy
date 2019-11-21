@@ -62,6 +62,7 @@ esppy.windows.TextTopicWindow
    .. autosummary::
    
       ~TextTopicWindow.astore_file
+      ~TextTopicWindow.base_name
       ~TextTopicWindow.base_url
       ~TextTopicWindow.collapse_updates
       ~TextTopicWindow.contquery
@@ -69,9 +70,11 @@ esppy.windows.TextTopicWindow
       ~TextTopicWindow.fullname
       ~TextTopicWindow.include_topic_name
       ~TextTopicWindow.index_type
+      ~TextTopicWindow.is_hidden
       ~TextTopicWindow.name
       ~TextTopicWindow.output_insert_only
       ~TextTopicWindow.project
+      ~TextTopicWindow.properties
       ~TextTopicWindow.publisher_url
       ~TextTopicWindow.pubsub
       ~TextTopicWindow.pubsub_index_type
@@ -81,6 +84,7 @@ esppy.windows.TextTopicWindow
       ~TextTopicWindow.session
       ~TextTopicWindow.subscriber_url
       ~TextTopicWindow.ta_path
+      ~TextTopicWindow.template
       ~TextTopicWindow.text_field
       ~TextTopicWindow.url
       ~TextTopicWindow.window_classes

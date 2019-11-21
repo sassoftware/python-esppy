@@ -61,15 +61,18 @@ esppy.windows.UnionWindow
 
    .. autosummary::
    
+      ~UnionWindow.base_name
       ~UnionWindow.base_url
       ~UnionWindow.collapse_updates
       ~UnionWindow.contquery
       ~UnionWindow.exp_max_string
       ~UnionWindow.fullname
       ~UnionWindow.index_type
+      ~UnionWindow.is_hidden
       ~UnionWindow.name
       ~UnionWindow.output_insert_only
       ~UnionWindow.project
+      ~UnionWindow.properties
       ~UnionWindow.publisher_url
       ~UnionWindow.pubsub
       ~UnionWindow.pubsub_index_type
@@ -79,6 +82,7 @@ esppy.windows.UnionWindow
       ~UnionWindow.session
       ~UnionWindow.strict
       ~UnionWindow.subscriber_url
+      ~UnionWindow.template
       ~UnionWindow.url
       ~UnionWindow.window_classes
       ~UnionWindow.window_type

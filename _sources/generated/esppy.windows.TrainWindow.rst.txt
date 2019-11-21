@@ -61,17 +61,21 @@ esppy.windows.TrainWindow
    .. autosummary::
    
       ~TrainWindow.algorithm
+      ~TrainWindow.base_name
       ~TrainWindow.base_url
       ~TrainWindow.contquery
       ~TrainWindow.fullname
+      ~TrainWindow.is_hidden
       ~TrainWindow.name
       ~TrainWindow.project
+      ~TrainWindow.properties
       ~TrainWindow.publisher_url
       ~TrainWindow.pubsub
       ~TrainWindow.schema
       ~TrainWindow.schema_string
       ~TrainWindow.session
       ~TrainWindow.subscriber_url
+      ~TrainWindow.template
       ~TrainWindow.url
       ~TrainWindow.window_classes
       ~TrainWindow.window_type

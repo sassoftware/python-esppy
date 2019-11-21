@@ -8,51 +8,46 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.router.Router.add_publish_destination &mdash; ESPPy 1.0.0 documentation</title>
+  <title>esppy.router.Router.add_publish_destination &mdash; ESPPy 6.2 documentation</title>
   
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="ESPPy 1.0.0 documentation" href="../index.html"/>
-        <link rel="up" title="API Reference" href="../api.html"/>
-        <link rel="next" title="esppy.router.Router.add_writer_destination" href="esppy.router.Router.add_writer_destination.html"/>
-        <link rel="prev" title="esppy.router.Router.add_engine" href="esppy.router.Router.add_engine.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.router.Router.add_writer_destination" href="esppy.router.Router.add_writer_destination.html" />
+    <link rel="prev" title="esppy.router.Router.add_engine" href="esppy.router.Router.add_engine.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -66,7 +61,7 @@
             
             
               <div class="version">
-                1.0.0
+                6.2
               </div>
             
           
@@ -87,7 +82,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
@@ -141,36 +139,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">ESPPy</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../api.html">API Reference</a> &raquo;</li>
-      
-    <li>esppy.router.Router.add_publish_destination</li>
+        
+      <li>esppy.router.Router.add_publish_destination</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/esppy.router.Router.add_publish_destination.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -180,57 +198,48 @@
 <h1>esppy.router.Router.add_publish_destination<a class="headerlink" href="#esppy-router-router-add-publish-destination" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="esppy.router.Router.add_publish_destination">
-<code class="descclassname">Router.</code><code class="descname">add_publish_destination</code><span class="sig-paren">(</span><em>target</em>, <em>name=None</em>, <em>opcode=None</em>, <em>filter_func=None</em>, <em>event_fields_init=None</em>, <em>event_fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.router.Router.add_publish_destination" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">Router.</code><code class="sig-name descname">add_publish_destination</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">target</em>, <em class="sig-param">name=None</em>, <em class="sig-param">opcode=None</em>, <em class="sig-param">filter_func=None</em>, <em class="sig-param">event_fields_init=None</em>, <em class="sig-param">event_fields=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.router.Router.add_publish_destination" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a new router publish destination</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>target</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">The target path in the form “&lt;engine&gt;.&lt;project&gt;.&lt;contquery&gt;.&lt;window&gt;”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>target</strong><span class="classifier">string</span></dt><dd><p>The target path in the form “&lt;engine&gt;.&lt;project&gt;.&lt;contquery&gt;.&lt;window&gt;”</p>
 </dd>
-<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Name of the router destination</p>
+<dt><strong>name</strong><span class="classifier">string, optional</span></dt><dd><p>Name of the router destination</p>
 </dd>
-<dt><strong>opcode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Opcode for each event</p>
+<dt><strong>opcode</strong><span class="classifier">string, optional</span></dt><dd><p>Opcode for each event</p>
 </dd>
-<dt><strong>filter_func</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The function used to filter the events that are published. The
+<dt><strong>filter_func</strong><span class="classifier">string, optional</span></dt><dd><p>The function used to filter the events that are published. The
 function is run for each event. Its Boolean value is evaluated
 to determine whether to publish the event to the appropriate
 target Source window.</p>
 </dd>
-<dt><strong>event_fields_init</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Container for functions to be run in order to initialize
+<dt><strong>event_fields_init</strong><span class="classifier">dict, optional</span></dt><dd><p>Container for functions to be run in order to initialize
 variables. These variables can be used in any subsequent
 functions.</p>
 </dd>
-<dt><strong>event_fields</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Container for functions to be run in order to add or modify
+<dt><strong>event_fields</strong><span class="classifier">dict, optional</span></dt><dd><p>Container for functions to be run in order to add or modify
 event fields.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="esppy.router.Router.add_writer_destination.html" class="btn btn-neutral float-right" title="esppy.router.Router.add_writer_destination" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="esppy.router.Router.add_writer_destination.html" class="btn btn-neutral float-right" title="esppy.router.Router.add_writer_destination" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="esppy.router.Router.add_engine.html" class="btn btn-neutral" title="esppy.router.Router.add_engine" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="esppy.router.Router.add_engine.html" class="btn btn-neutral float-left" title="esppy.router.Router.add_engine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -239,11 +248,11 @@ event fields.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved..
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -256,35 +265,15 @@ event fields.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

@@ -29,7 +29,3 @@ code.docutils > .pre {
 .rst-content dl:not(.docutils) dl dt .classifier-delimiter {
     display: none;
 }
-.rst-content dl:not(.docutils) dl dd strong {
-    font-weight: bold;
-    font-size: smaller;
-}

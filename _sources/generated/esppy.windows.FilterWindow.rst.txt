@@ -65,15 +65,18 @@ esppy.windows.FilterWindow
 
    .. autosummary::
    
+      ~FilterWindow.base_name
       ~FilterWindow.base_url
       ~FilterWindow.collapse_updates
       ~FilterWindow.contquery
       ~FilterWindow.exp_max_string
       ~FilterWindow.fullname
       ~FilterWindow.index_type
+      ~FilterWindow.is_hidden
       ~FilterWindow.name
       ~FilterWindow.output_insert_only
       ~FilterWindow.project
+      ~FilterWindow.properties
       ~FilterWindow.publisher_url
       ~FilterWindow.pubsub
       ~FilterWindow.pubsub_index_type
@@ -82,6 +85,7 @@ esppy.windows.FilterWindow
       ~FilterWindow.schema_string
       ~FilterWindow.session
       ~FilterWindow.subscriber_url
+      ~FilterWindow.template
       ~FilterWindow.url
       ~FilterWindow.window_classes
       ~FilterWindow.window_type

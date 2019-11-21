@@ -40,5 +40,6 @@ esppy.connectors.Connector
    .. autosummary::
    
       ~Connector.connector_key
+      ~Connector.property_defs
    
    

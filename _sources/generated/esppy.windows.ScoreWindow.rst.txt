@@ -63,17 +63,21 @@ esppy.windows.ScoreWindow
 
    .. autosummary::
    
+      ~ScoreWindow.base_name
       ~ScoreWindow.base_url
       ~ScoreWindow.contquery
       ~ScoreWindow.fullname
+      ~ScoreWindow.is_hidden
       ~ScoreWindow.name
       ~ScoreWindow.project
+      ~ScoreWindow.properties
       ~ScoreWindow.publisher_url
       ~ScoreWindow.pubsub
       ~ScoreWindow.schema
       ~ScoreWindow.schema_string
       ~ScoreWindow.session
       ~ScoreWindow.subscriber_url
+      ~ScoreWindow.template
       ~ScoreWindow.url
       ~ScoreWindow.window_classes
       ~ScoreWindow.window_type

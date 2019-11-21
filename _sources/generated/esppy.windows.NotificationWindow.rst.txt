@@ -65,17 +65,21 @@ esppy.windows.NotificationWindow
 
    .. autosummary::
    
+      ~NotificationWindow.base_name
       ~NotificationWindow.base_url
       ~NotificationWindow.contquery
       ~NotificationWindow.fullname
+      ~NotificationWindow.is_hidden
       ~NotificationWindow.name
       ~NotificationWindow.project
+      ~NotificationWindow.properties
       ~NotificationWindow.publisher_url
       ~NotificationWindow.pubsub
       ~NotificationWindow.schema
       ~NotificationWindow.schema_string
       ~NotificationWindow.session
       ~NotificationWindow.subscriber_url
+      ~NotificationWindow.template
       ~NotificationWindow.url
       ~NotificationWindow.window_classes
       ~NotificationWindow.window_type

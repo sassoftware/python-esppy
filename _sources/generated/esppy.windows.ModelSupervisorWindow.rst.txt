@@ -58,19 +58,23 @@ esppy.windows.ModelSupervisorWindow
 
    .. autosummary::
    
+      ~ModelSupervisorWindow.base_name
       ~ModelSupervisorWindow.base_url
       ~ModelSupervisorWindow.capacity
       ~ModelSupervisorWindow.contquery
       ~ModelSupervisorWindow.deployment_policy
       ~ModelSupervisorWindow.fullname
+      ~ModelSupervisorWindow.is_hidden
       ~ModelSupervisorWindow.name
       ~ModelSupervisorWindow.project
+      ~ModelSupervisorWindow.properties
       ~ModelSupervisorWindow.publisher_url
       ~ModelSupervisorWindow.pubsub
       ~ModelSupervisorWindow.schema
       ~ModelSupervisorWindow.schema_string
       ~ModelSupervisorWindow.session
       ~ModelSupervisorWindow.subscriber_url
+      ~ModelSupervisorWindow.template
       ~ModelSupervisorWindow.url
       ~ModelSupervisorWindow.window_classes
       ~ModelSupervisorWindow.window_type

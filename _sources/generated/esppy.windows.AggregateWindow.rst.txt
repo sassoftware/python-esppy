@@ -66,15 +66,18 @@ esppy.windows.AggregateWindow
 
    .. autosummary::
    
+      ~AggregateWindow.base_name
       ~AggregateWindow.base_url
       ~AggregateWindow.collapse_updates
       ~AggregateWindow.contquery
       ~AggregateWindow.exp_max_string
       ~AggregateWindow.fullname
       ~AggregateWindow.index_type
+      ~AggregateWindow.is_hidden
       ~AggregateWindow.name
       ~AggregateWindow.output_insert_only
       ~AggregateWindow.project
+      ~AggregateWindow.properties
       ~AggregateWindow.publisher_url
       ~AggregateWindow.pubsub
       ~AggregateWindow.pubsub_index_type
@@ -83,6 +86,7 @@ esppy.windows.AggregateWindow
       ~AggregateWindow.schema_string
       ~AggregateWindow.session
       ~AggregateWindow.subscriber_url
+      ~AggregateWindow.template
       ~AggregateWindow.url
       ~AggregateWindow.window_classes
       ~AggregateWindow.window_type

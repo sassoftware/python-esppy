@@ -8,51 +8,46 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.windows.Subscriber &mdash; ESPPy 1.0.0 documentation</title>
+  <title>esppy.windows.Subscriber &mdash; ESPPy 6.2 documentation</title>
   
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="ESPPy 1.0.0 documentation" href="../index.html"/>
-        <link rel="up" title="API Reference" href="../api.html"/>
-        <link rel="next" title="esppy.windows.Subscriber.start" href="esppy.windows.Subscriber.start.html"/>
-        <link rel="prev" title="esppy.schema.SchemaField" href="esppy.schema.SchemaField.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.windows.Subscriber.start" href="esppy.windows.Subscriber.start.html" />
+    <link rel="prev" title="esppy.schema.SchemaField" href="esppy.schema.SchemaField.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -66,7 +61,7 @@
             
             
               <div class="version">
-                1.0.0
+                6.2
               </div>
             
           
@@ -87,7 +82,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
@@ -128,36 +126,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">ESPPy</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../api.html">API Reference</a> &raquo;</li>
-      
-    <li>esppy.windows.Subscriber</li>
+        
+      <li>esppy.windows.Subscriber</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/esppy.windows.Subscriber.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -167,70 +185,51 @@
 <h1>esppy.windows.Subscriber<a class="headerlink" href="#esppy-windows-subscriber" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="esppy.windows.Subscriber">
-<em class="property">class </em><code class="descclassname">esppy.windows.</code><code class="descname">Subscriber</code><span class="sig-paren">(</span><em>window</em>, <em>mode='updating'</em>, <em>pagesize=50</em>, <em>filter=None</em>, <em>sort=None</em>, <em>format='xml'</em>, <em>separator=None</em>, <em>interval=None</em>, <em>schema=False</em>, <em>on_event=None</em>, <em>on_message=None</em>, <em>on_error=None</em>, <em>on_close=None</em>, <em>on_open=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Subscriber" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><strong>object</strong></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">esppy.windows.</code><code class="sig-name descname">Subscriber</code><span class="sig-paren">(</span><em class="sig-param">window</em>, <em class="sig-param">mode='updating'</em>, <em class="sig-param">pagesize=50</em>, <em class="sig-param">filter=None</em>, <em class="sig-param">sort=None</em>, <em class="sig-param">format='xml'</em>, <em class="sig-param">separator=None</em>, <em class="sig-param">interval=None</em>, <em class="sig-param">schema=False</em>, <em class="sig-param">on_event=None</em>, <em class="sig-param">on_message=None</em>, <em class="sig-param">on_error=None</em>, <em class="sig-param">on_close=None</em>, <em class="sig-param">on_open=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Subscriber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Create a subscriber for the given window</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Window</span></dt>
-<dd><p class="first last">The window object to create the subscriber for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>window</strong><span class="classifier">Window</span></dt><dd><p>The window object to create the subscriber for</p>
 </dd>
-<dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The mode of subscriber: ‘updating’ or ‘streaming’</p>
+<dt><strong>mode</strong><span class="classifier">string, optional</span></dt><dd><p>The mode of subscriber: ‘updating’ or ‘streaming’</p>
 </dd>
-<dt><strong>pagesize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The maximum number of events in a page</p>
+<dt><strong>pagesize</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum number of events in a page</p>
 </dd>
-<dt><strong>filter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Functional filter to subset events</p>
+<dt><strong>filter</strong><span class="classifier">string, optional</span></dt><dd><p>Functional filter to subset events</p>
 </dd>
-<dt><strong>sort</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Sort order for the events (updating mode only)</p>
+<dt><strong>sort</strong><span class="classifier">string, optional</span></dt><dd><p>Sort order for the events (updating mode only)</p>
 </dd>
-<dt><strong>format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The format of the received data: ‘xml’, ‘json’, ‘csv’, ‘properties’</p>
+<dt><strong>format</strong><span class="classifier">string, optional</span></dt><dd><p>The format of the received data: ‘xml’, ‘json’, ‘csv’, ‘properties’</p>
 </dd>
-<dt><strong>separator</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The separator to use between events in the ‘properties’ format</p>
+<dt><strong>separator</strong><span class="classifier">string, optional</span></dt><dd><p>The separator to use between events in the ‘properties’ format</p>
 </dd>
-<dt><strong>interval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Interval between event sends in milliseconds</p>
+<dt><strong>interval</strong><span class="classifier">int, optional</span></dt><dd><p>Interval between event sends in milliseconds</p>
 </dd>
-<dt><strong>schema</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Should the schema be sent with the first event?</p>
+<dt><strong>schema</strong><span class="classifier">bool, optional</span></dt><dd><p>Should the schema be sent with the first event?</p>
 </dd>
-<dt><strong>on_event</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The object to call for events. The argument to this object will
+<dt><strong>on_event</strong><span class="classifier">callable, optional</span></dt><dd><p>The object to call for events. The argument to this object will
 be a DataFrame of the events that occurred.</p>
 </dd>
-<dt><strong>on_message</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The object to call for each websocket message</p>
+<dt><strong>on_message</strong><span class="classifier">callable, optional</span></dt><dd><p>The object to call for each websocket message</p>
 </dd>
-<dt><strong>on_error</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The object to call for each websocket error</p>
+<dt><strong>on_error</strong><span class="classifier">callable, optional</span></dt><dd><p>The object to call for each websocket error</p>
 </dd>
-<dt><strong>on_close</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The object to call when the websocket is opened</p>
+<dt><strong>on_close</strong><span class="classifier">callable, optional</span></dt><dd><p>The object to call when the websocket is opened</p>
 </dd>
-<dt><strong>on_open</strong> <span class="classifier-delimiter">:</span> <span class="classifier">callable</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The object to call when the websocket is closed</p>
+<dt><strong>on_open</strong><span class="classifier">callable, optional</span></dt><dd><p>The object to call when the websocket is closed</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong><a href="esppy.windows.Subscriber.html">Subscriber</a></strong></dt>
-<dd></dd>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.windows.Subscriber" title="esppy.windows.Subscriber"><code class="xref py py-class docutils literal notranslate"><span class="pre">Subscriber</span></code></a></dt><dd></dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
-<p>Create event callback; <strong>event</strong> is a DataFrame</p>
+<p>Create event callback; <code class="docutils literal notranslate"><span class="pre">event</span></code> is a DataFrame</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 </pre></div>
@@ -247,76 +246,93 @@ be a DataFrame of the events that occurred.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sub</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>callbacks</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">The dictionary of callback functions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>callbacks</strong><span class="classifier">dict</span></dt><dd><p>The dictionary of callback functions</p>
 </dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#filter" title="(in Python v3.7)"><strong>filter</strong></a> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">Functional filter to subset events</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#filter" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a><span class="classifier">string</span></dt><dd><p>Functional filter to subset events</p>
 </dd>
-<dt><strong>format</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The format of the received data: ‘xml’, ‘json’, ‘csv’, ‘properties’</p>
+<dt><strong>format</strong><span class="classifier">string, optional</span></dt><dd><p>The format of the received data: ‘xml’, ‘json’, ‘csv’, ‘properties’</p>
 </dd>
-<dt><strong>interval</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">Interval between event sends in milliseconds</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">interval</span></code><span class="classifier">int</span></dt><dd><p>Interval between event sends in milliseconds</p>
 </dd>
-<dt><strong>is_active</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Is the web socket active?</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_active</span></code><span class="classifier">bool</span></dt><dd><p>Is the web socket active?</p>
 </dd>
-<dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">The mode of the subscriber: ‘updating’ or ‘streaming’</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code><span class="classifier">string</span></dt><dd><p>The mode of the subscriber: ‘updating’ or ‘streaming’</p>
 </dd>
-<dt><strong>pagesize</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd><p class="first last">The maximum number of events in a page</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">pagesize</span></code><span class="classifier">int</span></dt><dd><p>The maximum number of events in a page</p>
 </dd>
-<dt><strong>separator</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Separator to use between events in the ‘properties’ format</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">separator</span></code><span class="classifier">string, optional</span></dt><dd><p>Separator to use between events in the ‘properties’ format</p>
 </dd>
-<dt><strong>schema</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd><p class="first last">Should the schema be sent with the first event?</p>
+<dt><strong>schema</strong><span class="classifier">bool</span></dt><dd><p>Should the schema be sent with the first event?</p>
 </dd>
-<dt><strong>sort</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">Sort order for the events (updating mode only)</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code><span class="classifier">string</span></dt><dd><p>Sort order for the events (updating mode only)</p>
 </dd>
-<dt><strong>window_schema</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Schema</span></dt>
-<dd><p class="first last">The schema of the window being subscribed to</p>
+<dt><strong>window_schema</strong><span class="classifier">Schema</span></dt><dd><p>The schema of the window being subscribed to</p>
 </dd>
-<dt><strong>window_url</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">The subscriber URL of the window</p>
+<dt><strong>window_url</strong><span class="classifier">string</span></dt><dd><p>The subscriber URL of the window</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="esppy.windows.Subscriber.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>window</em>, <em>mode='updating'</em>, <em>pagesize=50</em>, <em>filter=None</em>, <em>sort=None</em>, <em>format='xml'</em>, <em>separator=None</em>, <em>interval=None</em>, <em>schema=False</em>, <em>on_event=None</em>, <em>on_message=None</em>, <em>on_error=None</em>, <em>on_close=None</em>, <em>on_open=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Subscriber.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">window</em>, <em class="sig-param">mode='updating'</em>, <em class="sig-param">pagesize=50</em>, <em class="sig-param">filter=None</em>, <em class="sig-param">sort=None</em>, <em class="sig-param">format='xml'</em>, <em class="sig-param">separator=None</em>, <em class="sig-param">interval=None</em>, <em class="sig-param">schema=False</em>, <em class="sig-param">on_event=None</em>, <em class="sig-param">on_message=None</em>, <em class="sig-param">on_error=None</em>, <em class="sig-param">on_close=None</em>, <em class="sig-param">on_open=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Subscriber.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#esppy.windows.Subscriber.__init__" title="esppy.windows.Subscriber.__init__"><strong>__init__</strong></a>(window[,&nbsp;mode,&nbsp;pagesize,&nbsp;filter,&nbsp;…])</td>
-<td>Initialize self.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.windows.Subscriber.__init__" title="esppy.windows.Subscriber.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self, window[, mode, pagesize, …])</p></td>
+<td><p>Initialize self.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.windows.Subscriber.close.html#esppy.windows.Subscriber.close" title="esppy.windows.Subscriber.close"><strong>close</strong></a>()</td>
-<td>Stop processing events and close the web socket</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.windows.Subscriber.close.html#esppy.windows.Subscriber.close" title="esppy.windows.Subscriber.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>(self)</p></td>
+<td><p>Stop processing events and close the web socket</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.windows.Subscriber.start.html#esppy.windows.Subscriber.start" title="esppy.windows.Subscriber.start"><strong>start</strong></a>()</td>
-<td>Initialize the web socket and start it in its own thread</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.windows.Subscriber.start.html#esppy.windows.Subscriber.start" title="esppy.windows.Subscriber.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>(self)</p></td>
+<td><p>Initialize the web socket and start it in its own thread</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.windows.Subscriber.stop.html#esppy.windows.Subscriber.stop" title="esppy.windows.Subscriber.stop"><strong>stop</strong></a>()</td>
-<td>Stop processing events and close the web socket</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.windows.Subscriber.stop.html#esppy.windows.Subscriber.stop" title="esppy.windows.Subscriber.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>(self)</p></td>
+<td><p>Stop processing events and close the web socket</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></p></td>
+<td><p>Functional filter to subset events</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">interval</span></code></p></td>
+<td><p>Interval between event sends in milliseconds</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_active</span></code></p></td>
+<td><p>Is the web socket active?</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code></p></td>
+<td><p>The mode of the subscriber: ‘updating’ or ‘streaming’</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pagesize</span></code></p></td>
+<td><p>The maximum number of events in a page</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">separator</span></code></p></td>
+<td><p>Separator to use between events in the ‘properties’ format</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></p></td>
+<td><p>Sort order for the events (updating mode only)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>Return the URL of the subscriber</p></td>
 </tr>
 </tbody>
 </table>
@@ -326,15 +342,16 @@ be a DataFrame of the events that occurred.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="esppy.windows.Subscriber.start.html" class="btn btn-neutral float-right" title="esppy.windows.Subscriber.start" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="esppy.windows.Subscriber.start.html" class="btn btn-neutral float-right" title="esppy.windows.Subscriber.start" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="esppy.schema.SchemaField.html" class="btn btn-neutral" title="esppy.schema.SchemaField" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="esppy.schema.SchemaField.html" class="btn btn-neutral float-left" title="esppy.schema.SchemaField" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -343,11 +360,11 @@ be a DataFrame of the events that occurred.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved..
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -360,35 +377,15 @@ be a DataFrame of the events that occurred.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

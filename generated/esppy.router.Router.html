@@ -8,51 +8,46 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.router.Router &mdash; ESPPy 1.0.0 documentation</title>
+  <title>esppy.router.Router &mdash; ESPPy 6.2 documentation</title>
   
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="ESPPy 1.0.0 documentation" href="../index.html"/>
-        <link rel="up" title="API Reference" href="../api.html"/>
-        <link rel="next" title="esppy.router.Router.add_engine" href="esppy.router.Router.add_engine.html"/>
-        <link rel="prev" title="esppy.mas.MASModule.to_xml" href="esppy.mas.MASModule.to_xml.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.router.Router.add_engine" href="esppy.router.Router.add_engine.html" />
+    <link rel="prev" title="esppy.mas.MASModule.to_xml" href="esppy.mas.MASModule.to_xml.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -66,7 +61,7 @@
             
             
               <div class="version">
-                1.0.0
+                6.2
               </div>
             
           
@@ -87,7 +82,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
@@ -141,36 +139,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">ESPPy</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../api.html">API Reference</a> &raquo;</li>
-      
-    <li>esppy.router.Router</li>
+        
+      <li>esppy.router.Router</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/esppy.router.Router.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -180,86 +198,95 @@
 <h1>esppy.router.Router<a class="headerlink" href="#esppy-router-router" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="esppy.router.Router">
-<em class="property">class </em><code class="descclassname">esppy.router.</code><code class="descname">Router</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.router.Router" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <strong>esppy.base.ESPObject</strong></p>
+<em class="property">class </em><code class="sig-prename descclassname">esppy.router.</code><code class="sig-name descname">Router</code><span class="sig-paren">(</span><em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.router.Router" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.base.ESPObject</span></code></p>
 <p>Router definition</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">Name of the router</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">string</span></dt><dd><p>Name of the router</p>
 </dd>
 </dl>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>name</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd><p class="first last">Name of the router</p>
 </dd>
-<dt><strong>engines</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict-of-Engines</span></dt>
-<dd><p class="first last">The ESP engines in the router definition</p>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">string</span></dt><dd><p>Name of the router</p>
 </dd>
-<dt><strong>destinations</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict-of-PublishDestinations/WriterDestinations</span></dt>
-<dd><p class="first last">The destinations for the router</p>
+<dt><strong>engines</strong><span class="classifier">dict-of-Engines</span></dt><dd><p>The ESP engines in the router definition</p>
 </dd>
-<dt><strong>routes</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict-of-Routes</span></dt>
-<dd><p class="first last">The routes defined in the Router</p>
+<dt><strong>destinations</strong><span class="classifier">dict-of-PublishDestinations/WriterDestinations</span></dt><dd><p>The destinations for the router</p>
+</dd>
+<dt><strong>routes</strong><span class="classifier">dict-of-Routes</span></dt><dd><p>The routes defined in the Router</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="esppy.router.Router.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.router.Router.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.router.Router.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#esppy.router.Router.__init__" title="esppy.router.Router.__init__"><strong>__init__</strong></a>([name])</td>
-<td>Initialize self.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.router.Router.__init__" title="esppy.router.Router.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[, name])</p></td>
+<td><p>Initialize self.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.router.Router.add_engine.html#esppy.router.Router.add_engine" title="esppy.router.Router.add_engine"><strong>add_engine</strong></a>(host,&nbsp;port[,&nbsp;name,&nbsp;auth_token,&nbsp;…])</td>
-<td>Add a new router engine</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.router.Router.add_engine.html#esppy.router.Router.add_engine" title="esppy.router.Router.add_engine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_engine</span></code></a>(self, host, port[, name, …])</p></td>
+<td><p>Add a new router engine</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.router.Router.add_publish_destination.html#esppy.router.Router.add_publish_destination" title="esppy.router.Router.add_publish_destination"><strong>add_publish_destination</strong></a>(target[,&nbsp;name,&nbsp;…])</td>
-<td>Add a new router publish destination</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.router.Router.add_publish_destination.html#esppy.router.Router.add_publish_destination" title="esppy.router.Router.add_publish_destination"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_publish_destination</span></code></a>(self, target[, …])</p></td>
+<td><p>Add a new router publish destination</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.router.Router.add_route.html#esppy.router.Router.add_route" title="esppy.router.Router.add_route"><strong>add_route</strong></a>(route,&nbsp;to[,&nbsp;name,&nbsp;snapshot])</td>
-<td>Add a new route</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.router.Router.add_route.html#esppy.router.Router.add_route" title="esppy.router.Router.add_route"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_route</span></code></a>(self, route, to[, name, snapshot])</p></td>
+<td><p>Add a new route</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.router.Router.add_writer_destination.html#esppy.router.Router.add_writer_destination" title="esppy.router.Router.add_writer_destination"><strong>add_writer_destination</strong></a>(file_func,&nbsp;format[,&nbsp;…])</td>
-<td>Add a new router writer destination</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.router.Router.add_writer_destination.html#esppy.router.Router.add_writer_destination" title="esppy.router.Router.add_writer_destination"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_writer_destination</span></code></a>(self, file_func, format)</p></td>
+<td><p>Add a new router writer destination</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.router.Router.delete.html#esppy.router.Router.delete" title="esppy.router.Router.delete"><strong>delete</strong></a>()</td>
-<td>Delete the router</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.router.Router.delete.html#esppy.router.Router.delete" title="esppy.router.Router.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>(self)</p></td>
+<td><p>Delete the router</p></td>
 </tr>
-<tr class="row-odd"><td><strong>from_element</strong>(data[,&nbsp;session])</td>
-<td>Create router from XML definition</td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_element</span></code>(data[, session])</p></td>
+<td><p>Create router from XML definition</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.router.Router.from_xml.html#esppy.router.Router.from_xml" title="esppy.router.Router.from_xml"><strong>from_xml</strong></a>(data[,&nbsp;session])</td>
-<td>Create router from XML definition</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.router.Router.from_xml.html#esppy.router.Router.from_xml" title="esppy.router.Router.from_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_xml</span></code></a>(data[, session])</p></td>
+<td><p>Create router from XML definition</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.router.Router.initialize_destination.html#esppy.router.Router.initialize_destination" title="esppy.router.Router.initialize_destination"><strong>initialize_destination</strong></a>(name)</td>
-<td>Initalize router destination</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.router.Router.initialize_destination.html#esppy.router.Router.initialize_destination" title="esppy.router.Router.initialize_destination"><code class="xref py py-obj docutils literal notranslate"><span class="pre">initialize_destination</span></code></a>(self, name)</p></td>
+<td><p>Initalize router destination</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.router.Router.save.html#esppy.router.Router.save" title="esppy.router.Router.save"><strong>save</strong></a>([overwrite])</td>
-<td>Save the router definition to the server</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.router.Router.save.html#esppy.router.Router.save" title="esppy.router.Router.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(self[, overwrite])</p></td>
+<td><p>Save the router definition to the server</p></td>
 </tr>
-<tr class="row-odd"><td><strong>to_element</strong>()</td>
-<td>Convert Router to Element definition</td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_element</span></code>(self)</p></td>
+<td><p>Convert Router to Element definition</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.router.Router.to_xml.html#esppy.router.Router.to_xml" title="esppy.router.Router.to_xml"><strong>to_xml</strong></a>([pretty])</td>
-<td>Convert Router to XML definition</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.router.Router.to_xml.html#esppy.router.Router.to_xml" title="esppy.router.Router.to_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_xml</span></code></a>(self[, pretty])</p></td>
+<td><p>Convert Router to XML definition</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_url</span></code></p></td>
+<td><p>The base server URL</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">session</span></code></p></td>
+<td><p>The server session object</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>The URL of the object</p></td>
 </tr>
 </tbody>
 </table>
@@ -269,15 +296,16 @@
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="esppy.router.Router.add_engine.html" class="btn btn-neutral float-right" title="esppy.router.Router.add_engine" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="esppy.router.Router.add_engine.html" class="btn btn-neutral float-right" title="esppy.router.Router.add_engine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="esppy.mas.MASModule.to_xml.html" class="btn btn-neutral" title="esppy.mas.MASModule.to_xml" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="esppy.mas.MASModule.to_xml.html" class="btn btn-neutral float-left" title="esppy.mas.MASModule.to_xml" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -286,11 +314,11 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved..
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -303,35 +331,15 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

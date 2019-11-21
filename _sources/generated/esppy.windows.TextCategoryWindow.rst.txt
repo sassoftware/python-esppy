@@ -61,6 +61,7 @@ esppy.windows.TextCategoryWindow
 
    .. autosummary::
    
+      ~TextCategoryWindow.base_name
       ~TextCategoryWindow.base_url
       ~TextCategoryWindow.collapse_updates
       ~TextCategoryWindow.contquery
@@ -68,10 +69,12 @@ esppy.windows.TextCategoryWindow
       ~TextCategoryWindow.fullname
       ~TextCategoryWindow.generate_nulls
       ~TextCategoryWindow.index_type
+      ~TextCategoryWindow.is_hidden
       ~TextCategoryWindow.mco_file
       ~TextCategoryWindow.name
       ~TextCategoryWindow.output_insert_only
       ~TextCategoryWindow.project
+      ~TextCategoryWindow.properties
       ~TextCategoryWindow.publisher_url
       ~TextCategoryWindow.pubsub
       ~TextCategoryWindow.pubsub_index_type
@@ -80,6 +83,7 @@ esppy.windows.TextCategoryWindow
       ~TextCategoryWindow.schema_string
       ~TextCategoryWindow.session
       ~TextCategoryWindow.subscriber_url
+      ~TextCategoryWindow.template
       ~TextCategoryWindow.text_field
       ~TextCategoryWindow.url
       ~TextCategoryWindow.window_classes

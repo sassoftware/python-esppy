@@ -62,6 +62,7 @@ esppy.windows.PatternWindow
 
    .. autosummary::
    
+      ~PatternWindow.base_name
       ~PatternWindow.base_url
       ~PatternWindow.collapse_updates
       ~PatternWindow.contquery
@@ -69,9 +70,11 @@ esppy.windows.PatternWindow
       ~PatternWindow.fullname
       ~PatternWindow.index_type
       ~PatternWindow.is_active
+      ~PatternWindow.is_hidden
       ~PatternWindow.name
       ~PatternWindow.output_insert_only
       ~PatternWindow.project
+      ~PatternWindow.properties
       ~PatternWindow.publisher_url
       ~PatternWindow.pubsub
       ~PatternWindow.pubsub_index_type
@@ -80,6 +83,7 @@ esppy.windows.PatternWindow
       ~PatternWindow.schema_string
       ~PatternWindow.session
       ~PatternWindow.subscriber_url
+      ~PatternWindow.template
       ~PatternWindow.url
       ~PatternWindow.window_classes
       ~PatternWindow.window_type

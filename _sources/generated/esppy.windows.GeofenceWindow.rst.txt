@@ -64,15 +64,18 @@ esppy.windows.GeofenceWindow
 
    .. autosummary::
    
+      ~GeofenceWindow.base_name
       ~GeofenceWindow.base_url
       ~GeofenceWindow.collapse_updates
       ~GeofenceWindow.contquery
       ~GeofenceWindow.exp_max_string
       ~GeofenceWindow.fullname
       ~GeofenceWindow.index_type
+      ~GeofenceWindow.is_hidden
       ~GeofenceWindow.name
       ~GeofenceWindow.output_insert_only
       ~GeofenceWindow.project
+      ~GeofenceWindow.properties
       ~GeofenceWindow.publisher_url
       ~GeofenceWindow.pubsub
       ~GeofenceWindow.pubsub_index_type
@@ -81,6 +84,7 @@ esppy.windows.GeofenceWindow
       ~GeofenceWindow.schema_string
       ~GeofenceWindow.session
       ~GeofenceWindow.subscriber_url
+      ~GeofenceWindow.template
       ~GeofenceWindow.url
       ~GeofenceWindow.window_classes
       ~GeofenceWindow.window_type

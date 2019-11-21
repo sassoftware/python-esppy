@@ -61,6 +61,7 @@ esppy.windows.CounterWindow
 
    .. autosummary::
    
+      ~CounterWindow.base_name
       ~CounterWindow.base_url
       ~CounterWindow.clear_interval
       ~CounterWindow.collapse_updates
@@ -69,9 +70,11 @@ esppy.windows.CounterWindow
       ~CounterWindow.exp_max_string
       ~CounterWindow.fullname
       ~CounterWindow.index_type
+      ~CounterWindow.is_hidden
       ~CounterWindow.name
       ~CounterWindow.output_insert_only
       ~CounterWindow.project
+      ~CounterWindow.properties
       ~CounterWindow.publisher_url
       ~CounterWindow.pubsub
       ~CounterWindow.pubsub_index_type
@@ -80,6 +83,7 @@ esppy.windows.CounterWindow
       ~CounterWindow.schema_string
       ~CounterWindow.session
       ~CounterWindow.subscriber_url
+      ~CounterWindow.template
       ~CounterWindow.url
       ~CounterWindow.window_classes
       ~CounterWindow.window_type

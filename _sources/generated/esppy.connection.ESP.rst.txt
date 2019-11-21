@@ -14,6 +14,7 @@ esppy.connection.ESP
    .. autosummary::
    
       ~ESP.__init__
+      ~ESP.createServerConnection
       ~ESP.create_event_generator
       ~ESP.create_project
       ~ESP.create_router

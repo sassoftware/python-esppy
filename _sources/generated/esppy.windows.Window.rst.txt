@@ -61,15 +61,18 @@ esppy.windows.Window
 
    .. autosummary::
    
+      ~Window.base_name
       ~Window.base_url
       ~Window.collapse_updates
       ~Window.contquery
       ~Window.exp_max_string
       ~Window.fullname
       ~Window.index_type
+      ~Window.is_hidden
       ~Window.name
       ~Window.output_insert_only
       ~Window.project
+      ~Window.properties
       ~Window.publisher_url
       ~Window.pubsub
       ~Window.pubsub_index_type
@@ -78,6 +81,7 @@ esppy.windows.Window
       ~Window.schema_string
       ~Window.session
       ~Window.subscriber_url
+      ~Window.template
       ~Window.url
       ~Window.window_classes
       ~Window.window_type

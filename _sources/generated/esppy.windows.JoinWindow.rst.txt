@@ -71,15 +71,18 @@ esppy.windows.JoinWindow
 
    .. autosummary::
    
+      ~JoinWindow.base_name
       ~JoinWindow.base_url
       ~JoinWindow.collapse_updates
       ~JoinWindow.contquery
       ~JoinWindow.exp_max_string
       ~JoinWindow.fullname
       ~JoinWindow.index_type
+      ~JoinWindow.is_hidden
       ~JoinWindow.name
       ~JoinWindow.output_insert_only
       ~JoinWindow.project
+      ~JoinWindow.properties
       ~JoinWindow.publisher_url
       ~JoinWindow.pubsub
       ~JoinWindow.pubsub_index_type
@@ -88,6 +91,7 @@ esppy.windows.JoinWindow
       ~JoinWindow.schema_string
       ~JoinWindow.session
       ~JoinWindow.subscriber_url
+      ~JoinWindow.template
       ~JoinWindow.url
       ~JoinWindow.window_classes
       ~JoinWindow.window_type

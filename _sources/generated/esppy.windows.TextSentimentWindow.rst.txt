@@ -61,15 +61,18 @@ esppy.windows.TextSentimentWindow
 
    .. autosummary::
    
+      ~TextSentimentWindow.base_name
       ~TextSentimentWindow.base_url
       ~TextSentimentWindow.collapse_updates
       ~TextSentimentWindow.contquery
       ~TextSentimentWindow.exp_max_string
       ~TextSentimentWindow.fullname
       ~TextSentimentWindow.index_type
+      ~TextSentimentWindow.is_hidden
       ~TextSentimentWindow.name
       ~TextSentimentWindow.output_insert_only
       ~TextSentimentWindow.project
+      ~TextSentimentWindow.properties
       ~TextSentimentWindow.publisher_url
       ~TextSentimentWindow.pubsub
       ~TextSentimentWindow.pubsub_index_type
@@ -79,6 +82,7 @@ esppy.windows.TextSentimentWindow
       ~TextSentimentWindow.schema_string
       ~TextSentimentWindow.session
       ~TextSentimentWindow.subscriber_url
+      ~TextSentimentWindow.template
       ~TextSentimentWindow.text_field
       ~TextSentimentWindow.url
       ~TextSentimentWindow.window_classes

@@ -8,51 +8,46 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.connection.ESP &mdash; ESPPy 1.0.0 documentation</title>
+  <title>esppy.connection.ESP &mdash; ESPPy 6.2 documentation</title>
   
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="ESPPy 1.0.0 documentation" href="../index.html"/>
-        <link rel="up" title="API Reference" href="../api.html"/>
-        <link rel="next" title="esppy.connection.ESP.save" href="esppy.connection.ESP.save.html"/>
-        <link rel="prev" title="API Reference" href="../api.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.connection.ESP.save" href="esppy.connection.ESP.save.html" />
+    <link rel="prev" title="API Reference" href="../api.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -66,7 +61,7 @@
             
             
               <div class="version">
-                1.0.0
+                6.2
               </div>
             
           
@@ -87,7 +82,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
@@ -137,36 +135,56 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">ESPPy</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../api.html">API Reference</a> &raquo;</li>
-      
-    <li>esppy.connection.ESP</li>
+        
+      <li>esppy.connection.ESP</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/esppy.connection.ESP.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -176,44 +194,33 @@
 <h1>esppy.connection.ESP<a class="headerlink" href="#esppy-connection-esp" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="esppy.connection.ESP">
-<em class="property">class </em><code class="descclassname">esppy.connection.</code><code class="descname">ESP</code><span class="sig-paren">(</span><em>hostname=None</em>, <em>port=None</em>, <em>username=None</em>, <em>password=None</em>, <em>protocol=None</em>, <em>ca_bundle=None</em>, <em>authinfo=None</em>, <em>auth_obj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <strong>esppy.utils.rest.RESTHelpers</strong></p>
+<em class="property">class </em><code class="sig-prename descclassname">esppy.connection.</code><code class="sig-name descname">ESP</code><span class="sig-paren">(</span><em class="sig-param">hostname=None</em>, <em class="sig-param">port=None</em>, <em class="sig-param">username=None</em>, <em class="sig-param">password=None</em>, <em class="sig-param">protocol=None</em>, <em class="sig-param">ca_bundle=None</em>, <em class="sig-param">authinfo=None</em>, <em class="sig-param">auth_obj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.utils.rest.RESTHelpers</span></code></p>
 <p>ESP Connection</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>hostname</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Hostname of ESP server or ESP connection URL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>hostname</strong><span class="classifier">string, optional</span></dt><dd><p>Hostname of ESP server or ESP connection URL</p>
 </dd>
-<dt><strong>port</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Port number of ESP server.  This is not needed if
+<dt><strong>port</strong><span class="classifier">int, optional</span></dt><dd><p>Port number of ESP server.  This is not needed if
 a URL is used in the first parameter.</p>
 </dd>
-<dt><strong>username</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Username for authentication</p>
+<dt><strong>username</strong><span class="classifier">string, optional</span></dt><dd><p>Username for authentication</p>
 </dd>
-<dt><strong>password</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Password for authentication.  If a password is specified,
+<dt><strong>password</strong><span class="classifier">string, optional</span></dt><dd><p>Password for authentication.  If a password is specified,
 without a username, this is assumed to be an OAUTH token.</p>
 </dd>
-<dt><strong>protocol</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">The protocol to use: http or https.  This is not
+<dt><strong>protocol</strong><span class="classifier">string, optional</span></dt><dd><p>The protocol to use: http or https.  This is not
 needed if a URL is used in the first parameter.</p>
 </dd>
-<dt><strong>ca_bundle</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Path to the certificate bundle if using SSL</p>
+<dt><strong>ca_bundle</strong><span class="classifier">string, optional</span></dt><dd><p>Path to the certificate bundle if using SSL</p>
 </dd>
-<dt><strong>authinfo</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span><span class="opt-sep">, </span><span class="optional">optional</span></dt>
-<dd><p class="first last">Path to the authinfo file containing authentication
+<dt><strong>authinfo</strong><span class="classifier">string, optional</span></dt><dd><p>Path to the authinfo file containing authentication
 information.</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Start ESP connection</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">esp</span> <span class="o">=</span> <span class="n">esppy</span><span class="o">.</span><span class="n">ESP</span><span class="p">(</span><span class="s1">&#39;http://esp-host.com:8080&#39;</span><span class="p">)</span>
@@ -226,169 +233,194 @@ information.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proj</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>metadata</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">Engine metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code><span class="classifier">dict</span></dt><dd><p>Engine metadata</p>
 </dd>
-<dt><strong>server_info</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">Retrive current status of the server</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">server_info</span></code><span class="classifier">dict</span></dt><dd><p>Retrive current status of the server</p>
 </dd>
-<dt><strong>connector_info</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">Return the connection metadata for all connectors</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">connector_info</span></code><span class="classifier">dict</span></dt><dd><p>Return the connection metadata for all connectors</p>
 </dd>
-<dt><strong>api_docs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">dict</span></dt>
-<dd><p class="first last">Swagger JSON documentation</p>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">api_docs</span></code><span class="classifier">dict</span></dt><dd><p>Swagger JSON documentation</p>
 </dd>
 </dl>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="esppy.connection.ESP.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>hostname=None</em>, <em>port=None</em>, <em>username=None</em>, <em>password=None</em>, <em>protocol=None</em>, <em>ca_bundle=None</em>, <em>authinfo=None</em>, <em>auth_obj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">hostname=None</em>, <em class="sig-param">port=None</em>, <em class="sig-param">username=None</em>, <em class="sig-param">password=None</em>, <em class="sig-param">protocol=None</em>, <em class="sig-param">ca_bundle=None</em>, <em class="sig-param">authinfo=None</em>, <em class="sig-param">auth_obj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#esppy.connection.ESP.__init__" title="esppy.connection.ESP.__init__"><strong>__init__</strong></a>([hostname,&nbsp;port,&nbsp;username,&nbsp;…])</td>
-<td>Initialize self.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.connection.ESP.__init__" title="esppy.connection.ESP.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[, hostname, port, username, …])</p></td>
+<td><p>Initialize self.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.create_event_generator.html#esppy.connection.ESP.create_event_generator" title="esppy.connection.ESP.create_event_generator"><strong>create_event_generator</strong></a>(window[,&nbsp;data,&nbsp;name,&nbsp;…])</td>
-<td>Create an event generator</td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">createServerConnection</span></code>(self, \*\*kwargs)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.create_project.html#esppy.connection.ESP.create_project" title="esppy.connection.ESP.create_project"><strong>create_project</strong></a>(proj,&nbsp;**kwargs)</td>
-<td>Create a new Project object</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.create_event_generator.html#esppy.connection.ESP.create_event_generator" title="esppy.connection.ESP.create_event_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_event_generator</span></code></a>(self, window[, data, …])</p></td>
+<td><p>Create an event generator</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.create_router.html#esppy.connection.ESP.create_router" title="esppy.connection.ESP.create_router"><strong>create_router</strong></a>([name,&nbsp;overwrite])</td>
-<td>Create a new router</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.create_project.html#esppy.connection.ESP.create_project" title="esppy.connection.ESP.create_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_project</span></code></a>(self, proj, \*\*kwargs)</p></td>
+<td><p>Create a new Project object</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.delete_event_generator.html#esppy.connection.ESP.delete_event_generator" title="esppy.connection.ESP.delete_event_generator"><strong>delete_event_generator</strong></a>(name)</td>
-<td>Delete the specified event generator</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.create_router.html#esppy.connection.ESP.create_router" title="esppy.connection.ESP.create_router"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_router</span></code></a>(self[, name, overwrite])</p></td>
+<td><p>Create a new router</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.delete_event_generators.html#esppy.connection.ESP.delete_event_generators" title="esppy.connection.ESP.delete_event_generators"><strong>delete_event_generators</strong></a>()</td>
-<td>Delete all event generators in the server</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.delete_event_generator.html#esppy.connection.ESP.delete_event_generator" title="esppy.connection.ESP.delete_event_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_event_generator</span></code></a>(self, name)</p></td>
+<td><p>Delete the specified event generator</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.delete_project.html#esppy.connection.ESP.delete_project" title="esppy.connection.ESP.delete_project"><strong>delete_project</strong></a>(name)</td>
-<td>Delete specified project</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.delete_event_generators.html#esppy.connection.ESP.delete_event_generators" title="esppy.connection.ESP.delete_event_generators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_event_generators</span></code></a>(self)</p></td>
+<td><p>Delete all event generators in the server</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.delete_projects.html#esppy.connection.ESP.delete_projects" title="esppy.connection.ESP.delete_projects"><strong>delete_projects</strong></a>(*name,&nbsp;**kwargs)</td>
-<td>Delete projects</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.delete_project.html#esppy.connection.ESP.delete_project" title="esppy.connection.ESP.delete_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_project</span></code></a>(self, name)</p></td>
+<td><p>Delete specified project</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.disable_server_log_capture.html#esppy.connection.ESP.disable_server_log_capture" title="esppy.connection.ESP.disable_server_log_capture"><strong>disable_server_log_capture</strong></a>()</td>
-<td>Disable capturing of server log messages</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.delete_projects.html#esppy.connection.ESP.delete_projects" title="esppy.connection.ESP.delete_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_projects</span></code></a>(self, \*name, \*\*kwargs)</p></td>
+<td><p>Delete projects</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.enable_server_log_capture.html#esppy.connection.ESP.enable_server_log_capture" title="esppy.connection.ESP.enable_server_log_capture"><strong>enable_server_log_capture</strong></a>()</td>
-<td>Enable capturing of server log messages</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.disable_server_log_capture.html#esppy.connection.ESP.disable_server_log_capture" title="esppy.connection.ESP.disable_server_log_capture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">disable_server_log_capture</span></code></a>(self)</p></td>
+<td><p>Disable capturing of server log messages</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_algorithm.html#esppy.connection.ESP.get_algorithm" title="esppy.connection.ESP.get_algorithm"><strong>get_algorithm</strong></a>(atype,&nbsp;name)</td>
-<td>Retrieve information for the specified algorithm</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.enable_server_log_capture.html#esppy.connection.ESP.enable_server_log_capture" title="esppy.connection.ESP.enable_server_log_capture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enable_server_log_capture</span></code></a>(self)</p></td>
+<td><p>Enable capturing of server log messages</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_algorithms.html#esppy.connection.ESP.get_algorithms" title="esppy.connection.ESP.get_algorithms"><strong>get_algorithms</strong></a>(atype[,&nbsp;properties,&nbsp;type,&nbsp;…])</td>
-<td>Retrieve information for all algorithms of the specified type</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_algorithm.html#esppy.connection.ESP.get_algorithm" title="esppy.connection.ESP.get_algorithm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_algorithm</span></code></a>(self, atype, name)</p></td>
+<td><p>Retrieve information for the specified algorithm</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_event_generator_state.html#esppy.connection.ESP.get_event_generator_state" title="esppy.connection.ESP.get_event_generator_state"><strong>get_event_generator_state</strong></a>(name)</td>
-<td>Retrieve the state of the specified event generator</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_algorithms.html#esppy.connection.ESP.get_algorithms" title="esppy.connection.ESP.get_algorithms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_algorithms</span></code></a>(self, atype[, properties, …])</p></td>
+<td><p>Retrieve information for all algorithms of the specified type</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_event_generators.html#esppy.connection.ESP.get_event_generators" title="esppy.connection.ESP.get_event_generators"><strong>get_event_generators</strong></a>()</td>
-<td>Retrieve all event generators in the server</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_event_generator_state.html#esppy.connection.ESP.get_event_generator_state" title="esppy.connection.ESP.get_event_generator_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_event_generator_state</span></code></a>(self, name)</p></td>
+<td><p>Retrieve the state of the specified event generator</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_events.html#esppy.connection.ESP.get_events" title="esppy.connection.ESP.get_events"><strong>get_events</strong></a>([window_filter,&nbsp;event_filter,&nbsp;…])</td>
-<td>Retrieve events from the server</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_event_generators.html#esppy.connection.ESP.get_event_generators" title="esppy.connection.ESP.get_event_generators"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_event_generators</span></code></a>(self)</p></td>
+<td><p>Retrieve all event generators in the server</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_logger.html#esppy.connection.ESP.get_logger" title="esppy.connection.ESP.get_logger"><strong>get_logger</strong></a>(name)</td>
-<td>Retrieve the specified logger</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_events.html#esppy.connection.ESP.get_events" title="esppy.connection.ESP.get_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_events</span></code></a>(self[, window_filter, …])</p></td>
+<td><p>Retrieve events from the server</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_loggers.html#esppy.connection.ESP.get_loggers" title="esppy.connection.ESP.get_loggers"><strong>get_loggers</strong></a>()</td>
-<td>Retrieve all loggers in the system</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_logger.html#esppy.connection.ESP.get_logger" title="esppy.connection.ESP.get_logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logger</span></code></a>(self, name)</p></td>
+<td><p>Retrieve the specified logger</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_mas_modules.html#esppy.connection.ESP.get_mas_modules" title="esppy.connection.ESP.get_mas_modules"><strong>get_mas_modules</strong></a>([expandcode])</td>
-<td>Retrieve all MAS modules</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_loggers.html#esppy.connection.ESP.get_loggers" title="esppy.connection.ESP.get_loggers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_loggers</span></code></a>(self)</p></td>
+<td><p>Retrieve all loggers in the system</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_pattern_events.html#esppy.connection.ESP.get_pattern_events" title="esppy.connection.ESP.get_pattern_events"><strong>get_pattern_events</strong></a>([window_filter,&nbsp;…])</td>
-<td>Retrieve events residing in open patterns in the server</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_mas_modules.html#esppy.connection.ESP.get_mas_modules" title="esppy.connection.ESP.get_mas_modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mas_modules</span></code></a>(self[, expandcode])</p></td>
+<td><p>Retrieve all MAS modules</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_project.html#esppy.connection.ESP.get_project" title="esppy.connection.ESP.get_project"><strong>get_project</strong></a>(name)</td>
-<td>Retrieve the specified project</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_pattern_events.html#esppy.connection.ESP.get_pattern_events" title="esppy.connection.ESP.get_pattern_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pattern_events</span></code></a>(self[, window_filter, …])</p></td>
+<td><p>Retrieve events residing in open patterns in the server</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_project_stats.html#esppy.connection.ESP.get_project_stats" title="esppy.connection.ESP.get_project_stats"><strong>get_project_stats</strong></a>([filter,&nbsp;interval,&nbsp;…])</td>
-<td>Project statistics subscriber</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_project.html#esppy.connection.ESP.get_project" title="esppy.connection.ESP.get_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_project</span></code></a>(self, name)</p></td>
+<td><p>Retrieve the specified project</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_projects.html#esppy.connection.ESP.get_projects" title="esppy.connection.ESP.get_projects"><strong>get_projects</strong></a>([name,&nbsp;filter])</td>
-<td>Retrieve projects from the server</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_project_stats.html#esppy.connection.ESP.get_project_stats" title="esppy.connection.ESP.get_project_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_project_stats</span></code></a>(self[, filter, interval, …])</p></td>
+<td><p>Project statistics subscriber</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_router.html#esppy.connection.ESP.get_router" title="esppy.connection.ESP.get_router"><strong>get_router</strong></a>(name)</td>
-<td>Retrieve the specified router</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_projects.html#esppy.connection.ESP.get_projects" title="esppy.connection.ESP.get_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_projects</span></code></a>(self[, name, filter])</p></td>
+<td><p>Retrieve projects from the server</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_router_stats.html#esppy.connection.ESP.get_router_stats" title="esppy.connection.ESP.get_router_stats"><strong>get_router_stats</strong></a>([name])</td>
-<td>Retrieve router statistics</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_router.html#esppy.connection.ESP.get_router" title="esppy.connection.ESP.get_router"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_router</span></code></a>(self, name)</p></td>
+<td><p>Retrieve the specified router</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_routers.html#esppy.connection.ESP.get_routers" title="esppy.connection.ESP.get_routers"><strong>get_routers</strong></a>()</td>
-<td>Retrieve all routers in the server</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_router_stats.html#esppy.connection.ESP.get_router_stats" title="esppy.connection.ESP.get_router_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_router_stats</span></code></a>(self[, name])</p></td>
+<td><p>Retrieve router statistics</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_running_project.html#esppy.connection.ESP.get_running_project" title="esppy.connection.ESP.get_running_project"><strong>get_running_project</strong></a>(name)</td>
-<td>Retrieve the specified running project</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_routers.html#esppy.connection.ESP.get_routers" title="esppy.connection.ESP.get_routers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_routers</span></code></a>(self)</p></td>
+<td><p>Retrieve all routers in the server</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_running_projects.html#esppy.connection.ESP.get_running_projects" title="esppy.connection.ESP.get_running_projects"><strong>get_running_projects</strong></a>([name,&nbsp;filter])</td>
-<td>Retrieve running project information</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_running_project.html#esppy.connection.ESP.get_running_project" title="esppy.connection.ESP.get_running_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_running_project</span></code></a>(self, name)</p></td>
+<td><p>Retrieve the specified running project</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_server_log.html#esppy.connection.ESP.get_server_log" title="esppy.connection.ESP.get_server_log"><strong>get_server_log</strong></a>()</td>
-<td>Return all stored server log messages</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_running_projects.html#esppy.connection.ESP.get_running_projects" title="esppy.connection.ESP.get_running_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_running_projects</span></code></a>(self[, name, filter])</p></td>
+<td><p>Retrieve running project information</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_server_log_state.html#esppy.connection.ESP.get_server_log_state" title="esppy.connection.ESP.get_server_log_state"><strong>get_server_log_state</strong></a>()</td>
-<td>Return the current state of the server log capture</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_server_log.html#esppy.connection.ESP.get_server_log" title="esppy.connection.ESP.get_server_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_server_log</span></code></a>(self)</p></td>
+<td><p>Return all stored server log messages</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_stopped_project.html#esppy.connection.ESP.get_stopped_project" title="esppy.connection.ESP.get_stopped_project"><strong>get_stopped_project</strong></a>(name)</td>
-<td>Retrieve specified stopped project</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_server_log_state.html#esppy.connection.ESP.get_server_log_state" title="esppy.connection.ESP.get_server_log_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_server_log_state</span></code></a>(self)</p></td>
+<td><p>Return the current state of the server log capture</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_stopped_projects.html#esppy.connection.ESP.get_stopped_projects" title="esppy.connection.ESP.get_stopped_projects"><strong>get_stopped_projects</strong></a>([name,&nbsp;filter])</td>
-<td>Retrieve stopped projects</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_stopped_project.html#esppy.connection.ESP.get_stopped_project" title="esppy.connection.ESP.get_stopped_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stopped_project</span></code></a>(self, name)</p></td>
+<td><p>Retrieve specified stopped project</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.get_window.html#esppy.connection.ESP.get_window" title="esppy.connection.ESP.get_window"><strong>get_window</strong></a>(path)</td>
-<td>Retrieve specified window</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_stopped_projects.html#esppy.connection.ESP.get_stopped_projects" title="esppy.connection.ESP.get_stopped_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stopped_projects</span></code></a>(self[, name, filter])</p></td>
+<td><p>Retrieve stopped projects</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.get_windows.html#esppy.connection.ESP.get_windows" title="esppy.connection.ESP.get_windows"><strong>get_windows</strong></a>([path,&nbsp;type,&nbsp;filter])</td>
-<td>Retrieve windows from the server</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.get_window.html#esppy.connection.ESP.get_window" title="esppy.connection.ESP.get_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_window</span></code></a>(self, path)</p></td>
+<td><p>Retrieve specified window</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.install_project.html#esppy.connection.ESP.install_project" title="esppy.connection.ESP.install_project"><strong>install_project</strong></a>(project[,&nbsp;name,&nbsp;overwrite,&nbsp;…])</td>
-<td>Load a project from a project definition</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.get_windows.html#esppy.connection.ESP.get_windows" title="esppy.connection.ESP.get_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_windows</span></code></a>(self[, path, type, filter])</p></td>
+<td><p>Retrieve windows from the server</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.load_project.html#esppy.connection.ESP.load_project" title="esppy.connection.ESP.load_project"><strong>load_project</strong></a>(project[,&nbsp;name,&nbsp;overwrite,&nbsp;…])</td>
-<td>Load a project from a project definition</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.install_project.html#esppy.connection.ESP.install_project" title="esppy.connection.ESP.install_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">install_project</span></code></a>(self, project[, name, …])</p></td>
+<td><p>Load a project from a project definition</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.reload.html#esppy.connection.ESP.reload" title="esppy.connection.ESP.reload"><strong>reload</strong></a>()</td>
-<td>Reset the server model to the model used at startup</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.load_project.html#esppy.connection.ESP.load_project" title="esppy.connection.ESP.load_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_project</span></code></a>(self, project[, name, …])</p></td>
+<td><p>Load a project from a project definition</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.save.html#esppy.connection.ESP.save" title="esppy.connection.ESP.save"><strong>save</strong></a>([path])</td>
-<td>Save the server state</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.reload.html#esppy.connection.ESP.reload" title="esppy.connection.ESP.reload"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reload</span></code></a>(self)</p></td>
+<td><p>Reset the server model to the model used at startup</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.shutdown.html#esppy.connection.ESP.shutdown" title="esppy.connection.ESP.shutdown"><strong>shutdown</strong></a>()</td>
-<td>Shutdown the server</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.save.html#esppy.connection.ESP.save" title="esppy.connection.ESP.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(self[, path])</p></td>
+<td><p>Save the server state</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.start_project.html#esppy.connection.ESP.start_project" title="esppy.connection.ESP.start_project"><strong>start_project</strong></a>(name)</td>
-<td>Start specified project</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.shutdown.html#esppy.connection.ESP.shutdown" title="esppy.connection.ESP.shutdown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shutdown</span></code></a>(self)</p></td>
+<td><p>Shutdown the server</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.start_projects.html#esppy.connection.ESP.start_projects" title="esppy.connection.ESP.start_projects"><strong>start_projects</strong></a>([name,&nbsp;filter])</td>
-<td>Start projects</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.start_project.html#esppy.connection.ESP.start_project" title="esppy.connection.ESP.start_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_project</span></code></a>(self, name)</p></td>
+<td><p>Start specified project</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.stop_project.html#esppy.connection.ESP.stop_project" title="esppy.connection.ESP.stop_project"><strong>stop_project</strong></a>(name)</td>
-<td>Stop specified project</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.start_projects.html#esppy.connection.ESP.start_projects" title="esppy.connection.ESP.start_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_projects</span></code></a>(self[, name, filter])</p></td>
+<td><p>Start projects</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="esppy.connection.ESP.stop_projects.html#esppy.connection.ESP.stop_projects" title="esppy.connection.ESP.stop_projects"><strong>stop_projects</strong></a>([name,&nbsp;filter])</td>
-<td>Stop projects</td>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.stop_project.html#esppy.connection.ESP.stop_project" title="esppy.connection.ESP.stop_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop_project</span></code></a>(self, name)</p></td>
+<td><p>Stop specified project</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="esppy.connection.ESP.validate_project.html#esppy.connection.ESP.validate_project" title="esppy.connection.ESP.validate_project"><strong>validate_project</strong></a>(project)</td>
-<td>Validate project definition</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.connection.ESP.stop_projects.html#esppy.connection.ESP.stop_projects" title="esppy.connection.ESP.stop_projects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop_projects</span></code></a>(self[, name, filter])</p></td>
+<td><p>Stop projects</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.connection.ESP.validate_project.html#esppy.connection.ESP.validate_project" title="esppy.connection.ESP.validate_project"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_project</span></code></a>(self, project)</p></td>
+<td><p>Validate project definition</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">api_docs</span></code></p></td>
+<td><p>Swagger JSON documentation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_url</span></code></p></td>
+<td><p>The base server URL</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">connector_info</span></code></p></td>
+<td><p>Return the connection metadata for all connectors</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></p></td>
+<td><p>Engine metadata</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">server_info</span></code></p></td>
+<td><p>Retrive current status of the server</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">session</span></code></p></td>
+<td><p>The server session object</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>The URL of the object</p></td>
 </tr>
 </tbody>
 </table>
@@ -398,15 +430,16 @@ information.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="esppy.connection.ESP.save.html" class="btn btn-neutral float-right" title="esppy.connection.ESP.save" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="esppy.connection.ESP.save.html" class="btn btn-neutral float-right" title="esppy.connection.ESP.save" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../api.html" class="btn btn-neutral" title="API Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../api.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -415,11 +448,11 @@ information.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved..
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -432,35 +465,15 @@ information.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

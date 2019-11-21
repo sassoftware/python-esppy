@@ -61,6 +61,7 @@ esppy.windows.TextContextWindow
 
    .. autosummary::
    
+      ~TextContextWindow.base_name
       ~TextContextWindow.base_url
       ~TextContextWindow.collapse_updates
       ~TextContextWindow.contquery
@@ -68,10 +69,12 @@ esppy.windows.TextContextWindow
       ~TextContextWindow.fullname
       ~TextContextWindow.generate_nulls
       ~TextContextWindow.index_type
+      ~TextContextWindow.is_hidden
       ~TextContextWindow.liti_files
       ~TextContextWindow.name
       ~TextContextWindow.output_insert_only
       ~TextContextWindow.project
+      ~TextContextWindow.properties
       ~TextContextWindow.publisher_url
       ~TextContextWindow.pubsub
       ~TextContextWindow.pubsub_index_type
@@ -80,6 +83,7 @@ esppy.windows.TextContextWindow
       ~TextContextWindow.schema_string
       ~TextContextWindow.session
       ~TextContextWindow.subscriber_url
+      ~TextContextWindow.template
       ~TextContextWindow.text_field
       ~TextContextWindow.url
       ~TextContextWindow.window_classes

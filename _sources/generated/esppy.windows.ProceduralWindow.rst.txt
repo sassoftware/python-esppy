@@ -65,16 +65,19 @@ esppy.windows.ProceduralWindow
 
    .. autosummary::
    
+      ~ProceduralWindow.base_name
       ~ProceduralWindow.base_url
       ~ProceduralWindow.collapse_updates
       ~ProceduralWindow.contquery
       ~ProceduralWindow.exp_max_string
       ~ProceduralWindow.fullname
       ~ProceduralWindow.index_type
+      ~ProceduralWindow.is_hidden
       ~ProceduralWindow.name
       ~ProceduralWindow.output_insert_only
       ~ProceduralWindow.produces_only_inserts
       ~ProceduralWindow.project
+      ~ProceduralWindow.properties
       ~ProceduralWindow.publisher_url
       ~ProceduralWindow.pubsub
       ~ProceduralWindow.pubsub_index_type
@@ -83,6 +86,7 @@ esppy.windows.ProceduralWindow
       ~ProceduralWindow.schema_string
       ~ProceduralWindow.session
       ~ProceduralWindow.subscriber_url
+      ~ProceduralWindow.template
       ~ProceduralWindow.url
       ~ProceduralWindow.window_classes
       ~ProceduralWindow.window_type
