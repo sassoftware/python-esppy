@@ -206,7 +206,7 @@ class WindowDict(collections.MutableMapping):
 
 class Template(ESPObject, collections.MutableMapping):
     '''
-    Template
+    ESP Template
 
     Parameters
     ----------
@@ -361,7 +361,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        windows : the name of windows or Window objects
+        windows : one-or-more-Windows
+            The Window objects to add as input_windows for Template
 
         '''
 
@@ -383,7 +384,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        windows : the name of windows or Window objects
+        windows : one-or-more-Windows
+            The Window objects to deleted from input_windows
 
         '''
 
@@ -418,7 +420,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        windows : the name of windows or Window objects
+        windows : one-or-more-Windows
+            The Window objects to add as output_windows for Template
 
         '''
 
@@ -440,7 +443,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        windows : the name of windows or Window objects
+        windows : one-or-more-Windows
+            The Window objects to deleted from output_windows
 
         '''
 
@@ -490,7 +494,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        window : the name of window or a window object
+        window : Window
+            The Window object to set parameters
         **parameters : keyword-arguments, optional
             The parameters to set
 
@@ -512,7 +517,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        window : the name of window or a window object
+        window : Window, optional
+            The Window object to set inputs, default value is None
         **input_map : keyword-arguments, optional
             The parameters to set
 
@@ -542,7 +548,8 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        window : the name of window or a window object
+        window : Window, optional
+            The Window object to set outputs, default value is None
         **output_map : keyword-arguments, optional
             The parameters to set
 
@@ -567,11 +574,12 @@ class Template(ESPObject, collections.MutableMapping):
 
     def add_target(self, obj, **kwargs):
         '''
-        Add templates/windows as targets
+        Add target for Template
 
         Parameters
         ----------
-        obj : The window/template to use as targets
+        obj : Window or Template
+            The Window or Template object to add as targets
         role : string, optional
             The role of the connection
         slot : string, optional
@@ -601,12 +609,12 @@ class Template(ESPObject, collections.MutableMapping):
 
     def delete_target(self, *objs):
         '''
-        Delete templates/windows from targets
+        Delete targets for Template
 
         Parameters
         ----------
-        obj : one-or-more Windows or window names
-            The windows to use as targets
+        obj : Window or Template
+            The Window or Template object to deleted from targets
 
         Returns
         -------
@@ -675,9 +683,9 @@ class Template(ESPObject, collections.MutableMapping):
         Parameters
         ----------
         template : Template
-        a Template object to be imported to current template
+            A Template object to be imported to current template
         internal_only: bool, optional
-        only the internal edges are added?
+            Only includes the internal edges or not, default value is True
 
         Returns
         -------
@@ -712,11 +720,12 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        name: string, name of the copied template
+        name : string
+            Name of the copied template
         deep : bool, optional
-            Should sub-objects be copied as well?
+            Copy the sub-objects or not, default value is True
         internal_only: bool, optional
-            only the internal edges are copied?
+            Only includes the internal edges or not, default value is True
 
         Returns
         -------
@@ -787,10 +796,14 @@ class Template(ESPObject, collections.MutableMapping):
         data : xml-string or ElementTree.Element
             XML template definition
         template_name: string
+            The name for the newly created Template object
 
-        tag: type of imported template, optional
-        contquery : contquery name, optional
-        project : project name, optional
+        tag: string, optional
+            Type of imported template
+        contquery : string, optional
+            The name of Continuous Query
+        project : string, optional
+            The name of Project
         session : requests.Session, optionals
             The session object
 
@@ -956,8 +969,9 @@ class Template(ESPObject, collections.MutableMapping):
         Parameters
         ----------
         pretty : bool, optional
-            Should the output embed whitespaced for readability?
-        template : bool, to include template name or not, optional
+            Should the output embed whitespaced for readability or not, default value is False
+        template : bool, optional
+            To include template name or not, default value is False
 
         Returns
         -------
@@ -977,7 +991,7 @@ class Template(ESPObject, collections.MutableMapping):
         mode : string, optional
             The write mode for the output file (only used if `dest` is a string)
         pretty : boolean, optional
-            Should the XML include whitespace for readability?
+            Should the XML include whitespace for readability or not, default value is True
 
         '''
         if isinstance(dest, six.string_types):
@@ -1029,7 +1043,7 @@ class Template(ESPObject, collections.MutableMapping):
         mode : string, optional
             The write mode for the output file (only used if `dest` is a string)
         pretty : boolean, optional
-            Should the XML include whitespace for readability?
+            Should the XML include whitespace for readability or not, default value is True
 
         '''
         if isinstance(dest, six.string_types):
@@ -1047,9 +1061,9 @@ class Template(ESPObject, collections.MutableMapping):
         graph : graphviz.Graph, optional
             The parent graph to add to
         schema : bool, optional
-            Should window schemas be included?
+            Include window schemas or not, default value is False
         detail : bool, optional
-            Should template detail be shown?
+            Show template detail or not, default value is False
 
         Returns
         -------
@@ -1112,10 +1126,10 @@ class Template(ESPObject, collections.MutableMapping):
 
         Parameters
         ----------
-        window : string or Window object
+        window : string or Window
             The window to rename
         newname : string
-            The new name of the window
+            The new name of the Window object
 
         '''
 

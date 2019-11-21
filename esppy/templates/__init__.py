@@ -60,7 +60,7 @@ def add_method(cls, file_name):
 
         Parameters
         ----------
-        template_name: string
+        template_name : string
             the name of template
 
         Returns
