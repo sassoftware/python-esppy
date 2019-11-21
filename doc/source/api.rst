@@ -246,7 +246,7 @@ Continuous Queries
    ContinuousQuery.to_graph
 
 
-Template
+Templates
 ~~~~~~~~~~~~~~~~~~
 
 .. currentmodule:: esppy.templates
