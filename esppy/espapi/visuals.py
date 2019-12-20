@@ -9,6 +9,8 @@ import esppy.espapi.viewers as viewers
 
 from esppy.espapi.tools import Options, Colors
 
+from base64 import b64encode
+
 import sys
 
 import threading
@@ -118,6 +120,13 @@ class Visuals(Options):
     def createTable(self,datasource,**kwargs):
         datasource.addDelegate(self)
         chart = Table(self,datasource,**kwargs)
+        chart.create()
+        self._visuals.append(chart)
+        return(chart)
+
+    def createImageViewer(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = ImageViewer(self,datasource,**kwargs)
         chart.create()
         self._visuals.append(chart)
         return(chart)
@@ -769,6 +778,51 @@ class Table(Chart):
 
         self.setTitle()
 
+class ImageViewer(Chart):
+    def __init__(self,visuals,datasource,**kwargs):
+        Chart.__init__(self,visuals,datasource,**kwargs)
+        self._data = None
+        self._detection = None
+
+    def draw(self,data = None,clear = False):
+        if data != None and len(data) > 0:
+
+            if self._detection == None:
+                if self._datasource.schema.hasFields():
+                    self._detection = (self._datasource.schema.getField("_nObjects_") != None)
+
+            self._data = data[len(data) - 1]
+            field = self.getOpt("image");
+
+            html = None
+
+            if field in self._data:
+                imagedata = b64encode(self._data[field]).decode("utf-8")
+                html = ""
+                html += "<div style='width:" + str(self.getOpt("image_width",400)) + "px;height:" + str(self.getOpt("image_height",400)) + "px;position:relative;margin:auto;border:" + self.getOpt("image_border","1px solid #000000") + "'>"
+                html += "<img style='width:100%;height:100%' src='data:image/jpeg;base64," + imagedata + "'/>"
+
+                if self._detection:
+                    if "_nObjects_" in self._data:
+                        value = str(self._data["_nObjects_"])
+                        numObjects = int(float(value))
+                        for i in range(0,numObjects):
+                            s = "_Object" + str(i) + "_"
+                            text = self._data[s].strip()
+                            s = "_Object" + str(i) + "_x"
+                            x = int(float(self._data[s]) * 100)
+                            s = "_Object" + str(i) + "_y"
+                            y = int(float(self._data[s]) * 100)
+                            html += "<div style='position:absolute;zindex:1000;font-weight:normal;color:" + self.getOpt("label_color","white") + ";left:" + str(x) + "%;top:" + str(y) + "%;'>" + text + "</div>"
+
+                html += "</div>";
+
+            if html != None:
+                content = widgets.HTML(value=html,layout=widgets.Layout(border=self._visuals.getOpt("border","1px solid #d8d8d8"),width="100%",height="100%",overflow="auto"))
+                self.children = [self._banner,content]
+
+        self.setTitle()
+
 class Images(Chart):
 
     def __init__(self,visuals,datasource,**kwargs):
@@ -907,7 +961,8 @@ class ImageEntry(Options):
             if field in self._data:
                 data = self._data[field]
 
-                if data.find(Visuals._dataHeader) == 0:
+                #if data.find(Visuals._dataHeader) == 0:
+                if True:
                     s = data[len(Visuals._dataHeader):]
                     key = self._data["_key_"]
                     index = s.find(":")
@@ -915,7 +970,9 @@ class ImageEntry(Options):
                     s = s[index + 1:]
 
                     html += "<div style='width:" + str(self._images.getOpt("image_width",400)) + "px;height:" + str(self._images.getOpt("image_height",400)) + "px;position:relative;margin:auto;border:" + self._images.getOpt("image_border","1px solid #000000") + "'>"
-                    html += "<img style='width:100%;height:100%' src='data:image/" + format + ";base64," + s + "'/>"
+                    #html += "<img style='width:100%;height:100%' src='data:image/" + format + ";base64," + s + "'/>"
+                    #html += "<img style='width:100%;height:100%' src='data:application/octet-stream;base64," + s + "'/>"
+                    html += "<img style='width:100%;height:100%' src='data:image/jpeg;base64," + data + "'/>"
 
                     if self._images._detection:
                     #if False:
@@ -1176,7 +1233,7 @@ class Map(Chart):
                 for i,s in enumerate(popup):
                     if i > 0:
                         text += "<br/>"
-                    text += s + "=" + value[s]
+                    text += s + "=" + str(value[s])
                 marker.popup.value = text
 
         remove = {}

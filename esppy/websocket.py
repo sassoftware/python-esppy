@@ -32,7 +32,9 @@ except ImportError:
     wsaccel = None
 from six.moves import urllib
 from ws4py.client.threadedclient import WebSocketClient as WS4PyWebSocketClient
+from ws4py.messaging import BinaryMessage
 
+from .espapi import tools
 
 try:
     if wsaccel is not None:
@@ -55,6 +57,8 @@ class WebSocketClient(WS4PyWebSocketClient):
         Function to call when the websocket is closed
     on_message : function, optional
         Function to call when a message is received
+    on_data: function, optional
+        Function to call when binary data is received
     on_error : function, optional
         Function to call when an error occurs
     **kwargs : keyword-arguments, optional
@@ -66,10 +70,10 @@ class WebSocketClient(WS4PyWebSocketClient):
 
     '''
 
-    def __init__(self, url, on_open=None, on_close=None, on_message=None,
+    def __init__(self, url, on_open=None, on_close=None, on_message=None, on_data=None,
                  on_error=None, **kwargs):
         self.callbacks = dict(on_open=on_open, on_close=on_close,
-                              on_message=on_message, on_error=on_error)
+                              on_message=on_message, on_data=on_data, on_error=on_error)
         WS4PyWebSocketClient.__init__(self, url, **kwargs)
 
     def received_message(self, message):
@@ -82,8 +86,12 @@ class WebSocketClient(WS4PyWebSocketClient):
             The data from the server
 
         '''
-        if self.callbacks.get('on_message'):
-            return self.callbacks['on_message'](self, message.data.decode(message.encoding))
+        if isinstance(message,BinaryMessage):
+            if self.callbacks.get('on_data'):
+                return self.callbacks['on_data'](self, message.data)
+        else:
+            if self.callbacks.get('on_message'):
+                return self.callbacks['on_message'](self, message.data.decode(message.encoding))
 
     def unhandled_error(self, error):
         '''
