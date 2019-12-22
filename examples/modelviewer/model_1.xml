@@ -1,0 +1,123 @@
+<project name='primary' index='pi_EMPTY' pubsub='auto' threads='4'>
+    <metadata>
+        <meta name="a">1</meta>
+        <meta name="b">2</meta>
+        <meta name="version">3.3</meta>
+    </metadata>
+    <contqueries>
+        <contquery name='cq'>
+        <!--
+        <contquery name='cq' trace='counter'>
+        <contquery name='cq' trace='rawTrades'>
+        -->
+            <metadata>
+                <meta name="a1">1</meta>
+                <meta name="b1">2</meta>
+                <meta name="c1">3</meta>
+                <meta name="version">5.3</meta>
+            </metadata>
+            <windows>
+                <window-source name='rawTrades' insert-only='true'>
+                    <schema-string>id*:int64,symbol:string,currency:int32,time:int64,msecs:int32,price:double,quant:int32,venue:int32,broker:int32,buyer:int32,seller:int32,buysellflg:int32</schema-string>
+                </window-source>
+                <window-source name='brokersSource' insert-only='true'>
+                    <schema>
+                        <fields>
+                            <field name='broker' type='int32' key='true'/>
+                            <field name='brokerName' type='string'/>
+                            <field name='brokerage' type='string'/>
+                            <field name='brokerAddress' type='string'/>
+                            <field name='brokerEmail' type='string'/>
+                            <field name='brokerPhone' type='string'/>
+                            <field name='brokerSms' type='string'/>
+                            <field name='brokerMms' type='string'/>
+                        </fields>
+                    </schema>
+                </window-source>
+                <window-source name='venuesSource' insert-only='true'>
+                    <schema-string>venue*:int32,openTimeGMT:string,closeTimeGMT:string,city:string,lat:double,lon:double</schema-string>
+                </window-source>
+                <window-source name='restrictedSource' insert-only='true'>
+                    <schema-string>symbol*:string,venue*:int32,restricted:int32</schema-string>
+                </window-source>
+                <window-join name='addBrokerData'>
+                    <join type='leftouter' no-regenerates='true'>
+                        <conditions>
+                            <fields left='broker' right='broker'/>
+                        </conditions>
+                    </join>
+                    <output>
+                        <left-select>broker,buyer,buysellflg,closeSeconds,closeTimeGMT,currency,msecs,openSeconds,openTimeGMT,price,quant,seller,symbol,time,venue,city,lat,lon</left-select>
+                        <right-select>brokerEmail,brokerAddress,brokerMms,brokerName,brokerPhone,brokerSms,brokerage</right-select>
+                    </output>
+                </window-join>
+                <window-join name='addVenueData'>
+                    <join type='leftouter' no-regenerates='true'>
+                        <conditions>
+                            <fields left='venue' right='venue'/>
+                        </conditions>
+                    </join>
+                    <output>
+                        <left-select>broker,buyer,buysellflg,currency,msecs,price,quant,seller,symbol,time,venue</left-select>
+                        <right-select>closeSeconds,closeTimeGMT,openSeconds,openTimeGMT,city,lat,lon</right-select>
+                    </output>
+                </window-join>
+                <window-join name='addRestrictedData'>
+                    <join type='leftouter' no-regenerates='true'>
+                        <conditions>
+                            <fields left='symbol' right='symbol'/>
+                            <fields left='venue' right='venue'/>
+                        </conditions>
+                    </join>
+                    <output>
+                        <left-select>broker,brokerAddress,brokerEmail,brokerMms,brokerName,brokerPhone,brokerSms,brokerage,buyer,buysellflg,closeSeconds,closeTimeGMT,currency,msecs,openSeconds,openTimeGMT,price,quant,seller,symbol,time,venue,city,lat,lon</left-select>
+                        <right-select>restricted</right-select>
+                    </output>
+                </window-join>
+                <window-functional name='transform'>
+                    <schema-string>id*:int64,broker:int32,brokerAddress:string,brokerEmail:string,brokerMms:string,brokerName:string,brokerPhone:string,brokerSms:string,brokerage:string,buyer:int32,buysellflg:int32,closeSeconds:int64,closeTimeGMT:string,currency:int32,msecs:int32,openSeconds:int64,openTimeGMT:string,price:double,quant:int32,seller:int32,symbol:string,time:int64,venue:int32,city:string,lat:double,lon:double,restricted:int32,date:string,tradeSeconds:int32,timeAfterOpen:int32,timeTillClose:int32</schema-string>
+                    <function-context>
+                        <functions>
+                            <function name='date'>timeString($time,'%c')</function>
+                            <function name='tradeSeconds'>timeSecondOfDay($time)</function>
+                            <!--
+                            <function name='tradeSeconds'>timeSecondOfDay(diff($time,3600))</function>
+                            -->
+                            <function name='timeAfterOpen'>diff($tradeSeconds,$openSeconds)</function>
+                            <function name='timeTillClose'>diff($closeSeconds,$tradeSeconds)</function>
+                        </functions>
+                    </function-context>
+                </window-functional>
+                <window-functional name='venueData'>
+                    <schema-string>venue*:int32,openTimeGMT:string,closeTimeGMT:string,city:string,lat:double,lon:double,openSeconds:int64,closeSeconds:int64</schema-string>
+                    <function-context>
+                        <functions>
+                            <function name='openSeconds'>timeSecondOfDay(timeGmtToLocal(timeParse($openTimeGMT,'%H:%M:%S')))</function>
+                            <function name='closeSeconds'>timeSecondOfDay(timeGmtToLocal(timeParse($closeTimeGMT,'%H:%M:%S')))</function>
+                        </functions>
+                    </function-context>
+                </window-functional>
+                <window-filter name='largeTrades'>
+                    <expression><![CDATA[quant>=1000]]></expression>
+                </window-filter>
+                <window-filter name='validBroker'>
+                    <expression>isnull(brokerName)==false</expression>
+                </window-filter>
+                <!--
+                <window-counter name='counter' count-interval='100 milliseconds' clear-interval='5 seconds' index='pi_HASH'/>
+                -->
+                <window-counter name='counter' count-interval='2000 milliseconds' clear-interval='5 seconds' index='pi_HASH'/>
+            </windows>
+            <edges>
+                <edge source='rawTrades' target='largeTrades counter'/>
+                <edge source='largeTrades venueData' target='addVenueData'/>
+                <edge source='addVenueData brokersSource' target='addBrokerData'/>
+                <edge source='addBrokerData' target='validBroker'/>
+                <edge source='validBroker restrictedSource' target='addRestrictedData'/>
+                <edge source='venuesSource' target='venueData'/>
+                <edge source='addRestrictedData' target='transform'/>
+            </edges>
+        </contquery>
+    </contqueries>
+
+</project>

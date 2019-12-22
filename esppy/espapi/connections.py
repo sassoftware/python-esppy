@@ -245,7 +245,7 @@ class ServerConnection(Connection):
         if o != None:
             self.processJson(o)
         elif xml != None:
-            self.processXml(xml,data)
+            self.processXml(xml)
 
     def data(self,data):
         decoder = tools.JsonDecoder(data)
