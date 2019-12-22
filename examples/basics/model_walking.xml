@@ -50,7 +50,9 @@
                 </properties>
               </output-map>
             </window-calculate>
-            <window-copy name="w_copy"/>
+            <window-copy name="w_copy">
+                <retention type="bytime_sliding">60 seconds</retention>
+            </window-copy>
           </windows>
           <edges>
             <edge source='w_data'    target='w_calculate' role='data'/>

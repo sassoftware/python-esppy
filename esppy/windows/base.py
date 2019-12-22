@@ -398,6 +398,10 @@ class BaseWindow(ESPObject):
         return out
 
     @property
+    def path(self):
+        return(self.project + "/" + self.contquery + "/" + self.name)
+
+    @property
     def schema(self):
         '''
         Return the schema for the window

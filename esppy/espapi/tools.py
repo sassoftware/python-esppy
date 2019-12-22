@@ -74,6 +74,17 @@ class Options(object):
     def items(self):
         return(self._opts.items())
 
+    def __str__(self):
+        i = 0
+        s = ""
+        for name,value in self._opts.items():
+            if i > 0:
+                s += ","
+            s += name
+            s += "="
+            s += value
+        return(s)
+
     @property
     def options(self):
         return(self._opts)
@@ -204,7 +215,7 @@ class Colors(Options):
         colorscale = []
         luma = []
 
-        if colormap != None:
+        if colormap != None and len(colormap) > 0:
             if colormap.find("sas_") == 0:
                 if colormap in Colors._sasThemes:
                     colors.extend(Colors._sasThemes[colormap])

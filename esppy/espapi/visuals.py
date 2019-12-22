@@ -50,7 +50,7 @@ class Visuals(Options):
         elif self.hasOpt("colors"):
             self._colors = tools.Colors(colors=self.getOpt("colors"))
         else:
-            self._colors = tools.Colors(colormap=None)
+            self._colors = tools.Colors(colormap="")
 
         self._titleStyle = tools.Options(font_size="12pt")
 
@@ -71,6 +71,13 @@ class Visuals(Options):
     def createLineChart(self,datasource,**kwargs):
         datasource.addDelegate(self)
         chart = LineChart(self,datasource,**kwargs)
+        chart.create()
+        self._visuals.append(chart)
+        return(chart)
+
+    def createScatterPlot(self,datasource,**kwargs):
+        datasource.addDelegate(self)
+        chart = ScatterPlot(self,datasource,**kwargs)
         chart.create()
         self._visuals.append(chart)
         return(chart)
@@ -450,15 +457,22 @@ class LineChart(Chart):
 
         colors = self._visuals._colors.getFirst(len(values))
 
+        mode = "lines"
+
+        if fill:
+            mode = "none"
+        elif self.hasOpt("mode"):
+            mode = self.getOpt("mode")
+
         for i,v in enumerate(values):
             if fill:
                 if i == 0:
-                    self._data.append(go.Scatter(x=[""],y=[0],name=v,mode="none",fill="tozeroy",fillcolor=colors[i]))
+                    self._data.append(go.Scatter(x=[""],y=[0],name=v,mode=mode,fill="tozeroy",fillcolor=colors[i]))
                 else:
-                    self._data.append(go.Scatter(x=[""],y=[0],name=v,mode="none",fill="tonexty",fillcolor=colors[i]))
+                    self._data.append(go.Scatter(x=[""],y=[0],name=v,mode=mode,fill="tonexty",fillcolor=colors[i]))
             else:
                 line["color"] = colors[i]
-                self._data.append(go.Scatter(x=[""],y=[0],name=v,mode="lines",line=line))
+                self._data.append(go.Scatter(x=[""],y=[0],name=v,mode=mode,line=line))
 
     def draw(self,data = None,clear = False):
         if self._figure == None:
@@ -492,6 +506,11 @@ class LineChart(Chart):
         self._figure.update_yaxes(automargin=True)
 
         self.setTitle()
+
+class ScatterPlot(LineChart):
+    def __init__(self,visuals,datasource,**kwargs):
+        LineChart.__init__(self,visuals,datasource,**kwargs)
+        self.setOpt("mode","markers")
 
 class TimeSeries(LineChart):
     def __init__(self,visuals,datasource,**kwargs):

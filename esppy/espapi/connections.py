@@ -1,4 +1,5 @@
 from xml.etree import ElementTree
+from ..windows import BaseWindow
 import pandas as pd
 import esppy.espapi.tools as tools
 import threading
@@ -654,6 +655,7 @@ class Datasource(tools.Options):
                 raise Exception("field " + s + " not found")
             keyFields.append(f)
 
+        logging.info("key fields: " + str(keyFields))
         timeKeys = False
 
         if len(keyFields) == 1:
@@ -715,6 +717,7 @@ class Datasource(tools.Options):
         for k,v in data.items():
             if timeKeys:
                 dt = pd.to_datetime(k,unit="us")
+                logging.info("HERE: " + str(dt))
                 keyValues.append(dt)
             else:
                 keyValues.append(k)
@@ -841,7 +844,10 @@ class Datasource(tools.Options):
 class EventCollection(Datasource):
     def __init__(self,conn,path,**kwargs):
         Datasource.__init__(self,conn,**kwargs)
-        self._path = path
+        if isinstance(path,BaseWindow):
+            self._path = path.path
+        else:
+            self._path = path
         self._page = 0
         self._pages = 0
         self._data = {}
@@ -864,8 +870,8 @@ class EventCollection(Datasource):
             interval = self._connection.getOpt("interval")
 
         if interval == None:
-            #interval = 1000
-            interval = 0
+            interval = 1000
+            #interval = 0
 
         self.setOpt("interval",interval)
 
@@ -1119,7 +1125,10 @@ class EventCollection(Datasource):
 class EventStream(Datasource):
     def __init__(self,conn,path,**kwargs):
         Datasource.__init__(self,conn,**kwargs)
-        self._path = path
+        if isinstance(path,BaseWindow):
+            self._path = path.path
+        else:
+            self._path = path
         self._data = []
         self._counter = 1
 
@@ -1140,8 +1149,8 @@ class EventStream(Datasource):
             interval = self._connection.getOpt("interval")
 
         if interval == None:
-            #interval = 1000
-            interval = 0
+            interval = 1000
+            #interval = 0
 
         self.setOpt("interval",interval)
 
@@ -1739,7 +1748,7 @@ class Schema(object):
             elif o["espType"] == "date":
                 o["type"] = "date"
                 o["isDate"] = True
-            elif o["espType"] == "timestamp":
+            elif o["espType"] == "timestamp" or o["espType"] == "stamp":
                 o["type"] = "datetime"
                 o["isTime"] = True
             else:
@@ -1787,7 +1796,7 @@ class Schema(object):
             elif o["espType"] == "date":
                 o["type"] = "date"
                 o["isDate"] = True
-            elif o["espType"] == "timestamp":
+            elif o["espType"] == "timestamp" or o["espType"] == "stamp":
                 o["type"] = "datetime"
                 o["isTime"] = True
             else:
@@ -1833,7 +1842,7 @@ class Schema(object):
             elif o["espType"] == "date":
                 o["type"] = "date"
                 o["isDate"] = True
-            elif o["espType"] == "timestamp":
+            elif o["espType"] == "timestamp" or o["espType"] == "stamp":
                 o["type"] = "datetime"
                 o["isTime"] = True
             else:
