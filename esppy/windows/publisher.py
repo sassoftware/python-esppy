@@ -38,6 +38,7 @@ import weakref
 import xml.etree.ElementTree as ET
 from six.moves import urllib
 from .utils import verify_window
+from ..utils.authorization import Authorization
 from ..base import ESPObject, attribute
 from ..config import get_option
 from ..exceptions import ESPError
@@ -144,8 +145,10 @@ class Publisher(object):
 
         headers = []
 
-        if "Authorization" in self.session.headers:
-            headers.append(("Authorization",self.session.headers["Authorization"].decode("utf-8")))
+        auth = Authorization.getInstance(self.session)
+
+        if auth.isEnabled:
+            headers.append(("Authorization",auth.authorization));
 
         self._ws = WebSocketClient(self.url,headers=headers)
         self._ws.connect()

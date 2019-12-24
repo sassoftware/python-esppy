@@ -1,5 +1,7 @@
 from xml.etree import ElementTree
 from ..windows import BaseWindow
+from ..utils.authorization import Authorization
+from urllib.parse import urlparse
 import pandas as pd
 import esppy.espapi.tools as tools
 import threading
@@ -15,11 +17,23 @@ if os.getenv("ESPPY_LOG") != None:
     logging.basicConfig(filename=os.getenv("ESPPY_LOG"),level=logging.INFO)
 
 class Connection(tools.Options):
-    def __init__(self,host,port,secure,**kwargs):
+    def __init__(self,session,**kwargs):
         tools.Options.__init__(self,**kwargs)
-        self._host = host
-        self._port = port
-        self._secure = secure
+
+        self._session = session
+
+        url = urlparse(self._session.conn_url)
+
+        self._secure = False
+
+        if url[0] == "https":
+            self._secure = True
+
+        s = url[1].split(":")
+
+        self._host = s[0]
+        self._port = s[1]
+
         self._websocket = None
         self._handshakeComplete = False
         self._headers = None
@@ -36,7 +50,14 @@ class Connection(tools.Options):
         if (url == None):
             raise Exception("invalid url")
 
-        ws = esppy.websocket.WebSocketClient(url,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close)
+        headers = []
+
+        auth = Authorization.getInstance(self._session)
+
+        if auth.isEnabled:
+            headers.append(("Authorization",auth.authorization));
+
+        ws = esppy.websocket.WebSocketClient(url,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close,headers=headers)
         ws.connect()
 
     def stop(self):
@@ -213,8 +234,8 @@ class ServerConnection(Connection):
         "text-topic":"textanalytics"
     }
 
-    def __init__(self,host,port,secure,delegate,**kwargs):
-        Connection.__init__(self,host,port,secure,**kwargs)
+    def __init__(self,session,delegate,**kwargs):
+        Connection.__init__(self,session,**kwargs)
         self._delegate = delegate
         self._datasources = {}
         self._publishers = {}

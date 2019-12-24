@@ -36,6 +36,7 @@ import threading
 import types
 import weakref
 import xml.etree.ElementTree as ET
+from ..utils.authorization import Authorization
 from six.moves import urllib
 from .utils import verify_window
 from ..base import ESPObject, attribute
@@ -396,11 +397,19 @@ class Subscriber(object):
         if get_option('debug.requests'):
             sys.stderr.write('WEBSOCKET %s\n' % self.url)
 
+        headers = []
+
+        auth = Authorization.getInstance(self.session)
+
+        if auth.isEnabled:
+            headers.append(("Authorization",auth.authorization));
+
         self._ws = WebSocketClient(self.url,
                                    on_message=on_message,
                                    on_error=on_error,
                                    on_open=on_open,
-                                   on_close=on_close)
+                                   on_close=on_close,
+                                   headers=headers)
 
         self._ws.connect()
 
