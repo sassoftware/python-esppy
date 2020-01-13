@@ -1,6 +1,7 @@
 from xml.etree import ElementTree
 from ..windows import BaseWindow
 from ..utils.authorization import Authorization
+from ..utils.resources import Resources
 from urllib.parse import urlparse
 import pandas as pd
 import esppy.espapi.tools as tools
@@ -355,6 +356,7 @@ class ServerConnection(Connection):
 
     def getEventCollection(self,path,**kwargs):
         ec = EventCollection(self,path,**kwargs)
+        #print("MESSAGE: " + Resources.getInstance().getText("testmsg"))
         self._datasources[ec._id] = ec
         if self.isHandshakeComplete:
             ec.open()
@@ -1839,11 +1841,9 @@ class Schema(object):
         self._keyFields = []
         self._columns = []
 
-        for f in json["fields"]:
+        for field in json["fields"]:
 
             o = {}
-
-            field = f["field"]
 
             name = field["@name"]
             o["name"] = name

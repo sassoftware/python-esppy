@@ -23,7 +23,7 @@ Utility for handling authentication info
 
 from base64 import b64encode
 
-class Authorization:
+class Authorization(object):
     _instance = None
 
     @staticmethod
