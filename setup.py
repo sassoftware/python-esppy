@@ -50,6 +50,7 @@ setup(
         'requests',
         # 'requests-kerberos',
         'graphviz',
+        'rbtranslations',
         'ws4py',
         # 'wsaccel',
     ],
