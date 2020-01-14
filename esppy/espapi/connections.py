@@ -313,7 +313,7 @@ class ServerConnection(Connection):
                         del self._urlPublishers[id]
 
         else:
-            print("THE MSG: " + message)
+            print("GOT MSG")
 
     def processJson(self,json):
         type = ""
