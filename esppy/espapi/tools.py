@@ -7,8 +7,6 @@ import matplotlib
 
 from base64 import b16encode, b64encode
 
-import plotly.colors as clrs
-
 from matplotlib import cm
 
 import matplotlib.colors as mcolors
@@ -211,6 +209,10 @@ class Colors(Options):
             self.createFromColors(self.getOpt("colors"))
 
     def createFromColorMap(self,colormap):
+
+        if "clrs" not in sys.modules:
+            import plotly.colors as clrs
+
         colors = []
         colorscale = []
         luma = []
@@ -516,6 +518,7 @@ class JsonEncoder(object):
                 self.encode(item,None)
             self.endArray()
         elif isinstance(o,dict):
+            self.writeName(name)
             self.beginObject()
             for x in o:
                 self.encode(o[x],x)

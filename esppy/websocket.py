@@ -34,8 +34,6 @@ from six.moves import urllib
 from ws4py.client.threadedclient import WebSocketClient as WS4PyWebSocketClient
 from ws4py.messaging import BinaryMessage
 
-from .espapi import tools
-
 try:
     if wsaccel is not None:
         wsaccel.patch_ws4py()
