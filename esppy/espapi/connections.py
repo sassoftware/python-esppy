@@ -1,17 +1,10 @@
 from xml.etree import ElementTree
-from ..windows import BaseWindow
-from ..utils.authorization import Authorization
-from ..utils.resources import Resources
-from urllib.parse import urlparse
-from base64 import b16encode, b64encode
 import pandas as pd
 import esppy.espapi.tools as tools
 import threading
 import logging
 import esppy
-import json
 import time
-import csv
 import six
 import re
 import os
@@ -20,23 +13,11 @@ if os.getenv("ESPPY_LOG") != None:
     logging.basicConfig(filename=os.getenv("ESPPY_LOG"),level=logging.INFO)
 
 class Connection(tools.Options):
-    def __init__(self,session,**kwargs):
+    def __init__(self,host,port,secure,**kwargs):
         tools.Options.__init__(self,**kwargs)
-
-        self._session = session
-
-        url = urlparse(self._session.conn_url)
-
-        self._secure = False
-
-        if url[0] == "https":
-            self._secure = True
-
-        s = url[1].split(":")
-
-        self._host = s[0]
-        self._port = s[1]
-
+        self._host = host
+        self._port = port
+        self._secure = secure
         self._websocket = None
         self._handshakeComplete = False
         self._headers = None
@@ -53,14 +34,7 @@ class Connection(tools.Options):
         if (url == None):
             raise Exception("invalid url")
 
-        headers = []
-
-        auth = Authorization.getInstance(self._session)
-
-        if auth.isEnabled:
-            headers.append(("Authorization",auth.authorization))
-
-        ws = esppy.websocket.WebSocketClient(url,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close,headers=headers)
+        ws = esppy.websocket.WebSocketClient(url,on_message=self.on_message,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close)
         ws.connect()
 
     def stop(self):
@@ -77,11 +51,6 @@ class Connection(tools.Options):
         if self._websocket != None:
             #logging.info("SEND: " + str(data))
             self._websocket.send(str(data))
-
-    def sendBinary(self,o):
-        if self._websocket != None:
-            encoder = tools.JsonEncoder(o)
-            self._websocket.send(encoder.data,True)
 
     def getUrl(self):
         return(None)
@@ -153,9 +122,6 @@ class Connection(tools.Options):
 
     def on_message(self,ws,message):
         self.message(message)
-
-    def on_data(self,ws,data):
-        self.data(data)
 
     def setAuthorization(self,value):
         self._authorization = value
@@ -237,8 +203,8 @@ class ServerConnection(Connection):
         "text-topic":"textanalytics"
     }
 
-    def __init__(self,session,delegate,**kwargs):
-        Connection.__init__(self,session,**kwargs)
+    def __init__(self,host,port,secure,delegate,**kwargs):
+        Connection.__init__(self,host,port,secure,**kwargs)
         self._delegate = delegate
         self._datasources = {}
         self._publishers = {}
@@ -255,28 +221,8 @@ class ServerConnection(Connection):
 
         #logging.info("MSG: " + message)
 
-        xml = None
-        o = None
+        xml = ElementTree.fromstring(str(message))
 
-        for c in message:
-            if c == '{' or c == '[':
-                o = json.loads(str(message))
-                break
-            elif c == '<':
-                xml = ElementTree.fromstring(str(message))
-                break
-
-        if o != None:
-            self.processJson(o)
-        elif xml != None:
-            self.processXml(xml)
-
-    def data(self,data):
-        decoder = tools.JsonDecoder(data)
-        if decoder.data != None:
-            self.processJson(decoder.data)
-
-    def processXml(self,xml):
         if xml.tag == "events" or xml.tag == "schema" or xml.tag == "info":
 
             datasource = None
@@ -287,9 +233,9 @@ class ServerConnection(Connection):
                     datasource = self._datasources[id]
             if datasource != None:
                 if xml.tag == "events":
-                    datasource.eventsXml(xml)
+                    datasource.events(xml)
                 elif xml.tag == "schema":
-                    datasource.setSchemaFromXml(xml)
+                    datasource.setSchema(xml)
                 elif xml.tag == "info":
                     datasource.info(xml)
         elif xml.tag == "stats":
@@ -315,31 +261,7 @@ class ServerConnection(Connection):
                         del self._urlPublishers[id]
 
         else:
-            logging.info("GOT MSG: " + str(xml))
-
-    def processJson(self,json):
-
-        if "events" in json:
-            o = json["events"]
-
-            if "@id" in o:
-                id = o["@id"]
-                if id in self._datasources:
-                    self._datasources[id].events(o)
-        elif "info" in json:
-            o = json["info"]
-            if "@id" in o:
-                id = o["@id"]
-                if id in self._datasources:
-                    self._datasources[id].deliverInfo(o)
-        elif "schema" in json:
-            o = json["schema"]
-            id = o["@id"]
-
-            if id in self._datasources:
-                self._datasources[id].setSchemaFromJson(o)
-            elif id in self._publishers:
-                self._publishers[id].setSchemaFromJson(o)
+            print("THE MSG: " + message)
 
     def getUrl(self):
         url = ""
@@ -353,7 +275,6 @@ class ServerConnection(Connection):
 
     def getEventCollection(self,path,**kwargs):
         ec = EventCollection(self,path,**kwargs)
-        #print("MESSAGE: " + Resources.getInstance().getText("testmsg"))
         self._datasources[ec._id] = ec
         if self.isHandshakeComplete:
             ec.open()
@@ -367,30 +288,30 @@ class ServerConnection(Connection):
         return(es)
 
     def getPublisher(self,path,**kwargs):
-        publisher = Publisher(self,path,**kwargs)
-        self._publishers[publisher._id] = publisher
+        publisher = Publisher(self,path,**kwargs);
+        self._publishers[publisher._id] = publisher;
         if self.isHandshakeComplete:
-            publisher.open()
-        return(publisher)
+            publisher.open();
+        return(publisher);
 
     def publishUrl(self,path,url,**kwargs):
         opts = tools.Options(**kwargs)
         blocksize = opts.getOpt("blocksize",1)
         wait = opts.getOpt("wait",False)
 
-        id = tools.guid()
+        id = tools.guid();
 
-        json = {"url-publisher":{}}
-        o = json["url-publisher"]
+        o = {}
+        o["request"] = "url-publisher"
         o["id"] = id
-        o["window"] = path
-        o["url"] = url
+        o["window"] = path;
+        o["url"] = url;
         o["blocksize"] = blocksize
 
         publisher = {"complete":False}
         self._urlPublishers[id] = publisher
 
-        self.send(json)
+        self.send(o)
 
         if wait:
             while publisher["complete"] == False:
@@ -404,12 +325,12 @@ class ServerConnection(Connection):
 
         id = tools.guid()
 
-        json = {"publisher":{}}
-        request = json["publisher"]
+        request = {}
+        request["request"] = "publisher"
         request["id"] = id
         request["action"] = "set"
         request["window"] = path
-        self.send(json)
+        self.send(request)
 
         request["action"] = "publish"
 
@@ -422,7 +343,7 @@ class ServerConnection(Connection):
             data.append(o)
             if len(data) == size:
                 request["data"] = data
-                self.send(json)
+                self.send(request)
                 data = []
 
         if len(data) > 0:
@@ -431,7 +352,7 @@ class ServerConnection(Connection):
 
         request["data"] = None
         request["action"] = "delete"
-        self.send(json)
+        self.send(request)
 
     def publishList(self,path,l,**kwargs):
         opts = tools.Options(**kwargs)
@@ -441,12 +362,12 @@ class ServerConnection(Connection):
 
         id = tools.guid()
 
-        json = {"publisher":{}}
-        request = json["publisher"]
+        request = {}
+        request["request"] = "publisher"
         request["id"] = id
         request["action"] = "set"
         request["window"] = path
-        self.send(json)
+        self.send(request)
 
         request["action"] = "publish"
 
@@ -459,16 +380,16 @@ class ServerConnection(Connection):
             data.append(o)
             if len(data) == size:
                 request["data"] = data
-                self.send(json)
+                self.send(request)
                 data = []
 
         if len(data) > 0:
             request["data"] = data
-            self.send(json)
+            self.send(request)
 
         request["data"] = None
         request["action"] = "delete"
-        self.send(json)
+        self.send(request)
 
     def getStats(self):
         return(self._stats)
@@ -483,60 +404,14 @@ class ServerConnection(Connection):
         id = tools.guid()
         self._modelDelegates[id] = ModelDelegate(self,delegate)
 
-        json = {"model":{}}
-        o = json["model"]
+        o = {}
+        o["request"] = "model"
         o["id"] = id
         o["schema"] = True
         o["index"] = True
         o["xml"] = True
 
-        self.send(json)
-
-    def loadProjectFromFile(self,name,filename,**kwargs):
-        with open(filename) as f:
-            contents = f.read().encode("utf-8")
-            data = b64encode(contents)
-
-            json = {"project":{}}
-            o = json["project"]
-            o["id"] = tools.guid()
-            o["name"] = name
-            o["action"] = "load"
-
-            opts = tools.Options(**kwargs)
-
-            parms = {}
-
-            for k,v in opts.items():
-                parms[k] = str(v)
-
-            o["parms"] = parms
-            o["data"] = data.decode("utf-8")
-
-            self.send(json)
-
-    def loadRouterFromFile(self,name,filename,**kwargs):
-        with open(filename) as f:
-            contents = f.read().encode("utf-8")
-            data = b64encode(contents)
-
-            json = {"router":{}}
-            o = json["router"]
-            o["id"] = tools.guid()
-            o["name"] = name
-            o["action"] = "load"
-
-            opts = tools.Options(**kwargs)
-
-            parms = {}
-
-            for k,v in opts.items():
-                parms[k] = str(v)
-
-            o["parms"] = parms
-            o["data"] = data.decode("utf-8")
-
-            self.send(json)
+        self.send(o)
 
     def handshakeComplete(self):
 
@@ -590,14 +465,8 @@ class Datasource(tools.Options):
         self._paused = False
         self._data = None
 
-    def setSchemaFromXml(self,xml):
+    def setSchema(self,xml):
         self._schema.fromXml(xml)
-        for d in self._delegates:
-            if tools.supports(d,"schemaSet"):
-                d.schemaSet(self)
-
-    def setSchemaFromJson(self,json):
-        self._schema.fromJson(json)
         for d in self._delegates:
             if tools.supports(d,"schemaSet"):
                 d.schemaSet(self)
@@ -793,15 +662,6 @@ class Datasource(tools.Options):
 
         return(v)
 
-    def getSelectedKeys(self):
-        keys = []
-
-        for item in self.getList():
-            if self.isSelected(item):
-                keys.append(item["@key"])
-
-        return(keys)
-
     def getDataFrame(self,values = None):
         if self._data == None:
             return(None)
@@ -819,13 +679,13 @@ class Datasource(tools.Options):
             fields = self._schema._fields
 
         if isinstance(self._data,dict):
-            #data["@key"] = []
+            #data["_key_"] = []
 
             for f in fields:
                 data[f["name"]] = []
 
             for key,o in self._data.items():
-                #data["@key"].append(key)
+                #data["_key_"].append(key)
                 for f in fields:
                     name = f["name"]
                     if name in o:
@@ -862,11 +722,6 @@ class Datasource(tools.Options):
     def getInfo(self):
         return({})
 
-    def deliverInfo(self,data):
-        for d in self._delegates:
-            if tools.supports(d,"info"):
-                d.info(this,data)
-
     def addDelegate(self,delegate):
         if tools.supports(delegate,"dataChanged") == False:
             raise Exception("the delegate must implement the dataChanged method")
@@ -897,9 +752,6 @@ class Datasource(tools.Options):
     def handleMessage(self,msg):
         pass
 
-    def eventsXml(self,xml):
-        pass
-
     def events(self,xml):
         pass
 
@@ -913,23 +765,20 @@ class Datasource(tools.Options):
 class EventCollection(Datasource):
     def __init__(self,conn,path,**kwargs):
         Datasource.__init__(self,conn,**kwargs)
-        if isinstance(path,BaseWindow):
-            self._path = path.path
-        else:
-            self._path = path
+        self._path = path
         self._page = 0
         self._pages = 0
         self._data = {}
 
     def open(self):
-        json = {"event-collection":{}}
-        o = json["event-collection"]
+        o = {}
+        o["request"]= "event-collection"
         o["id"]= self._id
         o["action"]= "set"
         o["window"]= self._path
         o["schema"]= True
         o["info"]= 5
-        o["format"]= "ubjson"
+        o["format"]= "xml"
 
         interval = None
 
@@ -939,8 +788,7 @@ class EventCollection(Datasource):
             interval = self._connection.getOpt("interval")
 
         if interval == None:
-            #interval = 1000
-            interval = 0
+            interval = 1000
 
         self.setOpt("interval",interval)
 
@@ -950,14 +798,14 @@ class EventCollection(Datasource):
         if self.hasOpt("filter") == False:
             o["filter"]= ""
 
-        self._connection.send(json)
+        self._connection.send(o)
 
     def set(self):
         if self._connection.isHandshakeComplete == False:
             return
 
-        json = {"event-collection":{}}
-        o = json["event-collection"]
+        o = {}
+        o["request"]= "event-collection"
         o["id"]= self._id
         o["action"]= "set"
 
@@ -967,33 +815,29 @@ class EventCollection(Datasource):
         if self.hasOpt("filter") == False:
             o["filter"] = ""
 
-        self._connection.send(json)
+        self._connection.send(o)
 
     def close(self):
-        json = {"event-collection":{}}
-        o = json["event-collection"]
+        o = {}
+        o["request"] = "event-collection"
         o["id"] = self._id
         o["action"] = "close"
-        self._connection.send(json)
+        self._connection.send(o)
 
     def play(self):
         if self._paused:
             self._paused = False
-            json = {"event-collection":{}}
-            o = json["event-collection"]
+            o["request"]= "event-collection"
             o["id"]= self._id
             o["action"]= "play"
-            self._connection.send(json)
             self.deliverInfoChange()
 
     def pause(self):
         if self._paused == False:
             self._paused = True
-            json = {"event-collection":{}}
-            o = json["event-collection"]
+            o["request"]= "event-collection"
             o["id"]= self._id
             o["action"]= "pause"
-            self._connection.send(json)
             self.deliverInfoChange()
 
     def handleMessage(self,msg):
@@ -1015,26 +859,35 @@ class EventCollection(Datasource):
         self.loadPage("next")
 
     def loadPage(self,page):
-        json = {"event-collection":{}}
-        o = json["event-collection"]
+        o = {}
+        o["request"] = "event-collection"
         o["id"] = self._id
         o["action"] = "load"
         if page != None:
             o["page"] = page
-        self._connection.send(json)
+        self._connection.send(o)
 
-    def eventsXml(self,xml):
+    def events(self,xml):
         data = []
 
         nodes = xml.findall("entries/event")
+
+        ub = False
 
         for n in nodes:
             opcode = n.get("opcode")
             if opcode == None:
                 opcode = "insert"
 
+            if opcode == "updateblock":
+                ub = True
+            elif opcode == "delete":
+                if ub:
+                    ub = False
+                    continue
+
             o = {}
-            o["@opcode"] = opcode
+            o["_opcode"] = opcode
 
             s = n.get("timestamp")
 
@@ -1052,7 +905,7 @@ class EventCollection(Datasource):
                 else:
                     o[v.tag] = content
 
-            o["@key"] = self.getKey(o)
+            o["_key_"] = self.getKey(o)
             data.append(o)
 
         clear = "page" in xml.attrib
@@ -1062,90 +915,32 @@ class EventCollection(Datasource):
         if clear:
             self.info(xml)
 
-    def events(self,data):
-
-        if "entries" in data == False:
-            return
-
-        events = []
-        entries = data["entries"]
-
-        if entries != None:
-            for e in entries:
-                o = {}
-                for k in e:
-                    o[k] = e[k]
-
-                if "@opcode" in o == False:
-                    o["@opcode"] = "insert"
-
-                o["@key"] = self.getKey(o)
-                events.append(o)
-
-        info = None
-
-        if "info" in data:
-            info = data["info"]
-
-        self.process(events,info != None)
-
-        if info != None:
-            self.info(info)
-
-    def info(self,data):
-        if "page" in data:
-            self._page = data["page"]
-            self._pages = data["pages"]
+    def info(self,xml):
+        if "page" in xml.attrib:
+            self._page = int(xml.get("page"))
+            self._pages = int(xml.get("pages"))
             self.deliverInfoChange()
 
     def process(self,events,clear):
-        selected = None
-
         if clear:
-            #selected = self.getSelectedKeys()
             self._data = {}
-            self._list = []
 
         for e in events:
-            key = e["@key"]
-
+            key = e["_key_"]
             if key != None:
-                opcode = None
-
-                if "@opcode" in e:
-                    opcode = e["@opcode"]
-
+                opcode = e["_opcode"]
                 if opcode == "delete":
                     if key in self._data:
-                        tools.removeFrom(self._list,self._data[key])
                         del self._data[key]
-                elif clear:
-                    o = {}
-                    o["@key"] = key
-                    self._data[key] = o
-                    self._list.append(o)
-                    if selected == None:
-                        o["_selected_"] = False
-                    else:
-                        o["_selected_"] = tools.contains(selected,key)
-
-                    for column in self._schema._columns:
-                        if column in e:
-                            o[column] = e[column]
                 else:
-                    if key in self._data:
-                        o = self._data[key]
-                        tools.setItem(self._list,o)
-                    else:
-                        o = {}
-                        o["@key"] = key
-                        o["_selected_"] = False
-                        self._data[key] = o
-                        self._list.append(o)
+                    o = {}
+
+                    o["_key_"] = key
 
                     for column in self._schema._columns:
                         if column in e:
                             o[column] = e[column]
+                    self._data[key] = o
 
         self.deliverDataChange(events,clear)
 
@@ -1198,21 +993,18 @@ class EventCollection(Datasource):
 class EventStream(Datasource):
     def __init__(self,conn,path,**kwargs):
         Datasource.__init__(self,conn,**kwargs)
-        if isinstance(path,BaseWindow):
-            self._path = path.path
-        else:
-            self._path = path
+        self._path = path
         self._data = []
         self._counter = 1
 
     def open(self):
-        json = {"event-stream":{}}
-        o = json["event-stream"]
+        o = {}
+        o["request"] = "event-stream"
         o["id"] = self._id
         o["action"] = "set"
         o["window"] = self._path
         o["schema"] = True
-        o["format"] = "ubjson"
+        o["format"] = "xml"
 
         interval = None
 
@@ -1222,8 +1014,7 @@ class EventStream(Datasource):
             interval = self._connection.getOpt("interval")
 
         if interval == None:
-            #interval = 1000
-            interval = 0
+            interval = 1000
 
         self.setOpt("interval",interval)
 
@@ -1233,11 +1024,11 @@ class EventStream(Datasource):
         if self.hasOpt("filter") == False:
             o["filter"]= ""
 
-        self._connection.send(json)
+        self._connection.send(o)
 
     def set(self):
-        json = {"event-stream":{}}
-        o = json["event-stream"]
+        o = {}
+        o["request"] = "event-stream"
         o["id"] = self._id
         o["action"] = "set"
         o["format"] = "xml"
@@ -1248,95 +1039,58 @@ class EventStream(Datasource):
         if self.hasOpt("filter") == False:
             o["filter"]= ""
 
-        self._connection.send(json)
+        self._connection.send(o)
 
     def close(self):
-        json = {"event-stream":{}}
-        o = json["event-stream"]
+        o = {}
+        o["request"] = "event-stream"
         o["id"] = self._id
         o["action"] = "close"
-        self._connection.send(json)
+        self._connection.send(o)
 
     def play(self):
         if self._paused:
             self._paused = False
-            json = {"event-stream":{}}
-            o = json["event-stream"]
+            o["request"]= "event-stream"
             o["id"]= self._id
             o["action"]= "play"
-            self._connection.send(json)
             self.deliverInfoChange()
 
     def pause(self):
         if self._paused == False:
             self._paused = True
-            json = {"event-stream":{}}
-            o = json["event-stream"]
+            o["request"]= "event-stream"
             o["id"]= self._id
             o["action"]= "pause"
-            self._connection.send(json)
             self.deliverInfoChange()
 
-    def setSchemaFromXml(self,xml):
-        Datasource.setSchemaFromXml(self,xml)
-        self.completeSchema()
-
-    def setSchemaFromJson(self,json):
-        Datasource.setSchemaFromJson(self,json)
-        self.completeSchema()
-
-    def completeSchema(self):
+    def setSchema(self,xml):
+        Datasource.setSchema(self,xml)
         for f in self._schema.fields:
             f["isKey"] = False
 
         self._keyFields = []
 
-        f = {"name":"@opcode","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False}
+        f = {"name":"_opcode","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False}
         self._schema._fields.insert(0,f)
-        self._schema._fieldMap[f["name"]] = f
+        self._schema._fieldMap["_opcode"] = f
         self._schema._columns.insert(0,f["name"])
 
-        f = {"name":"@timestamp","espType":"timestamp","type":"date","isKey":False,"isNumber":True,"isDate":False,"isTime":True}
+        f = {"name":"_timestamp","espType":"timestamp","type":"date","isKey":False,"isNumber":True,"isDate":False,"isTime":True}
         self._schema._fields.insert(0,f)
-        self._schema._fieldMap[f["name"]] = f
+        self._schema._fieldMap["_timestamp"] = f
         self._schema._columns.insert(0,f["name"])
 
-        f = {"name":"@counter","espType":"int32","type":"int","isKey":True,"isNumber":True,"isDate":False,"isTime":False}
+        f = {"name":"_counter","espType":"int32","type":"int","isKey":True,"isNumber":True,"isDate":False,"isTime":False}
         self._schema._fields.insert(0,f)
-        self._schema._fieldMap[f["name"]] = f
+        self._schema._fieldMap["_counter"] = f
         self._schema._columns.insert(0,f["name"])
 
         self._schema._keyFields = [f]
 
         self._counter = 1
 
-    def events(self,data):
-
-        if "entries" in data == False:
-            return
-
-        entries = data["entries"]
-        events = []
-
-        if entries != None:
-            ignoreDeletes = self.getOpt("ignore_deletes",False)
-
-            for e in entries:
-                o = {}
-                for k in e:
-                    o[k] = e[k]
-
-                if "@opcode" in o == False:
-                    o["@opcode"] = "insert"
-                elif ignoreDeletes and o["@opcode"] == "delete":
-                    continue
-
-                o["@key"] = self.getKey(o)
-                events.append(o)
-
-        self.process(events)
-
-    def eventsXml(self,xml):
+    def events(self,xml):
         data = []
 
         nodes = xml.findall("entries/event")
@@ -1352,7 +1106,7 @@ class EventStream(Datasource):
                 continue
 
             o = {}
-            o["@opcode"] = opcode
+            o["_opcode"] = opcode
 
             s = n.get("timestamp")
 
@@ -1382,10 +1136,10 @@ class EventStream(Datasource):
                 if column in e:
                     o[column] = e[column]
 
-            o["@counter"] = self._counter
-            o["@key"] = self.getKey(o)
-            e["@counter"] = o["@counter"]
-            e["@key"] = o["@key"]
+            o["_counter"] = self._counter
+            o["_key_"] = self.getKey(o)
+            e["_counter"] = o["_counter"]
+            e["_key_"] = o["_key_"]
 
             self._counter += 1
 
@@ -1408,7 +1162,7 @@ class EventStream(Datasource):
         values = []
 
         for value in self._data:
-            values.append(value["@counter"])
+            values.append(value["_counter"])
         return(values)
 
     def getTableData(self,values):
@@ -1432,7 +1186,7 @@ class EventStream(Datasource):
                     columns.append(f["name"])
 
         for value in self._data:
-            rows.append(value["@counter"])
+            rows.append(value["_counter"])
             cell = []
             for f in a:
                 cell.append(value[f["name"]])
@@ -1451,24 +1205,22 @@ class Publisher(tools.Options):
         self._path = path
         self._id = tools.guid()
         self._data = []
-        self._schema = Schema()
-        self._csv = None
 
     def open(self):
-        json = {"publisher":{}}
-        o = json["publisher"]
+        o = {}
+        o["request"] = "publisher"
         o["id"] = self._id
         o["action"] = "set"
         o["window"] = self._path
         o["schema"] = True
-        self._connection.send(json)
+        self._connection.send(o)
 
     def close(self):
-        json = {"publisher":{}}
-        o = json["publisher"]
+        o = {}
+        o["request"] = "publisher"
         o["id"] = self._id
-        o["action"] = "close"
-        self._connection.send(json)
+        o["action"] = "delete"
+        self._connection.send(o)
 
     def begin(self):
         self._o = {}
@@ -1486,73 +1238,16 @@ class Publisher(tools.Options):
 
     def publish(self):
         if len(self._data) > 0:
-            json = {"publisher":{}}
-            o = json["publisher"]
+            o = {}
+            o["request"] = "publisher"
             o["id"] = self._id
             o["action"] = "publish"
             o["data"] = self._data
-            if self.getOpt("binary",True):
-                self._connection.sendBinary(json)
-            else:
-                self._connection.send(json)
+            self._connection.send(o)
             self._data = []
 
     def publishUrl(self,url,**kwargs):
         self._connection.publishUrl(self._path,url,**kwargs)
-
-    def publishCsvFromFile(self,filename,**kwargs):
-        with open(filename) as f:
-            reader = csv.reader(f)
-
-            data = []
-
-            for row in reader:
-                data.append(row)
-
-            self.publishCsv(data,**kwargs)
-
-    def publishCsvFromUrl(self,url,**kwargs):
-        data = requests.get(url)
-
-    def publishCsv(self,data,**kwargs):
-        self._csv = dict(data=data,options=tools.Options(**kwargs),index=0)
-        self.csv()
-
-    def csv(self):
-        if self._schema.size == 0:
-            return
-
-        self._csv["items"] = self._schema.createDataFromCsv(self._csv["data"])
-
-        pause = self._csv["options"].getOpt("pause",0)
-        opcode = self._csv["options"].getOpt("opcode","insert")
-
-        for o in self._csv["items"]:
-            if "@opcode" in o:
-                o["opcode"] = o["@opcode"]
-            else:
-                o["opcode"] = opcode
-            self.add(o)
-            self.publish()
-
-        if self._csv["options"].getOpt("close_on_complete",False):
-            self.close()
-
-    def setSchemaFromXml(self,xml):
-        self._schema.fromXml(xml)
-
-        if self._csv != None:
-            self.csv()
-
-    def setSchemaFromJson(self,json):
-        self._schema.fromJson(json)
-
-        if self._csv != None:
-            self.csv()
-
-    @property
-    def schema(self):
-        return(self._schema)
 
 class Stats(Datasource):
     def __init__(self,connection,**kwargs):
@@ -1561,7 +1256,7 @@ class Stats(Datasource):
         self._data = []
         self._memory = {}
 
-        self._schema.addField({"name":"@key","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
+        self._schema.addField({"name":"_key_","espType":"utf8str","type":"string","isKey":True,"isNumber":False,"isDate":False,"isTime":False})
         self._schema.addField({"name":"project","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
         self._schema.addField({"name":"contquery","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
         self._schema.addField({"name":"window","espType":"utf8str","type":"string","isKey":False,"isNumber":False,"isDate":False,"isTime":False})
@@ -1596,7 +1291,7 @@ class Stats(Datasource):
                     o["cpu"] = float(w.get("cpu"))
                     o["interval"] = float(w.get("interval"))
                     o["count"] = w.get("count") != None and float(w.get("count")) or 0
-                    o["@key"] = o["project"] + "." + o["contquery"] + "." + o["window"]
+                    o["_key_"] = o["project"] + "." + o["contquery"] + "." + o["window"]
                     stats.append(o)
 
         stats.sort(key = self.sortValue,reverse = True)
@@ -1632,8 +1327,8 @@ class Stats(Datasource):
             self.set()
 
     def set(self):
-        json = {"stats":{}}
-        o = json["stats"]
+        o = {}
+        o["request"] = "stats"
         o["action"] = "set"
         o["interval"] = self.getOpt("interval",1)
 
@@ -1641,11 +1336,11 @@ class Stats(Datasource):
         o["counts"] = self.getOpt("counts",False)
         o["config"] = self.getOpt("config",False)
         o["memory"] = self.getOpt("memory",True)
-        self._connection.send(json)
+        self._connection.send(o)
 
     def stop(self):
-        json = {"stats":{}}
-        o = json["stats"]
+        o = {}
+        o["request"] = "stats"
         o["action"] = "stop"
         self._connection.send(o)
 
@@ -1671,7 +1366,7 @@ class Stats(Datasource):
     def getKeyValues(self):
         values = []
         for o in self._data:
-            values.append(o["@key"])
+            values.append(o["_key_"])
         return(values)
 
 class Log(object):
@@ -1687,17 +1382,16 @@ class Log(object):
             d.handleLog(self,message)
 
     def start(self):
-        json = {"logs":{}}
-        o = json["logs"]
+        o = {}
+        o["request"] = "logs"
         o["capture"] = True
-        self._connection.send(json)
+        self._connection.send(o)
 
     def stop(self):
-        json = {"logs":{}}
-        o = json["logs"]
-        o["capture"] = True
+        o = {}
+        o["request"] = "logs"
         o["capture"] = False
-        self._connection.send(json)
+        self._connection.send(o)
 
     def addDelegate(self,delegate):
         if tools.supports(delegate,"handleLog") == False:
@@ -1782,6 +1476,8 @@ class Model(object):
                                     aw["outgoing"].append(zw)
                                     zw["incoming"].append(aw)
                                     contquery["edges"].append({"a":source,"z":target})
+
+    #print(self._projects)
 
     def getWindow(self,key):
         return(self.get(key,self._windows))
@@ -1882,7 +1578,7 @@ class Schema(object):
             elif o["espType"] == "date":
                 o["type"] = "date"
                 o["isDate"] = True
-            elif o["espType"] == "timestamp" or o["espType"] == "stamp":
+            elif o["espType"] == "timestamp":
                 o["type"] = "datetime"
                 o["isTime"] = True
             else:
@@ -1930,57 +1626,13 @@ class Schema(object):
             elif o["espType"] == "date":
                 o["type"] = "date"
                 o["isDate"] = True
-            elif o["espType"] == "timestamp" or o["espType"] == "stamp":
+            elif o["espType"] == "timestamp":
                 o["type"] = "datetime"
                 o["isTime"] = True
             else:
                 o["type"] = o["espType"]
 
             o["isKey"] = (f.get("key") == "true")
-
-            self._fields.append(o)
-            self._columns.append(name)
-
-            self._fieldMap[name] = o
-
-            if o["isKey"]:
-                self._keyFields.append(o)
-
-    def fromJson(self,json):
-        self._fields = []
-        self._fieldMap = {}
-        self._keyFields = []
-        self._columns = []
-
-        for field in json["fields"]:
-
-            o = {}
-
-            name = field["@name"]
-            o["name"] = name
-            o["espType"] = field["@type"]
-            o["isNumber"] = False
-            o["isTime"] = False
-            o["isDate"] = False
-
-            if o["espType"] == "utf8str":
-                o["type"] = "string"
-            elif o["espType"] == "int32" or o["espType"] == "int64":
-                o["type"] = "int"
-                o["isNumber"] = True
-            elif o["espType"] == "double" or o["espType"] == "money":
-                o["type"] = "float"
-                o["isNumber"] = True
-            elif o["espType"] == "date":
-                o["type"] = "date"
-                o["isDate"] = True
-            elif o["espType"] == "timestamp" or o["espType"] == "stamp":
-                o["type"] = "datetime"
-                o["isTime"] = True
-            else:
-                o["type"] = o["espType"]
-
-            o["isKey"] = "@key" in field and field["@key"] == "true"
 
             self._fields.append(o)
             self._columns.append(name)
@@ -2127,92 +1779,6 @@ class Schema(object):
 
         return(s)
 
-    def createDataFromCsv(self,csv,header = False):
-        data = []
-        fields = self.getFields()
-        headers = None
-        quotes = 0
-        row = 0
-
-        for line in csv:
-            if header and row == 0:
-                headers = line
-                row += 1
-                continue
-
-            if len(line) == 0:
-                row += 1
-                continue
-
-            a = []
-
-            for s in line:
-
-                word = ""
-
-                for idx in range(0,len(s)):
-                    c = s[idx]
-
-                    if c == ',':
-                        if quotes > 0:
-                            word += c
-                        else:
-                            a.append(word)
-                            word = ""
-                    elif c == '\"':
-                        if prev == '\\':
-                            word += c
-                        else:
-                            quotes ^= 1
-                    elif c == '\\':
-                        if prev == '\\':
-                            word += c
-                    else:
-                        word += c
-                    prev = c
-
-                if len(word) > 0:
-                    a.append(word)
-
-            o = {}
-            index = 0
-
-            if headers != None:
-                for j in range(0,len(a)):
-                    field = self.getField(headers[j])
-                    if field != None:
-                        o[field["name"]] = a[j]
-            else:
-                for j in range(0,len(a)):
-                    if j == 0:
-                        s = a[j].lower()
-
-                        if s == "i" or s == "u" or s == "p" or s == "d":
-                            if s == "u":
-                                o["@opcode"] = "update"
-                            elif s == "p":
-                                o["@opcode"] = "upsert"
-                            elif s == "d":
-                                o["@opcode"] = "delete"
-                            continue
-
-                    elif j == 1:
-                        s = a[j].strip().lower()
-
-                        if s == "n":
-                            continue
-
-                    if index < len(fields):
-                        field = fields[index]
-                        o[field["name"]] = a[j]
-                        index += 1
-
-            data.append(o)
-
-            row += 1
-
-        return(data)
-
     def hasFields(self):
         return(len(self._fields) > 0)
 
@@ -2223,10 +1789,6 @@ class Schema(object):
     @property
     def columns(self):
         return(self._columns)
-
-    @property
-    def size(self):
-        return(len(self._fields))
 
 class ModelDelegate(object):
 

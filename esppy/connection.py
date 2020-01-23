@@ -34,7 +34,6 @@ import warnings
 import xml.etree.ElementTree as ET
 from numpy import nan
 from six.moves import urllib
-from urllib.parse import urlparse
 from .base import RESTHelpers, ESPObject
 from .algorithm import Algorithm
 from .config import get_option, ESP_ROOT, CONCAT_OPTIONS
@@ -50,7 +49,6 @@ from .exceptions import ESPError
 from .logger import Logger
 from .metadata import Metadata
 from .utils import xml
-from .utils.authorization import Authorization
 from .utils.authinfo import query_authinfo
 from .utils.rest import get_params
 from .utils.data import get_project_data, gen_name, get_server_info
@@ -316,20 +314,6 @@ class ESP(RESTHelpers):
         session.conn_url = conn_url
         session.base_url = base_url
 
-        u = urlparse(session.conn_url)
-
-        s = u[1].split(":")
-
-        self._hostname = s[0]
-        self._port = s[1]
-
-        auth = Authorization.getInstance(session)
-
-        self._kerberos = False
-        self._authorization = None
-
-        enable_kerberos = False
-
         # Set certificate verification
         if ca_bundle:
             session.verify = ca_bundle
@@ -351,23 +335,22 @@ class ESP(RESTHelpers):
 
             # Set authorization headers
             if username and password:
-                auth.setBasic(username,password)
-                basic = username + ":" + password
-                encoded = base64.b64encode(basic.encode())
-                self._authorization = "Basic " + encoded.decode()
-                session.headers.update({'Authorization':self._authorization.encode("utf-8")})
+                session.headers.update({
+                    'Authorization': b'Basic ' +
+                                     base64.b64encode(('%s:%s' %
+                                                       (username, password)
+                                                       ).encode('utf-8')).strip()
+                })
+
             elif password:
-                auth.setBearer(password)
-                self._authorization = "Bearer " + password
-                session.headers.update({'Authorization':self._authorization.encode("utf-8")})
+                session.headers.update({'Authorization': b'Bearer ' +
+                                                         password.encode('utf-8')})
 
             # Verify authentication
             res = session.head(session.base_url)
             if res.status_code == 401 and enable_kerberos:
                 try:
-                    self._kerberos = True
                     from requests_kerberos import HTTPKerberosAuth, OPTIONAL
-                    auth.setKerberos(self._hostname)
                     session.auth = HTTPKerberosAuth(mutual_authentication=OPTIONAL)
                     res = session.head(session.base_url)
                     if res.status_code == 401:
@@ -404,18 +387,7 @@ class ESP(RESTHelpers):
         requests_log.propagate = True
 
     def createServerConnection(self,**kwargs):
-        return(api.connect(self.session,**kwargs))
-
-    @property
-    def authorization(self):
-        authorization = None
-
-        if self._kerberos:
-            authorization = self._session.auth.generate_request_header(None,self._hostname,True)
-        else:
-            authorization = self._authorization
-
-        return(authorization)
+        return(api.connect(self.session.conn_url,**kwargs))
 
     @property
     def metadata(self):
