@@ -885,12 +885,12 @@ class Images(Chart):
         keys = []
 
         for o in data:
-            if ("_key_" in o) == False:
+            if ("@key" in o) == False:
                 continue
 
-            key = o["_key_"]
+            key = o["@key"]
 
-            if "_opcode" in o and o["_opcode"] == "delete":
+            if "@opcode" in o and o["@opcode"] == "delete":
                 if self.removeEntry(key) != None:
                     layout = True
             else:
@@ -983,7 +983,7 @@ class ImageEntry(Options):
                 #if data.find(Visuals._dataHeader) == 0:
                 if True:
                     s = data[len(Visuals._dataHeader):]
-                    key = self._data["_key_"]
+                    key = self._data["@key"]
                     index = s.find(":")
                     format = s[0:index]
                     s = s[index + 1:]
@@ -1026,8 +1026,8 @@ class ImageEntry(Options):
     @data.setter
     def data(self,value):
         self._data = value
-        if "_key_" in self._data:
-            self._key = self._data["_key_"]
+        if "@key" in self._data:
+            self._key = self._data["@key"]
 
 class Map(Chart):
     def __init__(self,visuals,datasource,**kwargs):
@@ -1188,7 +1188,7 @@ class Map(Chart):
         keyValues = self.getValues("keys")
 
         if len(keyValues) == 0:
-            keyValues = ["_key_"]
+            keyValues = ["@key"]
 
         keys = []
 
@@ -1510,11 +1510,11 @@ class Gauge(Chart):
             layout = True
 
         for o in data:
-            if ("_key_" in o) == False:
+            if ("@key" in o) == False:
                 continue
-            key = o["_key_"]
+            key = o["@key"]
 
-            if "_opcode" in o and o["_opcode"] == "delete":
+            if "@opcode" in o and o["@opcode"] == "delete":
                 if key in self._gauges:
                     self._gauges.pop(key)
                     layout = True
@@ -1789,12 +1789,12 @@ class Compass(Chart):
             layout = True
 
         for o in data:
-            if ("_key_" in o) == False:
+            if ("@key" in o) == False:
                 continue
 
-            key = o["_key_"]
+            key = o["@key"]
 
-            if "_opcode" in o and o["_opcode"] == "delete":
+            if "@opcode" in o and o["@opcode"] == "delete":
                 if key in self._entries:
                     self._entries.pop(key)
                     layout = True

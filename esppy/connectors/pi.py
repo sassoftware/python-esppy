@@ -163,6 +163,7 @@ class PIPublisher(Connector):
         archivetimestamp=prop('archivetimestamp', dtype='boolean'),
         configfilesection=prop('configfilesection', dtype='string'),
         publishwithupsert=prop('publishwithupsert', dtype='boolean'),
+        allvaluestostrings=prop('allvaluestostrings', dtype='boolean'),
         maxevents=prop('maxevents', dtype='int')
     )
 
@@ -170,7 +171,7 @@ class PIPublisher(Connector):
                  blocksize=None, transactional=None, pisystem=None,
                  afdatabase=None, afrootelement=None, afattribute=None,
                  archivetimestamp=None, configfilesection=None,
-                 publishwithupsert=None, maxevents=None):
+                 publishwithupsert=None, allvaluestostrings=None, maxevents=None):
         params = dict(**locals())
         params.pop('is_active')
         params.pop('self')
