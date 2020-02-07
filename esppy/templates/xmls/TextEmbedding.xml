@@ -45,9 +45,6 @@
       <parameters>
         <properties>
           <property name="outputDocVec">1</property>
-          <property name="startList">/u/shhuna/bigdisk/pos_neg_words.txt</property>
-          <property name="stopList">/u/shhuna/bigdisk/stop-words.txt</property>
-          <property name="wordVec">/u/shhuna/bigdisk/vectors.200d.txt</property>
           <property name="wordVecDelimiter">SPACE</property>
           <property name="wordVecLineBreak">LF</property>
         </properties>
