@@ -1,11 +1,12 @@
 from xml.etree import ElementTree
 from ..windows import BaseWindow
 from ..utils.authorization import Authorization
-from ..utils.resources import Resources
+#from ..utils.resources import Resources
 from urllib.parse import urlparse
 from base64 import b16encode, b64encode
 import pandas as pd
 import esppy.espapi.tools as tools
+import esppy.espapi.codec as codec
 import threading
 import logging
 import esppy
@@ -80,7 +81,7 @@ class Connection(tools.Options):
 
     def sendBinary(self,o):
         if self._websocket != None:
-            encoder = tools.JsonEncoder(o)
+            encoder = codec.JsonEncoder(o)
             self._websocket.send(encoder.data,True)
 
     def getUrl(self):
@@ -272,7 +273,7 @@ class ServerConnection(Connection):
             self.processXml(xml)
 
     def data(self,data):
-        decoder = tools.JsonDecoder(data)
+        decoder = codec.JsonDecoder(data)
         if decoder.data != None:
             self.processJson(decoder.data)
 
@@ -865,7 +866,7 @@ class Datasource(tools.Options):
     def deliverInfo(self,data):
         for d in self._delegates:
             if tools.supports(d,"info"):
-                d.info(this,data)
+                d.info(self,data)
 
     def addDelegate(self,delegate):
         if tools.supports(delegate,"dataChanged") == False:
@@ -1449,7 +1450,7 @@ class Publisher(tools.Options):
         tools.Options.__init__(self,**kwargs)
         self._connection = connection
         self._path = path
-        self._id = tools.guid()
+        self._id = self.getOpt("id",tools.guid());
         self._data = []
         self._schema = Schema()
         self._csv = None
