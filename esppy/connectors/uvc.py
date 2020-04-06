@@ -99,7 +99,7 @@ class UVCPublisher(Connector):
                  width=None, height=None, brightness=None,
                  gain=None, saturation=None, contrast=None,
                  device=None, blocking=None, predelay=None,
-                 maxevents=None):
+                 maxevents=None, cameraid=None):
         params = dict(**locals())
         params.pop('is_active')
         params.pop('self')
