@@ -101,6 +101,8 @@ class Subscriber(object):
         The separator to use between events in the 'properties' format
     interval : int, optional
         Interval between event sends in milliseconds
+    precision : int, optional
+        The floating point precision
     schema : bool, optional
         Should the schema be sent with the first event?
     on_event : callable, optional
@@ -143,7 +145,7 @@ class Subscriber(object):
     def __init__(self, window, mode='updating', pagesize=50, filter=None,
                  sort=None, format='xml', separator=None, interval=None,
                  schema=False, on_event=None, on_message=None, on_error=None,
-                 on_close=None, on_open=None):
+                 on_close=None, on_open=None, precision=6):
         self._ws = None
         self.mode = mode
         self.pagesize = pagesize
@@ -152,6 +154,7 @@ class Subscriber(object):
         self.format = format
         self.separator = separator
         self.interval = interval
+        self.precision = precision
         self.schema = schema
         self.server_info = get_server_info(window)
         self.session = window.session
@@ -182,6 +185,7 @@ class Subscriber(object):
                                    'separator': self.separator,
                                    'sort': self.sort,
                                    'interval': self.interval,
+                                   'precision': self.precision,
                                    'schema': True})
         url_params = '&'.join(['%s=%s' % (k, v) for k, v in sorted(url_params.items())])
         return self.window_url + '?' + url_params

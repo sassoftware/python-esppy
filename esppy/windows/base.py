@@ -548,7 +548,7 @@ class BaseWindow(ESPObject):
                           sort=None, format='xml', separator=None,
                           interval=None, schema=False,
                           on_event=None, on_message=None, on_error=None,
-                          on_close=None, on_open=None):
+                          on_close=None, on_open=None, precision=6):
         '''
         Create a new websocket subscriber for the window
 
@@ -568,6 +568,8 @@ class BaseWindow(ESPObject):
             The separator to use between events in the 'properties' format
         interval : int, optional
             Interval between event sends in milliseconds
+        precision : int, optional
+            The floating point precision
         schema : bool, optional
             Should the schema be sent with the first event?
         on_event : callable, optional
@@ -610,7 +612,8 @@ class BaseWindow(ESPObject):
                           sort=sort, format=format, separator=separator,
                           interval=interval, schema=schema,
                           on_event=on_event, on_message=on_message,
-                          on_error=on_error, on_close=on_close, on_open=on_open)
+                          on_error=on_error, on_close=on_close, on_open=on_open,
+                          precision=precision)
 
     def create_publisher(self, blocksize=1, rate=0, pause=0,
                          dateformat='%Y%m%dT%H:%M:%S.%f', opcode='insert',
@@ -797,7 +800,8 @@ class BaseWindow(ESPObject):
 #                   return '%s:descending' % field.name
 
     def subscribe(self, mode='streaming', pagesize=50, filter=None,
-                  sort=None, interval=None, limit=None, horizon=None, reset=True):
+                  sort=None, interval=None, limit=None, horizon=None, reset=True,
+                  precision=6):
         '''
         Subscribe to events
 
@@ -819,6 +823,8 @@ class BaseWindow(ESPObject):
             Sort order for the events (updating mode only)
         interval : int, optional
             Interval between event sends in milliseconds
+        precision: int, optional
+            The floating point precision
         limit : int, optional
             The maximum number of rows of data to keep in the internal
             DataFrame object.
@@ -880,7 +886,7 @@ class BaseWindow(ESPObject):
         self._subscriber = self.create_subscriber(mode=mode, pagesize=pagesize,
                                                   filter=filter, sort=sort,
                                                   interval=interval, format='xml',
-                                                  on_event=on_event)
+                                                  on_event=on_event, precision=precision)
         self._subscriber.start()
 
     def unsubscribe(self):
