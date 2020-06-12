@@ -1,0 +1,6 @@
+esppy.templates.Template.add\_output\_windows
+=============================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.add_output_windows

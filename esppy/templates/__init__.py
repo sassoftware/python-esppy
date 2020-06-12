@@ -20,6 +20,7 @@ import os
 import six
 import re
 from.template import Template
+from ..utils import xml
 
 import logging
 
@@ -35,31 +36,49 @@ def builtin_template_helper(cls, template_name, file_name,  **kwargs):
 
     for key, value in six.iteritems(kwargs):
         for each in out.required_parameter_map.get(key, key):
-            window, actual_key = re.split('\.', each)
-            single_args = dict({actual_key: value})
+            window, *win_keys = re.split('\.', each)
+            actual_key, model = win_keys[0], win_keys[1] if len(win_keys) > 1 else None
             if actual_key == 'input_map':
-                out.set_inputs(window, **single_args)
+                out.set_inputs(window, model, **value)
             elif actual_key == 'output_map':
-                out.set_outputs(window, **single_args)
+                out.set_outputs(window, model, **value)
             else:
-                out.set_parameters(window, **single_args)
+                out.set_parameters(window, **dict({actual_key: value}))
 
     return out
+
+
+def template_info_helper(data):
+    if isinstance(data, six.string_types):
+        if os.path.isfile(data):
+            data = open(data, 'r').read()
+        data = xml.from_xml(data)
+
+    for desc in data.findall('./description'):
+        description = desc.text
+
+    required_dict = {}
+    for item in data.findall('./required-parameter-map/properties/property'):
+        field = item.text.split(',')
+        required_dict[item.attrib['name']] = field
+
+    return description, required_dict
 
 
 def add_method(cls, file_name):
     ky = file_name.split('.xml')[0]
 
-    temp = cls.from_xml(os.path.join(cls.file_dir, 'xmls', file_name), None)
-    cls.template_list[ky]['description'] = temp.description
-    cls.template_list[ky]['required_parameter_map'] = temp.required_parameter_map
+    # temp = cls.from_xml(os.path.join(cls.file_dir, 'xmls', file_name), None)
+    description, required_dict = template_info_helper(os.path.join(cls.file_dir, 'xmls', file_name))
+    cls.template_list[ky]['description'] = description
+    cls.template_list[ky]['required_parameter_map'] = required_dict
 
     def builtin_template(template_name, **kwargs):
         '''
         Create a %s template
+        ----------
 
         Parameters
-        ----------
         template_name : string
             the name of template
 

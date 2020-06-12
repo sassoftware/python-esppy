@@ -506,7 +506,7 @@ class ContinuousQuery(ESPObject, collections.MutableMapping):
                 for source in re.split(r'\s+', item.attrib.get('source', '').strip()):
                     if not source:
                         continue
-                    out.windows[source].add_target(target, role=item.get('role'),
+                    out.windows[source].add_target(out.windows[target], role=item.get('role'),
                                                    slot=item.get('slot'))
 
         for item in data.findall('./metadata/meta'):

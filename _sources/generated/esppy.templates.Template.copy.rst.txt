@@ -1,0 +1,6 @@
+esppy.templates.Template.copy
+=============================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.copy

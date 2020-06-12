@@ -511,7 +511,7 @@ class Template(ESPObject, collections.MutableMapping):
             raise TypeError('Only CalculationWindow and TrainWindow objects support the method')
         return window.set_parameters(**parameters)
 
-    def set_inputs(self, window=None, **input_map):
+    def set_inputs(self, window=None, model=None, **input_map):
         '''
         Set inputs
 
@@ -519,6 +519,8 @@ class Template(ESPObject, collections.MutableMapping):
         ----------
         window : Window, optional
             The Window object to set inputs, default value is None
+        model : string
+            The name / URL of the model
         **input_map : keyword-arguments, optional
             The parameters to set
 
@@ -538,11 +540,14 @@ class Template(ESPObject, collections.MutableMapping):
             raise ValueError('%s is not a one of Template %s' %
                              (base_name, self.name))
 
-        if not isinstance(window, (TrainWindow, CalculateWindow, ScoreWindow)):
+        if isinstance(window, (TrainWindow, CalculateWindow)):
+            return window.set_inputs(**input_map)
+        elif isinstance(window, ScoreWindow):
+            return window.set_inputs(model, **input_map)
+        else:
             raise TypeError('Only CalculationWindow, TrainWindow and ScoreWindow objects support the method')
-        return window.set_inputs(**input_map)
 
-    def set_outputs(self, window=None, **output_map):
+    def set_outputs(self, window=None, model=None, **output_map):
         '''
         Set outputs
 
@@ -550,6 +555,8 @@ class Template(ESPObject, collections.MutableMapping):
         ----------
         window : Window, optional
             The Window object to set outputs, default value is None
+        model : string
+            The name / URL of the model
         **output_map : keyword-arguments, optional
             The parameters to set
 
@@ -568,9 +575,13 @@ class Template(ESPObject, collections.MutableMapping):
             raise ValueError('%s is not a one of Template %s' %
                              (base_name, self.name))
 
-        if not isinstance(window, (CalculateWindow, ScoreWindow)):
+        if isinstance(window, (CalculateWindow, ScoreWindow)):
+            return window.set_outputs(**output_map)
+        elif isinstance(window, ScoreWindow):
+            return window.set_outputs(model, **output_map)
+        else:
             raise TypeError('Only CalculationWindow and ScoreWindow objects support the method')
-        return window.set_outputs(**output_map)
+
 
     def add_target(self, obj, **kwargs):
         '''

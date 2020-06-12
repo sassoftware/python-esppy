@@ -1,0 +1,6 @@
+esppy.project.Project.add\_template
+===================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.add_template

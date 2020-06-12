@@ -22,6 +22,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import collections
 import copy
+import warnings
 import csv
 import datetime
 import functools
@@ -40,7 +41,7 @@ import xml.etree.ElementTree as ET
 from six.moves import urllib
 from .features import (WindowFeature, SplitterExpressionFeature,
                        SplitterPluginFeature, FinalizedCallbackFeature,
-                       ConnectorsFeature)
+                       ConnectorsFeature, SchemaFeature)
 from .subscriber import Subscriber
 from .publisher import Publisher
 from .utils import listify, get_args, ensure_element, connectors_to_end
@@ -284,6 +285,8 @@ class BaseWindow(ESPObject):
     base_name = attribute('name', dtype='string')
     pubsub = attribute('pubsub', dtype='bool')
 
+    _all_windows = []
+
     def __init__(self, name=None, **kwargs):
         schema = kwargs.pop('schema', None)
         copyvars = kwargs.pop('copyvars', None)
@@ -296,6 +299,7 @@ class BaseWindow(ESPObject):
         self.contquery = None
         self.project = None
         self.targets = set()
+        self.parents = list()
         self.data = None
         self.description = None
         self.event_transformers = []
@@ -303,11 +307,21 @@ class BaseWindow(ESPObject):
         self._initialize_features()
         self.copyvars = list(copyvars or [])
 
+        self._register_to_all_windows()
+
     def _initialize_features(self):
         features = WindowFeature.__subclasses__()
         for item in inspect.getmro(type(self)):
             if item in features:
                 item.__init__(self)
+
+    def _register_to_all_windows(self):
+        if self not in type(self)._all_windows:
+            type(self)._all_windows.append(self)
+
+    @classmethod
+    def all_windows_name(cls):
+        return [win.fullname for win in cls._all_windows]
 
     def _register_to_project(self, project_handle=None):
         pass
@@ -338,6 +352,7 @@ class BaseWindow(ESPObject):
 
     def _export_copyvars(self, out=None):
         ''' Get schema for copyvars '''
+
         def get_field_parts(field, map_name, dtypes):
             key = False
             dtype = 'double'
@@ -367,6 +382,13 @@ class BaseWindow(ESPObject):
         input_map_types = getattr(type(self), 'input_map_types', {})
         output_map_types = getattr(type(self), 'output_map_types', {})
 
+        if type(self).window_type in ['train', 'calculate']:
+            for cls in type(self).__subclasses__():
+                if cls.__name__ == self.algorithm:
+                    input_map_types = input_map_types or getattr(cls, 'input_map_types', {})
+                    output_map_types = output_map_types or getattr(cls, 'output_map_types', {})
+                    break
+
         if type(self).window_type != 'train':
             maps.append([getattr(self, 'input_map', {}), input_map_types])
             for model in online:
@@ -383,13 +405,15 @@ class BaseWindow(ESPObject):
         copied_fields = {}
         for item, dtypes in maps:
             for map_name, value in item.items():
-#               if 'id' not in out:
-#                   out['id'] = 'int64', True
+                #               if 'id' not in out:
+                #                   out['id'] = 'int64', True
                 for field in listify(value or []):
                     name, dtype, is_key = get_field_parts(field, map_name, dtypes)
                     for part in re.split(r'\s*,\s*', name.strip()):
                         if part in self.copyvars:
                             copied_fields[part] = dtype, is_key
+                        elif part + '*' in self.copyvars:
+                            copied_fields[part + '*'] = dtype, True
 
         for item in self.copyvars:
             if item in copied_fields:
@@ -399,7 +423,7 @@ class BaseWindow(ESPObject):
 
     @property
     def path(self):
-        return(self.project + "/" + self.contquery + "/" + self.name)
+        return (self.project + "/" + self.contquery + "/" + self.name)
 
     @property
     def schema(self):
@@ -477,12 +501,12 @@ class BaseWindow(ESPObject):
         string
 
         '''
-        #return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1subscribers/', self.url)
+        # return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1subscribers/', self.url)
 
         s = re.findall("^\w+:", self.url)
         wsproto = (s[0] == "https:") and "wss" or "ws"
         value = re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'%s\1subscribers/' % wsproto, self.url)
-        return(value)
+        return (value)
 
     @property
     def publisher_url(self):
@@ -494,12 +518,12 @@ class BaseWindow(ESPObject):
         string
 
         '''
-        #return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1publishers/', self.url)
+        # return re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'ws\1publishers/', self.url)
 
         s = re.findall("^\w+:", self.url)
         wsproto = (s[0] == "https:") and "wss" or "ws"
         value = re.sub(r'^\w+(:.+?/%s/)' % ESP_ROOT, r'%s\1publishers/' % wsproto, self.url)
-        return(value)
+        return (value)
 
     def add_event_transformer(self, method, *args, **kwargs):
         '''
@@ -788,13 +812,13 @@ class BaseWindow(ESPObject):
 
         return out
 
-#   def _get_sort_order(self, value):
-#      if value:
-#          return value
-#      if self.schema.fields:
-#           for field in self.schema.fields.values():
-#               if field.key:
-#                   return '%s:descending' % field.name
+    #   def _get_sort_order(self, value):
+    #      if value:
+    #          return value
+    #      if self.schema.fields:
+    #           for field in self.schema.fields.values():
+    #               if field.key:
+    #                   return '%s:descending' % field.name
 
     def subscribe(self, mode='streaming', pagesize=50, filter=None,
                   sort=None, interval=None, limit=None, horizon=None, reset=True):
@@ -1064,7 +1088,59 @@ class BaseWindow(ESPObject):
             gen.save(overwrite=overwrite)
         return gen
 
-    def add_targets(self, *windows, **kwargs):
+    def set_key(self, *fields, propagation=False):
+        '''
+        Set schema fields as key
+
+        Parameters
+        ----------
+        fields : one-or-more schema fields
+            The windows to use as targets
+        propagation: indicate whether the change propagate to connected windows
+            Default to be False
+        '''
+        for name in fields:
+            if name in self.copyvars:
+                to_copy = [each if each != name else each + '*' for each in self.copyvars]
+                self.copyvars = to_copy
+            else:
+                try:
+                    self._schema.fields[name].key = True
+                except KeyError:
+                    raise KeyError('Unknown schema field name: %s' % name)
+
+        if propagation and self.template:
+            for target in self.targets:
+                if target.role and target.role != 'data':
+                    continue
+                elif self.template:
+                    try:
+                        window = self.template.windows[target.base_name]
+                        propagation_fields = [each for each in fields if each in window.schema]
+                        if propagation_fields:
+                            window.set_key(*propagation_fields, propagation=propagation)
+                    except KeyError:
+                        pass
+
+    def _get_target_window(self, window):
+        item = window
+        if isinstance(window, (BaseWindow, Window)):
+            pass
+
+        elif isinstance(window, six.string_types):
+            try:
+                item = self._all_windows[type(self).all_windows_name().index(window)]
+            except ValueError:
+                ValueError("No such window found")
+
+        else:
+            try:
+                item = window.windows[window._input_windows[0]]
+            except TypeError:
+                raise TypeError("Wrong input type, only Template object and Windows are supported.")
+        return item
+
+    def add_targets(self, *windows, auto_schema=False, **kwargs):
         '''
         Add windows as targets
 
@@ -1072,6 +1148,9 @@ class BaseWindow(ESPObject):
         ----------
         windows : one-or-more Windows or window names
             The windows to use as targets
+        auto_schema : boolean, optional
+            Indicates whether to automatically propagate the schema for target window or not,
+            default to be False
         role : string, optional
             The role of the connection
         slot : string, optional
@@ -1094,12 +1173,65 @@ class BaseWindow(ESPObject):
 
         '''
 
+        def _flatten_map(p):
+            l = list(p.values()) if p else []
+            flat_list = []
+            _ = [flat_list.extend(item) if isinstance(item, list)
+                 else flat_list.append(re.sub(r'\[[^\]]+\]$', r'', item)) for item in l if item]
+            return flat_list
+
+        def _propagate_schema(*source_win, target_win):
+
+            if SchemaFeature in inspect.getmro(type(target_win)):
+                if any(SchemaFeature in inspect.getmro(type(each)) for each in source_win):
+                    source_schema = ','.join(set([each_win.schema_string.strip() for each_win in source_win]))
+                    check_to_copy = [x.strip().split(':', 1)[0] for x in re.split(r'\s*,\s*|\s+', source_schema)]
+
+                    online = getattr(target_win, 'online_models', [])
+                    offline = getattr(target_win, 'offline_models', [])
+                    models = online + offline + [target_win]
+
+                    to_copy = list()
+                    copy_attrs = ['input_map', 'output_map']
+                    for model in models:
+                        for each_attr in copy_attrs:
+                            to_copy.extend([item for item in _flatten_map(getattr(model, each_attr, None))
+                                            if item not in check_to_copy and item + '*' not in check_to_copy])
+
+                    target_win.copyvars = to_copy
+                    target_win.schema = source_schema
+
+                else:
+                    parent_source_win = functools.reduce(lambda x, y: x + y, list(map(lambda x: x.parents,
+                                                                                      source_win)), [])
+                    _propagate_schema(*parent_source_win, target_win=target_win)
+
+        def _auto_schema(source_win, target_win):
+            # propagate schema from source_win to target_win
+            for target in source_win.targets:
+                if target.name == target_win.name:
+                    if target.role and target.role != 'data':
+                        warnings.warn('auto_schema feature for current role is disabled.', Warning)
+                    else:
+                        _propagate_schema(source_win, target_win=target_win)
+                    break
+
+            # propagate schema for connected windows in the same Template
+            if target_win.template:
+                for win in target_win.targets:
+                    _auto_schema(target_win, target_win.template.windows[win.base_name])
+
         self.delete_targets(*windows)
-        for item in windows:
-            item = item if isinstance(item, (six.string_types, BaseWindow)) else item.windows[item._input_windows[0]]
+        for each in windows:
+            item = self._get_target_window(each)
             self.targets.add(Target(name=getattr(item, 'base_name', item).split('.')[-1],
                                     template=getattr(item, 'template', None),
                                     role=kwargs.get('role', None), slot=kwargs.get('slot', None)))
+
+            item.parents.append(self)
+
+            if auto_schema:
+                _auto_schema(self, target_win=item)
 
     add_target = add_targets
 
@@ -1126,12 +1258,18 @@ class BaseWindow(ESPObject):
         ``self``
 
         '''
-        windows = set([getattr(x, 'name', x).split('.')[-1] if isinstance(x, (six.string_types, BaseWindow))
-                       else x.windows[x._input_windows[0]].name for x in windows])
-        for item in windows:
-            for target in set(self.targets):
-                if target.name in windows:
-                    self.targets.remove(target)
+        # windows = set([getattr(x, 'name', x).split('.')[-1] if isinstance(x, (six.string_types, BaseWindow))
+        #                else x.windows[x._input_windows[0]].name for x in windows])
+        windows = [self._get_target_window(each) for each in windows]
+        windows_name = [each.name for each in windows]
+        for target in set(self.targets):
+            try:
+                match_index = windows_name.index(target.name)
+                windows[match_index].parents.remove(self)
+                self.targets.remove(target)
+
+            except ValueError:
+                pass
 
     delete_target = delete_targets
 
@@ -1539,9 +1677,9 @@ class BaseWindow(ESPObject):
         '''
         self._verify_project()
         out = get_events(self, self._get(urllib.parse.urljoin(self.base_url,
-                                         'events/%s/%s/%s/' % (self.project,
-                                                               self.contquery,
-                                                               self.name)),
+                                                              'events/%s/%s/%s/' % (self.project,
+                                                                                    self.contquery,
+                                                                                    self.name)),
                                          params=get_params(filter=filter,
                                                            sort_by=sort_by,
                                                            limit=limit)),

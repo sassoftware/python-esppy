@@ -2,6 +2,7 @@
   <description>The Logistic Template contains TWO essential windows for the logistic regression model: a Train Window, and a Score Window.</description>
   <windows>
     <window-score name="w_score_logis">
+      <!--
       <schema>
         <fields>
           <field key="true" name="id" type="int64" />
@@ -10,13 +11,16 @@
           <field key="false" name="model_id" type="int64" />
         </fields>
       </schema>
+      -->
       <models>
         <online algorithm="LogisticRegression">
+          <!--
           <input-map>
             <properties>
               <property name="inputs">vector[1-200]</property>
             </properties>
           </input-map>
+          -->
           <output-map>
             <properties>
               <property name="modelIdOut">model_id</property>
@@ -46,12 +50,14 @@
           <property name="scaleFlag">0</property>
         </properties>
       </parameters>
+      <!--
       <input-map>
         <properties>
           <property name="inputs">vector[1-200],sentiment</property>
           <property name="target">sentiment</property>
         </properties>
       </input-map>
+      -->
     </window-train>
   </windows>
   <edges>
@@ -59,7 +65,8 @@
   </edges>
   <required-parameter-map>
     <properties>
-      <property name="target">w_train_logis.target</property>
+      <property name="train_inputs">w_train_logis.input_map</property>
+      <property name="score_inputs">w_score_logis.input_map.LogisticRegression</property>
       <property name="nInit">w_train_logis.nInit</property>
       <property name="commitInterval">w_train_logis.commitInterval</property>
       <property name="numC">w_train_logis.numC</property>

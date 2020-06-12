@@ -10,10 +10,11 @@
       <output>
         <field-selection name="sentiment" source="r_sentiment" />
         <field-selection name="content" source="r_content" />
-        <field-selection name="vector" source="l_v" />
+        <field-selection name="vector" source="l_vector" />
       </output>
     </window-join>
     <window-calculate algorithm="Tokenization" name="w_tok">
+      <!--
       <schema>
         <fields>
           <field key="true" name="id" type="int64" />
@@ -21,6 +22,7 @@
           <field key="false" name="word" type="string" />
         </fields>
       </schema>
+      -->
       <input-map>
         <properties>
           <property name="doc">content</property>
@@ -36,12 +38,14 @@
       </output-map>
     </window-calculate>
     <window-calculate algorithm="TextVectorization" name="w_vec">
+            <!--
       <schema>
         <fields>
           <field key="true" name="id" type="int64" />
           <field key="false" name="v" type="array(dbl)" />
         </fields>
       </schema>
+            -->
       <parameters>
         <properties>
           <property name="outputDocVec">1</property>
@@ -58,7 +62,7 @@
       <output-map>
         <properties>
           <property name="docIdOut">id</property>
-          <property name="vectorOut">v[1-200]</property>
+          <property name="vectorOut">vector[1-200]</property>
         </properties>
       </output-map>
     </window-calculate>

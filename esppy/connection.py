@@ -61,6 +61,7 @@ from .websocket import WebSocketClient
 from .windows import BaseWindow, get_window_class
 from .espapi import api
 
+
 class ProjectStats(object):
     '''
     Project statistics subscriber
