@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.add\_template
+=============================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.add_template

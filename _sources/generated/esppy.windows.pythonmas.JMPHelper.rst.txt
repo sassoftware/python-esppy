@@ -1,0 +1,89 @@
+esppy.windows.pythonmas.JMPHelper
+=================================
+
+.. currentmodule:: esppy.windows.pythonmas
+
+.. autoclass:: JMPHelper
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~JMPHelper.__init__
+      ~JMPHelper.add_connector
+      ~JMPHelper.add_event_transformer
+      ~JMPHelper.add_mas_info
+      ~JMPHelper.add_mas_window_map
+      ~JMPHelper.add_model_info
+      ~JMPHelper.add_target
+      ~JMPHelper.add_targets
+      ~JMPHelper.apply_transformers
+      ~JMPHelper.copy
+      ~JMPHelper.create_event_generator
+      ~JMPHelper.create_publisher
+      ~JMPHelper.create_subscriber
+      ~JMPHelper.delete_target
+      ~JMPHelper.delete_targets
+      ~JMPHelper.disable_tracing
+      ~JMPHelper.enable_tracing
+      ~JMPHelper.from_element
+      ~JMPHelper.from_xml
+      ~JMPHelper.get_events
+      ~JMPHelper.get_pattern_events
+      ~JMPHelper.publish_events
+      ~JMPHelper.save_xml
+      ~JMPHelper.set_inputs
+      ~JMPHelper.set_outputs
+      ~JMPHelper.set_parameters
+      ~JMPHelper.streaming_area
+      ~JMPHelper.streaming_bar
+      ~JMPHelper.streaming_bubble
+      ~JMPHelper.streaming_donut
+      ~JMPHelper.streaming_hbar
+      ~JMPHelper.streaming_hist
+      ~JMPHelper.streaming_images
+      ~JMPHelper.streaming_line
+      ~JMPHelper.streaming_pie
+      ~JMPHelper.streaming_scatter
+      ~JMPHelper.subscribe
+      ~JMPHelper.to_data_callback
+      ~JMPHelper.to_element
+      ~JMPHelper.to_graph
+      ~JMPHelper.to_xml
+      ~JMPHelper.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~JMPHelper.algorithm
+      ~JMPHelper.base_name
+      ~JMPHelper.base_url
+      ~JMPHelper.contquery
+      ~JMPHelper.fullname
+      ~JMPHelper.index_type
+      ~JMPHelper.is_hidden
+      ~JMPHelper.name
+      ~JMPHelper.produces_only_inserts
+      ~JMPHelper.project
+      ~JMPHelper.properties
+      ~JMPHelper.publisher_url
+      ~JMPHelper.pubsub
+      ~JMPHelper.schema
+      ~JMPHelper.schema_string
+      ~JMPHelper.session
+      ~JMPHelper.subscriber_url
+      ~JMPHelper.template
+      ~JMPHelper.url
+      ~JMPHelper.window_classes
+      ~JMPHelper.window_type
+   
+   

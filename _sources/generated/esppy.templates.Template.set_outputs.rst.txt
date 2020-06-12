@@ -1,0 +1,6 @@
+esppy.templates.Template.set\_outputs
+=====================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.set_outputs

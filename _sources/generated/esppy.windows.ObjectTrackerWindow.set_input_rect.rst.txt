@@ -1,0 +1,6 @@
+esppy.windows.ObjectTrackerWindow.set\_input\_rect
+==================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ObjectTrackerWindow.set_input_rect

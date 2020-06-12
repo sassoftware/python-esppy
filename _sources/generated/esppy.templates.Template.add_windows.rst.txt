@@ -1,0 +1,6 @@
+esppy.templates.Template.add\_windows
+=====================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.add_windows
