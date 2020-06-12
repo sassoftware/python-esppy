@@ -1,6 +1,0 @@
-esppy.windows.ObjectTrackerWindow.set\_input\_coco
-==================================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: ObjectTrackerWindow.set_input_coco

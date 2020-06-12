@@ -1,6 +1,0 @@
-esppy.templates.Template.delete\_window
-=======================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.delete_window

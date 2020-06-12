@@ -1,6 +1,0 @@
-esppy.templates.Template.set\_parameters
-========================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.set_parameters

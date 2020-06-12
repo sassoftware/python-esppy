@@ -1,6 +1,0 @@
-esppy.templates.Template.import\_template
-=========================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.import_template

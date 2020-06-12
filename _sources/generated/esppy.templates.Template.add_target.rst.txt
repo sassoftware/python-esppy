@@ -1,6 +1,0 @@
-esppy.templates.Template.add\_target
-====================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.add_target

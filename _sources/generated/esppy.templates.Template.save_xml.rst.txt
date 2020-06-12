@@ -1,6 +1,0 @@
-esppy.templates.Template.save\_xml
-==================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.save_xml

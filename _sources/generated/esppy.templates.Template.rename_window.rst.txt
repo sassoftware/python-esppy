@@ -1,6 +1,0 @@
-esppy.templates.Template.rename\_window
-=======================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.rename_window

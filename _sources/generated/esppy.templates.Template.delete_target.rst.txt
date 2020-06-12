@@ -1,6 +1,0 @@
-esppy.templates.Template.delete\_target
-=======================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.delete_target

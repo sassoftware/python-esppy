@@ -67,6 +67,8 @@ class UVCPublisher(Connector):
         the connector.
     maxevents : int, optional
         Specifies the maximum number of events to publish.
+    cameraid : string, optional
+        Specifies an arbitrary string that is copied into the corresponding string field in the Source window. This value can be used by the model to identify the source camera.
 
     Returns
     -------
@@ -88,7 +90,8 @@ class UVCPublisher(Connector):
         device=prop('device', dtype='string'),
         blocking=prop('blocking', dtype='boolean'),
         predelay=prop('predelay', dtype='int'),
-        maxevents=prop('maxevents', dtype='int')
+        maxevents=prop('maxevents', dtype='int'),
+        cameraid=prop('cameraid', dtype='string')
     )
 
     def __init__(self, name=None, is_active=None,
@@ -96,7 +99,7 @@ class UVCPublisher(Connector):
                  width=None, height=None, brightness=None,
                  gain=None, saturation=None, contrast=None,
                  device=None, blocking=None, predelay=None,
-                 maxevents=None):
+                 maxevents=None, cameraid=None):
         params = dict(**locals())
         params.pop('is_active')
         params.pop('self')

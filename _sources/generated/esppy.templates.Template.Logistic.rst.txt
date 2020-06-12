@@ -1,6 +1,0 @@
-esppy.templates.Template.Logistic
-=================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.Logistic

@@ -1,6 +1,0 @@
-esppy.windows.pythonmas.PythonHelper.add\_mas\_info
-===================================================
-
-.. currentmodule:: esppy.windows.pythonmas
-
-.. automethod:: PythonHelper.add_mas_info
