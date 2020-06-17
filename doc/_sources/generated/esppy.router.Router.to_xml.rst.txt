@@ -1,0 +1,6 @@
+esppy.router.Router.to\_xml
+===========================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: Router.to_xml

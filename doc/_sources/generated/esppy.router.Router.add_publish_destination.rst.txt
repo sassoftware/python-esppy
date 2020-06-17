@@ -1,0 +1,6 @@
+esppy.router.Router.add\_publish\_destination
+=============================================
+
+.. currentmodule:: esppy.router
+
+.. automethod:: Router.add_publish_destination

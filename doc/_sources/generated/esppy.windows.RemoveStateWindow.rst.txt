@@ -1,0 +1,91 @@
+esppy.windows.RemoveStateWindow
+===============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: RemoveStateWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~RemoveStateWindow.__init__
+      ~RemoveStateWindow.add_connector
+      ~RemoveStateWindow.add_event_transformer
+      ~RemoveStateWindow.add_target
+      ~RemoveStateWindow.add_targets
+      ~RemoveStateWindow.apply_transformers
+      ~RemoveStateWindow.copy
+      ~RemoveStateWindow.create_event_generator
+      ~RemoveStateWindow.create_publisher
+      ~RemoveStateWindow.create_subscriber
+      ~RemoveStateWindow.delete_target
+      ~RemoveStateWindow.delete_targets
+      ~RemoveStateWindow.disable_tracing
+      ~RemoveStateWindow.enable_tracing
+      ~RemoveStateWindow.from_element
+      ~RemoveStateWindow.from_xml
+      ~RemoveStateWindow.get_events
+      ~RemoveStateWindow.get_pattern_events
+      ~RemoveStateWindow.publish_events
+      ~RemoveStateWindow.save_xml
+      ~RemoveStateWindow.set_finalized_callback
+      ~RemoveStateWindow.set_splitter_expr
+      ~RemoveStateWindow.set_splitter_plugin
+      ~RemoveStateWindow.streaming_area
+      ~RemoveStateWindow.streaming_bar
+      ~RemoveStateWindow.streaming_bubble
+      ~RemoveStateWindow.streaming_donut
+      ~RemoveStateWindow.streaming_hbar
+      ~RemoveStateWindow.streaming_hist
+      ~RemoveStateWindow.streaming_images
+      ~RemoveStateWindow.streaming_line
+      ~RemoveStateWindow.streaming_pie
+      ~RemoveStateWindow.streaming_scatter
+      ~RemoveStateWindow.subscribe
+      ~RemoveStateWindow.to_data_callback
+      ~RemoveStateWindow.to_element
+      ~RemoveStateWindow.to_graph
+      ~RemoveStateWindow.to_xml
+      ~RemoveStateWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RemoveStateWindow.add_log_fields
+      ~RemoveStateWindow.base_name
+      ~RemoveStateWindow.base_url
+      ~RemoveStateWindow.collapse_updates
+      ~RemoveStateWindow.contquery
+      ~RemoveStateWindow.exp_max_string
+      ~RemoveStateWindow.fullname
+      ~RemoveStateWindow.index_type
+      ~RemoveStateWindow.is_hidden
+      ~RemoveStateWindow.name
+      ~RemoveStateWindow.output_insert_only
+      ~RemoveStateWindow.project
+      ~RemoveStateWindow.properties
+      ~RemoveStateWindow.publisher_url
+      ~RemoveStateWindow.pubsub
+      ~RemoveStateWindow.pubsub_index_type
+      ~RemoveStateWindow.pulse_interval
+      ~RemoveStateWindow.remove
+      ~RemoveStateWindow.schema
+      ~RemoveStateWindow.schema_string
+      ~RemoveStateWindow.session
+      ~RemoveStateWindow.subscriber_url
+      ~RemoveStateWindow.template
+      ~RemoveStateWindow.url
+      ~RemoveStateWindow.window_classes
+      ~RemoveStateWindow.window_type
+   
+   

@@ -1,0 +1,6 @@
+esppy.windows.Window.create\_publisher
+======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.create_publisher

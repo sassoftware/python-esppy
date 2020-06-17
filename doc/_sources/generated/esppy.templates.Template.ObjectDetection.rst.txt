@@ -1,0 +1,6 @@
+esppy.templates.Template.ObjectDetection
+========================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.ObjectDetection

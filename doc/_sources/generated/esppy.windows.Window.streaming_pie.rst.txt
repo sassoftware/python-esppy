@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_pie
+===================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_pie

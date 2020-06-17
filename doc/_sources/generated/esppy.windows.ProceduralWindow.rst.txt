@@ -1,0 +1,94 @@
+esppy.windows.ProceduralWindow
+==============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: ProceduralWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ProceduralWindow.__init__
+      ~ProceduralWindow.add_connector
+      ~ProceduralWindow.add_cxx_plugin
+      ~ProceduralWindow.add_cxx_plugins
+      ~ProceduralWindow.add_ds_external
+      ~ProceduralWindow.add_event_transformer
+      ~ProceduralWindow.add_target
+      ~ProceduralWindow.add_targets
+      ~ProceduralWindow.apply_transformers
+      ~ProceduralWindow.copy
+      ~ProceduralWindow.create_event_generator
+      ~ProceduralWindow.create_publisher
+      ~ProceduralWindow.create_subscriber
+      ~ProceduralWindow.delete_target
+      ~ProceduralWindow.delete_targets
+      ~ProceduralWindow.disable_tracing
+      ~ProceduralWindow.enable_tracing
+      ~ProceduralWindow.from_element
+      ~ProceduralWindow.from_xml
+      ~ProceduralWindow.get_events
+      ~ProceduralWindow.get_pattern_events
+      ~ProceduralWindow.publish_events
+      ~ProceduralWindow.save_xml
+      ~ProceduralWindow.set_cxx_plugin_context
+      ~ProceduralWindow.set_finalized_callback
+      ~ProceduralWindow.set_splitter_expr
+      ~ProceduralWindow.set_splitter_plugin
+      ~ProceduralWindow.streaming_area
+      ~ProceduralWindow.streaming_bar
+      ~ProceduralWindow.streaming_bubble
+      ~ProceduralWindow.streaming_donut
+      ~ProceduralWindow.streaming_hbar
+      ~ProceduralWindow.streaming_hist
+      ~ProceduralWindow.streaming_images
+      ~ProceduralWindow.streaming_line
+      ~ProceduralWindow.streaming_pie
+      ~ProceduralWindow.streaming_scatter
+      ~ProceduralWindow.subscribe
+      ~ProceduralWindow.to_data_callback
+      ~ProceduralWindow.to_element
+      ~ProceduralWindow.to_graph
+      ~ProceduralWindow.to_xml
+      ~ProceduralWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProceduralWindow.base_name
+      ~ProceduralWindow.base_url
+      ~ProceduralWindow.collapse_updates
+      ~ProceduralWindow.contquery
+      ~ProceduralWindow.exp_max_string
+      ~ProceduralWindow.fullname
+      ~ProceduralWindow.index_type
+      ~ProceduralWindow.is_hidden
+      ~ProceduralWindow.name
+      ~ProceduralWindow.output_insert_only
+      ~ProceduralWindow.produces_only_inserts
+      ~ProceduralWindow.project
+      ~ProceduralWindow.properties
+      ~ProceduralWindow.publisher_url
+      ~ProceduralWindow.pubsub
+      ~ProceduralWindow.pubsub_index_type
+      ~ProceduralWindow.pulse_interval
+      ~ProceduralWindow.schema
+      ~ProceduralWindow.schema_string
+      ~ProceduralWindow.session
+      ~ProceduralWindow.subscriber_url
+      ~ProceduralWindow.template
+      ~ProceduralWindow.url
+      ~ProceduralWindow.window_classes
+      ~ProceduralWindow.window_type
+   
+   

@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.connection.ESP.get_running_project &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.connection.ESP.get_running_projects" href="esppy.connection.ESP.get_running_projects.html" />
+    <link rel="prev" title="esppy.connection.ESP.delete_projects" href="esppy.connection.ESP.delete_projects.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#esp">ESP</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#constructor">Constructor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#server-methods">Server Methods</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#project-methods">Project Methods</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.create_project.html">esppy.connection.ESP.create_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.load_project.html">esppy.connection.ESP.load_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.install_project.html">esppy.connection.ESP.install_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.get_project_stats.html">esppy.connection.ESP.get_project_stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.get_project.html">esppy.connection.ESP.get_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.get_projects.html">esppy.connection.ESP.get_projects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.start_project.html">esppy.connection.ESP.start_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.start_projects.html">esppy.connection.ESP.start_projects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.stop_project.html">esppy.connection.ESP.stop_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.stop_projects.html">esppy.connection.ESP.stop_projects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.delete_project.html">esppy.connection.ESP.delete_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.delete_projects.html">esppy.connection.ESP.delete_projects</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">esppy.connection.ESP.get_running_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.get_running_projects.html">esppy.connection.ESP.get_running_projects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.get_stopped_project.html">esppy.connection.ESP.get_stopped_project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.get_stopped_projects.html">esppy.connection.ESP.get_stopped_projects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.connection.ESP.validate_project.html">esppy.connection.ESP.validate_project</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#window-methods">Window Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#event-methods">Event Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#logging-methods">Logging Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#mas-module-methods">MAS Module Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#router-methods">Router Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#event-generator-methods">Event Generator Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#algorithm-methods">Algorithm Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.connection.ESP.get_running_project</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.connection.ESP.get_running_project.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-connection-esp-get-running-project">
+<h1>esppy.connection.ESP.get_running_project<a class="headerlink" href="#esppy-connection-esp-get-running-project" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="esppy.connection.ESP.get_running_project">
+<code class="sig-prename descclassname">ESP.</code><code class="sig-name descname">get_running_project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connection.ESP.get_running_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the specified running project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">string</span></dt><dd><p>Name of the project</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.connection.ESP.get_running_projects.html" class="btn btn-neutral float-right" title="esppy.connection.ESP.get_running_projects" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.connection.ESP.delete_projects.html" class="btn btn-neutral float-left" title="esppy.connection.ESP.delete_projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

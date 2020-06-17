@@ -1,0 +1,6 @@
+esppy.windows.ObjectTrackerWindow.set\_output
+=============================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ObjectTrackerWindow.set_output

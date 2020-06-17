@@ -1,0 +1,6 @@
+esppy.windows.Window.from\_xml
+==============================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.from_xml

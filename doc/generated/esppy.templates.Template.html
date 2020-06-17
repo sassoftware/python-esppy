@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.templates.Template &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.templates.Template.TextEmbedding" href="esppy.templates.Template.TextEmbedding.html" />
+    <link rel="prev" title="esppy.contquery.ContinuousQuery.to_graph" href="esppy.contquery.ContinuousQuery.to_graph.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#templates">Templates</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">esppy.templates.Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.TextEmbedding.html">esppy.templates.Template.TextEmbedding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.Logistic.html">esppy.templates.Template.Logistic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.ObjectDetection.html">esppy.templates.Template.ObjectDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.KeypointsDetection.html">esppy.templates.Template.KeypointsDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_input_windows.html">esppy.templates.Template.add_input_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_input_windows.html">esppy.templates.Template.delete_input_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_output_windows.html">esppy.templates.Template.add_output_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_output_windows.html">esppy.templates.Template.delete_output_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.set_parameters.html">esppy.templates.Template.set_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.set_inputs.html">esppy.templates.Template.set_inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.set_outputs.html">esppy.templates.Template.set_outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_target.html">esppy.templates.Template.add_target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_target.html">esppy.templates.Template.delete_target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_window.html">esppy.templates.Template.add_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_windows.html">esppy.templates.Template.add_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.import_template.html">esppy.templates.Template.import_template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.rename_window.html">esppy.templates.Template.rename_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_window.html">esppy.templates.Template.delete_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_windows.html">esppy.templates.Template.delete_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.copy.html">esppy.templates.Template.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.from_xml.html">esppy.templates.Template.from_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.to_xml.html">esppy.templates.Template.to_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.save_xml.html">esppy.templates.Template.save_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.to_graph.html">esppy.templates.Template.to_graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.templates.Template</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.templates.Template.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-templates-template">
+<h1>esppy.templates.Template<a class="headerlink" href="#esppy-templates-template" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.templates.Template">
+<em class="property">class </em><code class="sig-prename descclassname">esppy.templates.</code><code class="sig-name descname">Template</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">trace=None</em>, <em class="sig-param">index_type=None</em>, <em class="sig-param">timing_threshold=None</em>, <em class="sig-param">include_singletons=None</em>, <em class="sig-param">description=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.templates.Template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.base.ESPObject</span></code>, <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></a></p>
+<p>ESP Template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">string</span></dt><dd><p>Name of the continuous query</p>
+</dd>
+<dt><strong>trace</strong><span class="classifier">string, optional</span></dt><dd><p>One or more space-separated window names or IDs</p>
+</dd>
+<dt><strong>index_type</strong><span class="classifier">string, optional</span></dt><dd><p>A default index type for all windows in the template that
+do not explicitly specify an index type
+Valid values: ‘rbtree’, ‘hash’, ‘ln_hash’, ‘cl_hash’, ‘fw_hash’, ‘empty’</p>
+</dd>
+<dt><strong>timing_threshold</strong><span class="classifier">int, optional</span></dt><dd><p>When a window in the template takes more than value microseconds to
+compute for a given event or event block, a warning message is logged</p>
+</dd>
+<dt><strong>include_singletons</strong><span class="classifier">bool, optional</span></dt><dd><p>Specify whether to add unattached source windows</p>
+</dd>
+<dt><strong>description</strong><span class="classifier">string, optional</span></dt><dd><p>Description of the template</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.templates.Template" title="esppy.templates.Template"><code class="xref py py-class docutils literal notranslate"><span class="pre">Template</span></code></a></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>All parameters are also available as instance attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">project</span></code><span class="classifier">string or Project</span></dt><dd><p>The name of the project</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">contquery</span></code><span class="classifier">string or ContinuousQuerry</span></dt><dd><p>The name of the continuous query</p>
+</dd>
+<dt><strong>windows</strong><span class="classifier">dict</span></dt><dd><p>Collection of windows in the template</p>
+</dd>
+<dt><strong>metadata</strong><span class="classifier">dict</span></dt><dd><p>Metadata dictionary</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code><span class="classifier">string</span></dt><dd><p>URL of the Template</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="esppy.templates.Template.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em>, <em class="sig-param">trace=None</em>, <em class="sig-param">index_type=None</em>, <em class="sig-param">timing_threshold=None</em>, <em class="sig-param">include_singletons=None</em>, <em class="sig-param">description=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.templates.Template.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.KeypointsDetection.html#esppy.templates.Template.KeypointsDetection" title="esppy.templates.Template.KeypointsDetection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KeypointsDetection</span></code></a>(template_name, \*\*kwargs)</p></td>
+<td><p>Create a KeypointsDetection template</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.Logistic.html#esppy.templates.Template.Logistic" title="esppy.templates.Template.Logistic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Logistic</span></code></a>(template_name, \*\*kwargs)</p></td>
+<td><p>Create a Logistic template</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.ObjectDetection.html#esppy.templates.Template.ObjectDetection" title="esppy.templates.Template.ObjectDetection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObjectDetection</span></code></a>(template_name, \*\*kwargs)</p></td>
+<td><p>Create a ObjectDetection template</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.TextEmbedding.html#esppy.templates.Template.TextEmbedding" title="esppy.templates.Template.TextEmbedding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TextEmbedding</span></code></a>(template_name, \*\*kwargs)</p></td>
+<td><p>Create a TextEmbedding template</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.templates.Template.__init__" title="esppy.templates.Template.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self, name[, trace, index_type, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.add_input_windows.html#esppy.templates.Template.add_input_windows" title="esppy.templates.Template.add_input_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_input_windows</span></code></a>(self, \*windows)</p></td>
+<td><p>Add input_windows</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.add_output_windows.html#esppy.templates.Template.add_output_windows" title="esppy.templates.Template.add_output_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_output_windows</span></code></a>(self, \*windows)</p></td>
+<td><p>Add output_windows</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.add_target.html#esppy.templates.Template.add_target" title="esppy.templates.Template.add_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_target</span></code></a>(self, obj, \*\*kwargs)</p></td>
+<td><p>Add target for Template</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.add_window.html#esppy.templates.Template.add_window" title="esppy.templates.Template.add_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_window</span></code></a>(self, window)</p></td>
+<td><p>Add a window to the template</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.add_windows.html#esppy.templates.Template.add_windows" title="esppy.templates.Template.add_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_windows</span></code></a>(self, \*windows)</p></td>
+<td><p>Add one or more windows to the template</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.copy.html#esppy.templates.Template.copy" title="esppy.templates.Template.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(self, name[, deep, internal_only])</p></td>
+<td><p>Return a copy of the template</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_mas_module</span></code>(self, language, module, …)</p></td>
+<td><p>Create a MAS module object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.delete_input_windows.html#esppy.templates.Template.delete_input_windows" title="esppy.templates.Template.delete_input_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_input_windows</span></code></a>(self, \*windows)</p></td>
+<td><p>Delete input_windows</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.delete_output_windows.html#esppy.templates.Template.delete_output_windows" title="esppy.templates.Template.delete_output_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_output_windows</span></code></a>(self, \*windows)</p></td>
+<td><p>Delete output_windows</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.delete_target.html#esppy.templates.Template.delete_target" title="esppy.templates.Template.delete_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_target</span></code></a>(self, \*objs)</p></td>
+<td><p>Delete targets for Template</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.delete_window.html#esppy.templates.Template.delete_window" title="esppy.templates.Template.delete_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_window</span></code></a>(self, \*windows)</p></td>
+<td><p>Delete windows and update targets</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.delete_windows.html#esppy.templates.Template.delete_windows" title="esppy.templates.Template.delete_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_windows</span></code></a>(self, \*windows)</p></td>
+<td><p>Delete windows and update targets</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_to</span></code>(self[, type, pretty])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_element</span></code>(data, template_name[, tag, …])</p></td>
+<td><p>Create template from XML definition</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.from_xml.html#esppy.templates.Template.from_xml" title="esppy.templates.Template.from_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_xml</span></code></a>(data, template_name[, tag, …])</p></td>
+<td><p>Create template from XML definition</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(self, key[, default])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_from</span></code>(self[, type])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.import_template.html#esppy.templates.Template.import_template" title="esppy.templates.Template.import_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">import_template</span></code></a>(self, template[, internal_only])</p></td>
+<td><p>import a template object</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code>(self, key[, default])</p></td>
+<td><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>(self)</p></td>
+<td><p>as a 2-tuple; but raise KeyError if D is empty.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.rename_window.html#esppy.templates.Template.rename_window" title="esppy.templates.Template.rename_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rename_window</span></code></a>(self, window, newname)</p></td>
+<td><p>Rename a window and update targets</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.save_xml.html#esppy.templates.Template.save_xml" title="esppy.templates.Template.save_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_xml</span></code></a>(self, dest[, mode, pretty])</p></td>
+<td><p>Save the template XML to a file</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.set_inputs.html#esppy.templates.Template.set_inputs" title="esppy.templates.Template.set_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_inputs</span></code></a>(self[, window, model])</p></td>
+<td><p>Set inputs</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.set_outputs.html#esppy.templates.Template.set_outputs" title="esppy.templates.Template.set_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_outputs</span></code></a>(self[, window, model])</p></td>
+<td><p>Set outputs</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.set_parameters.html#esppy.templates.Template.set_parameters" title="esppy.templates.Template.set_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_parameters</span></code></a>(self, window, \*\*parameters)</p></td>
+<td><p>Set parameters</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code>(self, key[, default])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscribe</span></code>(self[, mode, pagesize, filter, …])</p></td>
+<td><p>Subscribe to events</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_element</span></code>(self[, template])</p></td>
+<td><p>Export template definition to ElementTree.Element</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.templates.Template.to_graph.html#esppy.templates.Template.to_graph" title="esppy.templates.Template.to_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_graph</span></code></a>(self[, graph, schema, detail])</p></td>
+<td><p>Export template definition to graphviz.Digraph</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.templates.Template.to_xml.html#esppy.templates.Template.to_xml" title="esppy.templates.Template.to_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_xml</span></code></a>(self[, pretty, template])</p></td>
+<td><p>Export template definition to XML</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unsubscribe</span></code>(self)</p></td>
+<td><p>Stop event processing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code>(\*args, \*\*kwds)</p></td>
+<td><p>If E present and has a .keys() method, does:     for k in E: D[k] = E[k] If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v In either case, this is followed by: for k, v in F.items(): D[k] = v</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_url</span></code></p></td>
+<td><p>The base server URL</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">contquery</span></code></p></td>
+<td><p>The name of the continuous query</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">file_dir</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullname</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">include_singletons</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_type</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_windows</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>The name of the template</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_windows</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project</span></code></p></td>
+<td><p>The name of the project</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">session</span></code></p></td>
+<td><p>The requests.Session object for the continuous query</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">template_list</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">timing_threshold</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>URL of the Template</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.templates.Template.TextEmbedding.html" class="btn btn-neutral float-right" title="esppy.templates.Template.TextEmbedding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.contquery.ContinuousQuery.to_graph.html" class="btn btn-neutral float-left" title="esppy.contquery.ContinuousQuery.to_graph" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

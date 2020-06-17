@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_bar
+===================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_bar

@@ -1,0 +1,6 @@
+esppy.connection.ESP.delete\_event\_generator
+=============================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.delete_event_generator

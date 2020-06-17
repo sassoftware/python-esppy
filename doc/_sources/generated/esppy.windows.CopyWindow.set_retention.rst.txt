@@ -1,0 +1,6 @@
+esppy.windows.CopyWindow.set\_retention
+=======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: CopyWindow.set_retention

@@ -1,0 +1,6 @@
+esppy.templates.Template.TextEmbedding
+======================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.TextEmbedding

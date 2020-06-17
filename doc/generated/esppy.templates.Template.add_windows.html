@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.templates.Template.add_windows &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.templates.Template.import_template" href="esppy.templates.Template.import_template.html" />
+    <link rel="prev" title="esppy.templates.Template.add_window" href="esppy.templates.Template.add_window.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#templates">Templates</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.html">esppy.templates.Template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.TextEmbedding.html">esppy.templates.Template.TextEmbedding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.Logistic.html">esppy.templates.Template.Logistic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.ObjectDetection.html">esppy.templates.Template.ObjectDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.KeypointsDetection.html">esppy.templates.Template.KeypointsDetection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_input_windows.html">esppy.templates.Template.add_input_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_input_windows.html">esppy.templates.Template.delete_input_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_output_windows.html">esppy.templates.Template.add_output_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_output_windows.html">esppy.templates.Template.delete_output_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.set_parameters.html">esppy.templates.Template.set_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.set_inputs.html">esppy.templates.Template.set_inputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.set_outputs.html">esppy.templates.Template.set_outputs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_target.html">esppy.templates.Template.add_target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_target.html">esppy.templates.Template.delete_target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.add_window.html">esppy.templates.Template.add_window</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">esppy.templates.Template.add_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.import_template.html">esppy.templates.Template.import_template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.rename_window.html">esppy.templates.Template.rename_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_window.html">esppy.templates.Template.delete_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.delete_windows.html">esppy.templates.Template.delete_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.copy.html">esppy.templates.Template.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.from_xml.html">esppy.templates.Template.from_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.to_xml.html">esppy.templates.Template.to_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.save_xml.html">esppy.templates.Template.save_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.templates.Template.to_graph.html">esppy.templates.Template.to_graph</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.templates.Template.add_windows</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.templates.Template.add_windows.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-templates-template-add-windows">
+<h1>esppy.templates.Template.add_windows<a class="headerlink" href="#esppy-templates-template-add-windows" title="Permalink to this headline">¶</a></h1>
+<dl class="method">
+<dt id="esppy.templates.Template.add_windows">
+<code class="sig-prename descclassname">Template.</code><code class="sig-name descname">add_windows</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">*windows</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.templates.Template.add_windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add one or more windows to the template</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>windows</strong><span class="classifier">one-or-more-Windows</span></dt><dd><p>The Window objects to add</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>tuple of :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>Window`s</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.templates.Template.import_template.html" class="btn btn-neutral float-right" title="esppy.templates.Template.import_template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.templates.Template.add_window.html" class="btn btn-neutral float-left" title="esppy.templates.Template.add_window" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

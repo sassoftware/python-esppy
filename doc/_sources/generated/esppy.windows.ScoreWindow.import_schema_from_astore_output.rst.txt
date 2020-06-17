@@ -1,0 +1,6 @@
+esppy.windows.ScoreWindow.import\_schema\_from\_astore\_output
+==============================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ScoreWindow.import_schema_from_astore_output

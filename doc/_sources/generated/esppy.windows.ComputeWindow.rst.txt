@@ -1,0 +1,97 @@
+esppy.windows.ComputeWindow
+===========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: ComputeWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ComputeWindow.__init__
+      ~ComputeWindow.add_connector
+      ~ComputeWindow.add_event_transformer
+      ~ComputeWindow.add_field_expr
+      ~ComputeWindow.add_field_expression
+      ~ComputeWindow.add_field_expressions
+      ~ComputeWindow.add_field_exprs
+      ~ComputeWindow.add_field_plugin
+      ~ComputeWindow.add_target
+      ~ComputeWindow.add_targets
+      ~ComputeWindow.apply_transformers
+      ~ComputeWindow.copy
+      ~ComputeWindow.create_event_generator
+      ~ComputeWindow.create_publisher
+      ~ComputeWindow.create_subscriber
+      ~ComputeWindow.delete_target
+      ~ComputeWindow.delete_targets
+      ~ComputeWindow.disable_tracing
+      ~ComputeWindow.enable_tracing
+      ~ComputeWindow.from_element
+      ~ComputeWindow.from_xml
+      ~ComputeWindow.get_events
+      ~ComputeWindow.get_pattern_events
+      ~ComputeWindow.publish_events
+      ~ComputeWindow.save_xml
+      ~ComputeWindow.set_context_plugin
+      ~ComputeWindow.set_expr_initializer
+      ~ComputeWindow.set_expression_initializer
+      ~ComputeWindow.set_finalized_callback
+      ~ComputeWindow.set_splitter_expr
+      ~ComputeWindow.set_splitter_plugin
+      ~ComputeWindow.streaming_area
+      ~ComputeWindow.streaming_bar
+      ~ComputeWindow.streaming_bubble
+      ~ComputeWindow.streaming_donut
+      ~ComputeWindow.streaming_hbar
+      ~ComputeWindow.streaming_hist
+      ~ComputeWindow.streaming_images
+      ~ComputeWindow.streaming_line
+      ~ComputeWindow.streaming_pie
+      ~ComputeWindow.streaming_scatter
+      ~ComputeWindow.subscribe
+      ~ComputeWindow.to_data_callback
+      ~ComputeWindow.to_element
+      ~ComputeWindow.to_graph
+      ~ComputeWindow.to_xml
+      ~ComputeWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ComputeWindow.base_name
+      ~ComputeWindow.base_url
+      ~ComputeWindow.collapse_updates
+      ~ComputeWindow.contquery
+      ~ComputeWindow.exp_max_string
+      ~ComputeWindow.fullname
+      ~ComputeWindow.index_type
+      ~ComputeWindow.is_hidden
+      ~ComputeWindow.name
+      ~ComputeWindow.output_insert_only
+      ~ComputeWindow.project
+      ~ComputeWindow.properties
+      ~ComputeWindow.publisher_url
+      ~ComputeWindow.pubsub
+      ~ComputeWindow.pubsub_index_type
+      ~ComputeWindow.pulse_interval
+      ~ComputeWindow.schema
+      ~ComputeWindow.schema_string
+      ~ComputeWindow.session
+      ~ComputeWindow.subscriber_url
+      ~ComputeWindow.template
+      ~ComputeWindow.url
+      ~ComputeWindow.window_classes
+      ~ComputeWindow.window_type
+   
+   

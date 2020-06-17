@@ -1,0 +1,6 @@
+esppy.windows.TrainWindow.set\_parameters
+=========================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: TrainWindow.set_parameters

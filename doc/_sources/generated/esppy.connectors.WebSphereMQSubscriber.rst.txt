@@ -1,0 +1,45 @@
+esppy.connectors.WebSphereMQSubscriber
+======================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: WebSphereMQSubscriber
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~WebSphereMQSubscriber.__init__
+      ~WebSphereMQSubscriber.clear
+      ~WebSphereMQSubscriber.copy
+      ~WebSphereMQSubscriber.from_element
+      ~WebSphereMQSubscriber.from_parameters
+      ~WebSphereMQSubscriber.from_xml
+      ~WebSphereMQSubscriber.get
+      ~WebSphereMQSubscriber.items
+      ~WebSphereMQSubscriber.keys
+      ~WebSphereMQSubscriber.pop
+      ~WebSphereMQSubscriber.popitem
+      ~WebSphereMQSubscriber.set_properties
+      ~WebSphereMQSubscriber.setdefault
+      ~WebSphereMQSubscriber.to_element
+      ~WebSphereMQSubscriber.to_xml
+      ~WebSphereMQSubscriber.update
+      ~WebSphereMQSubscriber.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WebSphereMQSubscriber.connector_key
+      ~WebSphereMQSubscriber.property_defs
+   
+   

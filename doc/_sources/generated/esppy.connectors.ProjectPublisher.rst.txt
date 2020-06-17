@@ -1,0 +1,45 @@
+esppy.connectors.ProjectPublisher
+=================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: ProjectPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ProjectPublisher.__init__
+      ~ProjectPublisher.clear
+      ~ProjectPublisher.copy
+      ~ProjectPublisher.from_element
+      ~ProjectPublisher.from_parameters
+      ~ProjectPublisher.from_xml
+      ~ProjectPublisher.get
+      ~ProjectPublisher.items
+      ~ProjectPublisher.keys
+      ~ProjectPublisher.pop
+      ~ProjectPublisher.popitem
+      ~ProjectPublisher.set_properties
+      ~ProjectPublisher.setdefault
+      ~ProjectPublisher.to_element
+      ~ProjectPublisher.to_xml
+      ~ProjectPublisher.update
+      ~ProjectPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ProjectPublisher.connector_key
+      ~ProjectPublisher.property_defs
+   
+   

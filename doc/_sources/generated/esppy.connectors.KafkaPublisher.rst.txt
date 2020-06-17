@@ -1,0 +1,45 @@
+esppy.connectors.KafkaPublisher
+===============================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: KafkaPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~KafkaPublisher.__init__
+      ~KafkaPublisher.clear
+      ~KafkaPublisher.copy
+      ~KafkaPublisher.from_element
+      ~KafkaPublisher.from_parameters
+      ~KafkaPublisher.from_xml
+      ~KafkaPublisher.get
+      ~KafkaPublisher.items
+      ~KafkaPublisher.keys
+      ~KafkaPublisher.pop
+      ~KafkaPublisher.popitem
+      ~KafkaPublisher.set_properties
+      ~KafkaPublisher.setdefault
+      ~KafkaPublisher.to_element
+      ~KafkaPublisher.to_xml
+      ~KafkaPublisher.update
+      ~KafkaPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~KafkaPublisher.connector_key
+      ~KafkaPublisher.property_defs
+   
+   

@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.plotting.StreamingImages &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.plotting.ChartLayout" href="esppy.plotting.ChartLayout.html" />
+    <link rel="prev" title="esppy.plotting.StreamingChart.doughnut" href="esppy.plotting.StreamingChart.doughnut.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">esppy.plotting.StreamingImages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.plotting.StreamingImages</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.plotting.StreamingImages.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-plotting-streamingimages">
+<h1>esppy.plotting.StreamingImages<a class="headerlink" href="#esppy-plotting-streamingimages" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.plotting.StreamingImages">
+<em class="property">class </em><code class="sig-prename descclassname">esppy.plotting.</code><code class="sig-name descname">StreamingImages</code><span class="sig-paren">(</span><em class="sig-param">data_callback</em>, <em class="sig-param">image_key=None</em>, <em class="sig-param">steps=100000.0</em>, <em class="sig-param">interval=1000</em>, <em class="sig-param">size=None</em>, <em class="sig-param">plot_width=900</em>, <em class="sig-param">plot_height=400</em>, <em class="sig-param">annotations=None</em>, <em class="sig-param">transformers=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.plotting.StreamingImages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Streaming Images</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data_callback</strong><span class="classifier">callable</span></dt><dd><p>The function to call for data updates</p>
+</dd>
+<dt><strong>image_key</strong><span class="classifier">string, optional</span></dt><dd><p>The key for the image data in the callback result.  If a key value
+is not set, but there is only one key in the data, the data at that
+key will be used.</p>
+</dd>
+<dt><strong>steps</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum number of steps to iterate</p>
+</dd>
+<dt><strong>interval</strong><span class="classifier">int, optional</span></dt><dd><p>The length of each step in milliseconds</p>
+</dd>
+<dt><strong>size</strong><span class="classifier">string or int or tuple, optional</span></dt><dd><dl class="simple">
+<dt>The size of the displayed image.  It can take the following values:</dt><dd><ul class="simple">
+<li><p>‘contain’ - to indicate that the image should be scaled to
+fit inside the plot area</p></li>
+<li><p>‘cover’ - to indicate that the image should scale to cover
+the entire plot area</p></li>
+<li><p>int - to indicate a square with a pixel width of height of
+the given integer</p></li>
+<li><p>(int, int) - to indicate width and height values in pixels</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>plot_width</strong><span class="classifier">int, optional</span></dt><dd><p>The width of the plot in pixels</p>
+</dd>
+<dt><strong>plot_height</strong><span class="classifier">int, optional</span></dt><dd><p>The height of the plot in pixels</p>
+</dd>
+<dt><strong>annotations</strong><span class="classifier">Window, optional</span></dt><dd><p>Window containing image highlighting information</p>
+</dd>
+<dt><strong>transformers</strong><span class="classifier">function or list-of-functions, optional</span></dt><dd><p>Functions to apply to each image prior to displaying</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.plotting.StreamingImages" title="esppy.plotting.StreamingImages"><code class="xref py py-class docutils literal notranslate"><span class="pre">StreamingImages</span></code></a></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data_callback</strong><span class="classifier">callable</span></dt><dd><p>The function to call for data updates</p>
+</dd>
+<dt><strong>interval</strong><span class="classifier">int, optional</span></dt><dd><p>The length of each step in milliseconds</p>
+</dd>
+<dt><strong>steps</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum number of steps to iterate</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="esppy.plotting.StreamingImages.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">data_callback</em>, <em class="sig-param">image_key=None</em>, <em class="sig-param">steps=100000.0</em>, <em class="sig-param">interval=1000</em>, <em class="sig-param">size=None</em>, <em class="sig-param">plot_width=900</em>, <em class="sig-param">plot_height=400</em>, <em class="sig-param">annotations=None</em>, <em class="sig-param">transformers=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.plotting.StreamingImages.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.plotting.StreamingImages.__init__" title="esppy.plotting.StreamingImages.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self, data_callback[, image_key, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.plotting.ChartLayout.html" class="btn btn-neutral float-right" title="esppy.plotting.ChartLayout" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.plotting.StreamingChart.doughnut.html" class="btn btn-neutral float-left" title="esppy.plotting.StreamingChart.doughnut" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+esppy.project.Project.get\_stats
+================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.get_stats

@@ -1,0 +1,6 @@
+esppy.project.Project.validate
+==============================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.validate

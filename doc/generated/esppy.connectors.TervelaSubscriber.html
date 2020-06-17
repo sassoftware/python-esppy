@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.connectors.TervelaSubscriber &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.connectors.TervelaPublisher" href="esppy.connectors.TervelaPublisher.html" />
+    <link rel="prev" title="esppy.connectors.TeradataListenerSubscriber" href="esppy.connectors.TeradataListenerSubscriber.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#connectors">Connectors</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.Connector.html">esppy.connectors.Connector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.Connector.set_properties.html">esppy.connectors.Connector.set_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.Connector.to_xml.html">esppy.connectors.Connector.to_xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.BacnetPublisher.html">esppy.connectors.BacnetPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.AdapterPublisher.html">esppy.connectors.AdapterPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.AdapterSubscriber.html">esppy.connectors.AdapterSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.DatabasePublisher.html">esppy.connectors.DatabasePublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.DatabaseSubscriber.html">esppy.connectors.DatabaseSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.FilePublisher.html">esppy.connectors.FilePublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.FileSubscriber.html">esppy.connectors.FileSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.SocketPublisher.html">esppy.connectors.SocketPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.SocketSubscriber.html">esppy.connectors.SocketSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.KafkaSubscriber.html">esppy.connectors.KafkaSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.KafkaPublisher.html">esppy.connectors.KafkaPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.MQTTSubscriber.html">esppy.connectors.MQTTSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.MQTTPublisher.html">esppy.connectors.MQTTPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.ModbusSubscriber.html">esppy.connectors.ModbusSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.ModbusPublisher.html">esppy.connectors.ModbusPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.NuregoSubscriber.html">esppy.connectors.NuregoSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.OPCUASubscriber.html">esppy.connectors.OPCUASubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.OPCUAPublisher.html">esppy.connectors.OPCUAPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.PISubscriber.html">esppy.connectors.PISubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.PIPublisher.html">esppy.connectors.PIPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.ProjectPublisher.html">esppy.connectors.ProjectPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.PylonPublisher.html">esppy.connectors.PylonPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.RabbitMQSubscriber.html">esppy.connectors.RabbitMQSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.RabbitMQPublisher.html">esppy.connectors.RabbitMQPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.SMTPSubscriber.html">esppy.connectors.SMTPSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.SnifferPublisher.html">esppy.connectors.SnifferPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.SolaceSubscriber.html">esppy.connectors.SolaceSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.SolacePublisher.html">esppy.connectors.SolacePublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.TeradataSubscriber.html">esppy.connectors.TeradataSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.TeradataListenerSubscriber.html">esppy.connectors.TeradataListenerSubscriber</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">esppy.connectors.TervelaSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.TervelaPublisher.html">esppy.connectors.TervelaPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.TibcoSubscriber.html">esppy.connectors.TibcoSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.TibcoPublisher.html">esppy.connectors.TibcoPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.TimerPublisher.html">esppy.connectors.TimerPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.URLPublisher.html">esppy.connectors.URLPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.UVCPublisher.html">esppy.connectors.UVCPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.WebSocketPublisher.html">esppy.connectors.WebSocketPublisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.WebSphereMQSubscriber.html">esppy.connectors.WebSphereMQSubscriber</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.connectors.WebSphereMQPublisher.html">esppy.connectors.WebSphereMQPublisher</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.connectors.TervelaSubscriber</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.connectors.TervelaSubscriber.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-connectors-tervelasubscriber">
+<h1>esppy.connectors.TervelaSubscriber<a class="headerlink" href="#esppy-connectors-tervelasubscriber" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.connectors.TervelaSubscriber">
+<em class="property">class </em><code class="sig-prename descclassname">esppy.connectors.</code><code class="sig-name descname">TervelaSubscriber</code><span class="sig-paren">(</span><em class="sig-param">tvaprimarytmx=None</em>, <em class="sig-param">tvauserid=None</em>, <em class="sig-param">tvapassword=None</em>, <em class="sig-param">tvatopic=None</em>, <em class="sig-param">tvaclientname=None</em>, <em class="sig-param">tvamaxoutstand=None</em>, <em class="sig-param">numbufferedmsgs=None</em>, <em class="sig-param">urlhostport=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">is_active=None</em>, <em class="sig-param">snapshot=None</em>, <em class="sig-param">collapse=None</em>, <em class="sig-param">hotfailover=None</em>, <em class="sig-param">tvasecondarytmx=None</em>, <em class="sig-param">tvalogfile=None</em>, <em class="sig-param">tvapubbwlimit=None</em>, <em class="sig-param">tvapubrate=None</em>, <em class="sig-param">tvapubmsgexp=None</em>, <em class="sig-param">rmretdel=None</em>, <em class="sig-param">configfilesection=None</em>, <em class="sig-param">protofile=None</em>, <em class="sig-param">protomsg=None</em>, <em class="sig-param">json=None</em>, <em class="sig-param">dateformat=None</em>, <em class="sig-param">tvapasswordencrypted=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connectors.TervelaSubscriber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.connectors.base.Connector</span></code></p>
+<p>Subscribe to Tervela Data Fabric events</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tvaprimarytmx</strong><span class="classifier">string</span></dt><dd><p>Specifies the host name or IP address of the primary TMX</p>
+</dd>
+<dt><strong>tvauserid</strong><span class="classifier">string</span></dt><dd><p>Specifies a user name defined in the Tervela TPM.
+Publish-topic entitlement rights must be associated with
+this user name.</p>
+</dd>
+<dt><strong>tvapassword</strong><span class="classifier">string</span></dt><dd><p>Specifies the password associated with tvauserid</p>
+</dd>
+<dt><strong>tvatopic</strong><span class="classifier">string</span></dt><dd><p>Specifies the topic name for the topic to which to subscribed.
+This topic must be configured on the TPM for the GD service and
+tvauserid must be assigned the Guaranteed Delivery subscribe
+rights for this Topic in the TPM.</p>
+</dd>
+<dt><strong>tvaclientname</strong><span class="classifier">string</span></dt><dd><p>Specifies the client name associated with the Tervela
+Guaranteed Delivery context.</p>
+</dd>
+<dt><strong>tvamaxoutstand</strong><span class="classifier">int</span></dt><dd><p>Specifies the maximum number of unacknowledged messages that
+can be published to the Tervela fabric (effectively the size of
+the publication cache). Should be twice the expected transmit rate.</p>
+</dd>
+<dt><strong>numbufferedmsgs</strong><span class="classifier">int</span></dt><dd><p>Specifies the maximum number of messages buffered by a standby
+subscriber connector.</p>
+</dd>
+<dt><strong>urlhostport</strong><span class="classifier">string</span></dt><dd><p>Specifies the “host/port” string sent in the metadata message
+published by the connector on topic SAS.META.tvaclientname when
+it starts.</p>
+</dd>
+<dt><strong>snapshot</strong><span class="classifier">boolean, optional</span></dt><dd><p>Specifies whether to send snapshot data</p>
+</dd>
+<dt><strong>collapse</strong><span class="classifier">string, optional</span></dt><dd><p>Enables conversion of UPDATE_BLOCK events to make subscriber
+output publishable. The default value is disabled.</p>
+</dd>
+<dt><strong>hotfailover</strong><span class="classifier">boolean, optional</span></dt><dd><p>Enables hot failover mode</p>
+</dd>
+<dt><strong>tvasecondarytmx</strong><span class="classifier">string, optional</span></dt><dd><p>Specifies the host name or IP address of the secondary TMX.
+Required if logging in to a fault-tolerant pair.</p>
+</dd>
+<dt><strong>tvalogfile</strong><span class="classifier">string, optional</span></dt><dd><p>Causes the connector to log to the specified file instead of to
+syslog (on Linux or Solaris) or Tervela.log (on Windows)</p>
+</dd>
+<dt><strong>tvapubbwlimit</strong><span class="classifier">int, optional</span></dt><dd><p>Specifies the maximum bandwidth, in Mbps, of data published to
+the fabric. The default value is 100 Mbps.</p>
+</dd>
+<dt><strong>tvapubrate</strong><span class="classifier">int, optional</span></dt><dd><p>Specifies the rate at which data messages are published to the
+fabric, in Kbps. The default value is 30,000 messages per second.</p>
+</dd>
+<dt><strong>tvapubmsgexp</strong><span class="classifier">int, optional</span></dt><dd><p>Specifies the maximum amount of time, in seconds, that published
+messages are kept in the cache in the Tervela API.</p>
+</dd>
+<dt><strong>rmretdel</strong><span class="classifier">boolean, optional</span></dt><dd><p>Specifies to remove all delete events from event blocks received
+by a subscriber that were introduced by a window retention policy.</p>
+</dd>
+<dt><strong>configfilesection</strong><span class="classifier">string, optional</span></dt><dd><p>Specifies the name of the section in the connector config file to
+parse for configuration parameters. Specify the value
+as [configfilesection].</p>
+</dd>
+<dt><strong>protofile</strong><span class="classifier">string, optional</span></dt><dd><p>Specifies the .proto file that contains the Google Protocol Buffers
+message definition. This definition is used to convert event blocks
+to protobuf messages. When you specify this parameter, you must
+also specify the protomsg parameter.</p>
+</dd>
+<dt><strong>protomsg</strong><span class="classifier">string, optional</span></dt><dd><p>Specifies the name of a Google Protocol Buffers message in the
+.proto file that you specified with the protofile parameter. Event
+blocks are converted into this message.</p>
+</dd>
+<dt><strong>json</strong><span class="classifier">boolean, optional</span></dt><dd><p>Enables transport of event blocks encoded as JSON messages</p>
+</dd>
+<dt><strong>dateformat</strong><span class="classifier">string, optional</span></dt><dd><p>Specifies the format of ESP_DATETIME and ESP_TIMESTAMP fields in
+CSV events. The default behavior is these fields are interpreted
+as an integer number of seconds (ESP_DATETIME) or microseconds
+(ESP_TIMESTAMP) since epoch.</p>
+</dd>
+<dt><strong>tvapasswordencrypted</strong><span class="classifier">boolean, optional</span></dt><dd><p>Specifies that tvapassword is encrypted</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.connectors.TervelaSubscriber" title="esppy.connectors.TervelaSubscriber"><code class="xref py py-class docutils literal notranslate"><span class="pre">TervelaSubscriber</span></code></a></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="esppy.connectors.TervelaSubscriber.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tvaprimarytmx=None</em>, <em class="sig-param">tvauserid=None</em>, <em class="sig-param">tvapassword=None</em>, <em class="sig-param">tvatopic=None</em>, <em class="sig-param">tvaclientname=None</em>, <em class="sig-param">tvamaxoutstand=None</em>, <em class="sig-param">numbufferedmsgs=None</em>, <em class="sig-param">urlhostport=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">is_active=None</em>, <em class="sig-param">snapshot=None</em>, <em class="sig-param">collapse=None</em>, <em class="sig-param">hotfailover=None</em>, <em class="sig-param">tvasecondarytmx=None</em>, <em class="sig-param">tvalogfile=None</em>, <em class="sig-param">tvapubbwlimit=None</em>, <em class="sig-param">tvapubrate=None</em>, <em class="sig-param">tvapubmsgexp=None</em>, <em class="sig-param">rmretdel=None</em>, <em class="sig-param">configfilesection=None</em>, <em class="sig-param">protofile=None</em>, <em class="sig-param">protomsg=None</em>, <em class="sig-param">json=None</em>, <em class="sig-param">dateformat=None</em>, <em class="sig-param">tvapasswordencrypted=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connectors.TervelaSubscriber.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.connectors.TervelaSubscriber.__init__" title="esppy.connectors.TervelaSubscriber.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[, tvaprimarytmx, tvauserid, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code>(self[, deep])</p></td>
+<td><p>Return a copy of the object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_element</span></code>(data[, session])</p></td>
+<td><p>Construct connector from XML definition</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_parameters</span></code>(conncls[, type, name, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_xml</span></code>(data[, session])</p></td>
+<td><p>Construct connector from XML definition</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(self, key[, default])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code>(self, key[, default])</p></td>
+<td><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>(self)</p></td>
+<td><p>as a 2-tuple; but raise KeyError if D is empty.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_properties</span></code>(self, \*\*kwargs)</p></td>
+<td><p>Set connector properties</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code>(self, key[, default])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_element</span></code>(self)</p></td>
+<td><p>Export connector definition to ElementTree.Element</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_xml</span></code>(self[, pretty])</p></td>
+<td><p>Export connector definition to XML</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code>(\*args, \*\*kwds)</p></td>
+<td><p>If E present and has a .keys() method, does:     for k in E: D[k] = E[k] If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v In either case, this is followed by: for k, v in F.items(): D[k] = v</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code>(self)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">connector_key</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">property_defs</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.connectors.TervelaPublisher.html" class="btn btn-neutral float-right" title="esppy.connectors.TervelaPublisher" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.connectors.TeradataListenerSubscriber.html" class="btn btn-neutral float-left" title="esppy.connectors.TeradataListenerSubscriber" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

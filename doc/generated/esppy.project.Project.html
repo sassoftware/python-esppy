@@ -1,0 +1,528 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.project.Project &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.project.Project.get_stats" href="esppy.project.Project.get_stats.html" />
+    <link rel="prev" title="esppy.connection.ESP.get_algorithms" href="esppy.connection.ESP.get_algorithms.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#projects">Projects</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">esppy.project.Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_stats.html">esppy.project.Project.get_stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.start.html">esppy.project.Project.start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.stop.html">esppy.project.Project.stop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.save.html">esppy.project.Project.save</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.restore.html">esppy.project.Project.restore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.update.html">esppy.project.Project.update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.delete.html">esppy.project.Project.delete</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.copy.html">esppy.project.Project.copy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.sync.html">esppy.project.Project.sync</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.validate.html">esppy.project.Project.validate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_window.html">esppy.project.Project.get_window</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_windows.html">esppy.project.Project.get_windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_mas_module.html">esppy.project.Project.get_mas_module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.get_mas_modules.html">esppy.project.Project.get_mas_modules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.from_xml.html">esppy.project.Project.from_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.to_xml.html">esppy.project.Project.to_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.save_xml.html">esppy.project.Project.save_xml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esppy.project.Project.to_graph.html">esppy.project.Project.to_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#project-construction-methods">Project Construction Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#dictionary-methods">Dictionary Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#templates">Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.project.Project</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.project.Project.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-project-project">
+<h1>esppy.project.Project<a class="headerlink" href="#esppy-project-project" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.project.Project">
+<em class="property">class </em><code class="sig-prename descclassname">esppy.project.</code><code class="sig-name descname">Project</code><span class="sig-paren">(</span><em class="sig-param">name=None</em>, <em class="sig-param">n_threads=1</em>, <em class="sig-param">pubsub='auto'</em>, <em class="sig-param">compress_open_patterns=None</em>, <em class="sig-param">port=None</em>, <em class="sig-param">index_type=None</em>, <em class="sig-param">use_tagged_token=None</em>, <em class="sig-param">use_retention_tracking=None</em>, <em class="sig-param">disk_store_path=None</em>, <em class="sig-param">heartbeat_interval=None</em>, <em class="sig-param">restore=None</em>, <em class="sig-param">description=None</em>, <em class="sig-param">sas_log_location=None</em>, <em class="sig-param">sas_connection_key=None</em>, <em class="sig-param">sas_command=None</em>, <em class="sig-param">metadata=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.project.Project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.base.ESPObject</span></code>, <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.MutableMapping</span></code></a></p>
+<p>ESP Project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">string</span></dt><dd><p>Name of the project</p>
+</dd>
+<dt><strong>n_threads</strong><span class="classifier">int, optional</span></dt><dd><p>A positive integer for the number of threads to use from the
+available thread pool</p>
+</dd>
+<dt><strong>pubsub</strong><span class="classifier">string, optional</span></dt><dd><p>Publish/subscribe mode for the project</p>
+</dd>
+<dt><strong>compress_open_patterns</strong><span class="classifier">bool, optional</span></dt><dd><p>When True, compress events stored in unresolved pattern instances</p>
+</dd>
+<dt><strong>port</strong><span class="classifier">int, optional</span></dt><dd><p>The project-level publish/subscribe port for auto or manual mode</p>
+</dd>
+<dt><strong>index_type</strong><span class="classifier">string, optional</span></dt><dd><p>A default index type for all windows in the project that do not
+explicitly specify an index type
+Valid values: ‘rbtree’, ‘hash’, ‘ln_hash’, ‘cl_hash’, ‘fw_hash’, ‘empty’</p>
+</dd>
+<dt><strong>use_tagged_token</strong><span class="classifier">bool, optional</span></dt><dd><p>Specify whether tagged token data flow semantics should be used
+for continuous queries</p>
+</dd>
+<dt><strong>use_retention_tracking</strong><span class="classifier">bool, optional</span></dt><dd><p>Specify whether to use retention tracking for the project.
+This allows two events per key in output event blocks.</p>
+</dd>
+<dt><strong>disk_store_path</strong><span class="classifier">string, optional</span></dt><dd><p>Specify the path for on-disk event storage when using hleveldb indices</p>
+</dd>
+<dt><strong>heartbeat_interval</strong><span class="classifier">int, optional</span></dt><dd><p>Specify how frequently the system sends timer heartbeats to the project.
+The default value is 1 second. This heartbeat drives wall-clock-based
+retention and pattern time outs. When a model has an exceptionally large
+number of unresolved pattern instances, increasing the value of the
+heartbeat interval can optimize how the model runs.</p>
+</dd>
+<dt><strong>restore</strong><span class="classifier">string, optional</span></dt><dd><p>Specify a directory from which to restore the project from a
+previously-performed persist operation.</p>
+</dd>
+<dt><strong>description</strong><span class="classifier">string, optional</span></dt><dd><p>Description of the project</p>
+</dd>
+<dt><strong>metadata</strong><span class="classifier">dict, optional</span></dt><dd><p>Metadata associated with the project</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.project.Project" title="esppy.project.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">Project</span></code></a></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>All parameters to the constructor are also available as attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>queries</strong><span class="classifier">dict</span></dt><dd><p>Dictionary of the queries</p>
+</dd>
+<dt><strong>metadata</strong><span class="classifier">dict</span></dt><dd><p>Metadata associated with the project</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code><span class="classifier">string</span></dt><dd><p>URL of project</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="esppy.project.Project.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name=None</em>, <em class="sig-param">n_threads=1</em>, <em class="sig-param">pubsub='auto'</em>, <em class="sig-param">compress_open_patterns=None</em>, <em class="sig-param">port=None</em>, <em class="sig-param">index_type=None</em>, <em class="sig-param">use_tagged_token=None</em>, <em class="sig-param">use_retention_tracking=None</em>, <em class="sig-param">disk_store_path=None</em>, <em class="sig-param">heartbeat_interval=None</em>, <em class="sig-param">restore=None</em>, <em class="sig-param">description=None</em>, <em class="sig-param">sas_log_location=None</em>, <em class="sig-param">sas_connection_key=None</em>, <em class="sig-param">sas_command=None</em>, <em class="sig-param">metadata=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.project.Project.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.project.Project.__init__" title="esppy.project.Project.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[, name, n_threads, pubsub, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.add_connectors.html#esppy.project.Project.add_connectors" title="esppy.project.Project.add_connectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_connectors</span></code></a>(self, group_name, connectors)</p></td>
+<td><p>Add connectors to a group</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.add_continuous_query.html#esppy.project.Project.add_continuous_query" title="esppy.project.Project.add_continuous_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_continuous_query</span></code></a>(self, contquery)</p></td>
+<td><p>Add a continuous query object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.add_contquery.html#esppy.project.Project.add_contquery" title="esppy.project.Project.add_contquery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_contquery</span></code></a>(self, contquery)</p></td>
+<td><p>Add a continuous query object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.add_edge.html#esppy.project.Project.add_edge" title="esppy.project.Project.add_edge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_edge</span></code></a>(self, source, targets)</p></td>
+<td><p>Add connector edges</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.add_query.html#esppy.project.Project.add_query" title="esppy.project.Project.add_query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_query</span></code></a>(self, contquery)</p></td>
+<td><p>Add a continuous query object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.add_template.html#esppy.project.Project.add_template" title="esppy.project.Project.add_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_template</span></code></a>(self, template[, contquery])</p></td>
+<td><p>Add a template object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.add_templates.html#esppy.project.Project.add_templates" title="esppy.project.Project.add_templates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_templates</span></code></a>(self, \*templates)</p></td>
+<td><p>Add one or more templates to the project</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.add_window.html#esppy.project.Project.add_window" title="esppy.project.Project.add_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_window</span></code></a>(self, window[, contquery])</p></td>
+<td><p>Add a window to the project</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.clear.html#esppy.project.Project.clear" title="esppy.project.Project.clear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code></a>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.copy.html#esppy.project.Project.copy" title="esppy.project.Project.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>(self[, deep])</p></td>
+<td><p>Return a copy of the object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.create_mas_module.html#esppy.project.Project.create_mas_module" title="esppy.project.Project.create_mas_module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_mas_module</span></code></a>(self, language, module, …)</p></td>
+<td><p>Create a MAS module object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.delete.html#esppy.project.Project.delete" title="esppy.project.Project.delete"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete</span></code></a>(self)</p></td>
+<td><p>Delete the project</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_element</span></code>(data[, session])</p></td>
+<td><p>Create project from XML definition</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.from_xml.html#esppy.project.Project.from_xml" title="esppy.project.Project.from_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_xml</span></code></a>(data[, session])</p></td>
+<td><p>Create project from XML definition</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.get.html#esppy.project.Project.get" title="esppy.project.Project.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(self, key[, default])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.get_mas_module.html#esppy.project.Project.get_mas_module" title="esppy.project.Project.get_mas_module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mas_module</span></code></a>(self, name[, expandcode])</p></td>
+<td><p>Retrieve specified MAS modules</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.get_mas_modules.html#esppy.project.Project.get_mas_modules" title="esppy.project.Project.get_mas_modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_mas_modules</span></code></a>(self[, expandcode])</p></td>
+<td><p>Retrieve all MAS modules</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.get_stats.html#esppy.project.Project.get_stats" title="esppy.project.Project.get_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stats</span></code></a>(self[, interval, min_cpu, limit])</p></td>
+<td><p>Retrieve project statistics subscriber</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.get_window.html#esppy.project.Project.get_window" title="esppy.project.Project.get_window"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_window</span></code></a>(self, path)</p></td>
+<td><p>Retrieve specified window</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.get_windows.html#esppy.project.Project.get_windows" title="esppy.project.Project.get_windows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_windows</span></code></a>(self[, path, type, filter])</p></td>
+<td><p>Retrieve windows from the server</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.items.html#esppy.project.Project.items" title="esppy.project.Project.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.keys.html#esppy.project.Project.keys" title="esppy.project.Project.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a>(self)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.pop.html#esppy.project.Project.pop" title="esppy.project.Project.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code></a>(self, key[, default])</p></td>
+<td><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.popitem.html#esppy.project.Project.popitem" title="esppy.project.Project.popitem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code></a>(self)</p></td>
+<td><p>as a 2-tuple; but raise KeyError if D is empty.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.replace_mas_module.html#esppy.project.Project.replace_mas_module" title="esppy.project.Project.replace_mas_module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_mas_module</span></code></a>(self, name, module)</p></td>
+<td><p>Replace the specified MAS module</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.restore.html#esppy.project.Project.restore" title="esppy.project.Project.restore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restore</span></code></a>(self[, path])</p></td>
+<td><p>Restore the project</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.save.html#esppy.project.Project.save" title="esppy.project.Project.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(self[, path])</p></td>
+<td><p>Save the project</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.save_xml.html#esppy.project.Project.save_xml" title="esppy.project.Project.save_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_xml</span></code></a>(self, dest[, mode, pretty])</p></td>
+<td><p>Save the project XML to a file</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.setdefault.html#esppy.project.Project.setdefault" title="esppy.project.Project.setdefault"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code></a>(self, key[, default])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.start.html#esppy.project.Project.start" title="esppy.project.Project.start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start</span></code></a>(self)</p></td>
+<td><p>Start the project</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.start_connectors.html#esppy.project.Project.start_connectors" title="esppy.project.Project.start_connectors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_connectors</span></code></a>(self)</p></td>
+<td><p>Start the connectors for the project</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.stop.html#esppy.project.Project.stop" title="esppy.project.Project.stop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stop</span></code></a>(self)</p></td>
+<td><p>Stop the project</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.sync.html#esppy.project.Project.sync" title="esppy.project.Project.sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync</span></code></a>(self[, overwrite, start, start_connectors])</p></td>
+<td><p>Sync the project definition to the server</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_element</span></code>(self)</p></td>
+<td><p>Export project definition to an ElementTree.Element</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.to_graph.html#esppy.project.Project.to_graph" title="esppy.project.Project.to_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_graph</span></code></a>(self[, graph, schema, template_detail])</p></td>
+<td><p>Export project definition to graphviz.Digraph</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.to_xml.html#esppy.project.Project.to_xml" title="esppy.project.Project.to_xml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_xml</span></code></a>(self[, pretty])</p></td>
+<td><p>Export project definition to XML</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.update.html#esppy.project.Project.update" title="esppy.project.Project.update"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code></a>(self, project)</p></td>
+<td><p>Update project definition</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.project.Project.validate.html#esppy.project.Project.validate" title="esppy.project.Project.validate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate</span></code></a>(self)</p></td>
+<td><p>Validate the project definition</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.project.Project.values.html#esppy.project.Project.values" title="esppy.project.Project.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a>(self)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_url</span></code></p></td>
+<td><p>The base server URL</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compress_open_patterns</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_query</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">disk_store_path</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullname</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">heartbeat_interval</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_type</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_threads</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>The name of the project</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">port</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pubsub</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">session</span></code></p></td>
+<td><p>The requests.Session object for the project</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">templates</span></code></p></td>
+<td><p>Return collection of templates from the default query</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace</span></code></p></td>
+<td><p>Set the trace property on the default continuous query</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>URL of project</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_retention_tracking</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_tagged_token</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">windows</span></code></p></td>
+<td><p>Return collection of windows from the default query</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.project.Project.get_stats.html" class="btn btn-neutral float-right" title="esppy.project.Project.get_stats" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.connection.ESP.get_algorithms.html" class="btn btn-neutral float-left" title="esppy.connection.ESP.get_algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

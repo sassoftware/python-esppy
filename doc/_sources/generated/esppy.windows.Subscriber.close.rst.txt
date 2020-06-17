@@ -1,0 +1,6 @@
+esppy.windows.Subscriber.close
+==============================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Subscriber.close
