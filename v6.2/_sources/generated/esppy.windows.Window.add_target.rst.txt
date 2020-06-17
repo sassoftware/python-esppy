@@ -1,0 +1,6 @@
+esppy.windows.Window.add\_target
+================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.add_target

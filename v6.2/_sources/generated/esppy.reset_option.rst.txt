@@ -1,0 +1,6 @@
+esppy.reset\_option
+===================
+
+.. currentmodule:: esppy
+
+.. autofunction:: reset_option

@@ -1,0 +1,6 @@
+esppy.windows.JoinWindow.add\_expr
+==================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: JoinWindow.add_expr

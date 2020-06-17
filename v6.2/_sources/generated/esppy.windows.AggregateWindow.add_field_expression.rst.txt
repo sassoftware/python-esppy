@@ -1,0 +1,6 @@
+esppy.windows.AggregateWindow.add\_field\_expression
+====================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: AggregateWindow.add_field_expression

@@ -1,0 +1,93 @@
+esppy.windows.FilterWindow
+==========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: FilterWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~FilterWindow.__init__
+      ~FilterWindow.add_connector
+      ~FilterWindow.add_event_transformer
+      ~FilterWindow.add_target
+      ~FilterWindow.add_targets
+      ~FilterWindow.apply_transformers
+      ~FilterWindow.copy
+      ~FilterWindow.create_event_generator
+      ~FilterWindow.create_publisher
+      ~FilterWindow.create_subscriber
+      ~FilterWindow.delete_target
+      ~FilterWindow.delete_targets
+      ~FilterWindow.disable_tracing
+      ~FilterWindow.enable_tracing
+      ~FilterWindow.from_element
+      ~FilterWindow.from_xml
+      ~FilterWindow.get_events
+      ~FilterWindow.get_pattern_events
+      ~FilterWindow.publish_events
+      ~FilterWindow.save_xml
+      ~FilterWindow.set_expr_initializer
+      ~FilterWindow.set_expression
+      ~FilterWindow.set_expression_initializer
+      ~FilterWindow.set_finalized_callback
+      ~FilterWindow.set_plugin
+      ~FilterWindow.set_splitter_expr
+      ~FilterWindow.set_splitter_plugin
+      ~FilterWindow.streaming_area
+      ~FilterWindow.streaming_bar
+      ~FilterWindow.streaming_bubble
+      ~FilterWindow.streaming_donut
+      ~FilterWindow.streaming_hbar
+      ~FilterWindow.streaming_hist
+      ~FilterWindow.streaming_images
+      ~FilterWindow.streaming_line
+      ~FilterWindow.streaming_pie
+      ~FilterWindow.streaming_scatter
+      ~FilterWindow.subscribe
+      ~FilterWindow.to_data_callback
+      ~FilterWindow.to_element
+      ~FilterWindow.to_graph
+      ~FilterWindow.to_xml
+      ~FilterWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~FilterWindow.base_name
+      ~FilterWindow.base_url
+      ~FilterWindow.collapse_updates
+      ~FilterWindow.contquery
+      ~FilterWindow.exp_max_string
+      ~FilterWindow.fullname
+      ~FilterWindow.index_type
+      ~FilterWindow.is_hidden
+      ~FilterWindow.name
+      ~FilterWindow.output_insert_only
+      ~FilterWindow.project
+      ~FilterWindow.properties
+      ~FilterWindow.publisher_url
+      ~FilterWindow.pubsub
+      ~FilterWindow.pubsub_index_type
+      ~FilterWindow.pulse_interval
+      ~FilterWindow.schema
+      ~FilterWindow.schema_string
+      ~FilterWindow.session
+      ~FilterWindow.subscriber_url
+      ~FilterWindow.template
+      ~FilterWindow.url
+      ~FilterWindow.window_classes
+      ~FilterWindow.window_type
+   
+   

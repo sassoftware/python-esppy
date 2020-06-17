@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.save\_xml
+=========================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.save_xml

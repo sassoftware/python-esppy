@@ -1,0 +1,22 @@
+esppy.plotting.ChartLayout
+==========================
+
+.. currentmodule:: esppy.plotting
+
+.. autoclass:: ChartLayout
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ChartLayout.__init__
+   
+   
+
+   
+   
+   

@@ -1,0 +1,6 @@
+esppy.connection.ESP.get\_event\_generators
+===========================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.get_event_generators

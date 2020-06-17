@@ -1,0 +1,92 @@
+esppy.windows.SourceWindow
+==========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: SourceWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~SourceWindow.__init__
+      ~SourceWindow.add_connector
+      ~SourceWindow.add_event_transformer
+      ~SourceWindow.add_target
+      ~SourceWindow.add_targets
+      ~SourceWindow.apply_transformers
+      ~SourceWindow.copy
+      ~SourceWindow.create_event_generator
+      ~SourceWindow.create_publisher
+      ~SourceWindow.create_subscriber
+      ~SourceWindow.delete_target
+      ~SourceWindow.delete_targets
+      ~SourceWindow.disable_tracing
+      ~SourceWindow.enable_tracing
+      ~SourceWindow.from_element
+      ~SourceWindow.from_xml
+      ~SourceWindow.get_events
+      ~SourceWindow.get_pattern_events
+      ~SourceWindow.publish_events
+      ~SourceWindow.save_xml
+      ~SourceWindow.set_finalized_callback
+      ~SourceWindow.set_retention
+      ~SourceWindow.set_splitter_expr
+      ~SourceWindow.set_splitter_plugin
+      ~SourceWindow.streaming_area
+      ~SourceWindow.streaming_bar
+      ~SourceWindow.streaming_bubble
+      ~SourceWindow.streaming_donut
+      ~SourceWindow.streaming_hbar
+      ~SourceWindow.streaming_hist
+      ~SourceWindow.streaming_images
+      ~SourceWindow.streaming_line
+      ~SourceWindow.streaming_pie
+      ~SourceWindow.streaming_scatter
+      ~SourceWindow.subscribe
+      ~SourceWindow.to_data_callback
+      ~SourceWindow.to_element
+      ~SourceWindow.to_graph
+      ~SourceWindow.to_xml
+      ~SourceWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SourceWindow.autogen_key
+      ~SourceWindow.base_name
+      ~SourceWindow.base_url
+      ~SourceWindow.collapse_updates
+      ~SourceWindow.contquery
+      ~SourceWindow.exp_max_string
+      ~SourceWindow.fullname
+      ~SourceWindow.index_type
+      ~SourceWindow.insert_only
+      ~SourceWindow.is_hidden
+      ~SourceWindow.name
+      ~SourceWindow.output_insert_only
+      ~SourceWindow.project
+      ~SourceWindow.properties
+      ~SourceWindow.publisher_url
+      ~SourceWindow.pubsub
+      ~SourceWindow.pubsub_index_type
+      ~SourceWindow.pulse_interval
+      ~SourceWindow.schema
+      ~SourceWindow.schema_string
+      ~SourceWindow.session
+      ~SourceWindow.subscriber_url
+      ~SourceWindow.template
+      ~SourceWindow.url
+      ~SourceWindow.window_classes
+      ~SourceWindow.window_type
+   
+   

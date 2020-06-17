@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.windows.Publisher &mdash; ESPPy 6.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.windows.Publisher.send" href="esppy.windows.Publisher.send.html" />
+    <link rel="prev" title="esppy.windows.Subscriber.close" href="esppy.windows.Subscriber.close.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#publisher">Publisher</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">esppy.windows.Publisher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.windows.Publisher.send.html">esppy.windows.Publisher.send</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esppy.windows.Publisher.close.html">esppy.windows.Publisher.close</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.windows.Publisher</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.windows.Publisher.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-windows-publisher">
+<h1>esppy.windows.Publisher<a class="headerlink" href="#esppy-windows-publisher" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.windows.Publisher">
+<em class="property">class </em><code class="sig-prename descclassname">esppy.windows.</code><code class="sig-name descname">Publisher</code><span class="sig-paren">(</span><em class="sig-param">window</em>, <em class="sig-param">blocksize=1</em>, <em class="sig-param">rate=0</em>, <em class="sig-param">pause=0</em>, <em class="sig-param">dateformat='%Y%m%dT%H:%M:%S.%f'</em>, <em class="sig-param">opcode='insert'</em>, <em class="sig-param">format='csv'</em>, <em class="sig-param">separator=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Publisher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Create a publisher for the given window</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>window</strong><span class="classifier">Window</span></dt><dd><p>The window object to create the subscriber for</p>
+</dd>
+<dt><strong>blocksize</strong><span class="classifier">int, optional</span></dt><dd><p>Number of events to put into an event block</p>
+</dd>
+<dt><strong>rate</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of events to inject per second</p>
+</dd>
+<dt><strong>pause</strong><span class="classifier">int, optional</span></dt><dd><p>Number of milliseconds to pause between each injection of events</p>
+</dd>
+<dt><strong>dateformat</strong><span class="classifier">string, optional</span></dt><dd><p>Format for date fields</p>
+</dd>
+<dt><strong>opcode</strong><span class="classifier">string, optional</span></dt><dd><p>Opcode to use if an input event does not include one:
+‘insert’, ‘upsert’, ‘delete’</p>
+</dd>
+<dt><strong>format</strong><span class="classifier">string, optional</span></dt><dd><p>The data format of inputs: ‘csv’, ‘xml’, ‘json’, ‘properties’</p>
+</dd>
+<dt><strong>separator</strong><span class="classifier">string</span></dt><dd><p>The separator string to use between events in ‘properties’ format</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.windows.Publisher" title="esppy.windows.Publisher"><code class="xref py py-class docutils literal notranslate"><span class="pre">Publisher</span></code></a></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Create the publisher instance using CSV and an event rate of 200
+events per millisecond.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pub</span> <span class="o">=</span> <span class="n">Publisher</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Send the CSV data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pub</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;1,2,3&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Close the connection.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pub</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>blocksize</strong><span class="classifier">int</span></dt><dd><p>Number of events to put into an event block</p>
+</dd>
+<dt><strong>dateformat</strong><span class="classifier">string</span></dt><dd><p>Format for date fields</p>
+</dd>
+<dt><strong>format</strong><span class="classifier">string</span></dt><dd><p>The data format of inputs: ‘csv’, ‘xml’, ‘json’, ‘properties’</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_active</span></code><span class="classifier">bool</span></dt><dd><p>Is the web socket active?</p>
+</dd>
+<dt><strong>opcode</strong><span class="classifier">string</span></dt><dd><p>Opcode to use if an input event does not include one:
+‘insert’, ‘upsert’, ‘delete’</p>
+</dd>
+<dt><strong>pause</strong><span class="classifier">int</span></dt><dd><p>Number of milliseconds to pause between each injection of events</p>
+</dd>
+<dt><strong>rate</strong><span class="classifier">int</span></dt><dd><p>Maximum number of events to inject per second</p>
+</dd>
+<dt><strong>separator</strong><span class="classifier">string</span></dt><dd><p>The separator string to use between events in ‘properties’ format</p>
+</dd>
+<dt><strong>window_schema</strong><span class="classifier">Schema</span></dt><dd><p>The schema of the window that was subscribed to</p>
+</dd>
+<dt><strong>window_url</strong><span class="classifier">string</span></dt><dd><p>The publisher URL of the window</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="esppy.windows.Publisher.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">window</em>, <em class="sig-param">blocksize=1</em>, <em class="sig-param">rate=0</em>, <em class="sig-param">pause=0</em>, <em class="sig-param">dateformat='%Y%m%dT%H:%M:%S.%f'</em>, <em class="sig-param">opcode='insert'</em>, <em class="sig-param">format='csv'</em>, <em class="sig-param">separator=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Publisher.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.windows.Publisher.__init__" title="esppy.windows.Publisher.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self, window[, blocksize, rate, …])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.windows.Publisher.close.html#esppy.windows.Publisher.close" title="esppy.windows.Publisher.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>(self)</p></td>
+<td><p>Close the web socket connection</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.windows.Publisher.send.html#esppy.windows.Publisher.send" title="esppy.windows.Publisher.send"><code class="xref py py-obj docutils literal notranslate"><span class="pre">send</span></code></a>(self, data)</p></td>
+<td><p>Send data to the web socket</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_active</span></code></p></td>
+<td><p>Is the web socket active?</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>Return the URL of the subscriber</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.windows.Publisher.send.html" class="btn btn-neutral float-right" title="esppy.windows.Publisher.send" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.windows.Subscriber.close.html" class="btn btn-neutral float-left" title="esppy.windows.Subscriber.close" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

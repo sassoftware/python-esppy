@@ -1,0 +1,6 @@
+esppy.mas.MASModule.from\_xml
+=============================
+
+.. currentmodule:: esppy.mas
+
+.. automethod:: MASModule.from_xml

@@ -1,0 +1,77 @@
+esppy.connection.ESP
+====================
+
+.. currentmodule:: esppy.connection
+
+.. autoclass:: ESP
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ESP.__init__
+      ~ESP.createServerConnection
+      ~ESP.create_event_generator
+      ~ESP.create_project
+      ~ESP.create_router
+      ~ESP.delete_event_generator
+      ~ESP.delete_event_generators
+      ~ESP.delete_project
+      ~ESP.delete_projects
+      ~ESP.disable_server_log_capture
+      ~ESP.enable_server_log_capture
+      ~ESP.get_algorithm
+      ~ESP.get_algorithms
+      ~ESP.get_event_generator_state
+      ~ESP.get_event_generators
+      ~ESP.get_events
+      ~ESP.get_logger
+      ~ESP.get_loggers
+      ~ESP.get_mas_modules
+      ~ESP.get_pattern_events
+      ~ESP.get_project
+      ~ESP.get_project_stats
+      ~ESP.get_projects
+      ~ESP.get_router
+      ~ESP.get_router_stats
+      ~ESP.get_routers
+      ~ESP.get_running_project
+      ~ESP.get_running_projects
+      ~ESP.get_server_log
+      ~ESP.get_server_log_state
+      ~ESP.get_stopped_project
+      ~ESP.get_stopped_projects
+      ~ESP.get_window
+      ~ESP.get_windows
+      ~ESP.install_project
+      ~ESP.load_project
+      ~ESP.reload
+      ~ESP.save
+      ~ESP.shutdown
+      ~ESP.start_project
+      ~ESP.start_projects
+      ~ESP.stop_project
+      ~ESP.stop_projects
+      ~ESP.validate_project
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ESP.api_docs
+      ~ESP.base_url
+      ~ESP.connector_info
+      ~ESP.metadata
+      ~ESP.server_info
+      ~ESP.session
+      ~ESP.url
+   
+   

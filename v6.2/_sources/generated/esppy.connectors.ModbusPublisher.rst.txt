@@ -1,0 +1,45 @@
+esppy.connectors.ModbusPublisher
+================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: ModbusPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ModbusPublisher.__init__
+      ~ModbusPublisher.clear
+      ~ModbusPublisher.copy
+      ~ModbusPublisher.from_element
+      ~ModbusPublisher.from_parameters
+      ~ModbusPublisher.from_xml
+      ~ModbusPublisher.get
+      ~ModbusPublisher.items
+      ~ModbusPublisher.keys
+      ~ModbusPublisher.pop
+      ~ModbusPublisher.popitem
+      ~ModbusPublisher.set_properties
+      ~ModbusPublisher.setdefault
+      ~ModbusPublisher.to_element
+      ~ModbusPublisher.to_xml
+      ~ModbusPublisher.update
+      ~ModbusPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ModbusPublisher.connector_key
+      ~ModbusPublisher.property_defs
+   
+   

@@ -1,0 +1,6 @@
+esppy.project.Project.from\_xml
+===============================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.from_xml

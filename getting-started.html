@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; ESPPy 6.2 documentation</title>
+  <title>Getting Started &mdash; ESPPy 7.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                6.2
+                7.1
               </div>
             
           
@@ -194,8 +194,8 @@ These are passed to the <code class="xref py py-class docutils literal notransla
 server itself, as well as projects in the server.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">conn</span><span class="o">.</span><span class="n">server_info</span>
 <span class="gh">Out[4]: </span><span class="go"></span>
-<span class="go">{&#39;version&#39;: &#39;6.2&#39;,</span>
-<span class="go"> &#39;engine&#39;: &#39;228ce802-02fd-4db5-8b25-73922e5f550b&#39;,</span>
+<span class="go">{&#39;version&#39;: &#39;7.1&#39;,</span>
+<span class="go"> &#39;engine&#39;: &#39;9cfea7ee-39d6-449d-85de-4b08140399f6&#39;,</span>
 <span class="go"> &#39;analytics-license&#39;: True,</span>
 <span class="go"> &#39;primary-server&#39;: True,</span>
 <span class="go"> &#39;pubsub&#39;: 40011,</span>
@@ -205,11 +205,21 @@ server itself, as well as projects in the server.</p>
 <p>We don’t have any projects loaded in the server yet, so the following will
 just return an empty dictionary.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [5]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
-<span class="gh">Out[5]: </span><span class="go">{}</span>
+<span class="gh">Out[5]: </span><span class="go">{&#39;test_amazon_reviews&#39;: Project(name=&#39;test_amazon_reviews&#39;)}</span>
 </pre></div>
 </div>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_windows</span><span class="p">()</span>
-<span class="gh">Out[6]: </span><span class="go">{}</span>
+<span class="gh">Out[6]: </span><span class="go"></span>
+<span class="go">{&#39;test_amazon_reviews.contquery.t1_w_join&#39;: JoinWindow(name=&#39;t1_w_join&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t1_w_tok&#39;: CalculateWindow(name=&#39;t1_w_tok&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t1_w_vec&#39;: CalculateWindow(name=&#39;t1_w_vec&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t2_w_score_logis&#39;: ScoreWindow(name=&#39;t2_w_score_logis&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t2_w_train_logis&#39;: TrainWindow(name=&#39;t2_w_train_logis&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t3_w_join&#39;: JoinWindow(name=&#39;t3_w_join&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t3_w_tok&#39;: CalculateWindow(name=&#39;t3_w_tok&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.t3_w_vec&#39;: CalculateWindow(name=&#39;t3_w_vec&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.w_data_t&#39;: SourceWindow(name=&#39;w_data_t&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews.contquery.w_data_test&#39;: SourceWindow(name=&#39;w_data_test&#39;, contquery=&#39;contquery&#39;, project=&#39;test_amazon_reviews&#39;)}</span>
 </pre></div>
 </div>
 </div>
@@ -302,7 +312,7 @@ Note that if you only have a single continuous query object named ‘contquery�
 <img alt="_images/walk_proj.svg" src="_images/walk_proj.svg" /><p>You can also display all of the window schemas by using the <code class="docutils literal notranslate"><span class="pre">schema=True</span></code>
 option of the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Project.to_graph()</span></code> method.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">walk</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="gh">Out[9]: </span><span class="go">&lt;graphviz.dot.Digraph at 0x22984012e10&gt;</span>
+<span class="gh">Out[9]: </span><span class="go">&lt;graphviz.dot.Digraph at 0x1968ef71278&gt;</span>
 </pre></div>
 </div>
 <img alt="_images/walk_proj_schema.svg" src="_images/walk_proj_schema.svg" /><p>While we are passing in an XML string here to load the project, the
@@ -311,7 +321,9 @@ option of the <code class="xref py py-meth docutils literal notranslate"><span c
 <p>Now that we have a project loaded, we’ll see that the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ESP.get_projects()</span></code>
 method now returns a dictionary with one entry.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [10]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
-<span class="gh">Out[10]: </span><span class="go">{&#39;project&#39;: Project(name=&#39;project&#39;)}</span>
+<span class="gh">Out[10]: </span><span class="go"></span>
+<span class="go">{&#39;project&#39;: Project(name=&#39;project&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews&#39;: Project(name=&#39;test_amazon_reviews&#39;)}</span>
 </pre></div>
 </div>
 <p>We can also get all of the windows configured in the server, or in the
@@ -320,7 +332,17 @@ project.</p>
 Out[11]: 
 {'project.contquery.w_calculate': CalculateWindow(name='w_calculate', contquery='contquery', project='project'),
  'project.contquery.w_data': SourceWindow(name='w_data', contquery='contquery', project='project'),
- 'project.contquery.w_request': SourceWindow(name='w_request', contquery='contquery', project='project')}
+ 'project.contquery.w_request': SourceWindow(name='w_request', contquery='contquery', project='project'),
+ 'test_amazon_reviews.contquery.t1_w_join': JoinWindow(name='t1_w_join', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t1_w_tok': CalculateWindow(name='t1_w_tok', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t1_w_vec': CalculateWindow(name='t1_w_vec', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t2_w_score_logis': ScoreWindow(name='t2_w_score_logis', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t2_w_train_logis': TrainWindow(name='t2_w_train_logis', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t3_w_join': JoinWindow(name='t3_w_join', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t3_w_tok': CalculateWindow(name='t3_w_tok', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.t3_w_vec': CalculateWindow(name='t3_w_vec', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.w_data_t': SourceWindow(name='w_data_t', contquery='contquery', project='test_amazon_reviews'),
+ 'test_amazon_reviews.contquery.w_data_test': SourceWindow(name='w_data_test', contquery='contquery', project='test_amazon_reviews')}
 
 In [12]: walk.get_windows()
 Out[12]: 
@@ -340,7 +362,7 @@ attribute.</p>
 <p>These objects can also be displayed as diagrams in Jupyter or by using
 the <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_graph()</span></code> method directly to generate SVG.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [15]: </span><span class="n">walk</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="s1">&#39;w_data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">schema</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="gh">Out[15]: </span><span class="go">&lt;graphviz.dot.Digraph at 0x22986cf6f98&gt;</span>
+<span class="gh">Out[15]: </span><span class="go">&lt;graphviz.dot.Digraph at 0x1968ee42320&gt;</span>
 </pre></div>
 </div>
 <img alt="_images/walk_contquery_w_data.svg" src="_images/walk_contquery_w_data.svg" /></div>
@@ -466,13 +488,13 @@ rows of event data that are cached to that value.  Let’s set <code class="docu
 <span class="gh">Out[23]: </span><span class="go"></span>
 <span class="go">       time        x        y        z</span>
 <span class="go">id                                    </span>
+<span class="go">9   0.24976 -0.61292  2.22010  11.9860</span>
 <span class="go">10  0.27972  1.33480  4.24950  11.4140</span>
 <span class="go">11  0.31802  3.44590  7.58650  12.5990</span>
 <span class="go">12  0.34976  1.49820  4.90330  10.6920</span>
 <span class="go">13  0.37985 -1.79790  1.11690   9.9156</span>
 <span class="go">14  0.40976 -2.36990  0.10896   9.0030</span>
 <span class="go">15  0.44983 -1.49820  2.34270   9.2346</span>
-<span class="go">16  0.47980 -0.34051  3.21440   8.2403</span>
 </pre></div>
 </div>
 </div>
@@ -554,6 +576,7 @@ becomes true and we want to stop event processing after 100 total events.</p>
 <span class="gp">In [35]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
 <span class="go">       time        x       y        z</span>
 <span class="go">id                                   </span>
+<span class="go">29  0.86981 -0.34051  3.1463   9.7249</span>
 <span class="go">30  0.89978 -0.84446  3.2144   9.2346</span>
 <span class="go">31  0.92978 -1.03510  3.1463   9.5342</span>
 <span class="go">32  0.95990 -1.11690  2.8739  10.0380</span>
@@ -565,6 +588,7 @@ becomes true and we want to stop event processing after 100 total events.</p>
 <span class="gp">In [37]: </span><span class="k">print</span><span class="p">(</span><span class="n">w_data</span><span class="p">)</span>
 <span class="go">       time        x       y        z</span>
 <span class="go">id                                   </span>
+<span class="go">29  0.86981 -0.34051  3.1463   9.7249</span>
 <span class="go">30  0.89978 -0.84446  3.2144   9.2346</span>
 <span class="go">31  0.92978 -1.03510  3.1463   9.5342</span>
 <span class="go">32  0.95990 -1.11690  2.8739  10.0380</span>
@@ -586,19 +610,19 @@ data store.</p>
 use the <code class="docutils literal notranslate"><span class="pre">info</span></code> method.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [38]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 <span class="go">&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;</span>
-<span class="go">Int64Index: 4 entries, 30 to 33</span>
+<span class="go">Int64Index: 5 entries, 29 to 33</span>
 <span class="go">Data columns (total 4 columns):</span>
-<span class="go">time    4 non-null float64</span>
-<span class="go">x       4 non-null float64</span>
-<span class="go">y       4 non-null float64</span>
-<span class="go">z       4 non-null float64</span>
+<span class="go">time    5 non-null float64</span>
+<span class="go">x       5 non-null float64</span>
+<span class="go">y       5 non-null float64</span>
+<span class="go">z       5 non-null float64</span>
 <span class="go">dtypes: float64(4)</span>
-<span class="go">memory usage: 160.0 bytes</span>
+<span class="go">memory usage: 200.0 bytes</span>
 </pre></div>
 </div>
 <p>To plot the data in our data window, we can just call the <code class="docutils literal notranslate"><span class="pre">plot</span></code> method on it.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [39]: </span><span class="n">w_data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
-<span class="gh">Out[39]: </span><span class="go">&lt;matplotlib.axes._subplots.AxesSubplot at 0x229840dd898&gt;</span>
+<span class="gh">Out[39]: </span><span class="go">&lt;matplotlib.axes._subplots.AxesSubplot at 0x1968f1e36a0&gt;</span>
 </pre></div>
 </div>
 <img alt="_images/w_data_plot.png" src="_images/w_data_plot.png" />
@@ -695,7 +719,10 @@ the <code class="xref py py-meth docutils literal notranslate"><span class="pre"
 </div>
 <p>We can get the current projects to verify that it has been loaded.</p>
 <div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [53]: </span><span class="n">conn</span><span class="o">.</span><span class="n">get_projects</span><span class="p">()</span>
-<span class="gh">Out[53]: </span><span class="go">{&#39;kmeans&#39;: Project(name=&#39;kmeans&#39;), &#39;project&#39;: Project(name=&#39;project&#39;)}</span>
+<span class="gh">Out[53]: </span><span class="go"></span>
+<span class="go">{&#39;kmeans&#39;: Project(name=&#39;kmeans&#39;),</span>
+<span class="go"> &#39;project&#39;: Project(name=&#39;project&#39;),</span>
+<span class="go"> &#39;test_amazon_reviews&#39;: Project(name=&#39;test_amazon_reviews&#39;)}</span>
 </pre></div>
 </div>
 </div>

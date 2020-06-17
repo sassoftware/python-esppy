@@ -1,0 +1,6 @@
+esppy.windows.ComputeWindow.set\_context\_plugin
+================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ComputeWindow.set_context_plugin

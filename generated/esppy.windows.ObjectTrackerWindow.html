@@ -1,0 +1,545 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>esppy.windows.ObjectTrackerWindow &mdash; ESPPy 7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="esppy.windows.ObjectTrackerWindow.set_tracker" href="esppy.windows.ObjectTrackerWindow.set_tracker.html" />
+    <link rel="prev" title="esppy.windows.GeofenceWindow.set_output" href="esppy.windows.GeofenceWindow.set_output.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ESPPy
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../whatsnew.html">What’s New</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jupyter.html">Jupyter Notebook Integration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#esp">ESP</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#project-definitions">Project Definitions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../api.html#projects">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#continuous-queries">Continuous Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#templates">Templates</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../api.html#windows">Windows</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../api.html#base-window-methods">Base Window Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#source-windows">Source Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#calculation-windows">Calculation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#aggregation-windows">Aggregation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#computation-windows">Computation Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#copying-windows">Copying Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#counting-windows">Counting Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#filtering-windows">Filtering Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#functional-windows">Functional Windows</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../api.html#geofence-windows">Geofence Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#joining-windows">Joining Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#miscellaneous-windows">Miscellaneous Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#model-reading-windows">Model Reading Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#model-supervisor-windows">Model Supervisor Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#notification-windows">Notification Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#pattern-windows">Pattern Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#procedural-windows">Procedural Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#scoring-windows">Scoring Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-category-windows">Text Category Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-context-windows">Text Context Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-sentiment-windows">Text Sentiment Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#text-topic-windows">Text Topic Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#training-windows">Training Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#union-windows">Union Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#python-helpers">Python Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#keras-helpers">Keras Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#tensorflow-helpers">Tensorflow Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api.html#jmp-helpers">JMP Helpers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schemas">Schemas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api.html#schema-fields">Schema Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#subscriber">Subscriber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#publisher">Publisher</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-charts">Streaming Charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#streaming-images">Streaming Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#chart-layouts">Chart Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#event-generators">Event Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#loggers">Loggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#mas-modules">MAS Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#routers">Routers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#connectors">Connectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#algorithms">Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#project-statistics">Project Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#configuration-options">Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESPPy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>esppy.windows.ObjectTrackerWindow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/esppy.windows.ObjectTrackerWindow.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esppy-windows-objecttrackerwindow">
+<h1>esppy.windows.ObjectTrackerWindow<a class="headerlink" href="#esppy-windows-objecttrackerwindow" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="esppy.windows.ObjectTrackerWindow">
+<em class="property">class </em><code class="sig-prename descclassname">esppy.windows.</code><code class="sig-name descname">ObjectTrackerWindow</code><span class="sig-paren">(</span><em class="sig-param">name=None</em>, <em class="sig-param">pubsub=None</em>, <em class="sig-param">description=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.ObjectTrackerWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.windows.objectTracker.TrackerFeature</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.windows.objectTracker.OutputFeature</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.windows.objectTracker.InputFeature</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.windows.base.Window</span></code></p>
+<p>Object Tracker window</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">string, optional</span></dt><dd><p>The name of the window</p>
+</dd>
+<dt><strong>pubsub</strong><span class="classifier">bool, optional</span></dt><dd><p>Publish/subscribe mode for the window. When the project-level value
+of pubsub is manual, true enables publishing and subscribing for
+the window and false disables it.</p>
+</dd>
+<dt><strong>description</strong><span class="classifier">string, optional</span></dt><dd><p>Description of the window</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#esppy.windows.ObjectTrackerWindow" title="esppy.windows.ObjectTrackerWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectTrackerWindow</span></code></a></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>tracker</strong><span class="classifier">Tracker</span></dt><dd><p>The window tracker</p>
+</dd>
+<dt><strong>output</strong><span class="classifier">Output</span></dt><dd><p>The window output</p>
+</dd>
+<dt><strong>input</strong><span class="classifier">Input</span></dt><dd><p>The window input</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="esppy.windows.ObjectTrackerWindow.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name=None</em>, <em class="sig-param">pubsub=None</em>, <em class="sig-param">description=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.ObjectTrackerWindow.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#esppy.windows.ObjectTrackerWindow.__init__" title="esppy.windows.ObjectTrackerWindow.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[, name, pubsub, description])</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_connector</span></code>(self, conn_cls[, conn_name, …])</p></td>
+<td><p>Add a connector to the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_event_transformer</span></code>(self, method, \*args, …)</p></td>
+<td><p>Add an transformer to apply for each event</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_target</span></code>(self, \*windows[, auto_schema])</p></td>
+<td><p>Add windows as targets</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_targets</span></code>(self, \*windows[, auto_schema])</p></td>
+<td><p>Add windows as targets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_transformers</span></code>(self, data)</p></td>
+<td><p>Apply current set of data transformers to given data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code>(self[, deep])</p></td>
+<td><p>Return a copy of the object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_event_generator</span></code>(self[, data, name, …])</p></td>
+<td><p>Create an event generator</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_publisher</span></code>(self[, blocksize, rate, …])</p></td>
+<td><p>Create a publisher for the given window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_subscriber</span></code>(self[, mode, pagesize, …])</p></td>
+<td><p>Create a new websocket subscriber for the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_target</span></code>(self, \*windows)</p></td>
+<td><p>Remove windows as targets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_targets</span></code>(self, \*windows)</p></td>
+<td><p>Remove windows as targets</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">disable_tracing</span></code>(self)</p></td>
+<td><p>Disable console tracing for the window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">enable_tracing</span></code>(self)</p></td>
+<td><p>Enable console tracing for the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_element</span></code>(data[, contquery, project, session])</p></td>
+<td><p>Construct window from XML definition</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_xml</span></code>(data[, contquery, project, session])</p></td>
+<td><p>Construct window from XML definition</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_events</span></code>(self[, filter, sort_by, limit])</p></td>
+<td><p>Retrieve events from the window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pattern_events</span></code>(self[, sort_by, limit])</p></td>
+<td><p>Retrieve events residing in open patterns in the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">publish_events</span></code>(self, data[, blocksize, …])</p></td>
+<td><p>Publish events to the window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_xml</span></code>(self, dest[, mode, pretty])</p></td>
+<td><p>Save the window XML to a file</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set</span></code>(self[, method, score_sigma_low, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_coco</span></code>(self[, count, score, label, xMin, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_finalized_callback</span></code>(self, name, function)</p></td>
+<td><p>Set Finalized Callback</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.windows.ObjectTrackerWindow.set_input_coco.html#esppy.windows.ObjectTrackerWindow.set_input_coco" title="esppy.windows.ObjectTrackerWindow.set_input_coco"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_input_coco</span></code></a>(self[, count, score, label, …])</p></td>
+<td><p>Set the tracker input</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.windows.ObjectTrackerWindow.set_input_rect.html#esppy.windows.ObjectTrackerWindow.set_input_rect" title="esppy.windows.ObjectTrackerWindow.set_input_rect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_input_rect</span></code></a>(self[, count, score, label, …])</p></td>
+<td><p>Set the tracker input</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="esppy.windows.ObjectTrackerWindow.set_input_yolo.html#esppy.windows.ObjectTrackerWindow.set_input_yolo" title="esppy.windows.ObjectTrackerWindow.set_input_yolo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_input_yolo</span></code></a>(self[, count, score, label, …])</p></td>
+<td><p>Set the tracker input</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.windows.ObjectTrackerWindow.set_output.html#esppy.windows.ObjectTrackerWindow.set_output" title="esppy.windows.ObjectTrackerWindow.set_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_output</span></code></a>(self[, mode, prefix, tracks, …])</p></td>
+<td><p>Set the tracker output</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_rect</span></code>(self[, count, score, label, x, y, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_splitter_expr</span></code>(self, expr[, init_type, …])</p></td>
+<td><p>Set expression to direct events to one of n different output slots</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_splitter_plugin</span></code>(self, name, function)</p></td>
+<td><p>Set splitter function using a shared library and function name</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="esppy.windows.ObjectTrackerWindow.set_tracker.html#esppy.windows.ObjectTrackerWindow.set_tracker" title="esppy.windows.ObjectTrackerWindow.set_tracker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tracker</span></code></a>(self[, method, score_sigma_low, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_yolo</span></code>(self[, count, score, label, x, y, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_area</span></code>(self, x, y[, steps, …])</p></td>
+<td><p>Display a streaming area plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_bar</span></code>(self, x, y[, steps, interval, …])</p></td>
+<td><p>Display a streaming bar plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_bubble</span></code>(self, x, y, radius[, …])</p></td>
+<td><p>Display a streaming bubble plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_donut</span></code>(self, x, y[, steps, …])</p></td>
+<td><p>Display a streaming donut plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_hbar</span></code>(self, x, y[, steps, …])</p></td>
+<td><p>Display a streaming horizontal bar plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_hist</span></code>(self[, centers, heights, …])</p></td>
+<td><p>Display a streaming histogram in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_images</span></code>(self, image_col[, steps, …])</p></td>
+<td><p>Display streaming images in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_line</span></code>(self, x, y[, steps, …])</p></td>
+<td><p>Display a streaming line plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_pie</span></code>(self, x, y[, steps, interval, …])</p></td>
+<td><p>Display a streaming pie plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">streaming_scatter</span></code>(self, x, y[, steps, …])</p></td>
+<td><p>Display a streaming scatter plot in a Jupyter notebook</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscribe</span></code>(self[, mode, pagesize, filter, …])</p></td>
+<td><p>Subscribe to events</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_data_callback</span></code>(self[, x, y, extra, …])</p></td>
+<td><p>Create a data callback function for streaming plots</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_element</span></code>(self[, query])</p></td>
+<td><p>Export window definition to ElementTree.Element</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_graph</span></code>(self[, graph, schema])</p></td>
+<td><p>Export window definition to graphviz.Digraph</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_xml</span></code>(self[, pretty, query])</p></td>
+<td><p>Export window definition to XML</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unsubscribe</span></code>(self)</p></td>
+<td><p>Stop event processing</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_name</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_url</span></code></p></td>
+<td><p>The base server URL</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">collapse_updates</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">contquery</span></code></p></td>
+<td><p>The name of the continuous query the window is associated with</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">exp_max_string</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fullname</span></code></p></td>
+<td><p>The fully-qualified name of the window (e.g., project.contquery.window)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_type</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_hidden</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>The true name of the window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_insert_only</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project</span></code></p></td>
+<td><p>The name of the project the window is associated with</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">publisher_url</span></code></p></td>
+<td><p>Return the publisher URL for web sockets</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pubsub</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pubsub_index_type</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pulse_interval</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema</span></code></p></td>
+<td><p>Return the schema for the window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">schema_string</span></code></p></td>
+<td><p>The window schema as a string representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">session</span></code></p></td>
+<td><p>The server session object</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">subscriber_url</span></code></p></td>
+<td><p>Return the subscriber URL for web sockets</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">template</span></code></p></td>
+<td><p>The name of the template the window is associated with</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">url</span></code></p></td>
+<td><p>URL of the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">window_classes</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">window_type</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esppy.windows.ObjectTrackerWindow.set_tracker.html" class="btn btn-neutral float-right" title="esppy.windows.ObjectTrackerWindow.set_tracker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esppy.windows.GeofenceWindow.set_output.html" class="btn btn-neutral float-left" title="esppy.windows.GeofenceWindow.set_output" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018 SAS Institute Inc. All Rights Reserved.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

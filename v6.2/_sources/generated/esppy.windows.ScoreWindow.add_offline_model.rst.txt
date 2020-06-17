@@ -1,0 +1,6 @@
+esppy.windows.ScoreWindow.add\_offline\_model
+=============================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ScoreWindow.add_offline_model

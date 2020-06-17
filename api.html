@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API Reference &mdash; ESPPy 6.2 documentation</title>
+  <title>API Reference &mdash; ESPPy 7.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                6.2
+                7.1
               </div>
             
           
@@ -1033,10 +1033,10 @@ in the server and administer it.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.templates.Template.set_parameters.html#esppy.templates.Template.set_parameters" title="esppy.templates.Template.set_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Template.set_parameters</span></code></a>(self, window, …)</p></td>
 <td><p>Set parameters</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.templates.Template.set_inputs.html#esppy.templates.Template.set_inputs" title="esppy.templates.Template.set_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Template.set_inputs</span></code></a>(self[, window])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.templates.Template.set_inputs.html#esppy.templates.Template.set_inputs" title="esppy.templates.Template.set_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Template.set_inputs</span></code></a>(self[, window, model])</p></td>
 <td><p>Set inputs</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.templates.Template.set_outputs.html#esppy.templates.Template.set_outputs" title="esppy.templates.Template.set_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Template.set_outputs</span></code></a>(self[, window])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.templates.Template.set_outputs.html#esppy.templates.Template.set_outputs" title="esppy.templates.Template.set_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Template.set_outputs</span></code></a>(self[, window, model])</p></td>
 <td><p>Set outputs</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.templates.Template.add_target.html#esppy.templates.Template.add_target" title="esppy.templates.Template.add_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Template.add_target</span></code></a>(self, obj, \*\*kwargs)</p></td>
@@ -1237,10 +1237,10 @@ The common methods are described below.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.add_connector.html#esppy.windows.Window.add_connector" title="esppy.windows.Window.add_connector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.add_connector</span></code></a>(self, conn_cls[, …])</p></td>
 <td><p>Add a connector to the window</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.add_target.html#esppy.windows.Window.add_target" title="esppy.windows.Window.add_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.add_target</span></code></a>(self, \*windows, \*\*kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.add_target.html#esppy.windows.Window.add_target" title="esppy.windows.Window.add_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.add_target</span></code></a>(self, \*windows[, auto_schema])</p></td>
 <td><p>Add windows as targets</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.add_targets.html#esppy.windows.Window.add_targets" title="esppy.windows.Window.add_targets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.add_targets</span></code></a>(self, \*windows, \*\*kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.add_targets.html#esppy.windows.Window.add_targets" title="esppy.windows.Window.add_targets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.add_targets</span></code></a>(self, \*windows[, …])</p></td>
 <td><p>Add windows as targets</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.delete_target.html#esppy.windows.Window.delete_target" title="esppy.windows.Window.delete_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.delete_target</span></code></a>(self, \*windows)</p></td>
@@ -1249,13 +1249,16 @@ The common methods are described below.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.delete_targets.html#esppy.windows.Window.delete_targets" title="esppy.windows.Window.delete_targets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.delete_targets</span></code></a>(self, \*windows)</p></td>
 <td><p>Remove windows as targets</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_finalized_callback.html#esppy.windows.Window.set_finalized_callback" title="esppy.windows.Window.set_finalized_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_finalized_callback</span></code></a>(self, name, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_key.html#esppy.windows.Window.set_key" title="esppy.windows.Window.set_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_key</span></code></a>(self, \*fields[, propagation])</p></td>
+<td><p>Set schema fields as key</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_finalized_callback.html#esppy.windows.Window.set_finalized_callback" title="esppy.windows.Window.set_finalized_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_finalized_callback</span></code></a>(self, name, …)</p></td>
 <td><p>Set Finalized Callback</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_splitter_plugin.html#esppy.windows.Window.set_splitter_plugin" title="esppy.windows.Window.set_splitter_plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_splitter_plugin</span></code></a>(self, name, function)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_splitter_plugin.html#esppy.windows.Window.set_splitter_plugin" title="esppy.windows.Window.set_splitter_plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_splitter_plugin</span></code></a>(self, name, function)</p></td>
 <td><p>Set splitter function using a shared library and function name</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_splitter_expr.html#esppy.windows.Window.set_splitter_expr" title="esppy.windows.Window.set_splitter_expr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_splitter_expr</span></code></a>(self, expr[, …])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/esppy.windows.Window.set_splitter_expr.html#esppy.windows.Window.set_splitter_expr" title="esppy.windows.Window.set_splitter_expr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Window.set_splitter_expr</span></code></a>(self, expr[, …])</p></td>
 <td><p>Set expression to direct events to one of n different output slots</p></td>
 </tr>
 </tbody>

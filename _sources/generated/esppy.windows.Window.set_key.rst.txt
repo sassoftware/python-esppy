@@ -1,0 +1,6 @@
+esppy.windows.Window.set\_key
+=============================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.set_key

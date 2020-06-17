@@ -1,0 +1,6 @@
+esppy.evtgen.EventGenerator.stop
+================================
+
+.. currentmodule:: esppy.evtgen
+
+.. automethod:: EventGenerator.stop

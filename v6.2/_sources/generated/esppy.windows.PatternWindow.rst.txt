@@ -1,0 +1,91 @@
+esppy.windows.PatternWindow
+===========================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: PatternWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PatternWindow.__init__
+      ~PatternWindow.add_connector
+      ~PatternWindow.add_event_transformer
+      ~PatternWindow.add_target
+      ~PatternWindow.add_targets
+      ~PatternWindow.apply_transformers
+      ~PatternWindow.copy
+      ~PatternWindow.create_event_generator
+      ~PatternWindow.create_pattern
+      ~PatternWindow.create_publisher
+      ~PatternWindow.create_subscriber
+      ~PatternWindow.delete_target
+      ~PatternWindow.delete_targets
+      ~PatternWindow.disable_tracing
+      ~PatternWindow.enable_tracing
+      ~PatternWindow.from_element
+      ~PatternWindow.from_xml
+      ~PatternWindow.get_events
+      ~PatternWindow.get_pattern_events
+      ~PatternWindow.publish_events
+      ~PatternWindow.save_xml
+      ~PatternWindow.set_finalized_callback
+      ~PatternWindow.set_splitter_expr
+      ~PatternWindow.set_splitter_plugin
+      ~PatternWindow.streaming_area
+      ~PatternWindow.streaming_bar
+      ~PatternWindow.streaming_bubble
+      ~PatternWindow.streaming_donut
+      ~PatternWindow.streaming_hbar
+      ~PatternWindow.streaming_hist
+      ~PatternWindow.streaming_images
+      ~PatternWindow.streaming_line
+      ~PatternWindow.streaming_pie
+      ~PatternWindow.streaming_scatter
+      ~PatternWindow.subscribe
+      ~PatternWindow.to_data_callback
+      ~PatternWindow.to_element
+      ~PatternWindow.to_graph
+      ~PatternWindow.to_xml
+      ~PatternWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PatternWindow.base_name
+      ~PatternWindow.base_url
+      ~PatternWindow.collapse_updates
+      ~PatternWindow.contquery
+      ~PatternWindow.exp_max_string
+      ~PatternWindow.fullname
+      ~PatternWindow.index_type
+      ~PatternWindow.is_active
+      ~PatternWindow.is_hidden
+      ~PatternWindow.name
+      ~PatternWindow.output_insert_only
+      ~PatternWindow.project
+      ~PatternWindow.properties
+      ~PatternWindow.publisher_url
+      ~PatternWindow.pubsub
+      ~PatternWindow.pubsub_index_type
+      ~PatternWindow.pulse_interval
+      ~PatternWindow.schema
+      ~PatternWindow.schema_string
+      ~PatternWindow.session
+      ~PatternWindow.subscriber_url
+      ~PatternWindow.template
+      ~PatternWindow.url
+      ~PatternWindow.window_classes
+      ~PatternWindow.window_type
+   
+   

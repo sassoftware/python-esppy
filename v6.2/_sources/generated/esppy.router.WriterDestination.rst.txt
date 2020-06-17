@@ -1,0 +1,33 @@
+esppy.router.WriterDestination
+==============================
+
+.. currentmodule:: esppy.router
+
+.. autoclass:: WriterDestination
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~WriterDestination.__init__
+      ~WriterDestination.initialize
+      ~WriterDestination.to_element
+      ~WriterDestination.to_xml
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WriterDestination.base_url
+      ~WriterDestination.session
+      ~WriterDestination.url
+   
+   

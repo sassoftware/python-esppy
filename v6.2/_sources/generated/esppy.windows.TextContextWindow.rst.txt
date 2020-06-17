@@ -1,0 +1,92 @@
+esppy.windows.TextContextWindow
+===============================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: TextContextWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~TextContextWindow.__init__
+      ~TextContextWindow.add_connector
+      ~TextContextWindow.add_event_transformer
+      ~TextContextWindow.add_target
+      ~TextContextWindow.add_targets
+      ~TextContextWindow.apply_transformers
+      ~TextContextWindow.copy
+      ~TextContextWindow.create_event_generator
+      ~TextContextWindow.create_publisher
+      ~TextContextWindow.create_subscriber
+      ~TextContextWindow.delete_target
+      ~TextContextWindow.delete_targets
+      ~TextContextWindow.disable_tracing
+      ~TextContextWindow.enable_tracing
+      ~TextContextWindow.from_element
+      ~TextContextWindow.from_xml
+      ~TextContextWindow.get_events
+      ~TextContextWindow.get_pattern_events
+      ~TextContextWindow.publish_events
+      ~TextContextWindow.save_xml
+      ~TextContextWindow.set_finalized_callback
+      ~TextContextWindow.set_splitter_expr
+      ~TextContextWindow.set_splitter_plugin
+      ~TextContextWindow.streaming_area
+      ~TextContextWindow.streaming_bar
+      ~TextContextWindow.streaming_bubble
+      ~TextContextWindow.streaming_donut
+      ~TextContextWindow.streaming_hbar
+      ~TextContextWindow.streaming_hist
+      ~TextContextWindow.streaming_images
+      ~TextContextWindow.streaming_line
+      ~TextContextWindow.streaming_pie
+      ~TextContextWindow.streaming_scatter
+      ~TextContextWindow.subscribe
+      ~TextContextWindow.to_data_callback
+      ~TextContextWindow.to_element
+      ~TextContextWindow.to_graph
+      ~TextContextWindow.to_xml
+      ~TextContextWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~TextContextWindow.base_name
+      ~TextContextWindow.base_url
+      ~TextContextWindow.collapse_updates
+      ~TextContextWindow.contquery
+      ~TextContextWindow.exp_max_string
+      ~TextContextWindow.fullname
+      ~TextContextWindow.generate_nulls
+      ~TextContextWindow.index_type
+      ~TextContextWindow.is_hidden
+      ~TextContextWindow.liti_files
+      ~TextContextWindow.name
+      ~TextContextWindow.output_insert_only
+      ~TextContextWindow.project
+      ~TextContextWindow.properties
+      ~TextContextWindow.publisher_url
+      ~TextContextWindow.pubsub
+      ~TextContextWindow.pubsub_index_type
+      ~TextContextWindow.pulse_interval
+      ~TextContextWindow.schema
+      ~TextContextWindow.schema_string
+      ~TextContextWindow.session
+      ~TextContextWindow.subscriber_url
+      ~TextContextWindow.template
+      ~TextContextWindow.text_field
+      ~TextContextWindow.url
+      ~TextContextWindow.window_classes
+      ~TextContextWindow.window_type
+   
+   

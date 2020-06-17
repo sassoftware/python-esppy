@@ -1,0 +1,63 @@
+esppy.contquery.ContinuousQuery
+===============================
+
+.. currentmodule:: esppy.contquery
+
+.. autoclass:: ContinuousQuery
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ContinuousQuery.__init__
+      ~ContinuousQuery.add_template
+      ~ContinuousQuery.add_window
+      ~ContinuousQuery.add_windows
+      ~ContinuousQuery.clear
+      ~ContinuousQuery.copy
+      ~ContinuousQuery.delete_template
+      ~ContinuousQuery.delete_templates
+      ~ContinuousQuery.delete_window
+      ~ContinuousQuery.delete_windows
+      ~ContinuousQuery.from_element
+      ~ContinuousQuery.from_xml
+      ~ContinuousQuery.get
+      ~ContinuousQuery.get_window
+      ~ContinuousQuery.get_windows
+      ~ContinuousQuery.items
+      ~ContinuousQuery.keys
+      ~ContinuousQuery.pop
+      ~ContinuousQuery.popitem
+      ~ContinuousQuery.rename_window
+      ~ContinuousQuery.save_xml
+      ~ContinuousQuery.setdefault
+      ~ContinuousQuery.to_element
+      ~ContinuousQuery.to_graph
+      ~ContinuousQuery.to_xml
+      ~ContinuousQuery.update
+      ~ContinuousQuery.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ContinuousQuery.base_url
+      ~ContinuousQuery.fullname
+      ~ContinuousQuery.include_singletons
+      ~ContinuousQuery.index_type
+      ~ContinuousQuery.name
+      ~ContinuousQuery.project
+      ~ContinuousQuery.session
+      ~ContinuousQuery.timing_threshold
+      ~ContinuousQuery.trace
+      ~ContinuousQuery.url
+   
+   

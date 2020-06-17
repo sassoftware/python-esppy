@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.windows.Window.add_targets &mdash; ESPPy 6.2 documentation</title>
+  <title>esppy.windows.Window.add_targets &mdash; ESPPy 7.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                6.2
+                7.1
               </div>
             
           
@@ -217,12 +217,15 @@
 <h1>esppy.windows.Window.add_targets<a class="headerlink" href="#esppy-windows-window-add-targets" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="esppy.windows.Window.add_targets">
-<code class="sig-prename descclassname">Window.</code><code class="sig-name descname">add_targets</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">*windows</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Window.add_targets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">Window.</code><code class="sig-name descname">add_targets</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">*windows</em>, <em class="sig-param">auto_schema=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Window.add_targets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add windows as targets</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>windows</strong><span class="classifier">one-or-more Windows or window names</span></dt><dd><p>The windows to use as targets</p>
+</dd>
+<dt><strong>auto_schema</strong><span class="classifier">boolean, optional</span></dt><dd><p>Indicates whether to automatically propagate the schema for target window or not,
+default to be False</p>
 </dd>
 <dt><strong>role</strong><span class="classifier">string, optional</span></dt><dd><p>The role of the connection</p>
 </dd>

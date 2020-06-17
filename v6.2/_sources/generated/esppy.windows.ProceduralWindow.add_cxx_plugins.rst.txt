@@ -1,0 +1,6 @@
+esppy.windows.ProceduralWindow.add\_cxx\_plugins
+================================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: ProceduralWindow.add_cxx_plugins

@@ -1,0 +1,6 @@
+esppy.templates.Template.add\_input\_windows
+============================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.add_input_windows

@@ -1,0 +1,6 @@
+esppy.templates.Template.from\_xml
+==================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.from_xml

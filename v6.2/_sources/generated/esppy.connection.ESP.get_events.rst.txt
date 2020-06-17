@@ -1,0 +1,6 @@
+esppy.connection.ESP.get\_events
+================================
+
+.. currentmodule:: esppy.connection
+
+.. automethod:: ESP.get_events

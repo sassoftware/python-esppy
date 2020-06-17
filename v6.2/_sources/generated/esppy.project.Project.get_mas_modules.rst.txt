@@ -1,0 +1,6 @@
+esppy.project.Project.get\_mas\_modules
+=======================================
+
+.. currentmodule:: esppy.project
+
+.. automethod:: Project.get_mas_modules

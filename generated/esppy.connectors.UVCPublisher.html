@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.connectors.UVCPublisher &mdash; ESPPy 6.2 documentation</title>
+  <title>esppy.connectors.UVCPublisher &mdash; ESPPy 7.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                6.2
+                7.1
               </div>
             
           
@@ -224,7 +224,7 @@
 <h1>esppy.connectors.UVCPublisher<a class="headerlink" href="#esppy-connectors-uvcpublisher" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="esppy.connectors.UVCPublisher">
-<em class="property">class </em><code class="sig-prename descclassname">esppy.connectors.</code><code class="sig-name descname">UVCPublisher</code><span class="sig-paren">(</span><em class="sig-param">name=None</em>, <em class="sig-param">is_active=None</em>, <em class="sig-param">frame_rate=None</em>, <em class="sig-param">format_in=None</em>, <em class="sig-param">format_out=None</em>, <em class="sig-param">width=None</em>, <em class="sig-param">height=None</em>, <em class="sig-param">brightness=None</em>, <em class="sig-param">gain=None</em>, <em class="sig-param">saturation=None</em>, <em class="sig-param">contrast=None</em>, <em class="sig-param">device=None</em>, <em class="sig-param">blocking=None</em>, <em class="sig-param">predelay=None</em>, <em class="sig-param">maxevents=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connectors.UVCPublisher" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">esppy.connectors.</code><code class="sig-name descname">UVCPublisher</code><span class="sig-paren">(</span><em class="sig-param">name=None</em>, <em class="sig-param">is_active=None</em>, <em class="sig-param">frame_rate=None</em>, <em class="sig-param">format_in=None</em>, <em class="sig-param">format_out=None</em>, <em class="sig-param">width=None</em>, <em class="sig-param">height=None</em>, <em class="sig-param">brightness=None</em>, <em class="sig-param">gain=None</em>, <em class="sig-param">saturation=None</em>, <em class="sig-param">contrast=None</em>, <em class="sig-param">device=None</em>, <em class="sig-param">blocking=None</em>, <em class="sig-param">predelay=None</em>, <em class="sig-param">maxevents=None</em>, <em class="sig-param">cameraid=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connectors.UVCPublisher" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">esppy.connectors.base.Connector</span></code></p>
 <p>Publish photos taken by a V4L2 compatible</p>
 <dl class="field-list simple">
@@ -263,6 +263,8 @@ the connector.</p>
 </dd>
 <dt><strong>maxevents</strong><span class="classifier">int, optional</span></dt><dd><p>Specifies the maximum number of events to publish.</p>
 </dd>
+<dt><strong>cameraid</strong><span class="classifier">string, optional</span></dt><dd><p>Specifies an arbitrary string that is copied into the corresponding string field in the Source window. This value can be used by the model to identify the source camera.</p>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -273,7 +275,7 @@ the connector.</p>
 </dl>
 <dl class="method">
 <dt id="esppy.connectors.UVCPublisher.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name=None</em>, <em class="sig-param">is_active=None</em>, <em class="sig-param">frame_rate=None</em>, <em class="sig-param">format_in=None</em>, <em class="sig-param">format_out=None</em>, <em class="sig-param">width=None</em>, <em class="sig-param">height=None</em>, <em class="sig-param">brightness=None</em>, <em class="sig-param">gain=None</em>, <em class="sig-param">saturation=None</em>, <em class="sig-param">contrast=None</em>, <em class="sig-param">device=None</em>, <em class="sig-param">blocking=None</em>, <em class="sig-param">predelay=None</em>, <em class="sig-param">maxevents=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connectors.UVCPublisher.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name=None</em>, <em class="sig-param">is_active=None</em>, <em class="sig-param">frame_rate=None</em>, <em class="sig-param">format_in=None</em>, <em class="sig-param">format_out=None</em>, <em class="sig-param">width=None</em>, <em class="sig-param">height=None</em>, <em class="sig-param">brightness=None</em>, <em class="sig-param">gain=None</em>, <em class="sig-param">saturation=None</em>, <em class="sig-param">contrast=None</em>, <em class="sig-param">device=None</em>, <em class="sig-param">blocking=None</em>, <em class="sig-param">predelay=None</em>, <em class="sig-param">maxevents=None</em>, <em class="sig-param">cameraid=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.connectors.UVCPublisher.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 

@@ -1,0 +1,6 @@
+esppy.contquery.ContinuousQuery.delete\_templates
+=================================================
+
+.. currentmodule:: esppy.contquery
+
+.. automethod:: ContinuousQuery.delete_templates

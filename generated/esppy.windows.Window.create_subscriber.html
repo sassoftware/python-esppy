@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>esppy.windows.Window.create_subscriber &mdash; ESPPy 6.2 documentation</title>
+  <title>esppy.windows.Window.create_subscriber &mdash; ESPPy 7.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                6.2
+                7.1
               </div>
             
           
@@ -217,7 +217,7 @@
 <h1>esppy.windows.Window.create_subscriber<a class="headerlink" href="#esppy-windows-window-create-subscriber" title="Permalink to this headline">¶</a></h1>
 <dl class="method">
 <dt id="esppy.windows.Window.create_subscriber">
-<code class="sig-prename descclassname">Window.</code><code class="sig-name descname">create_subscriber</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mode='updating'</em>, <em class="sig-param">pagesize=50</em>, <em class="sig-param">filter=None</em>, <em class="sig-param">sort=None</em>, <em class="sig-param">format='xml'</em>, <em class="sig-param">separator=None</em>, <em class="sig-param">interval=None</em>, <em class="sig-param">schema=False</em>, <em class="sig-param">on_event=None</em>, <em class="sig-param">on_message=None</em>, <em class="sig-param">on_error=None</em>, <em class="sig-param">on_close=None</em>, <em class="sig-param">on_open=None</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Window.create_subscriber" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">Window.</code><code class="sig-name descname">create_subscriber</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">mode='updating'</em>, <em class="sig-param">pagesize=50</em>, <em class="sig-param">filter=None</em>, <em class="sig-param">sort=None</em>, <em class="sig-param">format='xml'</em>, <em class="sig-param">separator=None</em>, <em class="sig-param">interval=None</em>, <em class="sig-param">schema=False</em>, <em class="sig-param">on_event=None</em>, <em class="sig-param">on_message=None</em>, <em class="sig-param">on_error=None</em>, <em class="sig-param">on_close=None</em>, <em class="sig-param">on_open=None</em>, <em class="sig-param">precision=6</em><span class="sig-paren">)</span><a class="headerlink" href="#esppy.windows.Window.create_subscriber" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new websocket subscriber for the window</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -235,6 +235,8 @@
 <dt><strong>separator</strong><span class="classifier">string, optional</span></dt><dd><p>The separator to use between events in the ‘properties’ format</p>
 </dd>
 <dt><strong>interval</strong><span class="classifier">int, optional</span></dt><dd><p>Interval between event sends in milliseconds</p>
+</dd>
+<dt><strong>precision</strong><span class="classifier">int, optional</span></dt><dd><p>The floating point precision</p>
 </dd>
 <dt><strong>schema</strong><span class="classifier">bool, optional</span></dt><dd><p>Should the schema be sent with the first event?</p>
 </dd>

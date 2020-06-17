@@ -1,0 +1,98 @@
+esppy.windows.ObjectTrackerWindow
+=================================
+
+.. currentmodule:: esppy.windows
+
+.. autoclass:: ObjectTrackerWindow
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~ObjectTrackerWindow.__init__
+      ~ObjectTrackerWindow.add_connector
+      ~ObjectTrackerWindow.add_event_transformer
+      ~ObjectTrackerWindow.add_target
+      ~ObjectTrackerWindow.add_targets
+      ~ObjectTrackerWindow.apply_transformers
+      ~ObjectTrackerWindow.copy
+      ~ObjectTrackerWindow.create_event_generator
+      ~ObjectTrackerWindow.create_publisher
+      ~ObjectTrackerWindow.create_subscriber
+      ~ObjectTrackerWindow.delete_target
+      ~ObjectTrackerWindow.delete_targets
+      ~ObjectTrackerWindow.disable_tracing
+      ~ObjectTrackerWindow.enable_tracing
+      ~ObjectTrackerWindow.from_element
+      ~ObjectTrackerWindow.from_xml
+      ~ObjectTrackerWindow.get_events
+      ~ObjectTrackerWindow.get_pattern_events
+      ~ObjectTrackerWindow.publish_events
+      ~ObjectTrackerWindow.save_xml
+      ~ObjectTrackerWindow.set
+      ~ObjectTrackerWindow.set_coco
+      ~ObjectTrackerWindow.set_finalized_callback
+      ~ObjectTrackerWindow.set_input_coco
+      ~ObjectTrackerWindow.set_input_rect
+      ~ObjectTrackerWindow.set_input_yolo
+      ~ObjectTrackerWindow.set_output
+      ~ObjectTrackerWindow.set_rect
+      ~ObjectTrackerWindow.set_splitter_expr
+      ~ObjectTrackerWindow.set_splitter_plugin
+      ~ObjectTrackerWindow.set_tracker
+      ~ObjectTrackerWindow.set_yolo
+      ~ObjectTrackerWindow.streaming_area
+      ~ObjectTrackerWindow.streaming_bar
+      ~ObjectTrackerWindow.streaming_bubble
+      ~ObjectTrackerWindow.streaming_donut
+      ~ObjectTrackerWindow.streaming_hbar
+      ~ObjectTrackerWindow.streaming_hist
+      ~ObjectTrackerWindow.streaming_images
+      ~ObjectTrackerWindow.streaming_line
+      ~ObjectTrackerWindow.streaming_pie
+      ~ObjectTrackerWindow.streaming_scatter
+      ~ObjectTrackerWindow.subscribe
+      ~ObjectTrackerWindow.to_data_callback
+      ~ObjectTrackerWindow.to_element
+      ~ObjectTrackerWindow.to_graph
+      ~ObjectTrackerWindow.to_xml
+      ~ObjectTrackerWindow.unsubscribe
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ObjectTrackerWindow.base_name
+      ~ObjectTrackerWindow.base_url
+      ~ObjectTrackerWindow.collapse_updates
+      ~ObjectTrackerWindow.contquery
+      ~ObjectTrackerWindow.exp_max_string
+      ~ObjectTrackerWindow.fullname
+      ~ObjectTrackerWindow.index_type
+      ~ObjectTrackerWindow.is_hidden
+      ~ObjectTrackerWindow.name
+      ~ObjectTrackerWindow.output_insert_only
+      ~ObjectTrackerWindow.project
+      ~ObjectTrackerWindow.properties
+      ~ObjectTrackerWindow.publisher_url
+      ~ObjectTrackerWindow.pubsub
+      ~ObjectTrackerWindow.pubsub_index_type
+      ~ObjectTrackerWindow.pulse_interval
+      ~ObjectTrackerWindow.schema
+      ~ObjectTrackerWindow.schema_string
+      ~ObjectTrackerWindow.session
+      ~ObjectTrackerWindow.subscriber_url
+      ~ObjectTrackerWindow.template
+      ~ObjectTrackerWindow.url
+      ~ObjectTrackerWindow.window_classes
+      ~ObjectTrackerWindow.window_type
+   
+   

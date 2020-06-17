@@ -1,0 +1,6 @@
+esppy.templates.Template.delete\_output\_windows
+================================================
+
+.. currentmodule:: esppy.templates
+
+.. automethod:: Template.delete_output_windows

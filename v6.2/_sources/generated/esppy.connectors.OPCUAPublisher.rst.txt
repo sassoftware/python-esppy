@@ -1,0 +1,45 @@
+esppy.connectors.OPCUAPublisher
+===============================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: OPCUAPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~OPCUAPublisher.__init__
+      ~OPCUAPublisher.clear
+      ~OPCUAPublisher.copy
+      ~OPCUAPublisher.from_element
+      ~OPCUAPublisher.from_parameters
+      ~OPCUAPublisher.from_xml
+      ~OPCUAPublisher.get
+      ~OPCUAPublisher.items
+      ~OPCUAPublisher.keys
+      ~OPCUAPublisher.pop
+      ~OPCUAPublisher.popitem
+      ~OPCUAPublisher.set_properties
+      ~OPCUAPublisher.setdefault
+      ~OPCUAPublisher.to_element
+      ~OPCUAPublisher.to_xml
+      ~OPCUAPublisher.update
+      ~OPCUAPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~OPCUAPublisher.connector_key
+      ~OPCUAPublisher.property_defs
+   
+   

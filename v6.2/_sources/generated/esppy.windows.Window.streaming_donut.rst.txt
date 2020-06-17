@@ -1,0 +1,6 @@
+esppy.windows.Window.streaming\_donut
+=====================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.streaming_donut

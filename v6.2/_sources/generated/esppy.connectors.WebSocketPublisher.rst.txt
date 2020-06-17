@@ -1,0 +1,45 @@
+esppy.connectors.WebSocketPublisher
+===================================
+
+.. currentmodule:: esppy.connectors
+
+.. autoclass:: WebSocketPublisher
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~WebSocketPublisher.__init__
+      ~WebSocketPublisher.clear
+      ~WebSocketPublisher.copy
+      ~WebSocketPublisher.from_element
+      ~WebSocketPublisher.from_parameters
+      ~WebSocketPublisher.from_xml
+      ~WebSocketPublisher.get
+      ~WebSocketPublisher.items
+      ~WebSocketPublisher.keys
+      ~WebSocketPublisher.pop
+      ~WebSocketPublisher.popitem
+      ~WebSocketPublisher.set_properties
+      ~WebSocketPublisher.setdefault
+      ~WebSocketPublisher.to_element
+      ~WebSocketPublisher.to_xml
+      ~WebSocketPublisher.update
+      ~WebSocketPublisher.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~WebSocketPublisher.connector_key
+      ~WebSocketPublisher.property_defs
+   
+   

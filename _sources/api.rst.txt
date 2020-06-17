@@ -371,6 +371,7 @@ Project Construction
    Window.add_targets
    Window.delete_target
    Window.delete_targets
+   Window.set_key
    Window.set_finalized_callback
    Window.set_splitter_plugin
    Window.set_splitter_expr
