@@ -1,6 +1,0 @@
-esppy.templates.Template.delete\_input\_windows
-===============================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.delete_input_windows

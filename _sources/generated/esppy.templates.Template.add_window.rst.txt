@@ -1,6 +1,0 @@
-esppy.templates.Template.add\_window
-====================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.add_window

@@ -1,6 +1,0 @@
-esppy.templates.Template.KeypointsDetection
-===========================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.KeypointsDetection

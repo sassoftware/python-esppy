@@ -1101,8 +1101,8 @@ class BaseWindow(ESPObject):
         Parameters
         ----------
         fields : one-or-more schema fields
-            The windows to use as targets
-        propagation: indicate whether the change propagate to connected windows
+            The schema fields to be set as key
+        propagation : indicate whether the change propagate to connected windows
             Default to be False
         '''
         for name in fields:

@@ -1,6 +1,0 @@
-esppy.templates.Template.to\_xml
-================================
-
-.. currentmodule:: esppy.templates
-
-.. automethod:: Template.to_xml

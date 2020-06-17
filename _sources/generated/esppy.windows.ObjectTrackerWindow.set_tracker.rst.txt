@@ -1,6 +1,0 @@
-esppy.windows.ObjectTrackerWindow.set\_tracker
-==============================================
-
-.. currentmodule:: esppy.windows
-
-.. automethod:: ObjectTrackerWindow.set_tracker
