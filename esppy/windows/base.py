@@ -1115,18 +1115,24 @@ class BaseWindow(ESPObject):
                 except KeyError:
                     raise KeyError('Unknown schema field name: %s' % name)
 
-        if propagation and self.template:
-            for target in self.targets:
-                if target.role and target.role != 'data':
-                    continue
-                elif self.template:
-                    try:
-                        window = self.template.windows[target.base_name]
-                        propagation_fields = [each for each in fields if each in window.schema]
-                        if propagation_fields:
-                            window.set_key(*propagation_fields, propagation=propagation)
-                    except KeyError:
-                        pass
+        def _propagation_key(win):
+            if win.template and win.targets:
+                for target in win.targets:
+                    if target.role and target.role != 'data':
+                        continue
+                    else:
+                        try:
+                            target_win = win.template.windows[target.base_name]
+                            if SchemaFeature in inspect.getmro(type(target_win)):
+                                propagation_fields = [each for each in fields if each in target_win.schema]
+                                if propagation_fields:
+                                    target_win.set_key(*propagation_fields, propagation=propagation)
+                            else:
+                                _propagation_key(target_win)
+                        except KeyError:
+                            pass
+        if propagation:
+            _propagation_key(self)
 
     def _get_target_window(self, window):
         item = window
