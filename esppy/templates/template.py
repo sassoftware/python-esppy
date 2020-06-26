@@ -582,7 +582,6 @@ class Template(ESPObject, collections.MutableMapping):
         else:
             raise TypeError('Only CalculationWindow and ScoreWindow objects support the method')
 
-
     def add_target(self, obj, **kwargs):
         '''
         Add target for Template

@@ -321,7 +321,15 @@ class BaseWindow(ESPObject):
 
     @classmethod
     def all_windows_name(cls):
-        return [win.fullname for win in cls._all_windows]
+        '''
+        Return the name for all registered windows
+
+        Returns
+        -------
+        List
+
+        '''
+        return [win.name for win in cls._all_windows]
 
     def _register_to_project(self, project_handle=None):
         pass
@@ -1094,6 +1102,42 @@ class BaseWindow(ESPObject):
             gen.save(overwrite=overwrite)
         return gen
 
+    def add_schema_field(self, name, type, key=False):
+        '''
+        Add a schema field
+
+        Parameters
+        ----------
+        name : string
+            Name of the field
+        type : string
+            Data type of the field
+        key : bool, optional
+            Indicates whether or not the field is a key field
+
+        '''
+        return self._schema.add_field(name, type, key)
+
+    def delete_schema_field(self, *fields):
+        '''
+        Delete schema fields
+
+        Parameters
+        ----------
+        fields : string
+            Name of the fields
+        '''
+        for name in fields:
+            if name in self.copyvars:
+                self.copyvars.remove(name)
+            else:
+                try:
+                    del self._schema.fields[name]
+                except KeyError:
+                    raise Warning('Unknown schema field name: %s' % name)
+
+    delete_schema_fields = delete_schema_field
+
     def set_key(self, *fields, propagation=False):
         '''
         Set schema fields as key
@@ -1116,25 +1160,40 @@ class BaseWindow(ESPObject):
                     raise KeyError('Unknown schema field name: %s' % name)
 
         def _propagation_key(win):
-            if win.template and win.targets:
-                for target in win.targets:
-                    if target.role and target.role != 'data':
-                        continue
+            for target in win.targets:
+                found = False
+                if target.role and target.role != 'data':
+                    continue
+
+                for target_win in type(self)._all_windows:
+                    if target_win.name == target.name and win in target_win.parents:
+                        found = True
+                        break
+
+                if found:
+                    if SchemaFeature in inspect.getmro(type(target_win)):
+                        propagation_fields = [each for each in fields if each in target_win.schema]
+                        if propagation_fields:
+                            target_win.set_key(*propagation_fields, propagation=propagation)
                     else:
-                        try:
-                            target_win = win.template.windows[target.base_name]
-                            if SchemaFeature in inspect.getmro(type(target_win)):
-                                propagation_fields = [each for each in fields if each in target_win.schema]
-                                if propagation_fields:
-                                    target_win.set_key(*propagation_fields, propagation=propagation)
-                            else:
-                                _propagation_key(target_win)
-                        except KeyError:
-                            pass
+                        _propagation_key(target_win)
+
         if propagation:
             _propagation_key(self)
 
     def _get_target_window(self, window):
+        '''
+        Helper method to get target window object
+
+        Parameters
+        ----------
+        window : Window or window names
+            the window to search for
+
+        Returns
+        -------
+        :class:`Window`
+        '''
         item = window
         if isinstance(window, (BaseWindow, Window)):
             pass
