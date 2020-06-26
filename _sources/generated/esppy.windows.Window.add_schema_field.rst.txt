@@ -1,0 +1,6 @@
+esppy.windows.Window.add\_schema\_field
+=======================================
+
+.. currentmodule:: esppy.windows
+
+.. automethod:: Window.add_schema_field

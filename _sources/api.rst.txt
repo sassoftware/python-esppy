@@ -371,6 +371,8 @@ Project Construction
    Window.add_targets
    Window.delete_target
    Window.delete_targets
+   Window.add_schema_field
+   Window.delete_schema_field
    Window.set_key
    Window.set_finalized_callback
    Window.set_splitter_plugin
