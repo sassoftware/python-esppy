@@ -189,7 +189,10 @@ class WindowDict(collections.MutableMapping):
     def __delitem__(self, key):
         del self._data[key]
         for window in self._data.values():
-            window.delete_target(key)
+            try:
+                window.delete_target(key)
+            except ValueError:
+                pass
 
     def __iter__(self):
         return iter(self._data)

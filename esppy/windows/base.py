@@ -1202,7 +1202,7 @@ class BaseWindow(ESPObject):
             try:
                 item = self._all_windows[type(self).all_windows_name().index(window)]
             except ValueError:
-                ValueError("No such window found")
+                raise ValueError("No such window found")
 
         else:
             try:
