@@ -746,10 +746,12 @@ class BaseWindow(ESPObject):
             format = 'csv'
 
         elif isinstance(data, six.string_types):
-            if os.path.isfile(data):
-                data_file = open(data, 'r')
-                data = data_file.read()
-
+            try:
+                if os.path.isfile(data):
+                    data_file = open(data, 'r')
+                    data = data_file.read()
+            except:
+                pass
         elif hasattr(data, 'read'):
             data = data.read()
 
