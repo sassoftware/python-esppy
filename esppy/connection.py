@@ -816,8 +816,9 @@ class ESP(RESTHelpers):
             if name is None:
                 name = gen_name(prefix='p_')
 
-        if sys.platform != "win32":
-            data = data.encode("utf-8")
+        #if sys.platform != "win32":
+            #data = data.encode("utf-8")
+        data = data.encode("utf-8")
 
         self._put('projects/%s' % name,
                   params=get_params(overwrite=overwrite,

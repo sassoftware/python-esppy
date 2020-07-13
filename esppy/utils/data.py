@@ -26,6 +26,7 @@ import decimal
 import numpy as np
 import os
 import re
+import io
 import xml.etree.ElementTree as ET
 import six
 from six.moves import urllib
@@ -95,7 +96,7 @@ def get_project_data(project):
         if re.match(r'^\s*<', project):
             data = project
         elif os.path.isfile(project):
-            data = open(project, 'r').read()
+            data = io.open(project, mode="r",encoding="utf-8").read()
         else:
             data = urllib.request.urlopen(project).read().decode('utf-8')
     elif isinstance(project, ET.Element):
