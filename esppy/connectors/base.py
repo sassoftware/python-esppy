@@ -310,7 +310,7 @@ class ConnectorProperty(object):
         return valid
 
 
-class Connector(collections.MutableMapping):
+class Connector(collections.abc.MutableMapping):
     '''
     Window connector
 
@@ -417,7 +417,7 @@ class Connector(collections.MutableMapping):
                                                 'type': self.type})
 
         sorted_items = sorted([(k, v)for k, v in six.iteritems(self.properties)])
-        properties = collections.OrderedDict(sorted_items)
+        properties = collections.abc.OrderedDict(sorted_items)
 
         # Add defaults
         for key, value in six.iteritems(type(self).property_defs):

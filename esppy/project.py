@@ -42,7 +42,7 @@ from .utils.project import expand_path
 from .utils import xml
 
 
-class ContinuousQueryDict(collections.MutableMapping):
+class ContinuousQueryDict(collections.abc.MutableMapping):
     '''
     Dictionary for holding continuous query objects
 
@@ -63,7 +63,7 @@ class ContinuousQueryDict(collections.MutableMapping):
     '''
 
     def __init__(self, *args, **kwargs):
-        collections.MutableMapping.__init__(self, *args, **kwargs)
+        collections.abc.MutableMapping.__init__(self, *args, **kwargs)
         self._data = dict()
         self.project = None
         self.session = None
@@ -214,7 +214,7 @@ class Edge(object):
                                         target=','.join(self.target)))
 
 
-class Project(ESPObject, collections.MutableMapping):
+class Project(ESPObject, collections.abc.MutableMapping):
     '''
     ESP Project
 

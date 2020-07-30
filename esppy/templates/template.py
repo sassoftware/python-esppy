@@ -36,7 +36,7 @@ from ..utils.data import gen_name
 from ..utils.notebook import scale_svg
 
 
-class WindowDict(collections.MutableMapping):
+class WindowDict(collections.abc.MutableMapping):
     '''
     Dictionary for holding window objects
 
@@ -61,7 +61,7 @@ class WindowDict(collections.MutableMapping):
     '''
 
     def __init__(self, template, *args, **kwargs):
-        collections.MutableMapping.__init__(self, *args, **kwargs)
+        collections.abc.MutableMapping.__init__(self, *args, **kwargs)
         self._data = dict()
         self.template = template
         self.project = None
@@ -207,7 +207,7 @@ class WindowDict(collections.MutableMapping):
         return repr(self._data)
 
 
-class Template(ESPObject, collections.MutableMapping):
+class Template(ESPObject, collections.abc.MutableMapping):
     '''
     ESP Template
 
