@@ -893,6 +893,9 @@ class Project(ESPObject, collections.MutableMapping):
         out.session = self.session
         return out
 
+    def add_mas_module(self,module):
+        self.mas_modules.append(module)
+        
     def get_mas_modules(self, expandcode=False):
         '''
         Retrieve all MAS modules
