@@ -229,8 +229,8 @@ class EventGenerator(ESPObject):
         self.autogen_key = autogen_key
         self.publish_target = publish_target
         self.resources = Resources()
-        self.init = collections.abc.OrderedDict()
-        self.fields = collections.abc.OrderedDict()
+        self.init = collections.OrderedDict()
+        self.fields = collections.OrderedDict()
         self.exists_opcode = None
         self.event_data = data
 

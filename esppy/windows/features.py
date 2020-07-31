@@ -2756,8 +2756,8 @@ class FunctionContext(object):
     '''
 
     def __init__(self, expressions=None, functions=None):
-        self.expressions = collections.abc.OrderedDict(expressions or {})
-        self.functions = collections.abc.OrderedDict(functions or {})
+        self.expressions = collections.OrderedDict(expressions or {})
+        self.functions = collections.OrderedDict(functions or {})
         self.properties = FunctionContextProperties()
 
     def copy(self, deep=False):

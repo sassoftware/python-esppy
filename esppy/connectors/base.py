@@ -417,7 +417,7 @@ class Connector(collections.abc.MutableMapping):
                                                 'type': self.type})
 
         sorted_items = sorted([(k, v)for k, v in six.iteritems(self.properties)])
-        properties = collections.abc.OrderedDict(sorted_items)
+        properties = collections.OrderedDict(sorted_items)
 
         # Add defaults
         for key, value in six.iteritems(type(self).property_defs):
