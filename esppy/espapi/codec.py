@@ -1,3 +1,5 @@
+from base64 import b64encode
+
 import logging
 import struct
 import sys
@@ -202,7 +204,7 @@ class JsonDecoder(object):
                     print("index: " + str(self._index) + " get blob of " + str(length) + " bytes")
 
                 value = self._data[self._index:self._index + length]
-                #value = b64encode(value).decode("utf-8")
+                value = b64encode(value).decode("utf-8")
                 self._index += length
         elif type == 'l':
             value = self.getI32()

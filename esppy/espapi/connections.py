@@ -349,7 +349,7 @@ class ServerConnection(Connection):
         url += self.getHost()
         url += ":"
         url += self.getPort()
-        url += "/eventStreamProcessing/v2/connect"
+        url += "/eventStreamProcessing/v1/connect"
         return(url)
 
     def getEventCollection(self,path,**kwargs):
@@ -1316,10 +1316,10 @@ class EventStream(Datasource):
         if "entries" in data == False:
             return
 
-        entries = data["entries"]
         events = []
 
-        if entries != None:
+        if "entries" in data:
+            entries = data["entries"]
             ignoreDeletes = self.getOpt("ignore_deletes",False)
 
             for e in entries:

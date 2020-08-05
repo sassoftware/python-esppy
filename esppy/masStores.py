@@ -23,6 +23,7 @@ class MasStores(object):
     def __init__(self,esppy):
         self._url = esppy.url
         self._session = esppy.session
+        self._stores = {}
         self.load()
 
     def load(self):
@@ -30,15 +31,27 @@ class MasStores(object):
 
         xml = ET.fromstring(response.text)
 
-        self._stores = {}
-
         stores = xml.findall(".//mas-store")
+
+        names = []
 
         for s in stores:
             name = s.attrib["name"]
-            store = MasStore(name,self)
-            self._stores[name] = store
-            store.set(s)
+            names.append(name)
+
+            if (name in self._stores) == False:
+                self._stores[name] = MasStore(name,self)
+
+            self._stores[name].set(s)
+
+        remove = []
+
+        for store in self._stores.keys():
+            if (store in names) == False:
+                remove.append(store)
+
+        for store in remove:
+            del self._stores[store]
 
     def getStores(self):
         return(self._stores)
@@ -103,6 +116,13 @@ class MasStore(object):
             response = self.setObject(name,contents,version)
         return(response)
 
+    def delete(self):
+        url = self._stores._url + "masStores/" + self._name
+        print("URL: " + url)
+        response = self._stores._session.delete(url)
+        self._stores.load()
+        return(response.status_code)
+
     def __str__(self):
         s = ""
         s += self._name
@@ -158,6 +178,7 @@ class MasStoreObject(object):
     def delete(self):
         url = self._version._store._stores._url + "masStoreObjects/" + self._version._store._name + "/" + self._name + "/" + self._version._number
         response = self._version._store._stores._session.delete(url)
+        self._version._store._stores.load()
         return(response.status_code)
 
     @property
