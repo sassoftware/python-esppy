@@ -31,7 +31,7 @@ def get_file(fname):
 
 setup(
     name='sas-esppy',
-    version='6.2.1',
+    version='6.2.2',
     description='SAS Event Stream Processing Python Interface',
     long_description=get_file('README.md'),
     long_description_content_type='text/markdown',
