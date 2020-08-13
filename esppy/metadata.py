@@ -29,7 +29,7 @@ from six.moves import urllib
 from .base import RESTHelpers
 
 
-class Metadata(collections.MutableMapping, RESTHelpers):
+class Metadata(collections.abc.MutableMapping, RESTHelpers):
     '''
     Base class for metadata dictionaries
 

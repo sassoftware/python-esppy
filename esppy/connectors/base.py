@@ -310,7 +310,7 @@ class ConnectorProperty(object):
         return valid
 
 
-class Connector(collections.MutableMapping):
+class Connector(collections.abc.MutableMapping):
     '''
     Window connector
 

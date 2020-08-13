@@ -154,7 +154,7 @@ def param_iter(params):
     while True:
         if not params:
             yield {}
-        elif isinstance(params, collections.Mapping):
+        elif isinstance(params, collections.abc.Mapping):
             keys, values = zip(*params.items())
             values = list(values)
             n_items = 1
@@ -163,7 +163,7 @@ def param_iter(params):
                     n_items = max(n_items, len(val))
             for i, val in enumerate(values):
                 if isinstance(val, six.string_types) or \
-                        not isinstance(val, collections.Sequence):
+                        not isinstance(val, collections.abc.Sequence):
                     values[i] = [val] * n_items
             for i in range(n_items):
                 out = {}

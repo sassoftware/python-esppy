@@ -93,7 +93,7 @@ def get_map_delimiters(value):
     return inner, outer
 
 
-class Resources(collections.MutableMapping):
+class Resources(collections.abc.MutableMapping):
     ''' Event Generator Resource Manager '''
 
     def __init__(self):
@@ -105,7 +105,7 @@ class Resources(collections.MutableMapping):
     def __setitem__(self, key, value):
         if isinstance(value, (MapURL, ListURL, SetURL)):
             self._data[key] = value
-        elif isinstance(value, (dict, collections.MutableMapping)):
+        elif isinstance(value, (dict, collections.abc.MutableMapping)):
             self._data[key] = dict(value)
         elif isinstance(value, (list, tuple)):
             self._data[key] = list(value)
@@ -281,7 +281,7 @@ class EventGenerator(ESPObject):
 
         '''
         for key, value in six.iteritems(kwargs):
-            if not isinstance(value, (dict, collections.MutableMapping)):
+            if not isinstance(value, (dict, collections.abc.MutableMapping)):
                 raise TypeError('Map resources must be a dictionary')
             self.resources[key] = dict(value)
 

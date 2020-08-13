@@ -40,7 +40,7 @@ from .utils.notebook import scale_svg
 from .utils.project import expand_path
 
 
-class WindowDict(collections.MutableMapping):
+class WindowDict(collections.abc.MutableMapping):
     '''
     Dictionary for holding window objects
 
@@ -63,7 +63,7 @@ class WindowDict(collections.MutableMapping):
     '''
 
     def __init__(self, *args, **kwargs):
-        collections.MutableMapping.__init__(self, *args, **kwargs)
+        collections.abc.MutableMapping.__init__(self, *args, **kwargs)
         self._data = dict()
         self.project = None
         self.project_handle = None
@@ -212,7 +212,7 @@ class TemplateDict(WindowDict):
         del self._data[key]
 
 
-class ContinuousQuery(ESPObject, collections.MutableMapping):
+class ContinuousQuery(ESPObject, collections.abc.MutableMapping):
     '''
     Continuous Query
 

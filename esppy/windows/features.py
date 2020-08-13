@@ -579,6 +579,8 @@ class Model(object):
 
     Parameters
     ----------
+    parameters : dict, optional
+        Parameters
     input_map : dict, optional
         Input mappings
     output_map : dict, optional
@@ -590,7 +592,8 @@ class Model(object):
 
     '''
 
-    def __init__(self, input_map=None, output_map=None):
+    def __init__(self, parameters=None, input_map=None, output_map=None):
+        self.parameters = dict(parameters or {})
         self.input_map = dict(input_map or {})
         self.output_map = dict(output_map or {})
 
@@ -630,6 +633,8 @@ class OnlineModel(Model):
     ----------
     algorithm : string
         The name of the algorithm
+    parameters : dict, optional
+        Parameters
     input_map : dict, optional
         Input mappings
     output_map : dict, optional
@@ -641,16 +646,20 @@ class OnlineModel(Model):
 
     '''
 
-    def __init__(self, algorithm, input_map=None, output_map=None):
-        Model.__init__(self, input_map=input_map, output_map=output_map)
+    def __init__(self, algorithm, parameters=None, input_map=None, output_map=None):
+        Model.__init__(self, parameters=parameters, input_map=input_map, output_map=output_map)
         self.algorithm = algorithm
 
     def copy(self, deep=False):
-        return type(self)(self.algorithm, input_map=self.input_map,
+        return type(self)(self.algorithm, 
+                          parameters=self.parameters,
+                          input_map=self.input_map,
                           output_map=self.output_map)
 
     def __str__(self):
         maps = []
+        if self.parameters:
+            maps.append('parameters=%s' % self.parameters)
         if self.input_map:
             maps.append('input_map=%s' % self.input_map)
         if self.output_map:
@@ -681,6 +690,8 @@ class OnlineModel(Model):
 
         out = cls(data.attrib['algorithm'])
 
+        for prop in data.findall('./parameters/properties/property'):
+            out.parameters[prop.attrib['name']] = prop.text
         for prop in data.findall('./input-map/properties/property'):
             out.input_map[prop.attrib['name']] = prop.text
         for prop in data.findall('./output-map/properties/property'):
@@ -700,6 +711,10 @@ class OnlineModel(Model):
 
         '''
         out = xml.new_elem('online', attrib=dict(algorithm=self.algorithm))
+
+        if self.parameters != None and len(self.parameters) > 0:
+            parms = xml.add_elem(out,'parameters')
+            xml.add_properties(parms, self.parameters, verbatim=True, bool_as_int=True)
 
         if self.input_map:
             imap = xml.add_elem(out, 'input-map')
@@ -736,6 +751,8 @@ class OfflineModel(Model):
     ----------
     model_type : string, optional
         Model type
+    parameters : dict, optional
+        Parameters
     input_map : dict, optional
         Input mappings
     output_map : dict, optional
@@ -747,17 +764,20 @@ class OfflineModel(Model):
 
     '''
 
-    def __init__(self, model_type='astore', input_map=None, output_map=None):
-        Model.__init__(self, input_map=input_map, output_map=output_map)
+    def __init__(self, model_type='astore', parameters=None, input_map=None, output_map=None):
+        Model.__init__(self, parameters=parameters, input_map=input_map, output_map=output_map)
         self.model_type = model_type
 
     def copy(self, deep=False):
         return type(self)(model_type=self.model_type,
+                          parameters=self.parameters,
                           input_map=self.input_map,
                           output_map=self.output_map)
 
     def __str__(self):
         maps = []
+        if self.parameters:
+            maps.append('parameters=%s' % self.parameters)
         if self.input_map:
             maps.append('input_map=%s' % self.input_map)
         if self.output_map:
@@ -787,6 +807,8 @@ class OfflineModel(Model):
 
         out = cls(model_type=data.attrib['model-type'])
 
+        for prop in data.findall('./parameters/properties/property'):
+            out.parameters[prop.attrib['name']] = prop.text
         for prop in data.findall('./input-map/properties/property'):
             out.input_map[prop.attrib['name']] = prop.text
         for prop in data.findall('./output-map/properties/property'):
@@ -806,6 +828,10 @@ class OfflineModel(Model):
 
         '''
         out = xml.new_elem('offline', attrib=dict(model_type=self.model_type))
+
+        if self.parameters != None and len(self.parameters) > 0:
+            parms = xml.add_elem(out,'parameters')
+            xml.add_properties(parms, self.parameters, verbatim=True, bool_as_int=True)
 
         if self.input_map:
             imap = xml.add_elem(out, 'input-map')
@@ -2209,7 +2235,7 @@ class ModelsFeature(WindowFeature):
                 item.input_map.update(kwargs)
                 return
 
-    def add_online_model(self, algorithm, input_map=None, output_map=None):
+    def add_online_model(self, algorithm, parameters=None,input_map=None, output_map=None):
         '''
         Online model
 
@@ -2217,6 +2243,8 @@ class ModelsFeature(WindowFeature):
         ----------
         algorithm : string
             The name of the algorithm
+        parameters : dict, optional
+            Parameters
         input_map : dict, optional
             Input mappings
         output_map : dict, optional
@@ -2224,11 +2252,11 @@ class ModelsFeature(WindowFeature):
 
         '''
         self.online_models.append(OnlineModel(algorithm,
+                                              parameters=parameters,
                                               input_map=input_map,
                                               output_map=output_map))
 
-    def add_offline_model(self, model_type='astore',
-                          input_map=None, output_map=None):
+    def add_offline_model(self, model_type='astore', parameters=None, input_map=None, output_map=None):
         '''
         Offline model
 
@@ -2243,8 +2271,10 @@ class ModelsFeature(WindowFeature):
 
         '''
         # Only allow one
+        print("PARMS: " + str(parameters))
         self.offline_models[:] = []
         self.offline_models.append(OfflineModel(model_type=model_type,
+                                                parameters=parameters,
                                                 input_map=input_map,
                                                 output_map=output_map))
 

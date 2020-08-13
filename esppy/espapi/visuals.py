@@ -751,34 +751,31 @@ class Table(Chart):
             content += ">"
             for f in fields:
                 name = f["name"]
-                value = o[name]
+                imagedata = o[name]
                 if f["type"] == "blob":
-                    if value.find(Visuals._dataHeader) == 0:
-                        s = value[len(Visuals._dataHeader):]
-                        index = s.find(":")
-                        format = s[0:index]
-                        s = s[index + 1:]
-                        #value = "<div style='width:" + str(self.getOpt("image_width",400)) + "px;height:" + str(self.getOpt("image_height",400)) + "px;position:relative;margin:auto'>"
-                        #value = "<div style='width:" + str(self.getOpt("image_width","80%")) + ";height:" + str(self.getOpt("image_height",400)) + "px;position:relative;margin:auto'>"
-                        value = "<div style='width:" + str(width) + "%;position:relative;margin:auto'>"
-                        value += "<img style='width:100%;height:100%' src='data:image/" + format + ";base64," + s + "'/>"
-                        if "_nObjects_" in o:
-                            numObjects = int(float(o["_nObjects_"]))
-                            for j in range(0,numObjects):
-                                s = "_Object" + str(j) + "_"
-                                text = o[s].strip()
-                                s = "_Object" + str(j) + "_x"
-                                x = int(float(o[s]) * 100)
-                                s = "_Object" + str(j) + "_y"
-                                y = int(float(o[s]) * 100)
-                                div = "<div style='position:absolute;left:" + str(x) + "%;top:" + str(y) + "%;"
-                                div += "color:" + self.getOpt("image_text_color","black") + ";"
-                                div += "'>"
-                                div += text
-                                div += "</div>"
-                                value += div
+                    format = "png" 
+                    if isinstance(imagedata,dict):
+                        format = imagedata["@type"]
+                        imagedata = imagedata["*value"]
+                    value = "<div style='width:" + str(width) + "%;position:relative;margin:auto'>"
+                    value += "<img style='width:100%;height:100%' src='data:image/" + format + ";base64," + imagedata + "'/>"
+                    if "_nObjects_" in o:
+                        numObjects = int(float(o["_nObjects_"]))
+                        for j in range(0,numObjects):
+                            s = "_Object" + str(j) + "_"
+                            text = o[s].strip()
+                            s = "_Object" + str(j) + "_x"
+                            x = int(float(o[s]) * 100)
+                            s = "_Object" + str(j) + "_y"
+                            y = int(float(o[s]) * 100)
+                            div = "<div style='position:absolute;left:" + str(x) + "%;top:" + str(y) + "%;"
+                            div += "color:" + self.getOpt("image_text_color","black") + ";"
+                            div += "'>"
+                            div += text
+                            div += "</div>"
+                            value += div
 
-                        value += "</div>"
+                    value += "</div>"
                 elif f["isTime"]:
                     num = int((int)(value) / 1000000)
                     date = datetime.datetime.fromtimestamp(num)
@@ -978,36 +975,34 @@ class ImageEntry(Options):
             field = self._images.getOpt("image")
 
             if field in self._data:
+
                 data = self._data[field]
 
-                #if data.find(Visuals._dataHeader) == 0:
-                if True:
-                    s = data[len(Visuals._dataHeader):]
-                    key = self._data["@key"]
-                    index = s.find(":")
-                    format = s[0:index]
-                    s = s[index + 1:]
+                format = "png" 
 
-                    html += "<div style='width:" + str(self._images.getOpt("image_width",400)) + "px;height:" + str(self._images.getOpt("image_height",400)) + "px;position:relative;margin:auto;border:" + self._images.getOpt("image_border","1px solid #000000") + "'>"
-                    #html += "<img style='width:100%;height:100%' src='data:image/" + format + ";base64," + s + "'/>"
-                    #html += "<img style='width:100%;height:100%' src='data:application/octet-stream;base64," + s + "'/>"
-                    html += "<img style='width:100%;height:100%' src='data:image/jpeg;base64," + data + "'/>"
+                if isinstance(data,dict):
+                    format = data["@type"]
+                    data = data["*value"]
 
-                    if self._images._detection:
-                    #if False:
-                        if "_nObjects_" in self._data:
-                            value = str(self._data["_nObjects_"])
-                            numObjects = int(float(value))
-                            for i in range(0,numObjects):
-                                s = "_Object" + str(i) + "_"
-                                text = self._data[s].strip()
-                                s = "_Object" + str(i) + "_x"
-                                x = int(float(self._data[s]) * 100)
-                                s = "_Object" + str(i) + "_y"
-                                y = int(float(self._data[s]) * 100)
-                                html += "<div style='position:absolute;zindex:1000;font-weight:normal;color:" + self._images.getOpt("label_color","white") + ";left:" + str(x) + "%;top:" + str(y) + "%;'>" + text + "</div>"
+                key = self._data["@key"]
 
-                    html += "</div>"
+                html += "<div style='width:" + str(self._images.getOpt("image_width",400)) + "px;height:" + str(self._images.getOpt("image_height",400)) + "px;position:relative;margin:auto;border:" + self._images.getOpt("image_border","1px solid #000000") + "'>"
+                html += "<img style='width:100%;height:100%' src='data:image/jpeg;base64," + data + "'/>"
+
+                if self._images._detection:
+                    if "_nObjects_" in self._data:
+                        value = str(self._data["_nObjects_"])
+                        numObjects = int(float(value))
+                        for i in range(0,numObjects):
+                            s = "_Object" + str(i) + "_"
+                            text = self._data[s].strip()
+                            s = "_Object" + str(i) + "_x"
+                            x = int(float(self._data[s]) * 100)
+                            s = "_Object" + str(i) + "_y"
+                            y = int(float(self._data[s]) * 100)
+                            html += "<div style='position:absolute;zindex:1000;font-weight:normal;color:" + self._images.getOpt("label_color","white") + ";left:" + str(x) + "%;top:" + str(y) + "%;'>" + text + "</div>"
+
+                html += "</div>"
 
             self._html = html
 

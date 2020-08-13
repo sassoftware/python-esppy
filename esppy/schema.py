@@ -44,7 +44,7 @@ def clean_dtype(value):
              .replace('array(int64)', 'array(i64)')
 
 
-class FieldDict(collections.MutableMapping):
+class FieldDict(collections.abc.MutableMapping):
     ''' Dictionary for holding schema fields '''
 
     def __init__(self):
@@ -259,7 +259,7 @@ class SchemaField(ESPObject):
         return str(self)
 
 
-class Schema(ESPObject, collections.MutableMapping):
+class Schema(ESPObject, collections.abc.MutableMapping):
     '''
     Schema definition
 
