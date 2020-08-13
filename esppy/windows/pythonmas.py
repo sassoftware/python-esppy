@@ -25,6 +25,7 @@ from .features import (ParametersFeature, SchemaFeature, InputMapFeature,
                        OutputMapFeature, MASMapFeature, ConnectorsFeature)
 from .calculate import CalculateWindow
 from .helpers import generators
+import six
 
 
 class PythonHelper(BaseWindow, SchemaFeature,
@@ -292,7 +293,7 @@ class TensorflowHelper(PythonHelper):
         PythonHelper.__init__(self, **get_args(locals()))
 
     def add_model_info(self, model_name, model_file, input_op, score_op,
-                       source, input_name='input', output_name='output'):
+                       source, input_name='input', output_name='output', reshape=None):
         """
         Add the information of a Tensorflow model
 
@@ -304,26 +305,33 @@ class TensorflowHelper(PythonHelper):
             the path to meta file that stores the graph structure.
             The checkpoint files should be within the same directory with the meta file.
             ESP server should be able to find the files.
-        input_op : string
-            Name of input operation
+        input_op : string or tuple of strings
+            Name of input operations
         score_op : string
             Name of scoring operation
         source : string
             Name of the source window
-        input_name : string
-            Name of input array (features).
+        input_name : string or tuple of strings
+            Names of input arrays (features).
             This name should match the schema of the source window
         output_name : string
             Name of output (predictions).
+        reshape : tuple of ints
+            Shape of the new array, e.g., ``(2, 3)``.
 
         Notes
         -----
-        The Tensorflow models are expoted in checkpoint files using tf.train.Saver class.
+        The Tensorflow models are exported in checkpoint files using tf.train.Saver class.
         The name of input and scoring operations should be specified when creating the model.
         """
         code_generator = generators.TF_generator(model_file, input_op, score_op,
-                                                 input_name, output_name)
-        code = code_generator.gen_wrap_str()
+                                                 input_name, output_name, reshape)
+        if isinstance(input_name + input_op, six.string_types):
+            code = code_generator.gen_wrap_str_singe_input()
+        elif len(input_name) == len(input_op):
+            code = code_generator.gen_wrap_str()
+        else:
+            raise ValueError("input_name and input_op does not match")
         mas_info = {'module_name': model_name,
                     'entry_func_name': 'tf_score', 'code': code, 'source': source}
         self.mas_info_list.append(mas_info)

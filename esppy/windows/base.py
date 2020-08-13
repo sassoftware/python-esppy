@@ -1249,8 +1249,9 @@ class BaseWindow(ESPObject):
         def _flatten_map(p):
             l = list(p.values()) if p else []
             flat_list = []
-            _ = [flat_list.extend(item) if isinstance(item, list)
+            _ = [flat_list.extend(item) if isinstance(item, (list, tuple))
                  else flat_list.append(re.sub(r'\[[^\]]+\]$', r'', item)) for item in l if item]
+            flat_list = [x.strip().split(':', 1)[0] for x in flat_list]
             return flat_list
 
         def _propagate_schema(*source_win, target_win):

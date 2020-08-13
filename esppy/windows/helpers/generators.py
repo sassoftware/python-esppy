@@ -141,15 +141,17 @@ class TF_generator(wrap_generator):
         the path to meta file that stores the graph structure.
         The checkpoint files should be within the same directory with the meta file.
         ESP server should be able to find the files.
-    input_op : string
-        Name of input operation
+    input_op : string or tuple of strings
+        Name of input operations
     score_op : string
         Name of scoring operation
-    input_name : string
-        Name of input array (features).
+    input_name : string or tuple of strings
+        Name of input arrays (features).
         This name should match the schema of the source window
     output_name : string
         Name of output (predictions).
+    reshape : tuple of ints
+        Shape of the new array, e.g., ``(2, 3)``.
 
     Notes
     -----
@@ -158,14 +160,86 @@ class TF_generator(wrap_generator):
     """
     type = 'tensorflow'
 
-    def __init__(self, meta_file, input_op, score_op, input_name='input', output_name='output'):
+    def __init__(self, meta_file, input_op, score_op, input_name='input', output_name='output', reshape=None):
         self.file = meta_file
         self.input_op = input_op
         self.score_op = score_op
         self.input_name = input_name
         self.output_name = output_name
+        self.reshape = reshape
 
     def gen_wrap_str(self):
+        dir_path = ntpath.dirname(self.file) + '/'
+        init_sess = '''
+sess = None\n'''
+
+        # create the signiture of the wrapper
+        signiture = "def tf_score(" + ",".join(self.input_name) + "):\n"
+
+        import_and_global = '''
+        "Output: {}"
+        import tensorflow as tf
+        import numpy as np
+        global sess
+        global score_op
+        global input_op_list\n'''.format(self.output_name)
+
+        restore_tf = '''
+        if sess is None:
+            sess=tf.Session()
+            #load meta graph and restore weights
+            saver = tf.train.import_meta_graph('{0}')
+            saver.restore(sess,tf.train.latest_checkpoint('{1}'))
+
+            graph = tf.get_default_graph()
+            input_op_list = []
+            # restore the ops. Both ops were pre-defined in the model.'''.format(self.file, dir_path)
+
+        for item in self.input_op:
+            restore_tf += '''
+            input_op_list.append(graph.get_tensor_by_name("''' + item + ''':0"))'''
+
+        restore_tf += '''
+            score_op = graph.get_tensor_by_name("''' + self.score_op \
+                      + ''':0")    #op to score the input\n'''
+
+        if self.reshape is not None:
+            restore_tf += '''
+        # Reshape data
+        ''' + self.input_name[0] + '''_wrap = np.reshape(''' + self.input_name[0] + ''', (''' + ",".join(
+                ['1'] + list(map(str, self.reshape))) + '''))'''
+
+            start_id = 1
+        else:
+            start_id = 0
+
+        for i in range(start_id, len(self.input_name)):
+            restore_tf += '''
+        ''' + self.input_name[i] + '''_wrap = np.array([''' + self.input_name[i] + '''])\n'''
+
+        restore_tf += '''
+        feed_dict = {'''
+        restore_tf += ",".join('''input_op_list[''' + str(i) + ''']:''' + self.input_name[i] + '''_wrap'''
+                               for i in range(len(self.input_name))) + '''}'''
+
+        # restore_tf += '''
+        # feed_dict = {input_op_list[0]:np.reshape(''' + self.input_name[0] + ''', (1, 4, 529)),'''
+        # restore_tf += ",".join('''input_op_list[''' + str(i) + ''']:np.array([''' + self.input_name[i] + '''])'''
+        #                        for i in range(1, len(self.input_name)))
+        # restore_tf += ''', input_op_list[-1]:1}'''
+
+        restore_tf += '''
+        {0} = sess.run(score_op, feed_dict=feed_dict)\n
+        if isinstance({0}, np.ndarray):
+            {0} = {0}.tolist()
+        else:
+            {0} = {0}.item()
+        return {0}'''.format(self.output_name)
+
+        wrap_str = init_sess + signiture + import_and_global + restore_tf
+        return wrap_str
+
+    def gen_wrap_str_singe_input(self):
         dir_path = ntpath.dirname(self.file) + '/'
         wrap_str = '''
 sess = None
