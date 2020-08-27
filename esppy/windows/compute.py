@@ -137,11 +137,12 @@ class ComputeWindow(Window, InitializeExpressionFeature, SchemaFeature):
 
     def copy(self, deep=False):
         out = Window.copy(self, deep=deep)
-        out.context_plugin = self.context_plugin.copy(deep=deep)
+        if self.context_plugin is not None:
+            out.context_plugin = self.context_plugin.copy(deep=deep)
         if deep:
-            out.field_expressions = [x.copy(deep=deep) for x in self.field_expressions]
+            out.field_expressions = [x for x in self.field_expressions]
             out.field_plugins = [x.copy(deep=deep) for x in self.field_plugins]
-        else: 
+        else:
             out.field_expressions = list(self.field_expressions)
             out.field_plugins = list(self.field_plugins)
         return out
