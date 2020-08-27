@@ -319,10 +319,18 @@ class ESP(RESTHelpers):
 
         u = urlparse(session.conn_url)
 
+        scheme = u.scheme.lower()
+
         s = u[1].split(":")
 
         self._hostname = s[0]
-        self._port = s[1]
+
+        if len(s) > 1:
+            self._port = s[1]
+        elif scheme == "https":
+            self._port = 443
+        else:
+            self._port = 80
 
         auth = Authorization.getInstance(session)
 
