@@ -389,9 +389,19 @@ class ESP(RESTHelpers):
 
         RESTHelpers.__init__(self, session=session)
 
-        if float(self.server_info['version']) < 5.2:
-            raise RuntimeError('This package requires an ESP server '
-                               'version 5.2 or greater')
+        version = self.server_info["version"]
+
+        rgx = re.compile(".*\(([0-9]\.[0-9])\)")
+
+        match = rgx.findall(version)
+
+        if len(match) == 1:
+            self._version = float(match[0])
+        else:
+            self._version = float(version)
+
+        if self._version < 5.2:
+            raise RuntimeError('This package requires an ESP server version 5.2 or greater')
 
         self._populate_algorithms()
 
