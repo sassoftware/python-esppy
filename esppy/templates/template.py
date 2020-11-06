@@ -358,6 +358,9 @@ class Template(ESPObject, collections.abc.MutableMapping):
         for window in value:
             self.add_input_windows(window)
 
+    def _register_to_project(self, project_handle=None):
+        pass
+
     def add_input_windows(self, *windows):
         '''
         Add input_windows
@@ -584,6 +587,27 @@ class Template(ESPObject, collections.abc.MutableMapping):
             return window.set_outputs(model, **output_map)
         else:
             raise TypeError('Only CalculationWindow and ScoreWindow objects support the method')
+
+    def set_mas_window_map(self, window, **mas_map):
+        '''
+        Set outputs
+
+        Parameters
+        ----------
+        window : Window, optional
+            The Window object to set mas_map, default value is None
+        **mas_map : keyword-arguments, optional
+            The parameters to set
+
+        '''
+        base_name = getattr(window, 'base_name', window)
+        try:
+            window = self.windows[base_name]
+        except KeyError:
+            raise ValueError('%s is not a one of Template %s' %
+                             (base_name, self.name))
+
+        return window.update_mas_window_map(old_key=None, **mas_map)
 
     def add_target(self, obj, **kwargs):
         '''
@@ -1044,26 +1068,6 @@ class Template(ESPObject, collections.abc.MutableMapping):
             self._delete(urllib.parse.urljoin(self.base_url,
                                               'projectMetadata/%s/%s/%s' %
                                               (self.project, self.name, key)))
-
-    def save_xml(self, dest, mode='w', pretty=True, **kwargs):
-        '''
-        Save the template XML to a file
-
-        Parameters
-        ----------
-        dest : string or file-like
-            The destination of the XML content
-        mode : string, optional
-            The write mode for the output file (only used if `dest` is a string)
-        pretty : boolean, optional
-            Should the XML include whitespace for readability or not, default value is True
-
-        '''
-        if isinstance(dest, six.string_types):
-            with open(dest, mode=mode, **kwargs) as output:
-                output.write(self.to_xml(pretty=pretty))
-        else:
-            dest.write(self.to_xml(pretty=pretty))
 
     def to_graph(self, graph=None, schema=False, detail=False):
         '''

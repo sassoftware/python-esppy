@@ -22,6 +22,7 @@ import collections
 import copy
 import re
 import six
+import inspect
 from .utils import ensure_element
 from ..connectors import Connector
 from ..connectors.base import get_connector_class
@@ -2147,6 +2148,29 @@ class MASMapFeature(WindowFeature):
                          if x is not None])
         self.mas_map[name] = MASWindowMap(module, source, revision=revision,
                                           function=function)
+
+    def update_mas_window_map(self, old_key=None, **kwargs):
+        '''
+        Update MAS Window Map
+
+        Parameters
+        ----------
+        old_key : string
+            The key for mas_map dictionary to update
+        '''
+
+        if old_key is None:
+            old_key = next(iter(self.mas_map))
+
+        old_mas_module = self.mas_map[old_key]
+
+        new_kwargs = {}
+        for field in inspect.getfullargspec(MASWindowMap.__init__).args[1:]:
+            new_kwargs[field] = kwargs.get(field) or old_mas_module.__dict__[field]
+
+        self.add_mas_window_map(new_kwargs['module'], new_kwargs['source'],
+                                new_kwargs['revision'], new_kwargs['function'])
+        del self.mas_map[old_key]
 
 
 class ModelsFeature(WindowFeature):

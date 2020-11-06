@@ -1,0 +1,51 @@
+
+<template tag="ScoreTextConcept" input-windows="Score_Concepts" output-windows="Score_Concepts"> 
+    <description>The ScoreTextConcept Template.</description> 
+
+    <windows>
+
+        <window-model-reader name='Load_Concept_Model' model-type='astore'>
+            <parameters>
+                <properties>
+                    <property name='reference'>/u/xixche/2020_sgf_demo/ConceptsModel.astore</property>
+                    <property name='extend_out_char_var_bytes'>1024</property>
+                </properties>
+            </parameters>
+        </window-model-reader>
+
+        <window-score name='Score_Concepts'>
+            <schema>
+                <fields>
+                    <field name='sessionID'       type='string'    key='true'/>
+                    <field name='_table_id_'      type='int64'     key='true'/>
+                    <field name='_row_id_'        type='int64'     key='true'/>
+                    <field name='_sentence_'      type='string'/>
+                    <field name='_start_'         type='double'/>
+                    <field name='_end_'           type='double'/>
+                    <field name='_match_text_'    type='string'/>
+                    <field name='_concept_'       type='string'/>
+                </fields>
+            </schema>
+            <models>
+                <offline model-type='astore'>
+                    <input-map>
+                        <properties>
+                            <property name="text">sessionText</property>
+                        </properties>
+                    </input-map>
+                </offline>
+            </models>
+        </window-score>
+    </windows>
+
+    <edges>
+        <edge source='Load_Concept_Model'          target='Score_Concepts'            role='model'/>
+    </edges>
+
+    <required-parameter-map>
+        <properties>
+            <property name="conceptASTORE">Load_Concept_Model.reference</property>
+    </properties>
+  </required-parameter-map>
+
+</template>
