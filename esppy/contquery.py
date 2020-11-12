@@ -25,12 +25,14 @@ import os
 import re
 import requests
 import six
+import inspect
 import xml.etree.ElementTree as ET
 from six.moves import urllib
 from .base import ESPObject, attribute
 from .config import get_option
 from .metadata import Metadata
 from .windows import BaseWindow, get_window_class
+from .windows.features import MASMapFeature
 from .templates.template import Template
 from .utils import xml
 from .utils.rest import get_params
@@ -364,6 +366,34 @@ class ContinuousQuery(ESPObject, collections.abc.MutableMapping):
             self.add_window(item)
         return windows
 
+    @staticmethod
+    def update_template_mas_source(template, window):
+        '''
+        Update MAS source for a window when its template is added to a contquery
+
+        Parameters
+        ----------
+        template : Template
+        a Template object
+        window: Window
+        The window needs to update its MAS source info
+        '''
+
+        if MASMapFeature not in inspect.getmro(type(window)):
+            return
+        elif not len(window.mas_map):
+            return
+        else:
+            field = 'source'
+            print("INFO: Update MAS source for", window.name)
+            for key_string, window_map in window.mas_map.items():
+                old_source = window_map.__dict__[field]
+                try:
+                    new_source = template.windows[old_source].name
+                    window.update_mas_window_map(key=key_string, **{field: new_source})
+                except KeyError:
+                    pass
+
     def add_template(self, template):
         '''
         Add a template object
@@ -384,6 +414,7 @@ class ContinuousQuery(ESPObject, collections.abc.MutableMapping):
         self.templates[template.name] = template
 
         for key, window in sorted(six.iteritems(template.windows)):
+            self.update_template_mas_source(template, window)
             self.add_window(window)
         return template
 

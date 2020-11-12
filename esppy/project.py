@@ -893,7 +893,7 @@ class Project(ESPObject, collections.abc.MutableMapping):
         out.session = self.session
         return out
 
-    def add_mas_module(self,module):
+    def add_mas_module(self, module):
         self.mas_modules.append(module)
         
     def get_mas_modules(self, expandcode=False):
@@ -1062,9 +1062,24 @@ class Project(ESPObject, collections.abc.MutableMapping):
             self.queries[contquery] = ContinuousQuery()
             self.queries[self.default_query].windows.project_handle = self
 
+        self.add_template_mas_module(template)
         self.queries[contquery].add_template(template)
 
         return template
+
+    def add_template_mas_module(self, template):
+        '''
+        Add mas modules from a Template object
+
+        Parameters
+        ----------
+        template : Template
+        a Template object containing mas modules to be added to the project
+        '''
+
+        for template_mas_module in template.mas_modules:
+            if template_mas_module.module not in [mas_obj.module for mas_obj in self.mas_modules]:
+                self.add_mas_module(template_mas_module)
 
     def add_templates(self, *templates):
         '''

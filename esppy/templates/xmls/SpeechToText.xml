@@ -1,0 +1,190 @@
+
+<template tag="SpeechToText" input-windows="Preprocess_Audio" output-windows="Postprocess_Text"> 
+    <description>The SpeechtoText Template.</description> 
+    <mas-modules>
+        <mas-module language='python' module='module_preprocess' func-names='segmentAudio'>
+            <code-file>/bigdisk/lax/xixche/2020_sgf_demo/preprocess.py</code-file>
+        </mas-module>
+        <mas-module language='python' module='module_postprocess' func-names='concatenateText'>
+            <code-file>/bigdisk/lax/xixche/2020_sgf_demo/postprocess.py</code-file>
+        </mas-module>
+    </mas-modules>
+
+    <windows>
+        <window-calculate name='Preprocess_Audio' algorithm='MAS' output-insert-only='true' produces-only-inserts='true' index='pi_EMPTY'>
+            <schema>
+                <fields>
+                    <field name='segmentID'    type='string' key='true'/>
+                    <field name='segmentAudio' type='blob'/>
+                </fields>
+            </schema>
+            <mas-map>
+                <window-map module='module_preprocess' revision='0' source='Audio_Input' function='segmentAudio'/>
+            </mas-map>
+        </window-calculate>
+
+        <window-calculate name='Extract_Acoustic_Features' algorithm='AudioFeatureComputation' output-insert-only='true' produces-only-inserts='true' index='pi_EMPTY'>
+            <schema>
+                <fields>
+                    <field name='segmentID'        type='string'     key='true'/>
+                    <field name='_num_frames_'     type='int64'/>
+                    <field name='acousticFeatures' type='array(dbl)'/>
+                </fields>
+            </schema>
+            <parameters>
+                <properties>
+                    <property name='frameExtractionDither'>0</property>
+                    <property name='melBanksNBins'>40</property>
+                    <property name='computeMfccFeatures'>1</property>
+                    <property name='mfccNCeps'>40</property>
+                    <property name='featureScalingMethod'>STANDARDIZATION</property>
+                    <property name='nOutputFrames'>3500</property>
+                </properties>
+            </parameters>
+            <input-map>
+                <properties>
+                    <property name='audioIn'>segmentAudio</property>
+                </properties>
+            </input-map>
+            <output-map>
+                <properties>
+                    <property name='numFramesOut'>_num_frames_</property>
+                    <property name='computedFeatureValuesOut'>acousticFeatures</property>
+                </properties>
+            </output-map>
+        </window-calculate>
+
+        <!--
+        <window-source name='Request_Load_Acoustic_Model' insert-only='true' index='pi_EMPTY'>
+            <schema>
+                <fields>
+                    <field name='req_id'  type='int64'  key='true'/>
+                    <field name='req_key' type='string'/>
+                    <field name='req_val' type='string'/>
+                </fields>
+            </schema>
+            <connectors>
+                <connector class='fs' name='pub'>
+                    <properties>
+                        <property name='type'>pub</property>
+                        <property name='fstype'>csv</property>
+                        <property name='fsname'>request_gpu.csv</property>
+                        <property name='transactional'>true</property>
+                        <property name='blocksize'>1</property>
+                    </properties>
+                </connector>
+            </connectors>
+        </window-source>
+
+        <window-model-reader name='Load_Acoustic_Model' model-type='astore'/> -->
+        <window-model-reader name='Load_Acoustic_Model' model-type='astore'>
+            <parameters>
+                <properties>
+                    <property name="reference">/bigdisk/lax/xixche/2020_sgf_demo/sgf_acoustic_model.astore</property>
+                    <property name="usegpuesp">1</property>
+                    <property name="NDEVICES">1</property>
+                    <property name="DEVICE0">2</property>
+                </properties>
+            </parameters>
+        </window-model-reader>
+
+        <window-score name='Score_Features'>
+            <schema>
+                <fields>
+                    <field name='segmentID' type='string'     key='true'/>
+                    <field name='rnnScores' type='array(dbl)'/>
+                </fields>
+            </schema>
+            <models>
+                <offline model-type='astore'>
+                    <input-map>
+                        <properties>
+                            <property name='inputDblArray'>acousticFeatures</property>
+                        </properties>
+                    </input-map>
+                    <output-map>
+                        <properties>
+                            <property name='outputDblArray'>rnnScores</property>
+                        </properties>
+                    </output-map>
+                </offline>
+            </models>
+        </window-score>
+
+        <window-calculate name='Decode_Scores' algorithm='Transcription' output-insert-only='true' produces-only-inserts='true' index='pi_EMPTY'>
+            <schema>
+                <fields>
+                    <field name='segmentID'   type='string' key='true'/>
+                    <field name='segmentText' type='string'/>
+                </fields>
+            </schema>
+            <parameters>
+                <properties>
+                    <property name='langModelPath'>/bigdisk/lax/xixche/2020_sgf_demo/sgf_language_model.csv</property>
+                    <property name='columnMapPath'>/bigdisk/lax/xixche/2020_sgf_demo/sgf_column_map.csv</property>
+                    <property name='blankLabel'>&#x20;</property>
+                    <property name='spaceLabel'>&amp;</property>
+                    <property name='nFrames'>3500</property>
+                    <property name='alpha'>1</property>
+                    <property name='beta'>0</property>
+                    <property name='maxPathSize'>300</property>
+                </properties>
+            </parameters>
+            <input-map>
+                <properties>
+                    <property name='inputs'>rnnScores</property>
+                </properties>
+            </input-map>
+            <output-map>
+                <properties>
+                    <property name='transOut'>segmentText</property>
+                </properties>
+            </output-map>
+        </window-calculate>
+
+        <window-calculate name='Postprocess_Text' algorithm='MAS' output-insert-only='true' produces-only-inserts='true' index='pi_EMPTY'>
+            <schema>
+                <fields>
+                    <field name='sessionID'   type='string' key='true'/>
+                    <field name='sessionText' type='string'/>
+                </fields>
+            </schema>
+            <mas-map>
+                <window-map module='module_postprocess' revision='0' source='Decode_Scores' function='concatenateText'/>
+            </mas-map>
+        </window-calculate>
+
+
+    </windows>
+
+    <edges>
+        <!-- <edge source='Audio_Input'                 target='Preprocess_Audio'          role='data'/> -->
+        <edge source='Preprocess_Audio'            target='Extract_Acoustic_Features' role='data'/>
+        <!-- <edge source='Request_Load_Acoustic_Model' target='Load_Acoustic_Model'       role='request'/> -->
+        <edge source='Load_Acoustic_Model'         target='Score_Features'            role='model'/>
+        <edge source='Extract_Acoustic_Features'   target='Score_Features'            role='data'/>
+        <edge source='Score_Features'              target='Decode_Scores'             role='data'/>
+        <edge source='Decode_Scores'               target='Postprocess_Text'          role='data'/>
+        <!-- <edge source='Load_Topic_Model'            target='Score_Topics'              role='model'/> -->
+        <!-- <edge source='Postprocess_Text'            target='Score_Topics'              role='data'/> -->
+        <!-- <edge source='Load_Concept_Model'          target='Score_Concepts'            role='model'/>-->
+        <!-- <edge source='Postprocess_Text'            target='Score_Concepts'            role='data'/>-->
+    </edges>
+
+    <required-parameter-map>
+        <properties>
+            <property name='frameExtractionDither'>Extract_Acoustic_Features.frameExtractionDither</property>
+            <property name='melBanksNBins'>Extract_Acoustic_Features.melBanksNBins</property>
+            <property name='computeMfccFeatures'>Extract_Acoustic_Features.computeMfccFeatures</property>
+            <property name='mfccNCeps'>Extract_Acoustic_Features.mfccNCeps</property>
+            <property name='featureScalingMethod'>Extract_Acoustic_Features.featureScalingMethod</property>
+            <property name='nOutputFrames'>Extract_Acoustic_Features.nOutputFrames</property>
+            <property name="acousticASTORE">Load_Acoustic_Model.reference</property>
+            <property name='preprocessMAS'>Preprocess_Audio.mas_map</property>
+            <property name='postprocessMAS'>Postprocess_Text.mas_map</property>
+            <property name='langModelPath'>Decode_Scores.langModelPath</property>
+            <property name='columnMapPath'>Decode_Scores.columnMapPath</property>
+    </properties>
+  </required-parameter-map>
+
+</template>

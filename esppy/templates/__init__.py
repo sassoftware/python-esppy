@@ -42,6 +42,8 @@ def builtin_template_helper(cls, template_name, file_name,  **kwargs):
                 out.set_inputs(window, model, **value)
             elif actual_key == 'output_map':
                 out.set_outputs(window, model, **value)
+            elif actual_key == 'mas_map':
+                out.set_mas_window_map(window, **value)
             else:
                 out.set_parameters(window, **dict({actual_key: value}))
 
@@ -54,6 +56,7 @@ def template_info_helper(data):
             data = open(data, 'r').read()
         data = xml.from_xml(data)
 
+    description = None
     for desc in data.findall('./description'):
         description = desc.text
 
