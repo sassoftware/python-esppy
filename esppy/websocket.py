@@ -18,30 +18,13 @@
 
 ''' ESP Websocket Client '''
 
-from __future__ import print_function, division, absolute_import, unicode_literals
-
-import collections
-import os
-import re
+import threading
+import websocket
 import requests
-import warnings
-import six
-try:
-    import wsaccel
-except ImportError:
-    wsaccel = None
-from six.moves import urllib
-from ws4py.client.threadedclient import WebSocketClient as WS4PyWebSocketClient
-from ws4py.messaging import BinaryMessage
+import logging
+import ssl
 
-try:
-    if wsaccel is not None:
-        wsaccel.patch_ws4py()
-except Exception as exc:
-    warnings.warn('Could not import wsaccel: %s' % exc, RuntimeWarning)
-
-
-class WebSocketClient(WS4PyWebSocketClient):
+class WebSocketClient(object):
     '''
     Websocket Client
 
@@ -68,28 +51,75 @@ class WebSocketClient(WS4PyWebSocketClient):
 
     '''
 
-    def __init__(self, url, on_open=None, on_close=None, on_message=None, on_data=None,
+    def __init__(self, url, session, on_open=None, on_close=None, on_message=None, on_data=None,
                  on_error=None, **kwargs):
         self.callbacks = dict(on_open=on_open, on_close=on_close,
                               on_message=on_message, on_data=on_data, on_error=on_error)
-        WS4PyWebSocketClient.__init__(self, url, **kwargs)
+        self._url = url
+        self._session = session
+        self._websocket = None
 
-    def received_message(self, message):
-        '''
-        Handle a message from the server
+    def connect(self):
+        if self._websocket != None:
+            self._websocket.close()
 
-        Parameters
-        ----------
-        message : string
-            The data from the server
-
-        '''
-        if isinstance(message,BinaryMessage):
-            if self.callbacks.get('on_data'):
-                return self.callbacks['on_data'](self, message.data)
+        if self._session.verify:
+            self._websocket = websocket.WebSocket()
         else:
-            if self.callbacks.get('on_message'):
-                return self.callbacks['on_message'](self, message.data.decode(message.encoding))
+            self._websocket = websocket.WebSocket(sslopt={"cert_reqs":ssl.CERT_NONE})
+
+        self._websocket.connect(self._url)
+
+        if self.callbacks.get("on_open"):
+            self.callbacks["on_open"](self)
+
+        self.start()
+
+    def start(self):
+        thread = threading.Thread(target = self.run)
+        thread.daemon = True
+        thread.start()
+
+    def close(self):
+        if self._websocket != None:
+            self._websocket.close()
+            self._websocket = None
+
+    def send(self,data):
+        if self._websocket != None:
+            self._websocket.send(data)
+
+    def runx(self):
+        while True:
+            opcode, frame = self._websocket.recv_data_frame()
+
+            if opcode == websocket.ABNF.OPCODE_BINARY:
+                if self.callbacks.get("on_data"):
+                    self.callbacks["on_data"](self,frame.data)
+            if opcode == websocket.ABNF.OPCODE_TEXT:
+                if self.callbacks.get("on_message"):
+                    data = frame.data.decode("utf-8")
+                    self.callbacks["on_message"](self,data)
+
+    def run(self):
+        while True:
+            logging.info("websocket: " + str(self._websocket))
+            try:
+                opcode, frame = self._websocket.recv_data_frame()
+                logging.info("opcode: " + str(opcode))
+                logging.info("data: " + str(frame.data))
+
+                if opcode == websocket.ABNF.OPCODE_BINARY:
+                    if self.callbacks.get("on_data"):
+                        self.callbacks["on_data"](self,frame.data)
+                if opcode == websocket.ABNF.OPCODE_TEXT:
+                    if self.callbacks.get("on_message"):
+                        data = frame.data.decode("utf-8")
+                        self.callbacks["on_message"](self,data)
+            except Exception as e:
+                logging.info("got exception in ws")
+                logging.info(str(e))
+                break
 
     def unhandled_error(self, error):
         '''
@@ -103,11 +133,6 @@ class WebSocketClient(WS4PyWebSocketClient):
         '''
         if self.callbacks.get('on_error'):
             self.callbacks['on_error'](self, error)
-
-    def opened(self):
-        ''' Handle the opening of a web socket connection '''
-        if self.callbacks.get('on_open'):
-            self.callbacks['on_open'](self)
 
     def closed(self, code, reason=None):
         '''

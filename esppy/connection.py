@@ -23,6 +23,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import base64
 import collections
 import os
+import time
 import pandas as pd
 import re
 import requests
@@ -60,7 +61,7 @@ from .utils.project import expand_path
 from .websocket import WebSocketClient
 from .windows import BaseWindow, get_window_class
 from .espapi import api
-
+from .espapi import k8s
 
 class ProjectStats(object):
     '''
@@ -94,6 +95,8 @@ class ProjectStats(object):
             self.filter = "in(name,'%s')" % session.name
             self.session = session.session
         elif isinstance(session, ESPObject):
+            self.session = session.session
+        elif isinstance(session,RESTHelpers):
             self.session = session.session
         else:
             self.session = session
@@ -191,13 +194,8 @@ class ProjectStats(object):
         if get_option('debug.requests'):
             sys.stderr.write('WEBSOCKET %s\n' % self.url)
 
-        self._ws = WebSocketClient(self.url, on_message=on_message)
+        self._ws = WebSocketClient(self.url,self.session,on_message=on_message)
         self._ws.connect()
-
-        ws_thread = threading.Thread(name='%s-%s' % (id(self), self.url),
-                                     target=self._ws.run_forever)
-        ws_thread.daemon = True
-        ws_thread.start()
 
     def stop(self):
         ''' Stop processing events and close the web socket '''
@@ -294,6 +292,12 @@ class ESP(RESTHelpers):
         if protocol is None and get_option('protocol'):
             protocol = get_option('protocol')
 
+        self._k8s = None
+
+        if re.match('^k8s.*://', hostname):
+            self._k8s = k8s.create(hostname)
+            hostname = self._k8s.espUrl
+
         # Set default protocol
         if not protocol:
             if ca_bundle:
@@ -341,12 +345,16 @@ class ESP(RESTHelpers):
 
         # Set certificate verification
         if ca_bundle:
-            session.verify = ca_bundle
+            if ca_bundle == "_noverify_":
+                session.verify = False
+                from requests.packages.urllib3.exceptions import InsecureRequestWarning
+                requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+            else:
+                session.verify = ca_bundle
 
         # Use specified auth object
         if auth_obj is not None:
             session.auth = auth_obj
-
         else:
             enable_kerberos = username is None and password is None
 
@@ -423,7 +431,7 @@ class ESP(RESTHelpers):
         requests_log.propagate = True
 
     def createServerConnection(self,**kwargs):
-        return(api.connect(self.session,**kwargs))
+        return(api.connect(self.session,self._k8s,**kwargs))
 
     @property
     def authorization(self):
@@ -745,6 +753,8 @@ class ESP(RESTHelpers):
         ''' Create projects from XML content '''
         projects = dict()
         for item in data.findall('./project'):
+            if self._k8s != None:
+                item.set("name",self._k8s.project)
             proj = project.Project.from_xml(item, session=self.session)
             projects[proj.name] = proj
         return projects
@@ -824,7 +834,11 @@ class ESP(RESTHelpers):
             data = get_project_data(project)
             project_url = None
 
-        if name is None:
+        if self._k8s != None:
+            if isinstance(project,ESPObject):
+                project.name = self._k8s.project
+            name = self._k8s.project
+        elif name is None:
             if data:
                 proj = xml.from_xml(data)
                 if proj.tag == 'project':
@@ -834,17 +848,24 @@ class ESP(RESTHelpers):
             if name is None:
                 name = gen_name(prefix='p_')
 
-        #if sys.platform != "win32":
-            #data = data.encode("utf-8")
-        data = data.encode("utf-8")
-
-        self._put('projects/%s' % name,
-                  params=get_params(overwrite=overwrite,
-                                    connectors=start_connectors,
-                                    projectUrl=project_url,
-                                    start=start,
-                                    log=True),
-                  data=data)
+        if self._k8s != None:
+            if project_url != None:
+                response = requests.get(project_url)
+                data = response.text
+            proj = xml.from_xml(data)
+            if proj.tag != "project":
+                proj = proj.findall(".//project")[0]
+            data = ET.tostring(proj,method="xml").decode()
+            self._k8s.load(data,overwrite=overwrite)
+        else:
+            data = data.encode("utf-8")
+            self._put('projects/%s' % name,
+                      params=get_params(overwrite=overwrite,
+                                        connectors=start_connectors,
+                                        projectUrl=project_url,
+                                        start=start,
+                                        log=True),
+                      data=data)
 
         return self.get_project(name)
 

@@ -2,9 +2,9 @@ import esppy.espapi.connections as connections
 import esppy.espapi.codec as codec
 import esppy.espapi.tools as tools
 
-def connect(session,delegate = None,**kwargs):
+def connect(session,k8s,delegate = None,**kwargs):
 
-    conn = connections.ServerConnection(session,delegate,**kwargs)
+    conn = connections.ServerConnection(session,k8s,delegate,**kwargs)
     conn.start()
     return(conn)
 

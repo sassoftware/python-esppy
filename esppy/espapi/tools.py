@@ -80,7 +80,8 @@ class Options(object):
                 s += ","
             s += name
             s += "="
-            s += value
+            s += str(value)
+            i = i + 1
         return(s)
 
     @property

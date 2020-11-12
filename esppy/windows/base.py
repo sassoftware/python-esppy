@@ -57,7 +57,6 @@ from ..utils.notebook import scale_svg
 from ..utils.rest import get_params
 from ..utils.data import get_project_data, gen_name, get_server_info
 from ..utils.events import get_events, get_dataframe, get_schema
-from ..websocket import WebSocketClient
 
 INDEX_TYPES = {
     'rbtree': 'pi_RBTREE',

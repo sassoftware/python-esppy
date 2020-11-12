@@ -13,6 +13,7 @@ import esppy
 import json
 import time
 import csv
+import ssl
 import six
 import re
 import os
@@ -36,7 +37,15 @@ class Connection(tools.Options):
         s = url[1].split(":")
 
         self._host = s[0]
-        self._port = s[1]
+
+        if len(s) == 2:
+            self._port = s[1]
+        elif self._secure:
+            self._port = 443
+        else:
+            self._port = 80
+
+        self._path = url[2]
 
         self._websocket = None
         self._handshakeComplete = False
@@ -61,7 +70,7 @@ class Connection(tools.Options):
         if auth.isEnabled:
             headers.append(("Authorization",auth.authorization))
 
-        ws = esppy.websocket.WebSocketClient(url,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close,headers=headers)
+        ws = esppy.websocket.WebSocketClient(url,self._session,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close,headers=headers)
         ws.connect()
 
     def stop(self):
@@ -238,8 +247,9 @@ class ServerConnection(Connection):
         "text-topic":"textanalytics"
     }
 
-    def __init__(self,session,delegate,**kwargs):
+    def __init__(self,session,k8s,delegate,**kwargs):
         Connection.__init__(self,session,**kwargs)
+        self._k8s = k8s
         self._delegate = delegate
         self._datasources = {}
         self._publishers = {}
@@ -348,13 +358,16 @@ class ServerConnection(Connection):
         url += "://"
         url += self.getHost()
         url += ":"
-        url += self.getPort()
-        url += "/eventStreamProcessing/v1/connect"
+        url += str(self.getPort())
+        if self._path != None:
+            url += self._path
+        else:
+            url += "/"
+        url += "eventStreamProcessing/v1/connect"
         return(url)
 
     def getEventCollection(self,path,**kwargs):
         ec = EventCollection(self,path,**kwargs)
-        #print("MESSAGE: " + Resources.getInstance().getText("testmsg"))
         self._datasources[ec._id] = ec
         if self.isHandshakeComplete:
             ec.open()
@@ -881,8 +894,10 @@ class Datasource(tools.Options):
         pass
 
     def deliverDataChange(self,data,clear):
+        logging.info("deliver data change")
         for d in self._delegates:
             d.dataChanged(self,data,clear)
+        logging.info("done deliver data change")
 
     def deliverInfoChange(self):
         for d in self._delegates:
@@ -930,7 +945,8 @@ class EventCollection(Datasource):
         o["window"]= self._path
         o["schema"]= True
         o["info"]= 5
-        o["format"]= "ubjson"
+        #o["format"]= "ubjson"
+        o["format"]= "json"
 
         interval = None
 
@@ -1069,13 +1085,20 @@ class EventCollection(Datasource):
             return
 
         events = []
-        entries = data["entries"]
+        entries = None
+
+        if "entries" in data:
+            entries = data["entries"]
 
         if entries != None:
             for e in entries:
+                if "event" in e:
+                    event = e["event"]
+                else:
+                    event = e
                 o = {}
-                for k in e:
-                    o[k] = e[k]
+                for k in event:
+                    o[k] = event[k]
 
                 if "@opcode" in o == False:
                     o["@opcode"] = "insert"
@@ -1095,8 +1118,8 @@ class EventCollection(Datasource):
 
     def info(self,data):
         if "page" in data:
-            self._page = data["page"]
-            self._pages = data["pages"]
+            self._page = int(data["page"])
+            self._pages = int(data["pages"])
             self.deliverInfoChange()
 
     def process(self,events,clear):
@@ -1213,7 +1236,8 @@ class EventStream(Datasource):
         o["action"] = "set"
         o["window"] = self._path
         o["schema"] = True
-        o["format"] = "ubjson"
+        #o["format"] = "ubjson"
+        o["format"]= "json"
 
         interval = None
 

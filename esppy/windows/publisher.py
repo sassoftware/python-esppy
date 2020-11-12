@@ -150,7 +150,7 @@ class Publisher(object):
         if auth.isEnabled:
             headers.append(("Authorization",auth.authorization));
 
-        self._ws = WebSocketClient(self.url,headers=headers)
+        self._ws = WebSocketClient(self.url,self.session,headers=headers)
         self._ws.connect()
 
     @property

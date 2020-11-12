@@ -409,6 +409,7 @@ class Subscriber(object):
             headers.append(("Authorization",auth.authorization));
 
         self._ws = WebSocketClient(self.url,
+                                   self.session,
                                    on_message=on_message,
                                    on_error=on_error,
                                    on_open=on_open,
@@ -416,11 +417,6 @@ class Subscriber(object):
                                    headers=headers)
 
         self._ws.connect()
-
-        ws_thread = threading.Thread(name='%s-%s' % (id(self), self.window_url),
-                                     target=self._ws.run_forever)
-        ws_thread.daemon = True
-        ws_thread.start()
 
     def stop(self):
         '''
