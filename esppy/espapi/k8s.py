@@ -425,7 +425,6 @@ class K8SProject(K8S):
 
     def load(self,model,**kwargs):
         opts = tools.Options(**kwargs)
-        logging.info("LOAD: " + str(opts))
         xml = ElementTree.fromstring(str(model))
         xml.set("name",self._project)
         model = ElementTree.tostring(xml,method="xml").decode()

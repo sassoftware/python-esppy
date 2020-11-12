@@ -103,11 +103,8 @@ class WebSocketClient(object):
 
     def run(self):
         while True:
-            logging.info("websocket: " + str(self._websocket))
             try:
                 opcode, frame = self._websocket.recv_data_frame()
-                logging.info("opcode: " + str(opcode))
-                logging.info("data: " + str(frame.data))
 
                 if opcode == websocket.ABNF.OPCODE_BINARY:
                     if self.callbacks.get("on_data"):

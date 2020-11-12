@@ -781,18 +781,12 @@ class Table(Chart):
                     num = int((int)(value) / 1000000)
                     date = datetime.datetime.fromtimestamp(num)
                     value = str(date)
-                logging.info("3")
                 content += "<td style='border:" + border
-                logging.info("4")
                 if f["isNumber"]:
                     content += ";text-align:right"
                 if i == 0:
                     content += ";border-top:0"
-                logging.info("5: " )
-                logging.info("width: " + str(width))
-                logging.info("value: " + str(value))
                 content += "' width='" + str(width) + "%'>" + str(value) + "</td>"
-                logging.info("6")
             content += "</tr>"
             content += "\n"
 
@@ -1012,8 +1006,6 @@ class ImageEntry(Options):
                 html += "</div>"
 
             self._html = html
-
-        #logging.info(self._html)
 
         return(self._html)
 

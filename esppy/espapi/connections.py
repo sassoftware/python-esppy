@@ -85,13 +85,12 @@ class Connection(tools.Options):
 
     def send(self,data):
         if self._websocket != None:
-            #logging.info("SEND: " + str(data))
             self._websocket.send(str(data))
 
     def sendBinary(self,o):
         if self._websocket != None:
             encoder = codec.JsonEncoder(o)
-            self._websocket.send(encoder.data,True)
+            self._websocket.send(encoder.data)
 
     def getUrl(self):
         return(None)
@@ -263,8 +262,6 @@ class ServerConnection(Connection):
         if self.isHandshakeComplete == False:
             Connection.message(self,message)
             return
-
-        #logging.info("MSG: " + message)
 
         xml = None
         o = None
@@ -582,7 +579,6 @@ class ServerConnection(Connection):
             thread.start()
 
     def reconnect(self):
-        logging.info("RECONNECT")
         while self.isConnected == False:
             #time.sleep(5)
             #time.sleep(1)
@@ -894,10 +890,8 @@ class Datasource(tools.Options):
         pass
 
     def deliverDataChange(self,data,clear):
-        logging.info("deliver data change")
         for d in self._delegates:
             d.dataChanged(self,data,clear)
-        logging.info("done deliver data change")
 
     def deliverInfoChange(self):
         for d in self._delegates:
@@ -945,8 +939,7 @@ class EventCollection(Datasource):
         o["window"]= self._path
         o["schema"]= True
         o["info"]= 5
-        #o["format"]= "ubjson"
-        o["format"]= "json"
+        o["format"]= "ubjson"
 
         interval = None
 
@@ -1236,8 +1229,7 @@ class EventStream(Datasource):
         o["action"] = "set"
         o["window"] = self._path
         o["schema"] = True
-        #o["format"] = "ubjson"
-        o["format"]= "json"
+        o["format"] = "ubjson"
 
         interval = None
 
@@ -1516,7 +1508,7 @@ class Publisher(tools.Options):
             o["id"] = self._id
             o["action"] = "publish"
             o["data"] = self._data
-            if self.getOpt("binary",True):
+            if self.getOpt("binary",False):
                 self._connection.sendBinary(json)
             else:
                 self._connection.send(json)

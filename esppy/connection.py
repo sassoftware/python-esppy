@@ -800,8 +800,12 @@ class ESP(RESTHelpers):
         except KeyError:
             raise KeyError("No project with name '%s' found." % name)
 
-    def load_project(self, project, name=None, overwrite=True, start=True,
-                     start_connectors=True):
+    def load_project_from_file(self,path,name=None, overwrite=True, start=True, start_connectors=True, force=False):
+        with open(path) as f:
+            contents = f.read()
+            return(self.load_project(contents,name,overwrite,start,start_connectors,force))
+
+    def load_project(self, project, name=None, overwrite=True, start=True, start_connectors=True, force=False):
         '''
         Load a project from a project definition
 
@@ -821,6 +825,8 @@ class ESP(RESTHelpers):
             Should the project be started?
         start_connectors : bool, optional
             Should the connectors be started?
+        force  : bool, optional
+            Force a project load even if the project matches the current project
 
         Returns
         -------
@@ -856,7 +862,7 @@ class ESP(RESTHelpers):
             if proj.tag != "project":
                 proj = proj.findall(".//project")[0]
             data = ET.tostring(proj,method="xml").decode()
-            self._k8s.load(data,overwrite=overwrite)
+            self._k8s.load(data,overwrite=False,force=force)
         else:
             data = data.encode("utf-8")
             self._put('projects/%s' % name,
