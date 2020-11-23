@@ -1465,7 +1465,7 @@ class ESP(RESTHelpers):
         '''
         return self._get('eventGenerators/%s' % name).attrib['state']
 
-    def create_event_generator(self, window, data=None, name=None, overwrite=False):
+    def create_event_generator(self, window, xml=None, data=None, name=None, overwrite=False):
         '''
         Create an event generator
 
@@ -1487,7 +1487,12 @@ class ESP(RESTHelpers):
         :class:`EventGenerator`
 
         '''
-        gen = EventGenerator(name=name)
+        if xml != None:
+            gen = EventGenerator.from_xml(xml)
+            if name != None:
+                gen.name = name
+        else:
+            gen = EventGenerator(name=name)
         gen.session = self.session
         gen.publish_target = window
         if data is not None:

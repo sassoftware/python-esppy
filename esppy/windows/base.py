@@ -1060,7 +1060,7 @@ class BaseWindow(ESPObject):
         '''
         self._project = getattr(value, 'name', value)
 
-    def create_event_generator(self, data=None, name=None, overwrite=False):
+    def create_event_generator(self, xml=None, data=None, name=None, overwrite=False):
         '''
         Create an event generator
 
@@ -1095,7 +1095,12 @@ class BaseWindow(ESPObject):
 
         '''
         from ..evtgen import EventGenerator
-        gen = EventGenerator(name=name)
+        if xml != None:
+            gen = EventGenerator.from_xml(xml)
+            if name != None:
+                gen.name = name
+        else:
+            gen = EventGenerator(name=name)
         gen.session = self.session
         gen.publish_target = self
         if data is not None:
