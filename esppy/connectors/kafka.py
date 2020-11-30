@@ -128,7 +128,7 @@ class KafkaSubscriber(Connector):
         kafkaglobalconfig=prop('kafkaglobalconfig', dtype='string'),
         kafkatopicconfig=prop('kafkatopicconfig', dtype='string'),
         csvmsgperevent=prop('csvmsgperevent', dtype='bool'),
-        csvmsgperevent_block=prop('csvmsgpereventblock', dtype='bool'),
+        csvmsgperevent_block=prop('csvmsgpereventblock', dtype='bool')
     )
 
     def __init__(self, kafkahostport=None, kafkatopic=None, urlhostport=None,
@@ -232,6 +232,8 @@ class KafkaPublisher(Connector):
         greatest message ID in the restored window.
     maxevents : int, optional
          Specifies the maximum number of events to publish.
+    kafkaconsumergroupid: string, optional
+        Specifies the group ID for this Kafka container. The default value is a randomly generated string. This parameter is not supported when hot failover is enabled.
 
     Returns
     -------
@@ -264,7 +266,8 @@ class KafkaPublisher(Connector):
         kafkaglobalconfig=prop('kafkaglobalconfig', dtype='string'),
         kafkatopicconfig=prop('kafkatopicconfig', dtype='string'),
         useclientmsgid=prop('useclientmsgid', dtype='boolean'),
-        maxevents=prop('maxevents', dtype='int')
+        maxevents=prop('maxevents', dtype='int'),
+        kafkaconsumergroupid=prop('kafkaconsumergroupid', dtype='string')
     )
 
     def __init__(self, kafkahostport=None, kafkatopic=None, urlhostport=None,
@@ -276,7 +279,7 @@ class KafkaPublisher(Connector):
                  kafkainitialoffset=None, addcsvopcode=None,
                  addcsvflags=None, kafkaglobalconfig=None,
                  kafkatopicconfig=None, useclientmsgid=None,
-                 maxevents=None):
+                 maxevents=None,kafkaconsumergroupid=None):
         params = dict(**locals())
         params.pop('is_active')
         params.pop('self')
