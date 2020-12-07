@@ -10,12 +10,13 @@ import json
 import esppy.espapi.tools as tools
 
 class K8S(object):
-    def __init__(self,url):
+    def __init__(self,url,esp):
 
         self._url = urlparse(url)
+        self._esp = esp
         self._proxy = False
 
-        if self._url.scheme.index("-") != -1:
+        if self._url.scheme.find("-") != -1:
 
             a = self._url.scheme.split("-")
 
@@ -307,8 +308,8 @@ class K8S(object):
         self.getPod(Tmp(self))
 
 class K8SProject(K8S):
-    def __init__(self,url):
-        K8S.__init__(self,url)
+    def __init__(self,url,esp):
+        K8S.__init__(self,url,esp)
 
         if self._project == None:
             raise Exception("URL must be in form protocol://server/<namespace>/<project>")
@@ -408,9 +409,19 @@ class K8SProject(K8S):
         url += "/espservers"
         url += "/" + self._project
 
-        response = requests.get(url)
+        ca_bundle = self._esp.ca_bundle
+
+        if ca_bundle != None:
+            if ca_bundle == "_noverify_":
+                response = requests.get(url,verify=False)
+            else:
+                response = requests.get(url,verify=ca_bundle)
+        else:
+            response = requests.get(url)
 
         code = False
+
+        print("========== code: " + str(response.status_code))
 
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -593,14 +604,14 @@ class K8SProject(K8S):
 
             time.sleep(1)
 
-def create(url):
+def create(url,esp):
     u = urlparse(url)
 
     o = None
 
     if u.path != None and len(u.path.split("/")) == 3:
-        o = K8SProject(url)
+        o = K8SProject(url,esp)
     else:
-        o = K8S(url)
+        o = K8S(url,esp)
 
     return(o)

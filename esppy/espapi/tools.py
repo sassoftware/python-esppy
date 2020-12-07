@@ -47,6 +47,12 @@ class Options(object):
         
         return(value)
 
+    def getInt(self,name,dv = None,clear = False):
+        value = self.getOpt(name,dv,clear)
+        if value != None:
+            value = int(value)
+        return(value)
+
     def setOpt(self,name,value):
         s = name.lower()
         if value == None:

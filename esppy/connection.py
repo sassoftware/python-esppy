@@ -293,9 +293,10 @@ class ESP(RESTHelpers):
             protocol = get_option('protocol')
 
         self._k8s = None
+        self._ca_bundle = ca_bundle
 
         if re.match('^k8s.*://', hostname):
-            self._k8s = k8s.create(hostname)
+            self._k8s = k8s.create(hostname,self)
             hostname = self._k8s.espUrl
 
         # Set default protocol
@@ -432,6 +433,10 @@ class ESP(RESTHelpers):
 
     def createServerConnection(self,**kwargs):
         return(api.connect(self.session,self._k8s,**kwargs))
+
+    @property
+    def ca_bundle(self):
+        return(self._ca_bundle)
 
     @property
     def authorization(self):

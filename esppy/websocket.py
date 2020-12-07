@@ -89,34 +89,25 @@ class WebSocketClient(object):
         if self._websocket != None:
             self._websocket.send(data)
 
-    def runx(self):
-        while True:
-            opcode, frame = self._websocket.recv_data_frame()
-
-            if opcode == websocket.ABNF.OPCODE_BINARY:
-                if self.callbacks.get("on_data"):
-                    self.callbacks["on_data"](self,frame.data)
-            if opcode == websocket.ABNF.OPCODE_TEXT:
-                if self.callbacks.get("on_message"):
-                    data = frame.data.decode("utf-8")
-                    self.callbacks["on_message"](self,data)
-
     def run(self):
         while True:
             try:
                 opcode, frame = self._websocket.recv_data_frame()
+            except Exception as e:
+                logging.info("got exception in websocket: " + self._url + " : " + str(type(e)))
+                logging.info(str(e))
+                break
 
+            try:
                 if opcode == websocket.ABNF.OPCODE_BINARY:
                     if self.callbacks.get("on_data"):
                         self.callbacks["on_data"](self,frame.data)
                 if opcode == websocket.ABNF.OPCODE_TEXT:
-                    if self.callbacks.get("on_message"):
                         data = frame.data.decode("utf-8")
                         self.callbacks["on_message"](self,data)
             except Exception as e:
-                logging.info("got exception in ws")
+                logging.info("got exception in websocket: " + self._url + " : " + str(type(e)))
                 logging.info(str(e))
-                break
 
     def unhandled_error(self, error):
         '''
@@ -143,5 +134,6 @@ class WebSocketClient(object):
             The reason the server connection was closed
 
         '''
+        logging.info("closed")
         if self.callbacks.get('on_close'):
             self.callbacks['on_close'](self, code, reason=reason)

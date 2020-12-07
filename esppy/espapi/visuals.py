@@ -169,7 +169,7 @@ class Visuals(Options):
     def infoChanged(self,datasource):
         for v in self._visuals:
             if v._datasource == datasource:
-                v.info()
+                v.info(datasource.getInfo())
 
     def handleStats(self,datasource):
         for v in self._visuals:
@@ -337,7 +337,7 @@ class Chart(Options,widgets.VBox):
 
         return(o)
 
-    def info(self):
+    def info(self,data):
         if self._controls != None:
             self._controls.processInfo()
         self.setTitle()
@@ -2166,6 +2166,6 @@ class Controls(Chart):
     def draw(self,data,clear):
         pass
 
-    def info(self):
+    def info(self,data):
         self._panel.processInfo()
         self.setTitle()

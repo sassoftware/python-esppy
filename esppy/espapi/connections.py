@@ -4,6 +4,7 @@ from ..utils.authorization import Authorization
 #from ..utils.resources import Resources
 from urllib.parse import urlparse
 from base64 import b16encode, b64encode
+from esppy.espapi.eventsources import EventSources
 import pandas as pd
 import esppy.espapi.tools as tools
 import esppy.espapi.codec as codec
@@ -12,7 +13,6 @@ import logging
 import esppy
 import json
 import time
-import csv
 import ssl
 import six
 import re
@@ -249,6 +249,9 @@ class ServerConnection(Connection):
     def __init__(self,session,k8s,delegate,**kwargs):
         Connection.__init__(self,session,**kwargs)
         self._k8s = k8s
+        self._delegates = []
+        if delegate != None:
+            tools.addTo(self._delegates,delegate)
         self._delegate = delegate
         self._datasources = {}
         self._publishers = {}
@@ -257,8 +260,21 @@ class ServerConnection(Connection):
         self._modelDelegates = {}
         self._urlPublishers = {}
         self._autoReconnect = True
+        self._version = 6.2
+
+    def addDelegate(self,delegate):
+        tools.addTo(self._delegates,delegate)
+
+        if self.isHandshakeComplete and tools.supports(delegate,"ready"):
+            delegate.ready(self)
+
+    def removeDelegate(self,delegate):
+        tools.removeFrom(self._delegates,delegate)
 
     def message(self,message):
+        if self.getOpt("debug",False):
+            logging.info(message)
+
         if self.isHandshakeComplete == False:
             Connection.message(self,message)
             return
@@ -282,6 +298,8 @@ class ServerConnection(Connection):
     def data(self,data):
         decoder = codec.JsonDecoder(data)
         if decoder.data != None:
+            if self.getOpt("debug",False):
+                logging.info(decoder.data)
             self.processJson(decoder.data)
 
     def processXml(self,xml):
@@ -550,6 +568,12 @@ class ServerConnection(Connection):
             self.send(json)
 
     def handshakeComplete(self):
+        version = self.getHeader("version")
+
+        if version == None:
+            self.version = 6.2
+        else:
+            self.version = version
 
         for c in self._datasources.values():
             c.open()
@@ -563,8 +587,11 @@ class ServerConnection(Connection):
         if len(self._stats._delegates) > 0:
             self._stats.set()
 
-        if tools.supports(self._delegate,"connected"):
-            self._delegate.connected(self)
+        for delegate in self._delegates:
+            if tools.supports(delegate,"connected"):
+                delegate.connected(self)
+            if tools.supports(delegate,"ready"):
+                delegate.ready(self)
 
     def closed(self):
         for c in self._datasources.values():
@@ -587,6 +614,17 @@ class ServerConnection(Connection):
                 self.start()
             except:
                 pass
+
+    def createEventSources(self,delegate):
+        return(EventSources(self,delegate))
+
+    @property
+    def version(self):
+        return(self._version)
+
+    @version.setter
+    def version(self,value):
+        self._version = float(value)
 
 class Datasource(tools.Options):
     def __init__(self,connection,**kwargs):
@@ -875,7 +913,7 @@ class Datasource(tools.Options):
     def deliverInfo(self,data):
         for d in self._delegates:
             if tools.supports(d,"info"):
-                d.info(self,data)
+                d.info(data)
 
     def addDelegate(self,delegate):
         if tools.supports(delegate,"dataChanged") == False:
@@ -913,7 +951,7 @@ class Datasource(tools.Options):
     def events(self,xml):
         pass
 
-    def info(self,xml):
+    def info(self,data):
         pass
 
     @property
@@ -1478,6 +1516,10 @@ class Publisher(tools.Options):
         o["action"] = "set"
         o["window"] = self._path
         o["schema"] = True
+
+        if self.hasOpt("dateformat"):
+            o["dateformat"] = self.getOpt("dateformat")
+
         self._connection.send(json)
 
     def close(self):
@@ -1508,6 +1550,8 @@ class Publisher(tools.Options):
             o["id"] = self._id
             o["action"] = "publish"
             o["data"] = self._data
+            if self.getOpt("debug",False):
+                logging.info(str(json))
             if self.getOpt("binary",False):
                 self._connection.sendBinary(json)
             else:
@@ -1519,17 +1563,12 @@ class Publisher(tools.Options):
 
     def publishCsvFromFile(self,filename,**kwargs):
         with open(filename) as f:
-            reader = csv.reader(f)
-
-            data = []
-
-            for row in reader:
-                data.append(row)
-
+            data = f.read()
             self.publishCsv(data,**kwargs)
 
     def publishCsvFromUrl(self,url,**kwargs):
         data = requests.get(url)
+        self.publishCsv(data,**kwargs)
 
     def publishCsv(self,data,**kwargs):
         self._csv = dict(data=data,options=tools.Options(**kwargs),index=0)
@@ -1539,10 +1578,14 @@ class Publisher(tools.Options):
         if self._schema.size == 0:
             return
 
-        self._csv["items"] = self._schema.createDataFromCsv(self._csv["data"])
+        opts = self._csv["options"]
 
-        pause = self._csv["options"].getOpt("pause",0)
-        opcode = self._csv["options"].getOpt("opcode","insert")
+        args = opts.options.copy()
+
+        self._csv["items"] = self._schema.createDataFromCsv(self._csv["data"],**args)
+
+        pause = opts.getOpt("pause",0)
+        opcode = opts.getOpt("opcode","insert")
 
         for o in self._csv["items"]:
             if "@opcode" in o:
@@ -1552,7 +1595,7 @@ class Publisher(tools.Options):
             self.add(o)
             self.publish()
 
-        if self._csv["options"].getOpt("close_on_complete",False):
+        if opts.getOpt("close_on_complete",False):
             self.close()
 
     def setSchemaFromXml(self,xml):
@@ -2144,14 +2187,21 @@ class Schema(object):
 
         return(s)
 
-    def createDataFromCsv(self,csv,header = False):
+    def createDataFromCsv(self,csv,**kwargs):
+        opts = tools.Options(**kwargs)
+
+        header = opts.getOpt("header",False)
+        opcodes = opts.getOpt("opcodes",False)
+        flags = opts.getOpt("flags",False)
+
         data = []
         fields = self.getFields()
         headers = None
         quotes = 0
-        row = 0
 
-        for line in csv:
+        lines = csv.split("\n")
+
+        for row,line in enumerate(lines):
             if header and row == 0:
                 headers = line
                 row += 1
@@ -2163,33 +2213,31 @@ class Schema(object):
 
             a = []
 
-            for s in line:
+            word = ""
 
-                word = ""
+            for idx in range(0,len(line)):
+                c = line[idx]
 
-                for idx in range(0,len(s)):
-                    c = s[idx]
-
-                    if c == ',':
-                        if quotes > 0:
-                            word += c
-                        else:
-                            a.append(word)
-                            word = ""
-                    elif c == '\"':
-                        if prev == '\\':
-                            word += c
-                        else:
-                            quotes ^= 1
-                    elif c == '\\':
-                        if prev == '\\':
-                            word += c
-                    else:
+                if c == ',':
+                    if quotes > 0:
                         word += c
-                    prev = c
+                    else:
+                        a.append(word)
+                        word = ""
+                elif c == '\"':
+                    if prev == '\\':
+                        word += c
+                    else:
+                        quotes ^= 1
+                elif c == '\\':
+                    if prev == '\\':
+                        word += c
+                else:
+                    word += c
+                prev = c
 
-                if len(word) > 0:
-                    a.append(word)
+            if len(word) > 0:
+                a.append(word)
 
             o = {}
             index = 0
@@ -2201,7 +2249,7 @@ class Schema(object):
                         o[field["name"]] = a[j]
             else:
                 for j in range(0,len(a)):
-                    if j == 0:
+                    if opcodes and j == 0:
                         s = a[j].lower()
 
                         if s == "i" or s == "u" or s == "p" or s == "d":
@@ -2211,19 +2259,18 @@ class Schema(object):
                                 o["@opcode"] = "upsert"
                             elif s == "d":
                                 o["@opcode"] = "delete"
-                            continue
+                        continue
 
-                    elif j == 1:
+                    if flags and j == 1:
                         s = a[j].strip().lower()
-
-                        if s == "n":
-                            continue
+                        continue
 
                     if index < len(fields):
                         field = fields[index]
                         o[field["name"]] = a[j]
                         index += 1
 
+            logging.info("========== APPEND: " + str(o))
             data.append(o)
 
             row += 1
