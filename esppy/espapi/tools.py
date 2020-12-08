@@ -33,6 +33,16 @@ class Options(object):
 
         return(code)
 
+    def hasOpts(self,opts):
+        code = True
+
+        for o in opts:
+            if self.hasOpt(o) == False:
+                code = False
+                break
+
+        return(code)
+
     def getOpt(self,name,dv = None,clear = False):
         value = None
         s = name.lower()

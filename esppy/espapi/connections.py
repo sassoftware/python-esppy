@@ -2270,7 +2270,6 @@ class Schema(object):
                         o[field["name"]] = a[j]
                         index += 1
 
-            logging.info("========== APPEND: " + str(o))
             data.append(o)
 
             row += 1

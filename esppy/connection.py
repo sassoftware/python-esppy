@@ -241,6 +241,10 @@ class ESP(RESTHelpers):
     protocol : string, optional
         The protocol to use: http or https.  This is not
         needed if a URL is used in the first parameter.
+    k8s_model_file: string, optional
+        Path to the ESP model to load
+    k8s_model_data: string, optional
+        The ESP model to load
     ca_bundle : string, optional
         Path to the certificate bundle if using SSL
     authinfo : string, optional
@@ -278,8 +282,9 @@ class ESP(RESTHelpers):
     Template = template.Template
 
     def __init__(self, hostname=None, port=None, username=None,
-                 password=None, protocol=None, ca_bundle=None,
-                 authinfo=None, auth_obj=None):
+                 password=None, protocol=None, 
+                 k8s_model_file=None, k8s_model_data=None,
+                 ca_bundle=None, authinfo=None, auth_obj=None):
         # Use environment variables as needed
         if hostname is None and get_option('hostname'):
             hostname = get_option('hostname')
@@ -296,7 +301,12 @@ class ESP(RESTHelpers):
         self._ca_bundle = ca_bundle
 
         if re.match('^k8s.*://', hostname):
-            self._k8s = k8s.create(hostname,self)
+            opts = {}
+            if k8s_model_file != None:
+                opts["k8s_model_file"] = k8s_model_file
+            elif k8s_model_data != None:
+                opts["k8s_model_data"] = k8s_model_data
+            self._k8s = k8s.create(hostname,self,**opts)
             hostname = self._k8s.espUrl
 
         # Set default protocol

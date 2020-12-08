@@ -9,8 +9,9 @@ import json
 
 import esppy.espapi.tools as tools
 
-class K8S(object):
-    def __init__(self,url,esp):
+class K8S(tools.Options):
+    def __init__(self,url,esp,**kwargs):
+        tools.Options.__init__(self,**kwargs)
 
         self._url = urlparse(url)
         self._esp = esp
@@ -308,16 +309,27 @@ class K8S(object):
         self.getPod(Tmp(self))
 
 class K8SProject(K8S):
-    def __init__(self,url,esp):
-        K8S.__init__(self,url,esp)
+    def __init__(self,url,esp,**kwargs):
+        K8S.__init__(self,url,esp,**kwargs)
 
         if self._project == None:
             raise Exception("URL must be in form protocol://server/<namespace>/<project>")
 
         self._config = None
 
+        model = None
+
+        if self.hasOpt("k8s_model_file"):
+            with open(self.getOpt("k8s_model_file")) as reader:
+                model = reader.read()
+        elif self.hasOpt("k8s_model_data"):
+            model = self.getOpt("k8s_model_data")
+
         if self.loadConfig() == False:
-            model = self.getDefaultModel()
+            if model == None:
+                model = self.getDefaultModel()
+
+        if model != None:
             self.load(model)
 
     @property
@@ -420,8 +432,6 @@ class K8SProject(K8S):
             response = requests.get(url)
 
         code = False
-
-        print("========== code: " + str(response.status_code))
 
         if response.status_code == 200:
             data = json.loads(response.text)
@@ -604,14 +614,14 @@ class K8SProject(K8S):
 
             time.sleep(1)
 
-def create(url,esp):
+def create(url,esp,**kwargs):
     u = urlparse(url)
 
     o = None
 
     if u.path != None and len(u.path.split("/")) == 3:
-        o = K8SProject(url,esp)
+        o = K8SProject(url,esp,**kwargs)
     else:
-        o = K8S(url,esp)
+        o = K8S(url,esp,**kwargs)
 
     return(o)

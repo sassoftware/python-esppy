@@ -1039,8 +1039,6 @@ class Map(Chart):
         self._circles = []
         self._polygons = []
 
-        self._icon = None
-
     def createContent(self):
         if self.hasOpt("center"):
             self._map.center = self.getOpt("center")
@@ -1186,6 +1184,15 @@ class Map(Chart):
 
         keys = []
 
+        createMarker = self.getOpt("create_marker")
+        updateMarker = self.getOpt("update_marker")
+
+        iconOpts = None
+
+        if self.hasOpt("icon"):
+            iconOpts = tools.Options()
+            iconOpts.setOpts(**self.getOpt("icon"))
+
         for value in data:
             key = ""
             for i,k in enumerate(keyValues):
@@ -1199,8 +1206,14 @@ class Map(Chart):
             if key in self._markers:
                 marker = self._markers[key]
             else:
-                if self._icon != None:
-                    icon = maps.Icon(icon_url=self._icon,icon_size=[40,30])
+                if createMarker != None:
+                    marker = createMarker(value)
+                elif iconOpts != None:
+                    iconUrl = iconOpts.getOpt("url","")
+                    iconSize = None
+                    if iconOpts.hasOpts(["width","height"]):
+                        iconSize = [iconOpts.getOpt("width"),iconOpts.getOpt("height")]
+                    icon = maps.Icon(icon_url=iconUrl,icon_size=iconSize)
                     marker = maps.Marker(icon=icon)
                 else:
                     marker = maps.CircleMarker()
@@ -1248,6 +1261,9 @@ class Map(Chart):
                         text += "<br/>"
                     text += s + "=" + str(value[s])
                 marker.popup.value = text
+
+            if updateMarker != None:
+                updateMarker(marker,value)
 
         remove = {}
 
