@@ -319,11 +319,11 @@ class K8SProject(K8S):
 
         model = None
 
-        if self.hasOpt("k8s_model_file"):
-            with open(self.getOpt("k8s_model_file")) as reader:
+        if self.hasOpt("model_file"):
+            with open(self.getOpt("model_file")) as reader:
                 model = reader.read()
-        elif self.hasOpt("k8s_model_data"):
-            model = self.getOpt("k8s_model_data")
+        elif self.hasOpt("model_data"):
+            model = self.getOpt("model_data")
 
         if self.loadConfig() == False:
             if model == None:
