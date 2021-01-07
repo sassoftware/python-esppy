@@ -10,7 +10,7 @@ import esppy.espapi.tools as tools
 from xml.etree import ElementTree
 
 class EventSources(object):
-    def __init__(self,connection,delegate):
+    def __init__(self,connection,delegate = None):
         self._connection = connection
         self._delegate = delegate
         self._eventsources = {}
@@ -368,7 +368,8 @@ class CsvEventSource(EventSource):
                 response = requests.get(self.getOpt("url"))
                 data = response.text
 
-            self._data = data.split("\n")
+            #self._data = data.split("\n")
+            self._data = data
 
         #if self.hasOpt("filter"):
             #self._filter = Function("o",self.getOpt("filter"))

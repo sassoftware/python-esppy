@@ -90,7 +90,7 @@ class Connection(tools.Options):
     def sendBinary(self,o):
         if self._websocket != None:
             encoder = codec.JsonEncoder(o)
-            self._websocket.send(encoder.data)
+            self._websocket.sendBinary(encoder.data)
 
     def getUrl(self):
         return(None)
@@ -607,15 +607,14 @@ class ServerConnection(Connection):
 
     def reconnect(self):
         while self.isConnected == False:
-            #time.sleep(5)
             #time.sleep(1)
-            time.sleep(300)
+            time.sleep(5)
             try:
                 self.start()
             except:
                 pass
 
-    def createEventSources(self,delegate):
+    def createEventSources(self,delegate = None):
         return(EventSources(self,delegate))
 
     @property
@@ -1388,7 +1387,6 @@ class EventStream(Datasource):
 
                 o["@key"] = self.getKey(o)
                 events.append(o)
-
         self.process(events)
 
     def eventsXml(self,xml):
@@ -1613,6 +1611,10 @@ class Publisher(tools.Options):
     @property
     def schema(self):
         return(self._schema)
+
+    @property
+    def isBinary(self):
+            return(self.getOpt("binary",False))
 
 class Stats(Datasource):
     def __init__(self,connection,**kwargs):

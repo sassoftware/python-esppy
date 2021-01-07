@@ -200,7 +200,13 @@ class Visuals(Options):
 class Chart(Options,widgets.VBox):
     def __init__(self,visuals,datasource,**kwargs):
         Options.__init__(self,**kwargs)
-        widgets.VBox.__init__(self,layout=widgets.Layout(width=self.getOpt("width","95%"),height=self.getOpt("height","95%"),border=visuals.getOpt("border","0"),padding=visuals.getOpt("padding","10px"),margin=visuals.getOpt("margin","10px")))
+        layout = None
+        if self.getOpt("css"):
+            widgets.VBox.__init__(self)
+            self.add_class(self.getOpt("css"))
+        else:
+            layout = widgets.Layout(width=self.getOpt("width","95%"),height=self.getOpt("height","95%"),border=visuals.getOpt("border","0"),padding=visuals.getOpt("padding","10px"),margin=visuals.getOpt("margin","10px"))
+            widgets.VBox.__init__(self,layout=layout)
         self._visuals = visuals
         self._datasource = datasource
         self._figure = None
@@ -814,7 +820,7 @@ class ImageViewer(Chart):
             html = None
 
             if field in self._data:
-                imagedata = b64encode(self._data[field]).decode("utf-8")
+                imagedata = self._data[field]
                 html = ""
                 html += "<div style='width:" + str(self.getOpt("image_width",400)) + "px;height:" + str(self.getOpt("image_height",400)) + "px;position:relative;margin:auto;border:" + self.getOpt("image_border","1px solid #000000") + "'>"
                 html += "<img style='width:100%;height:100%' src='data:image/jpeg;base64," + imagedata + "'/>"
@@ -835,7 +841,11 @@ class ImageViewer(Chart):
                 html += "</div>";
 
             if html != None:
-                content = widgets.HTML(value=html,layout=widgets.Layout(border=self._visuals.getOpt("border","1px solid #d8d8d8"),width="100%",height="100%",overflow="auto"))
+                if self.hasOpt("content_css"):
+                    content = widgets.HTML(value=html)
+                    content.add_class(self.getOpt("content_css"))
+                else:
+                    content = widgets.HTML(value=html,layout=widgets.Layout(border=self._visuals.getOpt("border","1px solid #d8d8d8"),width="100%",height="100%",overflow="auto"))
                 self.children = [self._banner,content]
 
         self.setTitle()
@@ -1213,7 +1223,12 @@ class Map(Chart):
                     iconSize = None
                     if iconOpts.hasOpts(["width","height"]):
                         iconSize = [iconOpts.getOpt("width"),iconOpts.getOpt("height")]
-                    icon = maps.Icon(icon_url=iconUrl,icon_size=iconSize)
+
+                    if iconOpts.hasOpt("name"):
+                        icon = maps.AwesomeIcon(name=iconOpts.getOpt("name"),icon_size=iconSize)
+                    else:
+                        icon = maps.Icon(icon_url=iconUrl,icon_size=iconSize)
+
                     marker = maps.Marker(icon=icon)
                 else:
                     marker = maps.CircleMarker()
@@ -1306,6 +1321,13 @@ class Map(Chart):
         o["coords"] = options.getOpt("coords")
         o["datasource"] = datasource
         o["layers"] = maps.LayerGroup()
+        if options.hasOpt("radius"):
+            value = options.getOpt("radius")
+            try:
+                num = int(value)
+                o["radius"] = num
+            except:
+                o["radius_field"] = value
         if options.hasOpt("text"):
             o["text"] = options.getOpt("text")
         o["order"] = options.getOpt("order","lat_lon")
@@ -1391,25 +1413,54 @@ class Map(Chart):
                 i += 2
                 if i >= len(a):
                     break
-            polygon = maps.Polygon(locations=points)
+            if len(points) == 1:
+                radius = 100
 
-            borderWidth = self.getOpt("poly_border_width",1)
-            polygon.weight = borderWidth
+                if "radius" in o:
+                    radius = o["radius"]
+                elif "radius_field" in o:
+                    num = float(value[o["radius_field"]])
+                    radius = int(num)
 
-            if borderWidth > 0:
-                polygon.stroke = True
-                polygon.color = self.getOpt("poly_border_color","black")
+                circle = maps.Circle(location=(points[0][0],points[0][1]),radius=radius)
+
+                borderWidth = self.getOpt("circle_border_width",2)
+                circle.weight = borderWidth
+
+                if borderWidth > 0:
+                    circle.stroke = True
+                    circle.color = self.getOpt("circle_border_color","black")
+                else:
+                    circle.stroke = False
+
+                circle.fill_color = self.getOpt("circle_fill_color","white")
+                circle.fill_opacity = self.getOpt("circle_fill_opacity",.2)
+
+                if "text" in o:
+                    text = value[o["text"]]
+                    circle.popup = widgets.HTML(value=text)
+
+                o["layers"].add_layer(circle)
             else:
-                polygon.stroke = False
+                polygon = maps.Polygon(locations=points)
 
-            polygon.fill_color = self.getOpt("poly_fill_color","white")
-            polygon.fill_opacity = self.getOpt("poly_fill_opacity",.2)
+                borderWidth = self.getOpt("poly_border_width",1)
+                polygon.weight = borderWidth
 
-            if "text" in o:
-                text = value[o["text"]]
-                polygon.popup = widgets.HTML(value=text)
+                if borderWidth > 0:
+                    polygon.stroke = True
+                    polygon.color = self.getOpt("poly_border_color","black")
+                else:
+                    polygon.stroke = False
 
-            o["layers"].add_layer(polygon)
+                polygon.fill_color = self.getOpt("poly_fill_color","white")
+                polygon.fill_opacity = self.getOpt("poly_fill_opacity",.2)
+
+                if "text" in o:
+                    text = value[o["text"]]
+                    polygon.popup = widgets.HTML(value=text)
+
+                o["layers"].add_layer(polygon)
 
         if self._map != None:
             if (o["layers"] in self._map.layers) == False:
