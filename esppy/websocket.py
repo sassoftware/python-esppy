@@ -64,9 +64,9 @@ class WebSocketClient(object):
             self._websocket.close()
 
         if self._session.verify:
-            self._websocket = websocket.WebSocket()
+            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True)
         else:
-            self._websocket = websocket.WebSocket(sslopt={"cert_reqs":ssl.CERT_NONE})
+            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"cert_reqs":ssl.CERT_NONE})
 
         self._websocket.connect(self._url)
 
@@ -88,6 +88,10 @@ class WebSocketClient(object):
     def send(self,data):
         if self._websocket != None:
             self._websocket.send(data)
+
+    def sendBinary(self,data):
+        if self._websocket != None:
+            self._websocket.send_binary(data)
 
     def run(self):
         while True:
