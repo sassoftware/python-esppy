@@ -14,9 +14,13 @@ import esppy.espapi.tools as tools
 from esppy.espapi.tools import Options
 
 class ViewerBase(widgets.VBox,Options):
-    def __init__(self,visuals,connection,**kwargs):
-        widgets.VBox.__init__(self,layout=widgets.Layout(border=visuals.getOpt("border","0"),padding=visuals.getOpt("padding","10px"),margin=visuals.getOpt("margin","10px")))
+    def __init__(self,visuals,connection,layout,**kwargs):
         Options.__init__(self,**kwargs)
+
+        if layout != None:
+            widgets.Box.__init__(self,layout=layout)
+        else:
+            widgets.Box.__init__(self)
         self._visuals = visuals
         self._connection = connection
 
@@ -27,8 +31,8 @@ class ViewerBase(widgets.VBox,Options):
         self.setOpt("height",value)
 
 class ModelViewer(ViewerBase):
-    def __init__(self,visuals,connection,**kwargs):
-        ViewerBase.__init__(self,visuals,connection,**kwargs)
+    def __init__(self,visuals,connection,layout,**kwargs):
+        ViewerBase.__init__(self,visuals,connection,layout,**kwargs)
         self._stats = self._connection.getStats()
         self._data = None
         self._project = "*"
@@ -325,8 +329,8 @@ class ModelViewer(ViewerBase):
         self.setContent()
 
 class LogViewer(ViewerBase):
-    def __init__(self,visuals,connection,**kwargs):
-        ViewerBase.__init__(self,visuals,connection,**kwargs)
+    def __init__(self,visuals,connection,layout,**kwargs):
+        ViewerBase.__init__(self,visuals,connection,layout,**kwargs)
 
         width = self.getOpt("width","98%")
         height = self.getOpt("height","200px")
@@ -413,8 +417,8 @@ class LogViewer(ViewerBase):
         self.load()
 
 class StatsViewer(ViewerBase):
-    def __init__(self,visuals,connection,**kwargs):
-        ViewerBase.__init__(self,visuals,connection,**kwargs)
+    def __init__(self,visuals,connection,layout,**kwargs):
+        ViewerBase.__init__(self,visuals,connection,layout,**kwargs)
         self._stats = self._connection.getStats();
         self._stats.addDelegate(self)
 

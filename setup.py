@@ -51,6 +51,7 @@ setup(
         # 'requests-kerberos',
         'graphviz',
         'rbtranslations',
+        'websocket-client',
         'ws4py',
         # 'wsaccel',
     ],

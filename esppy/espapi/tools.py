@@ -148,7 +148,7 @@ class Gradient(Options):
 
         return(s)
 
-    def brighten(self,value):
+    def lighten(self,value):
 
         s = self._color
 
@@ -579,7 +579,7 @@ def removeFrom(list,o):
 def guid():
     return(str(uuid.uuid4()).replace('-', '_'))
 
-def brighten(color,offset):
+def lighten(color,offset):
     if len(color) != 7:
         return("#ffffff")
 
@@ -602,6 +602,22 @@ def darken(color,offset):
     s = "#{0:02x}{1:02x}{2:02x}".format(rgb[0],rgb[1],rgb[2])
 
     return(s)
+
+def createGradientColors(**kwargs):
+    opts = Options(**kwargs)
+    c = Colors.getColorFromName(opts.getOpt("color"))
+    num = opts.getOpt("num",10)
+    end = opts.getOpt("end",False)
+    delta = opts.getOpt("delta",25)
+    colors = []
+
+    for i in range(0,num):
+        if end:
+            colors.insert(0,lighten(c,i * delta))
+        else:
+            colors.append(darken(c,i * delta))
+
+    return(colors);
 
 def convertColormap(name):
     cmap = matplotlib.cm.get_cmap(name)
