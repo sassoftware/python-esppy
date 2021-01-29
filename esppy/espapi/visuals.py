@@ -25,11 +25,8 @@ import ipyleaflet as maps
 import numpy as np
 
 import logging
-
 import re
-
 import math
-
 import random
 
 pio.templates.default = "none"
@@ -53,9 +50,31 @@ class Visuals(Options):
         self._chartStyle = tools.Options()
         self._css = self.getOpt("css","visuals")
 
-        self._titleStyle = tools.Options(font_family="Arial, Helvetica, sans-serif",font_size="12pt")
+        self._headerStyle = tools.Options(font_family="Arial, Helvetica, sans-serif",font_size="12pt")
+
+        self._dashboardLayout = tools.Options()
+
+        #self.setDashboardLayout(border="1px solid #c0c0c0",padding="5px")
 
         self._axisWidth = 1
+
+    def setDashboardLayout(self,**kwargs):
+        opts = tools.Options(**kwargs)
+        for key,value in kwargs.items():
+            self._dashboardLayout.setOpt(key,value)
+
+    def setLayoutValues(self,layout,opts):
+        for key,value in opts.items():
+            if key == "width":
+                layout.width = value
+            elif key == "height":
+                layout.height = value
+            elif key == "border":
+                layout.border = value
+            elif key == "margin":
+                layout.margin = value
+            elif key == "padding":
+                layout.padding = value
 
     def optionSet(self,name,value):
         if name == "colormap":
@@ -63,7 +82,7 @@ class Visuals(Options):
             self._colors = tools.Colors(colormap=colormap)
 
     def setTitleStyle(self,**kwargs):
-        self._titleStyle.setOpts(**kwargs)
+        self._headerStyle.setOpts(**kwargs)
 
     def setChartStyle(self,**kwargs):
         self._chartStyle.setOpts(**kwargs)
@@ -134,7 +153,6 @@ class Visuals(Options):
     def createTable(self,datasource,layout = None,**kwargs):
         datasource.addDelegate(self)
         chart = Table(self,datasource,layout,**kwargs)
-        #chart = PlotlyTable(self,datasource,layout,**kwargs)
         chart.create()
         self._visuals.append(chart)
         return(chart)
@@ -160,8 +178,8 @@ class Visuals(Options):
         self._visuals.append(controls)
         return(controls)
 
-    def createContainer(self,**kwargs):
-        box = Container(self,layout=widgets.Layout(width="100%"),**kwargs)
+    def createDashboard(self,**kwargs):
+        box = Dashboard(self,layout=widgets.Layout(width="100%"),**kwargs)
         return(box)
 
     def createWrapper(self,widget,layout = None,**kwargs):
@@ -197,16 +215,21 @@ class Visuals(Options):
     def clear(self):
         self._visuals = []
 
-    def formatTitle(self,text):
+    def getHeaderStyle(self):
         content = ""
-        content += "<div style='"
         i = 0
-        for k,v in self._titleStyle.options.items():
+        for k,v in self._headerStyle.options.items():
             s = k.replace("_","-")
             if i > 0:
                 content += ";"
             content += s + ":" + v
             i += 1 
+        return(content)
+ 
+    def formatTitle(self,text):
+        content = ""
+        content += "<div style='"
+        content += self.getHeaderStyle()
         content += ";text-align:center"
         content += "'>"
         if text == None:
@@ -230,6 +253,12 @@ class Chart(Options,widgets.Box):
         else:
             widgets.Box.__init__(self)
 
+        if self.hasOpt("width"):
+            self.layout.width = self.getOpt("width")
+
+        if self.hasOpt("height"):
+            self.layout.height = self.getOpt("height")
+
         self._visuals = visuals
         self._datasource = datasource
 
@@ -240,25 +269,67 @@ class Chart(Options,widgets.Box):
         if self._class != None:
             self.add_class(self._class)
 
-        self._content = widgets.VBox(layout=widgets.Layout(width="100%",height="100%"))
+        self._container = widgets.Box(layout=widgets.Layout(width="100%",display="inline_flex",flex_flow="column",justify_content="center"))
+
+        self._container.add_class(self._visuals.css + "_container")
+        if self._class != None:
+            self._container.add_class(self._class + "_container")
+
+        self._header = widgets.HTML(layout=widgets.Layout(overflow="hidden",width="100%",margin="0"))
+        self._header.add_class(self._visuals.css + "_header")
+        if self._class != None:
+            self._header.add_class(self._class + "_header")
+
+        self._content = widgets.Box(layout=widgets.Layout(width="100%",display="inline_flex",flex_flow="row wrap",justify_content="center",align_items="center"))
+        #self._content = widgets.Box(layout=widgets.Layout(width="100%",display="inline_flex",flex_flow="row wrap",justify_content="center",align_items="flex-start"))
         self._content.add_class(self._visuals.css + "_content")
         if self._class != None:
             self._content.add_class(self._class + "_content")
 
-        self._title = widgets.HTML(layout=widgets.Layout(overflow="hidden"))
-        self._title.add_class(self._visuals.css + "_title")
+        self._footer = widgets.Box(layout=widgets.Layout(width="100%"))
+        self._footer.add_class(self._visuals.css + "_footer")
         if self._class != None:
-            self._title.add_class(self._class + "_title")
+            self._footer.add_class(self._class + "_footer")
+        if True:
+            self._footer.children = [widgets.Text(value="footer")]
 
-        self.children = [self._content]
+        self.children = [self._container]
         self._figure = None
         self._data = None
         self._layout = None
         self._controls = None
 
-        self._banner = widgets.VBox([self._title])
-        self._banner.add_class(self._visuals.css + "_banner")
         self._chartStyle = tools.Options()
+
+        self._delegates = []
+
+        self.setDisplay()
+
+    def addDelegate(self,delegate):
+        tools.addTo(self._delegates,delegate)
+        if self._figure is not None:
+            self.draw()
+
+    def removeDelegate(self,delegate):
+        tools.removeFrom(self._delegates,delegate)
+        if self._figure is not None:
+            self.draw()
+
+    def setDisplay(self):
+        children = []
+        height = 100
+        if self.getOpt("show_header",True):
+            children.append(self._header)
+            height -= 10
+        children.append(self._content)
+        if self.getOpt("show_controls",False):
+            if self._controls == None:
+                self._controls = ControlPanel(self._datasource) 
+            self._footer.children = [self._controls]
+            children.append(self._footer)
+            height -= 10
+        self._content.layout.height = str(height) + "%"
+        self._container.children = children
 
     def setOpts(self,**kwargs):
         Options.setOpts(self,**kwargs)
@@ -298,15 +369,9 @@ class Chart(Options,widgets.Box):
             self.addChartStyle()
 
             self._figure = go.FigureWidget(data=self._data,layout=self._layout)
+            self._figure.add_class(self._visuals.css + "_figure")
 
-            children = [self._banner,self._figure]
-
-            if self.getOpt("show_controls",False):
-                if self._controls == None:
-                    self._controls = ControlPanel(self._datasource) 
-                children.append(self._controls)
-
-            self._content.children = children
+            self._content.children = [self._figure]
 
         self.draw(None,True)
 
@@ -335,7 +400,7 @@ class Chart(Options,widgets.Box):
                 title += "<br>"
                 title += filter
 
-        self._title.value = self._visuals.formatTitle(title)
+        self._header.value = self._visuals.formatTitle(title)
 
     def createMarkers(self):
         o = {}
@@ -450,6 +515,7 @@ class BarChart(Chart):
         values = self.getValues("y")
 
         orientation = self.getOpt("orientation","vertical")
+        marker = {}
 
         if orientation == "horizontal":
 
@@ -494,6 +560,33 @@ class BarChart(Chart):
                         y = self._datasource.getValues(v)
                         self._figure.data[i].x = keys
                         self._figure.data[i].y = y
+
+        markers = None
+
+        for d in self._delegates:
+            if tools.supports(d,"get_bar_color"):
+                markers = []
+                colors = []
+                if orientation == "horizontal":
+                    for i,v in enumerate(values):
+                        marker = {}
+                        for j in range(0,len(self._figure.data[i].y)):
+                            color = d.get_bar_color(self._figure.data[i].y[j],self._figure.data[i].x[j])
+                            colors.append(color)
+                        marker["color"] = colors
+                        markers.append(marker)
+                else:
+                    for i,v in enumerate(values):
+                        marker = {}
+                        for j in range(0,len(self._figure.data[i].x)):
+                            color = d.get_bar_color(self._figure.data[i].x[j],self._figure.data[i].y[j])
+                            colors.append(color)
+                        marker["color"] = colors
+                        markers.append(marker)
+
+        if markers is not None:
+            for i,m in enumerate(markers):
+                self._figure.data[i].marker = markers[i]
 
         self._figure.update_xaxes(automargin=True)
         self._figure.update_yaxes(automargin=True)
@@ -724,9 +817,10 @@ class BubbleChart(Chart):
 class Table(Chart):
     def __init__(self,visuals,datasource,layout,**kwargs):
         Chart.__init__(self,visuals,datasource,layout,**kwargs)
-        self._header = widgets.HTML(layout=widgets.Layout(overflow="hidden",margin="0",padding="0"))
-        self._table = widgets.HTML(layout=widgets.Layout(overflow="auto",height="90%",margin="0",padding="0"))
-        self._content.children = [self._banner,self._header,self._table]
+        self._html = widgets.HTML(layout=widgets.Layout(overflow="auto",width="100%",height="100%",margin="0",padding="0"))
+        self._html.add_class(self._visuals.css + "_figure")
+        self._html.add_class(self._visuals.css + "_table")
+        self._content.children = [self._html]
 
     def draw(self,data = None,clear = False):
         allfields = self._datasource.getFields()
@@ -746,31 +840,46 @@ class Table(Chart):
         if len(fields) == 0:
             return
 
-        width = int(100 / len(fields))
-
         border = "1px solid #d8d8d8"
+        padding = "4px"
 
         content = ""
-        content += "<table cellspacing='0' cellpadding='2' style='border:" + border + ";width:100%'>"
+
+        style = ""
+        style += "position:relative"
+        style += ";overflow:auto"
+        style += ";border:" + border
+        style += ";border:0"
+        style += ";width:100%"
+
+        content += "<table cellspacing='0' cellpadding='0' style='" + style + "'>"
         content += "<tr>"
 
-        for f in fields:
-            content += "<td style='border:" + border
-            content += ";border-bottom:0"
+        style = ""
+        style += "position:sticky"
+        style += ";padding:" + padding
+        style += ";top:0px"
+
+        for i,f in enumerate(fields):
+            thstyle = style
+            #thstyle += ";border:" + border
+            thstyle += ";border-left-width:0"
+            thstyle += ";border-top-width:0"
+            if i == len(fields) - 1:
+                thstyle += ";border-right-width:0"
             if f["isNumber"]:
-                content += ";text-align:right"
-            content += "' width='" + str(width) + "%'>" + f["name"] + "</td>"
+                thstyle += ";text-align:right"
+            else:
+                thstyle += ";text-align:left"
+            content += "<th style='" + thstyle + "'>"
+            content += f["name"] + "</th>"
             content += "\n"
 
         content += "</tr>"
-        content += "</table>"
-        self._header.value = content
 
         items = self._datasource.getList()
 
-        content = ""
-        content += "<table cellspacing='0' cellpadding='2' style='border:" + border + ";width:100%'>"
-        #content += "<tr>"
+        content += "<tr>"
 
         gradient = None
 
@@ -796,6 +905,11 @@ class Table(Chart):
         else:
             l = items
 
+        style = ""
+        #style += ";background:white"
+        style += ";border:" + border
+        style += ";padding:" + padding
+
         for i,o in enumerate(l):
             content += "<tr"
             if color != None and gradient != None:
@@ -809,9 +923,14 @@ class Table(Chart):
                         content += ";color:white"
                     else:
                         content += ";color:black"
+            for d in self._delegates:
+                if tools.supports(d,"get_row_style"):
+                    style = d.get_row_style(o)
+                    if style is not None:
+                        content += ";" + style
                     content += "'"
             content += ">"
-            for f in fields:
+            for j,f in enumerate(fields):
                 name = f["name"]
                 value = o[name]
                 imagedata = o[name]
@@ -820,7 +939,7 @@ class Table(Chart):
                     if isinstance(imagedata,dict):
                         format = imagedata["@type"]
                         imagedata = imagedata["*value"]
-                    value = "<div style='width:" + str(width) + "%;position:relative;margin:auto'>"
+                    value = "<div style='width:100%;position:relative;margin:auto'>"
                     value += "<img style='width:100%;height:100%' src='data:image/" + format + ";base64," + imagedata + "'/>"
                     if "_nObjects_" in o:
                         numObjects = int(float(o["_nObjects_"]))
@@ -839,99 +958,37 @@ class Table(Chart):
                             value += div
 
                     value += "</div>"
+                elif f["isDate"]:
+                    num = int((int)(value))
+                    date = datetime.datetime.fromtimestamp(num)
+                    value = str(date)
                 elif f["isTime"]:
                     num = int((int)(value) / 1000000)
                     date = datetime.datetime.fromtimestamp(num)
                     value = str(date)
-                content += "<td style='border:" + border
+                style = ""
+                style += "border-left-width:0"
+                style += ";border-top-width:0"
                 if f["isNumber"]:
-                    content += ";text-align:right"
-                if i == 0:
-                    content += ";border-top:0"
-                content += "' width='" + str(width) + "%'>" + str(value) + "</td>"
+                    style += ";text-align:right"
+                if j == len(fields) - 1:
+                    style += ";border-right-width:0"
+                for d in self._delegates:
+                    if tools.supports(d,"get_cell_style"):
+                        s = d.get_cell_style(o,name)
+                        if s is not None:
+                            style += ";" + s
+                content += "<td style='" + style + "'>"
+                content += str(value)
+                content += "</td>"
             content += "</tr>"
             content += "\n"
 
         content += "</table>"
-        self._table.value = content
+
+        self._html.value = content
 
         self.setTitle()
-
-class PlotlyTable(Chart):
-    def __init__(self,visuals,datasource,layout,**kwargs):
-        Chart.__init__(self,visuals,datasource,layout,**kwargs)
-        self._headers = []
-        self._font = Options(name=self.getOpt("font_name","Arial"),size=self.getOpt("font_size","20"))
-
-    def createContent(self):
-
-        fields = self.getFields()
-        self._headers = []
-
-        for f in fields:
-            self._headers.append(f["name"])
-
-        self._data = []
-        self._data.append(go.Table(header=dict(values=self._headers)))
-
-    def draw(self,data = None,clear = False):
-        if self._figure == None:
-            return
-
-        fields = self.getFields()
-
-        data = self._datasource.getList()
-
-        values = []
-
-        for f in fields:
-            name = f["name"]
-            a = []
-            for o in data:
-                a.append(o[name])
-            values.append(a)
-
-        font = {}
-        font["family"] = self._font.getOpt("family","Arial")
-        font["size"] = self._font.getInt("size",30)
-
-        headers = {"values":self._headers}
-        headers["fill_color"] = "paleturquoise"
-
-        cells = {"values":values}
-        #cells["font"] = font
-        cells["fill_color"] = "lavender"
-
-        self._data = [go.Table(header=headers,cells=cells)]
-        self._figure = go.FigureWidget(data=self._data,layout=self._layout)
-
-        children = [self._title,self._figure]
-
-        if self.getOpt("show_controls",False):
-            if self._controls == None:
-                self._controls = ControlPanel(self._datasource) 
-            children.append(self._controls)
-
-        self._content.children = children
-
-        self.setTitle()
-
-    def getFields(self):
-        allfields = self._datasource.getFields()
-        columns = self.getValues("values")
-
-        fields = []
-
-        if len(columns) > 0:
-            for column in columns:
-                f = self._datasource.getField(column)
-                if f != None:
-                    fields.append(f)
-        else:
-            for f in allfields:
-                fields.append(f)
-
-        return(fields)
 
 class ImageViewer(Chart):
     def __init__(self,visuals,datasource,layout,**kwargs):
@@ -978,9 +1035,9 @@ class ImageViewer(Chart):
             if html != None:
                 content = widgets.HTML(value=html,layout=widgets.Layout(width="100%",height="100%",overflow="auto"))
                 if self.getOpt("show_header",True):
-                    self._content.children = [self._banner,content]
+                    self._container.children = [self._header,content]
                 else:
-                    self._content.children = [content]
+                    self._container.children = [content]
 
         self.setTitle()
 
@@ -1007,7 +1064,8 @@ class Images(Chart):
         self._detection = None
 
     def createContent(self):
-        self.children = [self._banner]
+        #self._content.children = [self._header]
+        pass
 
     def draw(self,data = None,clear = False):
         if self._detection == None:
@@ -1080,7 +1138,7 @@ class Images(Chart):
 
             images = widgets.HTML(value=html,layout=widgets.Layout(border=self._visuals.getOpt("border","1px solid #d8d8d8"),width="100%",height="100%",overflow="auto",))
 
-            self.children = [self._banner,images]
+            self.children = [self._header,images]
 
         self.layout.overflow = "auto"
         self.setTitle()
@@ -1106,7 +1164,7 @@ class ImageEntry(Options):
         self._images = images
         self._data = None
         self._key = ""
-        self._title = widgets.HTML()
+        self._header = widgets.HTML()
         self._html = None
 
     @property
@@ -1172,6 +1230,7 @@ class Map(Chart):
         Chart.__init__(self,visuals,datasource,layout,**kwargs)
 
         self._map = maps.Map()
+        self._map.add_class(self._visuals.css + "_figure")
         self._lat = None
         self._lon = None
         self._markers = {}
@@ -1182,6 +1241,8 @@ class Map(Chart):
 
         self._circles = []
         self._polygons = []
+
+        self._lock = threading.Lock()
 
     def createContent(self):
         if self.hasOpt("center"):
@@ -1221,7 +1282,7 @@ class Map(Chart):
 
         components = []
 
-        components.append(self._banner)
+        #components.append(self._header)
 
         colorbar = None
 
@@ -1336,6 +1397,7 @@ class Map(Chart):
         if self.hasOpt("icon"):
             iconOpts = tools.Options()
             iconOpts.setOpts(**self.getOpt("icon"))
+            logging.info(str(iconOpts))
 
         for value in data:
             key = ""
@@ -1470,6 +1532,7 @@ class Map(Chart):
         datasource.addDelegate(self)
 
     def dataChanged(self,datasource,data,clear):
+
         o = None
 
         for circle in self._circles:
@@ -1477,15 +1540,17 @@ class Map(Chart):
                 o = circle
                 break
 
-        if o != None:
-            self.loadCircles(o)
-        else:
-            for polygon in self._polygons:
-                if polygon["datasource"] == datasource:
-                    o = polygon
-                    break
+        #with self._lock:
+        if True:
             if o != None:
-                self.loadPolygons(o)
+                self.loadCircles(o)
+            else:
+                for polygon in self._polygons:
+                    if polygon["datasource"] == datasource:
+                        o = polygon
+                        break
+                if o != None:
+                    self.loadPolygons(o)
     
     def loadCircles(self,o):
         o["layers"].clear_layers()
@@ -1534,67 +1599,68 @@ class Map(Chart):
 
         lonlat = (o["order"] == "lon_lat")
 
-        for key,value in data.items():
-            coords = value[o["coords"]]
-            a = coords.split(" ")
-            points = []
-            i = 0
-            while True:
-                if lonlat:
-                    points.append((a[i + 1],a[i]))
+        with self._lock:
+            for key,value in data.items():
+                coords = value[o["coords"]]
+                a = coords.split(" ")
+                points = []
+                i = 0
+                while True:
+                    if lonlat:
+                        points.append((a[i + 1],a[i]))
+                    else:
+                        points.append((a[i],a[i + 1]))
+                    i += 2
+                    if i >= len(a):
+                        break
+                if len(points) == 1:
+                    radius = 100
+
+                    if "radius" in o:
+                        radius = o["radius"]
+                    elif "radius_field" in o:
+                        num = float(value[o["radius_field"]])
+                        radius = int(num)
+
+                    circle = maps.Circle(location=(points[0][0],points[0][1]),radius=radius)
+
+                    borderWidth = self.getOpt("circle_border_width",2)
+                    circle.weight = borderWidth
+
+                    if borderWidth > 0:
+                        circle.stroke = True
+                        circle.color = self.getOpt("circle_border_color","black")
+                    else:
+                        circle.stroke = False
+
+                    circle.fill_color = self.getOpt("circle_fill_color","white")
+                    circle.fill_opacity = self.getOpt("circle_fill_opacity",.2)
+
+                    if "text" in o:
+                        text = value[o["text"]]
+                        circle.popup = widgets.HTML(value=text)
+
+                    o["layers"].add_layer(circle)
                 else:
-                    points.append((a[i],a[i + 1]))
-                i += 2
-                if i >= len(a):
-                    break
-            if len(points) == 1:
-                radius = 100
+                    polygon = maps.Polygon(locations=points)
 
-                if "radius" in o:
-                    radius = o["radius"]
-                elif "radius_field" in o:
-                    num = float(value[o["radius_field"]])
-                    radius = int(num)
+                    borderWidth = self.getOpt("poly_border_width",1)
+                    polygon.weight = borderWidth
 
-                circle = maps.Circle(location=(points[0][0],points[0][1]),radius=radius)
+                    if borderWidth > 0:
+                        polygon.stroke = True
+                        polygon.color = self.getOpt("poly_border_color","black")
+                    else:
+                        polygon.stroke = False
 
-                borderWidth = self.getOpt("circle_border_width",2)
-                circle.weight = borderWidth
+                    polygon.fill_color = self.getOpt("poly_fill_color","white")
+                    polygon.fill_opacity = self.getOpt("poly_fill_opacity",.2)
 
-                if borderWidth > 0:
-                    circle.stroke = True
-                    circle.color = self.getOpt("circle_border_color","black")
-                else:
-                    circle.stroke = False
+                    if "text" in o:
+                        text = value[o["text"]]
+                        polygon.popup = widgets.HTML(value=text)
 
-                circle.fill_color = self.getOpt("circle_fill_color","white")
-                circle.fill_opacity = self.getOpt("circle_fill_opacity",.2)
-
-                if "text" in o:
-                    text = value[o["text"]]
-                    circle.popup = widgets.HTML(value=text)
-
-                o["layers"].add_layer(circle)
-            else:
-                polygon = maps.Polygon(locations=points)
-
-                borderWidth = self.getOpt("poly_border_width",1)
-                polygon.weight = borderWidth
-
-                if borderWidth > 0:
-                    polygon.stroke = True
-                    polygon.color = self.getOpt("poly_border_color","black")
-                else:
-                    polygon.stroke = False
-
-                polygon.fill_color = self.getOpt("poly_fill_color","white")
-                polygon.fill_opacity = self.getOpt("poly_fill_opacity",.2)
-
-                if "text" in o:
-                    text = value[o["text"]]
-                    polygon.popup = widgets.HTML(value=text)
-
-                o["layers"].add_layer(polygon)
+                    o["layers"].add_layer(polygon)
 
         if self._map != None:
             if (o["layers"] in self._map.layers) == False:
@@ -1614,29 +1680,19 @@ class Map(Chart):
 
 class Gauge(Chart):
     def __init__(self,visuals,datasource,layout = None,**kwargs):
-        self._delegates = []
-
         Chart.__init__(self,visuals,datasource,layout,**kwargs)
 
+        #self.remove_class(self._visuals.css + "_chart")
+        #self.add_class(self._visuals.css + "_gauge")
+
         self._intervalColors = None
-        self._segments = 0
         self._gauges = {}
         self.range = self.getOpt("range",(0,100))
 
     def createContent(self):
-        self._box = widgets.Box(layout=widgets.Layout(display="inline_flex",flex_flow="row wrap",justify_content="center"))
+        segments = self.getOpt("segments",3)
 
-        self._segments = self.getOpt("segments",3)
-
-        self._shape = self.getOpt("shape",50)
-
-        if self._shape >= 90:
-            raise Exception("the shape value must be less than 90")
-
-        interval = self._shape / self._segments
-        mod = self._shape % self._segments
-
-        self._intervalColors = [self.getOpt("label_bg","rgba(0,0,0,0)")]
+        self._intervalColors = []
 
         if self.hasOpt("colors"):
             self._intervalColors.extend(self.getOpt("colors"))
@@ -1645,47 +1701,13 @@ class Gauge(Chart):
                 opts = {}
                 opts["color"] = self.getOpt("color")
                 opts["end"] = self.getOpt("gradient_end",False)
-                opts["num"] = self._segments
+                opts["num"] = segments
                 opts["delta"] = self.getOpt("gradient_delta",15)
                 self._intervalColors.extend(tools.createGradientColors(**opts))
 
-        self._intervalValues = [100 - self._shape]
-        self._intervalLabels = [" "]
-        self._ticValues = [100 - self._shape - 10]
-        self._ticLabels = [" "]
-
-        self._segmentLabels = [self.getOpt("label"," ")]
-
-        text = self.getOpt("text",[])
-
-        intervalSize = (self._range[1] - self._range[0]) / self._segments
+        intervalSize = (self._range[1] - self._range[0]) / segments
 
         self._intervals = np.arange(self._range[0],self._range[1],intervalSize)
-
-        for i in range(0,self._segments):
-            value = int(interval)
-            if mod > 0:
-                value += 1
-                mod -= 1
-            self._intervalValues.append(value)
-            self._intervalLabels.append("i" + str(i))
-
-            self._ticValues.append(value)
-
-            self._ticLabels.append(self.getLabel(self._range[0] + (intervalSize * i)))
-
-            if len(text) > i:
-                self._segmentLabels.append(text[i])
-            else:
-                self._segmentLabels.append(" ")
-
-            if i == self._segments - 1:
-                if mod > 0:
-                    value += 1
-                self._ticValues.append(value)
-                self._ticLabels.append(self.getLabel(self._range[0] + (intervalSize * (i + 1))))
-
-        self._content.children = [self._banner,self._box]
 
     def draw(self,data = None,clear = False):
 
@@ -1745,7 +1767,7 @@ class Gauge(Chart):
             for key,value in self._gauges.items():
                 a.append(value)
 
-            self._box.children = a
+            self._content.children = a
 
             if False:
                 if self.getOpt("show_controls",False):
@@ -1767,7 +1789,7 @@ class Gauge(Chart):
     def setTitle(self,title = None):
         title = self.getOpt("title","")
 
-        if len(self._gauges) == 1:
+        if len(self._gauges) == 1 and self.getOpt("singleton",False):
             for gauge in self._gauges.values():
                 if len(title) == 0:
                     title = gauge.getOpt("title","")
@@ -1800,158 +1822,110 @@ class Gauge(Chart):
             self._range = value
             self.create()
 
-    def addDelegate(self,delegate):
-        tools.addTo(self._delegates,delegate)
-
 class GaugeEntry(Options,widgets.VBox):
     def __init__(self,gauge,**kwargs):
         Options.__init__(self,**kwargs)
-        #widgets.VBox.__init__(self,layout=widgets.Layout(border=gauge.getOpt("border","1px solid #d8d8d8"),padding=gauge.getOpt("padding","10px"),margin=gauge.getOpt("spacing","10px")))
-        widgets.VBox.__init__(self,layout=widgets.Layout(margin="10px"))
+        widgets.Box.__init__(self,layout=widgets.Layout(margin="10px"))
         self._gauge = gauge
+        self._data = None
         self._figure = None
+        self._indicator = None
         self._layout = None
         self._value = 0
-        self._title = widgets.HTML()
-        self._title.add_class(self._gauge._visuals.css + "_title")
+        self._header = widgets.HTML()
+        self._header.add_class(self._gauge._visuals.css + "_header")
 
     def create(self):
-        size = self._gauge.getOpt("size",300)
 
-        self._layout = go.Layout(width=size,height=size)
+        shape = self._gauge.getOpt("shape","angular")
+
+        if shape == "bullet":
+            size = self._gauge.getOpt("size",(300,50))
+        else:
+            size = self._gauge.getOpt("size",(300,200))
+
+        if type(size) is tuple:
+            self._layout = go.Layout(width=size[0],height=size[1])
+        else:
+            self._layout = go.Layout(width=size,height=size)
+
+        if shape == "bullet":
+            margin = self._gauge.getOpt("margin",(10,10,30,30))
+        else:
+            margin = self._gauge.getOpt("margin",(30,30,30,10))
+
+        if type(margin) is tuple:
+            self._layout["margin"] = dict(l=margin[0],t=margin[1],r=margin[2],b=margin[3])
+        else:
+            self._layout["margin"] = dict(l=margin,t=margin,r=margin,b=margin)
 
         self._data = []
 
-        self._tics = go.Pie(values=self._gauge._ticValues,labels=self._gauge._ticLabels,
-            marker=dict(colors=["rgba(0,0,0,0)"] * (self._gauge._segments + 10),line_width = 0),
-            direction="clockwise",
-            rotation=int((((self._gauge._shape + 10) / 100) * 360) / 2),
-            hole=self._gauge.getOpt("center_size",.40),
-            sort=False,
-            showlegend=False,
-            hoverinfo="none",
-            textposition="outside",
-            textinfo="label")
+        axis = {}
+        axis["range"] = self._gauge.range
+        steps = []
 
-        self._data.append(self._tics)
+        prev = 0
 
-        self._intervals = go.Pie(values=self._gauge._intervalValues,
-            labels=self._gauge._intervalLabels,
-            text=self._gauge._segmentLabels,
-            marker=dict(line_width=self._gauge.getOpt("line_width",1)),
-            marker_colors=self._gauge._intervalColors,
-            hole=self._gauge.getOpt("center_size",.40),
-            sort=False,
-            direction="clockwise",
-            rotation=int(((self._gauge._shape / 100) * 360) / 2),
-            showlegend=False,
-            hoverinfo="none",
-            textposition="inside",
-            textinfo="text")
+        for i in range(1,len(self._gauge._intervals)):
+            lower = self._gauge._intervals[i - 1]
+            upper = self._gauge._intervals[i]
+            steps.append({"range":[lower,upper],"color":self._gauge._intervalColors[i - 1]})
 
-        self._data.append(self._intervals)
+        lower = self._gauge._intervals[-1]
+        upper = self._gauge._range[1]
+        steps.append({"range":[lower,upper],"color":self._gauge._intervalColors[-1]})
+        
+        mode = ""
 
-        margin = self._gauge.getOpt("margin",30)
-        self._layout["margin"] = dict(l=margin,r=margin,b=margin,t=margin)
+        if self._gauge.getOpt("gauge",True):
+            if len(mode) > 0:
+                mode += "+"
+            mode += "gauge"
 
-        #self._layout["paper_bgcolor"] = "#e8e8e8"
-        #self._layout["plot_bgcolor"] = "blue"
-        #self._layout["paper_bgcolor"] = "rgba(0,0,0,0)"
-        self._layout["plot_bgcolor"] = "rgba(0,0,0,0)"
+        if self._gauge.getOpt("number",True):
+            if len(mode) > 0:
+                mode += "+"
+            mode += "number"
 
+        if self._gauge.getOpt("delta",False):
+            if len(mode) > 0:
+                mode += "+"
+            mode += "delta"
+
+        shape = self._gauge.getOpt("shape","angular")
+
+        bar = {}
+        bar["color"] = self._gauge.getOpt("bar_color","black")
+        bar["thickness"] = self._gauge.getOpt("bar_width",.2)
+
+        self._indicator = go.Indicator(mode=mode,gauge={"shape":shape,"axis":axis,"steps":steps,"bar":bar},value=0)
+
+        self._data.append(self._indicator)
         self._figure = go.FigureWidget(data=self._data,layout=self._layout)
- 
-        height = size
-        height += 30
-        #self.children = [self._title,self._figure],layout=widgets.Layout(border="1px solid #d8d8d8",width=str(size) + "px",height=str(height) + "px")
-        self.children = [self._title,self._figure]
+        self.children = [self._header,self._figure]
  
     def draw(self,data = None,clear = False):
 
         if self._figure == None:
             self.create()
 
-        num = (self._value - self._gauge._range[0])  / (self._gauge._range[1] - self._gauge._range[0])
-
-        angleRange = (self._gauge._shape / 100) * 360
-
-        start = angleRange - ((angleRange - 180) / 2)
-
-        angle = start - (angleRange * num)
-
-        hole = self._intervals["hole"]
-
-        radians = angle * (math.pi / 180)
-
-        radius = hole / 2
-        radius -= .02
-
-        center = dict(x=.5,y=.5)
-
-        if self._intervals.domain.x != None:
-            center["x"] = float((self._intervals.domain.x[1] - self._intervals.domain.x[0]) / 2)
-
-        if self._intervals.domain.y != None:
-            center["y"] = float((self._intervals.domain.y[1] - self._intervals.domain.y[0]) / 2)
-
-        x = center["x"] + (radius * math.cos(radians))
-        y = center["y"] + (radius * math.sin(radians))
-
-        r = .05
-
-        radians = (angle - 75) * (math.pi / 180)
-        x0 = center["x"] + (r * math.cos(radians))
-        y0 = center["y"] + (r * math.sin(radians))
-
-        radians = (angle + 75) * (math.pi / 180)
-        x1 = center["x"] + (r * math.cos(radians))
-        y1 = center["y"] + (r * math.sin(radians))
-
-        path = ""
-        path += "M " + str(x0) + " " + str(y0)
-        path += "L " + str(x) + " " + str(y)
-        path += "L " + str(x1) + " " + str(y1)
-
-        interval = np.where(self._value >= self._gauge._intervals)[0]
-
-        fillcolor = self._gauge._intervalColors[len(interval)]
-
-        hole = hole / 2
-
-        centerBg = self._gauge.getOpt("center_bg","rgba(0,0,0,0)")
-
-        linewidth = self._gauge.getOpt("line_width",1)
-
-        centerCircle = go.layout.Shape(type="circle",x0=center["x"] - hole,y0=center["y"] - hole,x1=center["x"] + hole,y1=center["y"] + hole,fillcolor=centerBg,line_width=linewidth)
-
-        lw = linewidth
-        if lw == 0:
-            lw = 2
-
-        pointerCircle = go.layout.Shape(type="circle",x0=center["x"] - r,y0=center["y"] - r,x1=center["x"] + r,y1=center["y"] + r,fillcolor=fillcolor,line_width=lw)
-        pointer = go.layout.Shape(type="path",path=path,fillcolor=fillcolor,line_width=lw)
-
-        shapes = [centerCircle,pointerCircle,pointer]
-
-        #label = go.layout.Annotation(text=str(int(self._value)),x=center["x"],y=center["y"] - (r * 2),showarrow=False,font=dict(size=14))
-        #label = go.layout.Annotation(text=str(int(self._value)),x=center["x"],y=center["y"] - .4,showarrow=False,font=dict(size=18))
-
-        #self._figure.update_layout(shapes=shapes,annotations=[label])
-        self._figure.update_layout(shapes=shapes)
+        self._figure.update_traces(value=self._value);
 
         self.setTitle()
 
     def setTitle(self):
-        if len(self._gauge._gauges) > 1:
-            title = self.getOpt("title")
 
-            if title != None:
-                self._title.value = self._gauge._visuals.formatTitle("{} ({})".format(title,int(self._value)))
-
-            self.layout.border = self._gauge.getOpt("border","1px solid #d8d8d8")
-        else:
-            self._title.value = ""
+        if self._gauge.getOpt("singleton",False):
             self.layout.border = "0"
+            return
+
+        title = self.getOpt("title")
+
+        if title != None:
+            self._header.value = self._gauge._visuals.formatTitle(title)
+
+        self.layout.border = self._gauge.getOpt("border","1px solid #d8d8d8")
 
     @property
     def value(self):
@@ -1964,23 +1938,23 @@ class GaugeEntry(Options,widgets.VBox):
 
     @property
     def title(self):
-        return(self._title)
+        return(self._header)
 
 class Compass(Chart):
     def __init__(self,visuals,datasource,layout = None,**kwargs):
         Chart.__init__(self,visuals,datasource,layout,**kwargs)
+
+        #self.remove_class(self._visuals.css + "_chart")
+        #self.add_class(self._visuals.css + "_compass")
+
         self._colors = None
         self._entries = {}
-        self._delegates = []
-        self._box = widgets.Box(layout=widgets.Layout(display="inline_flex",flex_flow="row wrap",justify_content="center"))
 
     def createContent(self):
         segments = 8
 
         self._values = [13,12,13,12,13,12,13,12]
         self._labels = ["N","NE","E","SE","S","SW","W","NW"]
-
-        self._content.children = [self._banner,self._box]
 
     def draw(self,data = None,clear = False):
 
@@ -2028,19 +2002,19 @@ class Compass(Chart):
                         d.entryRendered(self,o,entry)
 
         if layout:
-            a = [self._banner]
+            a = []
 
             for key,value in self._entries.items():
                 a.append(value)
 
-            self._box.children = a
+            self._content.children = a
 
         self.setTitle()
 
     def setTitle(self,title = None):
         title = self.getOpt("title","")
 
-        if len(self._entries) == 1:
+        if len(self._entries) == 1 and self.getOpt("singleton",False):
             for entry in self._entries.values():
                 if len(title) == 0:
                     title = entry.getOpt("title","")
@@ -2048,9 +2022,6 @@ class Compass(Chart):
                 break
             
         Chart.setTitle(self,title)
-
-    def addDelegate(self,delegate):
-        tools.addTo(self._delegates,delegate)
 
 class CompassEntry(Options,widgets.VBox):
     def __init__(self,compass,**kwargs):
@@ -2061,9 +2032,8 @@ class CompassEntry(Options,widgets.VBox):
         self._figure = None
         self._layout = None
         self._heading = 0
-        self._title = widgets.HTML()
-        self._title = widgets.HTML(layout=widgets.Layout(overflow="hidden"))
-        self._title.add_class(self._compass._visuals.css + "_title")
+        self._header = widgets.HTML(layout=widgets.Layout(overflow="hidden"))
+        self._header.add_class(self._compass._visuals.css + "_header")
         self._innerCircle = None
 
     def create(self):
@@ -2174,7 +2144,7 @@ class CompassEntry(Options,widgets.VBox):
  
         height = size
         height += 30
-        self.children = [self._title,self._figure]
+        self.children = [self._header,self._figure]
  
     def draw(self,data = None,clear = False):
         if self._figure == None:
@@ -2267,17 +2237,33 @@ class CompassEntry(Options,widgets.VBox):
         self.setTitle()
 
     def setTitle(self):
+        if self._compass.getOpt("singleton",False):
+            self.layout.border = "0"
+            return
+
         title = self.getOpt("title")
 
-        if len(self._compass._entries) > 1:
-            title = self.getOpt("title")
+        if title != None:
+            html = ""
+            html += "<table style='"
+            html += self._compass._visuals.getHeaderStyle()
+            html += ";width:100%"
+            html += "'>"
+            html += "<tr>"
+            html += "<td style='text-align:left'>" + title + "</td>"
+            html += "<td style='text-align:right'>" + str(int(self._heading)) + "</td>"
+            html += "</tr>"
+            html += "</table>"
+            s = str(int(self._heading))
+            tmp = ""
+            for i in range(3 - len(s)):
+                tmp += "&nbsp;"
+            tmp += s
+            text = "{title} ({heading})".format(title=title,heading=tmp)
+            tmp = "<div style='font:fixed'>" + text + "</div>"
+            self._header.value = self._compass._visuals.formatTitle(html)
 
-            if title != None:
-                self._title.value = self._compass._visuals.formatTitle("{} ({})".format(title,int(self._heading)))
-
-            self.layout.border = self._compass.getOpt("border","1px solid #d8d8d8")
-        else:
-            self.layout.border = "0"
+        self.layout.border = self._compass.getOpt("border","1px solid #d8d8d8")
 
     @property
     def heading(self):
@@ -2290,7 +2276,7 @@ class CompassEntry(Options,widgets.VBox):
 
     @property
     def title(self):
-        return(self._title)
+        return(self._header)
 
 class ControlPanel(widgets.HBox):
     def __init__(self,datasource):
@@ -2405,7 +2391,7 @@ class Controls(Chart):
     def __init__(self,visuals,datasource,layout,**kwargs):
         Chart.__init__(self,visuals,datasource,layout,**kwargs)
         self._panel = ControlPanel(self._datasource)
-        self.children = [self._banner,self._panel]
+        self.children = [self._header,self._panel]
 
     def draw(self,data,clear):
         pass
@@ -2419,7 +2405,10 @@ class Wrapper(Chart):
     def __init__(self,visuals,widget,layout,**kwargs):
         Chart.__init__(self,visuals,None,layout,**kwargs)
         self._widget = widget
-        self._content.children = [self._banner,self._widget]
+        if self.getOpt("show_header",True):
+            self._container.children = [self._header,self._widget]
+        else:
+            self._container.children = [self._widget]
         self.draw(None,False)
 
     def draw(self,data,clear):
@@ -2429,16 +2418,19 @@ class Wrapper(Chart):
     def widget(self):
         return(self._widget)
 
-class Container(Wrapper):
+class Dashboard(Wrapper):
     def __init__(self,visuals,layout,**kwargs):
         box = widgets.Box(layout=widgets.Layout(width="100%",height="auto",display="inline_flex",flex_flow="row wrap",justify_content="center"))
         Wrapper.__init__(self,visuals,box,layout,**kwargs)
 
         self.remove_class(self._visuals.css + "_chart")
-        self._content.remove_class(self._visuals.css + "_content")
+        self.add_class(self._visuals.css + "_dashboard")
 
-        self.add_class(self._visuals.css + "_container")
-        self._title.add_class(self._visuals.css + "_container_title")
+        self._container.remove_class(self._visuals.css + "_container")
+        self._widget.add_class(self._visuals.css + "_dashboard_container")
+
+        self._header.remove_class(self._visuals.css + "_header")
+        self._header.add_class(self._visuals.css + "_dashboard_header")
 
         self._children = []
 

@@ -50,8 +50,7 @@ from ..utils.notebook import scale_svg
 from ..utils.rest import get_params
 from ..utils.data import get_project_data, gen_name, get_server_info
 from ..utils.events import get_events, get_dataframe, get_schema
-from ..websocket import WebSocketClient
-
+from ..websocket import createWebSocket
 
 class Publisher(object):
     '''
@@ -150,7 +149,7 @@ class Publisher(object):
         if auth.isEnabled:
             headers.append(("Authorization",auth.authorization));
 
-        self._ws = WebSocketClient(self.url,self.session,headers=headers)
+        self._ws = createWebSocket(self.url,self.session,headers=headers)
         self._ws.connect()
 
     @property

@@ -16,120 +16,44 @@
 #  limitations under the License.
 #
 
-''' ESP Websocket Client '''
-
-from __future__ import print_function, division, absolute_import, unicode_literals
-
-import collections
+import logging
+import ssl
 import os
-import re
-import requests
-import warnings
-import threading
-import six
-try:
-    import wsaccel
-except ImportError:
-    wsaccel = None
-from six.moves import urllib
-from ws4py.client.threadedclient import WebSocketClient as WS4PyWebSocketClient
-from ws4py.messaging import BinaryMessage
 
-try:
-    if wsaccel is not None:
-        wsaccel.patch_ws4py()
-except Exception as exc:
-    warnings.warn('Could not import wsaccel: %s' % exc, RuntimeWarning)
+from urllib.parse import urlparse
 
+from esppy.ws4py import WebSocketClient as Ws4Py
+from esppy.wsclient import WebSocketClient as WsClient
 
-class WebSocketClient(WS4PyWebSocketClient):
-    '''
-    Websocket Client
+def createWebSocket(url,
+                    session,
+                    on_open=None,
+                    on_close=None,
+                    on_message=None,
+                    on_data=None,
+                    on_error=None,
+                    headers=None,
+                    ws4py = True,
+                    **kwargs):
 
-    Parameters
-    ----------
-    url : string
-        The URL to connect to
-    on_open : function, optional
-        Function to call when the websocket is connected
-    on_close : function, optional
-        Function to call when the websocket is closed
-    on_message : function, optional
-        Function to call when a message is received
-    on_data: function, optional
-        Function to call when binary data is received
-    on_error : function, optional
-        Function to call when an error occurs
-    **kwargs : keyword-arguments, optional
-        Extra parameters to the ws4py socket client
+    o = urlparse(url)
 
-    Returns
-    -------
-    :class:`WebSocketClient`
+    protocol = o[0]
 
-    '''
+    useWs4Py = ws4py
 
-    def __init__(self, url, session, on_open=None, on_close=None, on_message=None, on_data=None,
-                 on_error=None, **kwargs):
-        self.callbacks = dict(on_open=on_open, on_close=on_close,
-                              on_message=on_message, on_data=on_data, on_error=on_error)
-        WS4PyWebSocketClient.__init__(self, url, **kwargs)
-        self._lock = threading.Lock()
+    if useWs4Py:
+        if protocol == "wss":
+            if os.getenv("https_proxy") != None:
+                useWs4Py = False
+        elif protocol == "ws":
+            if os.getenv("http_proxy") != None:
+                useWs4Py = False
 
-    def received_message(self, message):
-        '''
-        Handle a message from the server
+    if useWs4Py:
+        ws = Ws4Py(url,session,on_message=on_message,on_data=on_data,on_error=on_error,on_open=on_open,on_close=on_close,headers=headers)
+    else:
+        ws = WsClient(url,session,on_message=on_message,on_data=on_data,on_error=on_error,on_open=on_open,on_close=on_close,headers=headers)
 
-        Parameters
-        ----------
-        message : string
-            The data from the server
+    return(ws)
 
-        '''
-        if isinstance(message,BinaryMessage):
-            if self.callbacks.get('on_data'):
-                return self.callbacks['on_data'](self, message.data)
-        else:
-            if self.callbacks.get('on_message'):
-                return self.callbacks['on_message'](self, message.data.decode(message.encoding))
-
-    def unhandled_error(self, error):
-        '''
-        Handle an error from the server
-
-        Parameters
-        ----------
-        error : Exception
-           The exception associated with the error
-
-        '''
-        if self.callbacks.get('on_error'):
-            self.callbacks['on_error'](self, error)
-
-    def opened(self):
-        ''' Handle the opening of a web socket connection '''
-        if self.callbacks.get('on_open'):
-            self.callbacks['on_open'](self)
-
-    def closed(self, code, reason=None):
-        '''
-        Handle the closing of a web socket connection
-
-        Parameters
-        ----------
-        code : int
-            The code the server was closed with
-        reason : string, optional
-            The reason the server connection was closed
-
-        '''
-        if self.callbacks.get('on_close'):
-            self.callbacks['on_close'](self, code, reason=reason)
-
-    def send(self,data):
-        with self._lock:
-            WS4PyWebSocketClient.send(self,data)
-
-    def sendBinary(self,data):
-        with self._lock:
-            WS4PyWebSocketClient.send(self,data,True)

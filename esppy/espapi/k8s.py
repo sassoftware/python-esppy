@@ -6,8 +6,12 @@ import requests
 import logging
 import time
 import json
+import sys
 
 import esppy.espapi.tools as tools
+
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 class K8S(tools.Options):
     def __init__(self,url,esp,**kwargs):
@@ -263,7 +267,7 @@ class K8S(tools.Options):
         pod = None
         pods = self.getPods()
         if len(pods) == 1:
-            pod = pods[0];
+            pod = pods[0]
         return(pod)
 
     def getLog(self,delegate):
@@ -325,6 +329,8 @@ class K8SProject(K8S):
         elif self.hasOpt("model_data"):
             model = self.getOpt("model_data")
 
+        self.authenticate()
+
         if self.loadConfig() == False:
             if model == None:
                 model = self.getDefaultModel()
@@ -332,84 +338,140 @@ class K8SProject(K8S):
         if model != None:
             self.load(model)
 
-    @property
-    def espUrl(self):
-        url = ""
-        if self._config != None:
-            if self.protocol == "k8s:" or self.protocol == "https:":
-                url += "https://"
-            elif self.protocol == "k8s-proxy:" or self.protocol == "https-proxy:":
-                url += "https://"
+    def authenticate(self):
+        while True:
+            status = self.getAuthToken()
+            if status == 401:
+                user = input("User: ")
+                pw = input("Password: ")
+                self.setOpt("username",user)
+                self.setOpt("password",pw)
             else:
-                url += "http://"
-            url += self._config["access"]["externalURL"]
-            url += "/SASEventStreamProcessingServer"
-            url += "/" + self._project
+                break
 
-        return(url)
+    def getAuthToken(self):
 
-    @property
-    def modelXml(self):
-        xml = ""
-        if self._config != None:
-            xml = self._config["spec"]["espProperties"]["server.xml"]
-        return(xml)
+        status = 0
 
-    def connect(self,connect,delegate,**kwargs):
-        opts = tools.Options(**kwargs)
-        modelconfig = opts.getOpt("model")
+        ingress = self.getIngress("sas-logon-app")
 
-        #k8s = self
+        if ingress is not None:
+            o = self.saslogon(ingress)
+            if o is not None:
+                status = o["status"]
+                if "token" in o:
+                    self.setOpt("access_token",o["token"])
+        else:
+            ingress = self.getIngress("uaa")
+            if ingress is not None:
+                o = self.uaa(ingress)
+                if o is not None:
+                    status = o["status"]
+                    if "token" in o:
+                        self.setOpt("access_token",o["token"])
 
-        class Loader(object):
-            def __init__(self):
-                pass
-        def loaded(self):
-            connect.connect(k8s.espUrl,delegate,options,start)
+        return(status)
 
-        class Handler(object):
-            def __init__(self,k8s):
-                self._k8s = k8s
+    def getIngress(self,name):
+        url = self.baseUrl
+        url += "apis/networking.k8s.io/v1beta1"
 
-            def loaded(self):
-                if modelconfig == None:
-                    class Tmp(object):
-                        def __init__(self,k8s):
-                            self._k8s = k8s
-                        def handlePod(self,pod):
-                            self._k8s._pod = pod
-                            connect.connect(self._k8s.espUrl,delegate,**kwargs)
-                    self._k8s.getPod(Tmp(self._k8s))
-                else:
-                    class Tmp(object):
-                        def __init__(self):
-                            pass
-                        def modelHandler(self,model):
-                            k8s.load(model,opts.getOpts(),Loader())
-                    k8s.getModel(modelconfig,Tmp())
+        if self.namespace is not None:
+            url += "/namespaces/" + self.namespace
+        url += "/ingresses/" + name
+        response = requests.get(url)
+        if response.status_code >= 404:
+            return(None)
+        else:
+            return(json.loads(response.text))
 
-            def notFound(self,project):
-                if modelconfig == None:
-                    if opts.getOpt("create",True):
-                        model = k8s.getDefaultModel(project)
-                        k8s.load(model,opts.getOpts(),Loader())
-                    elif tools.supports(delegate,"error"):
-                        delegate.error("project not found: " + project)
-                else:
-                    class Tmp(object):
-                        def __init__(self):
-                            pass
-                        def modelHandler(self,model):
-                            k8s.load(model,opts.getOpts(),Loader())
+    def saslogon(self,data):
 
-                    k8s.getModel(modelconfig,Tmp())
+        secret = self.getSecret()
 
-            def error(self,request,error):
-                raise Eexception("error: " + opts)
+        url = "https://";
+        url += data["spec"]["tls"][0]["hosts"][0];
+        url += "/SASLogon/oauth/clients/consul";
+        url += "?callback=false&serviceId=app";
 
-        self.loadConfig(Handler(self))
+        ca_bundle = self._esp.ca_bundle
 
-    def loadConfig(self,delegate = None):
+        if ca_bundle != None:
+            if ca_bundle == "_noverify_":
+                response = requests.post(url,headers={"X-Consul-Token":secret},verify=False);
+            else:
+                response = requests.post(url,headers={"X-Consul-Token":secret},verify=ca_bundle);
+        else:
+            response = requests.post(url,headers={"X-Consul-Token":secret});
+
+        if response.status_code >= 400:
+            return(None)
+
+        o = json.loads(response.text)
+
+        saslogon = {"status":response.status_code,"token":o["access_token"]}
+
+        return(saslogon)
+
+    def uaa(self,data):
+        url = "https://"
+        url += data["spec"]["tls"][0]["hosts"][0]
+        url += "/uaa/oauth/token"
+
+        user = self.getOpt("username","")
+        pw = self.getOpt("password","")
+
+        send = ""
+        send += "client_id=sv_client"
+        send += "&client_secret=secret"
+        send += "&grant_type=password"
+        send += "&username=" + user
+        send += "&password=" + pw
+
+        ca_bundle = self._esp.ca_bundle
+
+        if ca_bundle != None:
+            if ca_bundle == "_noverify_":
+                response = requests.post(url,data=send,headers={"Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"},verify=False)
+            else:
+                response = requests.post(url,data=send,headers={"Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"},verify=ca_bundle)
+        else:
+            response = requests.post(url,data=send,headers={"Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"})
+
+        if response.status_code >= 400:
+            return({"status":response.status_code})
+
+        o = json.loads(response.text)
+
+        uaa = {"status":response.status_code,"token":o["access_token"]}
+
+        return(uaa)
+
+    def getSecret(self):
+
+        secret = None
+
+        url = self.baseUrl;
+        url += "api/v1";
+
+        if self.namespace is not None:
+            url += "/namespaces/" + self.namespace
+
+        url += "/secrets/sas-consul-client";
+
+        response = requests.get(url)
+        if response.status_code >= 404:
+            return(None)
+        else:
+            o = json.loads(response.text)
+            if "code" in o and o["code"] == 404:
+                return(None)
+            else:
+                secret = b64decode(o["data"]["CONSUL_HTTP_TOKEN"]).decode()
+
+        return(secret)
+
+    def loadConfig(self):
 
         self._config = None
 
@@ -453,6 +515,7 @@ class K8SProject(K8S):
         newmodel = "b64" + b64encode(model.encode("utf-8")).decode()
 
         if newmodel == self.modelXml:
+        #if False:
             if opts.getOpt("overwrite",False) == False and opts.getOpt("force",False) == False:
                 return
 
@@ -467,7 +530,7 @@ class K8SProject(K8S):
         url += "/espservers/"
         url += self._project
 
-        content = self.getYaml(newmodel)
+        content = self.getYaml(newmodel,pv = False)
         headers = {"content-type":"application/yaml","accept":"application/json"}
 
         response = requests.post(url,data=content,headers=headers)
@@ -488,7 +551,10 @@ class K8SProject(K8S):
 
         response = requests.delete(url)
 
-    def getYaml(self,model):
+    def getYaml(self,model,**kwargs):
+
+        opts = tools.Options(**kwargs)
+
         s = ""
 
         s += "apiVersion: iot.sas.com/v1alpha1\n"
@@ -514,28 +580,30 @@ class K8SProject(K8S):
         s += "            target:\n"
         s += "              type: Utilization\n"
         s += "              averageUtilization: 50\n"
-        s += "      deployment:\n"
-        s += "        spec:\n"
-        s += "          selector:\n"
-        s += "            matchLabels:\n"
-        s += "          template:\n"
-        s += "            spec:\n"
-        s += "               volumes:\n"
-        s += "               - name: data\n"
-        s += "                 persistentVolumeClaim:\n"
-        s += "                   claimName: esp-pv\n"
-        s += "               containers:\n"
-        s += "               - name: ((PROJECT_SERVICE_NAME))\n"
-        s += "                 resources:\n"
-        s += "                   requests:\n"
-        s += "                     memory: \"1Gi\"\n"
-        s += "                     cpu: \"1\"\n"
-        s += "                   limits:\n"
-        s += "                     memory: \"2Gi\"\n"
-        s += "                     cpu: \"2\"\n"
-        s += "                 volumeMounts:\n"
-        s += "                 - mountPath: /mnt/data\n"
-        s += "                   name: data\n"
+
+        if (opts.getOpt("pv",True)):
+            s += "      deployment:\n"
+            s += "        spec:\n"
+            s += "          selector:\n"
+            s += "            matchLabels:\n"
+            s += "          template:\n"
+            s += "            spec:\n"
+            s += "               volumes:\n"
+            s += "               - name: data\n"
+            s += "                 persistentVolumeClaim:\n"
+            s += "                   claimName: esp-pv\n"
+            s += "               containers:\n"
+            s += "               - name: ((PROJECT_SERVICE_NAME))\n"
+            s += "                 resources:\n"
+            s += "                   requests:\n"
+            s += "                     memory: \"1Gi\"\n"
+            s += "                     cpu: \"1\"\n"
+            s += "                   limits:\n"
+            s += "                     memory: \"2Gi\"\n"
+            s += "                     cpu: \"2\"\n"
+            s += "                 volumeMounts:\n"
+            s += "                 - mountPath: /mnt/data\n"
+            s += "                   name: data\n"
         s += "    loadBalancerTemplate:\n"
         s += "      deployment:\n"
         s += "        spec:\n"
@@ -587,7 +655,7 @@ class K8SProject(K8S):
                     conditions = pod["status"]["conditions"]
                     ready = True
                     for i in range(0,len(conditions)):
-                        condition = conditions[i];
+                        condition = conditions[i]
                         if condition["status"] != "True":
                             ready = False
                             break
@@ -599,8 +667,8 @@ class K8SProject(K8S):
         self.readiness()
 
     def readiness(self):
-        url = self.espUrl;
-        url += "/internal/ready";
+        url = self.espUrl
+        url += "/internal/ready"
 
         success = False
 
@@ -613,6 +681,29 @@ class K8SProject(K8S):
                 print("exception: " + str(e))
 
             time.sleep(1)
+
+    @property
+    def espUrl(self):
+        url = ""
+        if self._config != None:
+            if self.protocol == "k8s:" or self.protocol == "https:":
+                url += "https://"
+            elif self.protocol == "k8s-proxy:" or self.protocol == "https-proxy:":
+                url += "https://"
+            else:
+                url += "http://"
+            url += self._config["access"]["externalURL"]
+            url += "/SASEventStreamProcessingServer"
+            url += "/" + self._project
+
+        return(url)
+
+    @property
+    def modelXml(self):
+        xml = ""
+        if self._config != None:
+            xml = self._config["spec"]["espProperties"]["server.xml"]
+        return(xml)
 
 def create(url,esp,**kwargs):
     u = urlparse(url)

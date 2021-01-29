@@ -1,6 +1,7 @@
 import threading
 import requests
 import datetime
+import logging
 import time
 
 from urllib.parse import urlparse
@@ -125,52 +126,69 @@ class EventSources(object):
         threading.Timer(1,self.run).start()
 
     def run(self):
-        if self._paused:
-            threading.Timer(1,self.run).start()
-            return
+        while self._running:
 
-        current = datetime.datetime.now()
-        eventsources = []
-        depsPending = False
-        minInterval = 5000
-        completed = 0
+            if self._paused:
+                while True:
+                    time.sleep(1)
+                    if self._paused == False:
+                        break
 
-        for es in self._eventsources.values():
-            if es.repeat >= 0 and es.done == False:
-                if es.sending == False:
-                    if es.checkDependencies():
-                        diff = current.timestamp() - es.timestamp
-                        interval = es.interval
+            current = datetime.datetime.now()
+            eventsources = []
+            depsPending = False
+            minInterval = 5000
+            completed = 0
 
-                        if diff > interval:
-                            if interval < minInterval:
-                                minInterval = interval
-                            eventsources.append(es)
+            for es in self._eventsources.values():
+                if es.repeat >= 0 and es.done == False:
+                    if es.sending == False:
+                        if es.checkDependencies():
+                            diff = current.timestamp() - es.timestamp
+                            interval = es.interval
+
+                            if diff > interval:
+                                if interval < minInterval:
+                                    minInterval = interval
+                                eventsources.append(es)
+                            else:
+                                diff = current.getTime() - es.timestamp + interval
+
+                                if diff < minInterval:
+                                    minInterval = diff
                         else:
-                            diff = current.getTime() - es.timestamp + interval
+                            depsPending = True
+                else:
+                    completed += 1
 
-                            if diff < minInterval:
-                                minInterval = diff
-                    else:
-                        depsPending = True
+            for es in eventsources:
+                if es.repeat >= 0:
+                    es.process()
+
+            if completed == len(self._eventsources.values()):
+                self._running = False
             else:
-                completed += 1
+                if depsPending:
+                    interval = 1
+                else:
+                    interval = minInterval / 1000
 
-        for es in eventsources:
-            if es.repeat >= 0:
-                es.process()
+                time.sleep(interval)
 
-        if completed == len(self._eventsources.values()):
-            self._running = False
+        if tools.supports(self._delegate,"complete"):
+            threading.Timer(1,self._delegate.complete(self)).start()
 
-            if tools.supports(self._delegate,"complete"):
-                threading.Timer(1,eventsources._delegate.complete(eventsources)).start()
+    def togglePlay(self):
+
+        if self._running == False:
+            self.start()
+            self._paused = False
+        elif self._paused:
+            self._paused = False
         else:
-            if depsPending:
-                interval = 1000
-            else:
-                interval = minInterval
-            threading.Timer(interval,self.run).start()
+            self._paused = True
+
+        return(self._paused == False)
 
     @property
     def connect(self):
@@ -191,6 +209,10 @@ class EventSources(object):
     @paused.setter
     def paused(self,value):
         self._paused = value
+
+        if self._paused == False:
+            if self._running == False:
+                self.start()
 
 class EventSource(tools.Options):
     def __init__(self,eventsources,**kwargs):
@@ -434,12 +456,12 @@ class Sender(object):
 
             self._eventsource._publisher.publish()
         else:
-            if self._eventsource._eventsources.paused:
-                while True:
-                    time.sleep(1)
-                    if self._eventsource._eventsources.paused == False:
-                        break
             while index < target:
+                if self._eventsource._eventsources.paused:
+                    while True:
+                        time.sleep(1)
+                        if self._eventsource._eventsources.paused == False:
+                            break
                 self._data[index]["opcode"] = self._opcode
                 self._eventsource._publisher.add(self._data[index])
 

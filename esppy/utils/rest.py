@@ -162,6 +162,14 @@ class RESTHelpers(object):
         setattr(self, '_session', session)
 
     @property
+    def accessToken(self):
+        return getattr(self,'access_token',None)
+
+    @accessToken.setter
+    def accessToken(self,value):
+        setattr(self,'access_token',value)
+
+    @property
     def base_url(self):
         ''' The base server URL '''
         self._verify_session()
@@ -202,9 +210,15 @@ class RESTHelpers(object):
         else:
             url = self.url
 
+        headers = {}
+
+        if self.accessToken is not None:
+            url += "?access_token="
+            url += self.accessToken
+
         if format == 'json':
             try:
-                out = self.session.get(url, **kwargs)
+                out = self.session.get(url, **kwargs,headers=headers)
                 out = out.json()
                 return out
             except JSONDecodeError:

@@ -11,6 +11,7 @@ import esppy.espapi.codec as codec
 import threading
 import logging
 import esppy
+from esppy.websocket import createWebSocket
 import json
 import time
 import ssl
@@ -18,16 +19,13 @@ import six
 import re
 import os
 
-if os.getenv("ESPPY_LOG") != None:
-    logging.basicConfig(filename=os.getenv("ESPPY_LOG"),level=logging.INFO)
-
 class Connection(tools.Options):
-    def __init__(self,session,**kwargs):
+    def __init__(self,esp,**kwargs):
         tools.Options.__init__(self,**kwargs)
 
-        self._session = session
+        self._esp = esp
 
-        url = urlparse(self._session.conn_url)
+        url = urlparse(self._esp.session.conn_url)
 
         self._secure = False
 
@@ -65,12 +63,15 @@ class Connection(tools.Options):
 
         headers = []
 
-        auth = Authorization.getInstance(self._session)
+        auth = Authorization.getInstance(self._esp.session)
+
+        ws4py = (self.getOpt("websockets","") != "websocket_client")
 
         if auth.isEnabled:
             headers.append(("Authorization",auth.authorization))
 
-        ws = esppy.websocket.WebSocketClient(url,self._session,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close,headers=headers)
+        ws = createWebSocket(url,self._esp.session,on_message=self.on_message,on_data=self.on_data,on_error=self.on_error,on_open=self.on_open,on_close=self.on_close,headers=headers,ws4py=ws4py)
+
         ws.connect()
 
     def stop(self):
@@ -246,9 +247,9 @@ class ServerConnection(Connection):
         "text-topic":"textanalytics"
     }
 
-    def __init__(self,session,k8s,delegate,**kwargs):
-        Connection.__init__(self,session,**kwargs)
-        self._k8s = k8s
+    def __init__(self,esp,delegate,**kwargs):
+        Connection.__init__(self,esp,**kwargs)
+        self._esp = esp
         self._delegates = []
         if delegate != None:
             tools.addTo(self._delegates,delegate)
@@ -379,6 +380,8 @@ class ServerConnection(Connection):
         else:
             url += "/"
         url += "eventStreamProcessing/v1/connect"
+        if self._esp.accessToken is not None:
+            url += "?access_token=" + self._esp.accessToken
         return(url)
 
     def getEventCollection(self,path,**kwargs):
@@ -507,7 +510,7 @@ class ServerConnection(Connection):
 
     def loadModel(self,delegate):
         if tools.supports(delegate,"modelLoaded") == False:
-            raise Exception("The stats delegate must implement the modelLoaded method")
+            raise Exception("The model delegate must implement the modelLoaded method")
 
         id = tools.guid()
         self._modelDelegates[id] = ModelDelegate(self,delegate)

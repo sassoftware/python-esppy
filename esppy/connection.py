@@ -30,6 +30,7 @@ import requests
 import six
 import sys
 import textwrap
+import logging
 import threading
 import warnings
 import xml.etree.ElementTree as ET
@@ -58,10 +59,15 @@ from .utils.data import get_project_data, gen_name, get_server_info
 from .utils.events import get_events
 from .utils.keyword import dekeywordify
 from .utils.project import expand_path
-from .websocket import WebSocketClient
+from .websocket import createWebSocket
 from .windows import BaseWindow, get_window_class
 from .espapi import api
 from .espapi import k8s
+
+if os.getenv("ESPPY_LOG") != None:
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    logging.basicConfig(filename=os.getenv("ESPPY_LOG"),level=logging.INFO)
 
 class ProjectStats(object):
     '''
@@ -194,7 +200,7 @@ class ProjectStats(object):
         if get_option('debug.requests'):
             sys.stderr.write('WEBSOCKET %s\n' % self.url)
 
-        self._ws = WebSocketClient(self.url,self.session,on_message=on_message)
+        self._ws = createWebSocket(self.url,self.session,on_message=on_message)
         self._ws.connect()
 
     def stop(self):
@@ -300,12 +306,16 @@ class ESP(RESTHelpers):
         self._k8s = None
         self._ca_bundle = ca_bundle
 
-        if re.match('^k8s.*://', hostname):
+        if re.match('^k8s.*://',hostname):
             opts = {}
             if model_file != None:
                 opts["model_file"] = model_file
             elif model_data != None:
                 opts["model_data"] = model_data
+            if username is not None:
+                opts["username"] = username
+            if password is not None:
+                opts["password"] = password
             self._k8s = k8s.create(hostname,self,**opts)
             hostname = self._k8s.espUrl
 
@@ -366,6 +376,12 @@ class ESP(RESTHelpers):
         # Use specified auth object
         if auth_obj is not None:
             session.auth = auth_obj
+        elif self._k8s is not None:
+            if self._k8s.hasOpt("access_token"):
+                token = self._k8s.getOpt("access_token")
+                auth.setBearer(token)
+                self._authorization = "Bearer " + token
+                session.headers.update({'Authorization':self._authorization.encode("utf-8")})
         else:
             enable_kerberos = username is None and password is None
 
@@ -406,20 +422,26 @@ class ESP(RESTHelpers):
                                   'module is not installed ', RuntimeWarning)
                     raise ESPError(res.reason)
 
+        if self._k8s is not None:
+            self.accessToken = self._k8s.getOpt("access_token")
+
         RESTHelpers.__init__(self, session=session)
 
         version = self.server_info["version"]
 
-        rgx = re.compile(".*\(([0-9]\.[0-9])\)")
+        rgx = re.compile(".*\(([0-9]*)\.([0-9]*)\)")
 
         match = rgx.findall(version)
 
         if len(match) == 1:
-            self._version = float(match[0])
+            self._major = int(match[0][0])
+            self._minor = int(match[0][1])
         else:
-            self._version = float(version)
+            a = version.split(".")
+            self._major = a[0]
+            self._minor = a[1]
 
-        if self._version < 5.2:
+        if self._major < 5 and self._minor < 2:
             raise RuntimeError('This package requires an ESP server version 5.2 or greater')
 
         self._populate_algorithms()
@@ -448,7 +470,8 @@ class ESP(RESTHelpers):
         requests_log.propagate = True
 
     def createServerConnection(self,**kwargs):
-        return(api.connect(self.session,self._k8s,**kwargs))
+        conn = api.connect(self,**kwargs)
+        return(conn)
 
     @property
     def ca_bundle(self):
