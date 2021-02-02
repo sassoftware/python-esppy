@@ -438,8 +438,8 @@ class ESP(RESTHelpers):
             self._minor = int(match[0][1])
         else:
             a = version.split(".")
-            self._major = a[0]
-            self._minor = a[1]
+            self._major = int(a[0])
+            self._minor = int(a[1])
 
         if self._major < 5 and self._minor < 2:
             raise RuntimeError('This package requires an ESP server version 5.2 or greater')
