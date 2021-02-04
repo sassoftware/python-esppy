@@ -1674,6 +1674,8 @@ class ESP(RESTHelpers):
         '''
         return self._get('logs', raw=True).rstrip().split('\n')
 
+    def createWebSocket(self,url,on_open=None,on_close=None,on_message=None,on_data=None,on_error=None,headers=None,ws4py=True,**kwargs):
+        return(createWebSocket(url,self.session,on_open=on_open,on_close=on_close,on_message=on_message,on_data=on_data,on_error=on_error,headers=headers,ws4py=ws4py,**kwargs))
 
 def get_subclasses(cls):
     for subclass in cls.__subclasses__():

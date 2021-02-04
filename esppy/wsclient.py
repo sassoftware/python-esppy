@@ -87,10 +87,13 @@ class WebSocketClient(object):
             self._websocket.close()
             self._websocket = None
 
-    def send(self,data):
+    def send(self,data,binary = False):
         if self._websocket != None:
             self._lock.acquire()
-            self._websocket.send(data)
+            if binary:
+                self._websocket.send_binary(data)
+            else:
+                self._websocket.send(data)
             self._lock.release()
 
     def sendBinary(self,data):

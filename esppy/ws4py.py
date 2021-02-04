@@ -126,9 +126,12 @@ class WebSocketClient(WS4PyWebSocketClient):
         if self.callbacks.get('on_close'):
             self.callbacks['on_close'](self, code, reason=reason)
 
-    def send(self,data):
+    def send(self,data,binary = False):
         self._lock.acquire()
-        WS4PyWebSocketClient.send(self,data)
+        if binary:
+            WS4PyWebSocketClient.send(self,data,True)
+        else:
+            WS4PyWebSocketClient.send(self,data)
         self._lock.release()
 
     def sendBinary(self,data):
