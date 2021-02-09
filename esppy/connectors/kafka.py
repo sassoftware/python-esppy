@@ -95,6 +95,14 @@ class KafkaSubscriber(Connector):
         For CSV, specifies to send one message per event
     csvmsgperevent_block : bool, optional
         For CSV, specifies to send one message per event block
+    avroschemaregistryurl: string, optional
+        Specifies the URL of the Apache Avro schema registry.
+    avroschemadefinition: string, optional
+        Specifies the path to a file that contains an Apache Avro schema definition in JSON format.
+    avroschemaname: string, optional
+        Specifies the name of an Apache Avro schema to copy from the schema registry that is configured in the avroschemaregistryurl parameter. 
+    avroschemanoopcode: bool, optional
+        Specifies to not include the event opcode in outbound Apache Avro schema and messages.
 
     Returns
     -------
@@ -128,7 +136,11 @@ class KafkaSubscriber(Connector):
         kafkaglobalconfig=prop('kafkaglobalconfig', dtype='string'),
         kafkatopicconfig=prop('kafkatopicconfig', dtype='string'),
         csvmsgperevent=prop('csvmsgperevent', dtype='bool'),
-        csvmsgperevent_block=prop('csvmsgpereventblock', dtype='bool')
+        csvmsgperevent_block=prop('csvmsgpereventblock', dtype='bool'),
+        avroschemaregistryurl=prop('avroschemaregistryurl', dtype='string'),
+        avroschemadefinition=prop('avroschemadefinition', dtype='string'),
+        avroschemaname=prop('avroschemaname', dtype='string'),
+        avroschemanoopcode=prop('avroschemanoopcode', dtype='bool')
     )
 
     def __init__(self, kafkahostport=None, kafkatopic=None, urlhostport=None,
@@ -139,7 +151,9 @@ class KafkaSubscriber(Connector):
                  csvincludeschema=None, useclientmsgid=None,
                  configfilesection=None, zookeeperhostport=None,
                  kafkaglobalconfig=None, kafkatopicconfig=None,
-                 csvmsgperevent=None, csvmsgpereventblock=None):
+                 csvmsgperevent=None, csvmsgpereventblock=None,
+                 avroschemaregistryurl=None, avroschemadefinition=None,
+                 avroschemaname=None,avroschemanoopcode=None):
         params = dict(**locals())
         params.pop('is_active')
         params.pop('self')
@@ -234,6 +248,10 @@ class KafkaPublisher(Connector):
          Specifies the maximum number of events to publish.
     kafkaconsumergroupid: string, optional
         Specifies the group ID for this Kafka container. The default value is a randomly generated string. This parameter is not supported when hot failover is enabled.
+    avroschemaregistryurl: string, optional
+        Specifies the URL of the Apache Avro schema registry.
+    avroschemanoopcode: bool, optional
+        Specifies to not include the event opcode in outbound Apache Avro schema and messages.
 
     Returns
     -------
@@ -267,7 +285,9 @@ class KafkaPublisher(Connector):
         kafkatopicconfig=prop('kafkatopicconfig', dtype='string'),
         useclientmsgid=prop('useclientmsgid', dtype='boolean'),
         maxevents=prop('maxevents', dtype='int'),
-        kafkaconsumergroupid=prop('kafkaconsumergroupid', dtype='string')
+        kafkaconsumergroupid=prop('kafkaconsumergroupid', dtype='string'),
+        avroschemaregistryurl=prop('avroschemaregistryurl', dtype='string'),
+        avroschemanoopcode=prop('avroschemanoopcode', dtype='bool')
     )
 
     def __init__(self, kafkahostport=None, kafkatopic=None, urlhostport=None,
@@ -279,7 +299,8 @@ class KafkaPublisher(Connector):
                  kafkainitialoffset=None, addcsvopcode=None,
                  addcsvflags=None, kafkaglobalconfig=None,
                  kafkatopicconfig=None, useclientmsgid=None,
-                 maxevents=None,kafkaconsumergroupid=None):
+                 maxevents=None,kafkaconsumergroupid=None,
+                 avroschemaregistryurl=None,avroschemanoopcode=None):
         params = dict(**locals())
         params.pop('is_active')
         params.pop('self')
