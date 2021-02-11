@@ -360,6 +360,7 @@ class K8SProject(K8S):
             if o is not None:
                 status = o["status"]
                 if "token" in o:
+                    self.setOpt("viya",True);
                     self.setOpt("access_token",o["token"])
         else:
             ingress = self.getIngress("oauth2-proxy")
@@ -582,30 +583,34 @@ class K8SProject(K8S):
         s += "            target:\n"
         s += "              type: Utilization\n"
         s += "              averageUtilization: 50\n"
+        s += "      deployment:\n"
+        s += "        spec:\n"
+        s += "          selector:\n"
+        s += "            matchLabels:\n"
+        s += "          template:\n"
+        s += "            spec:\n"
 
-        if (opts.getOpt("pv",True)):
-            s += "      deployment:\n"
-            s += "        spec:\n"
-            s += "          selector:\n"
-            s += "            matchLabels:\n"
-            s += "          template:\n"
-            s += "            spec:\n"
+        if (self.getOpt("viya",False) == False):
             s += "               volumes:\n"
             s += "               - name: data\n"
             s += "                 persistentVolumeClaim:\n"
             s += "                   claimName: esp-pv\n"
-            s += "               containers:\n"
-            s += "               - name: ((PROJECT_SERVICE_NAME))\n"
-            s += "                 resources:\n"
-            s += "                   requests:\n"
-            s += "                     memory: \"1Gi\"\n"
-            s += "                     cpu: \"1\"\n"
-            s += "                   limits:\n"
-            s += "                     memory: \"2Gi\"\n"
-            s += "                     cpu: \"2\"\n"
+
+        s += "               containers:\n"
+        s += "               - name: ((PROJECT_SERVICE_NAME))\n"
+        s += "                 resources:\n"
+        s += "                   requests:\n"
+        s += "                     memory: \"1Gi\"\n"
+        s += "                     cpu: \"1\"\n"
+        s += "                   limits:\n"
+        s += "                     memory: \"2Gi\"\n"
+        s += "                     cpu: \"2\"\n"
+
+        if (self.getOpt("viya",False) == False):
             s += "                 volumeMounts:\n"
             s += "                 - mountPath: /mnt/data\n"
             s += "                   name: data\n"
+
         s += "    loadBalancerTemplate:\n"
         s += "      deployment:\n"
         s += "        spec:\n"
@@ -664,8 +669,6 @@ class K8SProject(K8S):
                         if "terminated" in lastState:
                             if lastState["terminated"]["exitCode"] != 0 or lastState["terminated"]["reason"] == "Error":
                                 raise Exception(json.dumps(containerStatus,indent=2))
-
-                    print("status: " + json.dumps(containerStatus,indent=2))
 
                 if phase == "Running":
                     conditions = pod["status"]["conditions"]
