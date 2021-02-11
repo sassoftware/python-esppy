@@ -362,13 +362,15 @@ class K8SProject(K8S):
                 if "token" in o:
                     self.setOpt("access_token",o["token"])
         else:
-            ingress = self.getIngress("uaa")
+            ingress = self.getIngress("oauth2-proxy")
             if ingress is not None:
-                o = self.uaa(ingress)
-                if o is not None:
-                    status = o["status"]
-                    if "token" in o:
-                        self.setOpt("access_token",o["token"])
+                ingress = self.getIngress("uaa")
+                if ingress is not None:
+                    o = self.uaa(ingress)
+                    if o is not None:
+                        status = o["status"]
+                        if "token" in o:
+                            self.setOpt("access_token",o["token"])
 
         return(status)
 
@@ -380,7 +382,7 @@ class K8SProject(K8S):
             url += "/namespaces/" + self.namespace
         url += "/ingresses/" + name
         response = requests.get(url)
-        if response.status_code >= 404:
+        if response.status_code >= 403:
             return(None)
         else:
             return(json.loads(response.text))
@@ -650,8 +652,22 @@ class K8SProject(K8S):
 
             if state == "Succeeded":
                 pod = self.getPod()
-                status = pod["status"]["phase"]
-                if status == "Running":
+                status = pod["status"]
+                phase = status["phase"]
+
+                if "containerStatuses" in status:
+                    containerStatus = status["containerStatuses"][0];
+
+                    if "lastState" in containerStatus:
+                        lastState = containerStatus["lastState"]
+
+                        if "terminated" in lastState:
+                            if lastState["terminated"]["exitCode"] != 0 or lastState["terminated"]["reason"] == "Error":
+                                raise Exception(json.dumps(containerStatus,indent=2))
+
+                    print("status: " + json.dumps(containerStatus,indent=2))
+
+                if phase == "Running":
                     conditions = pod["status"]["conditions"]
                     ready = True
                     for i in range(0,len(conditions)):
