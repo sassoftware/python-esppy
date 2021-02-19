@@ -7,7 +7,9 @@ import esppy.espapi.connections as connections
 import esppy.espapi.tools as tools
 import esppy.espapi.viewers as viewers
 
-from esppy.espapi.tools import Options, Colors
+from esppy.espapi.tools import Options
+
+import esppy.espapi.colors as colors
 
 from base64 import b64encode
 
@@ -41,11 +43,11 @@ class Visuals(Options):
         self._border = None
 
         if self.hasOpt("colormap"):
-            self._colors = tools.Colors(colormap=self.getOpt("colormap"))
+            self._colors = colors.Colors(colormap=self.getOpt("colormap"))
         elif self.hasOpt("colors"):
-            self._colors = tools.Colors(colors=self.getOpt("colors"))
+            self._colors = colors.Colors(colors=self.getOpt("colors"))
         else:
-            self._colors = tools.Colors(colormap="")
+            self._colors = colors.Colors(colormap="")
 
         self._chartStyle = tools.Options()
         self._css = self.getOpt("css","visuals")
@@ -79,7 +81,7 @@ class Visuals(Options):
     def optionSet(self,name,value):
         if name == "colormap":
             colormap = value
-            self._colors = tools.Colors(colormap=colormap)
+            self._colors = colors.Colors(colormap=colormap)
 
     def setTitleStyle(self,**kwargs):
         self._headerStyle.setOpts(**kwargs)
@@ -898,7 +900,7 @@ class Table(Chart):
                 baseColor = self.getOpt("start_color")
                 if baseColor == None:
                     baseColor = self._visuals._colors.lightest
-                gradient = tools.Gradient(baseColor,levels=100,min=min(a),max=max(a))
+                gradient = colors.Gradient(baseColor,levels=100,min=min(a),max=max(a))
 
         if self.getOpt("reversed",False):
             l = reversed(items)
@@ -918,7 +920,7 @@ class Table(Chart):
                     value = o[color]
                     c = gradient.darken(float(value))
                     content += "background:" + c
-                    luma = Colors.getLuma(c)
+                    luma = colors.Colors.getLuma(c)
                     if luma < 170:
                         content += ";color:white"
                     else:
@@ -1006,12 +1008,19 @@ class ImageViewer(Chart):
             self._data = data[len(data) - 1]
             field = self.getOpt("image")
 
+            imageWidth = self.getOpt("image_width",400)
+            imageHeight = self.getOpt("image_height",400)
+
+            if self.hasOpt("scale"):
+                imageWidth = imageWidth * self.getOpt("scale")
+                imageHeight = imageHeight * self.getOpt("scale")
+
             html = None
 
             if field in self._data:
                 imagedata = self._data[field]
                 html = ""
-                html += "<div style='width:" + str(self.getOpt("image_width",400)) + "px;height:" + str(self.getOpt("image_height",400)) + "px;position:relative;margin:auto"
+                html += "<div style='width:" + str(imageWidth) + "px;height:" + str(imageHeight) + "px;position:relative;margin:auto"
                 if self.hasOpt("image_border"):
                     html += ";border:" + self.getOpt("image_border")
                 html += "'>"
@@ -1033,11 +1042,10 @@ class ImageViewer(Chart):
                 html += "</div>"
 
             if html != None:
-                content = widgets.HTML(value=html,layout=widgets.Layout(width="100%",height="100%",overflow="auto"))
-                if self.getOpt("show_header",True):
-                    self._container.children = [self._header,content]
-                else:
-                    self._container.children = [content]
+                #content = widgets.HTML(value=html,layout=widgets.Layout(width="100%",height="100%",overflow="auto"))
+                content = widgets.HTML(value=html,layout=widgets.Layout(overflow="auto",border="2px solid black"))
+                self._content.children = [content]
+                self.setDisplay()
 
         self.setTitle()
 
@@ -1269,16 +1277,16 @@ class Map(Chart):
         self._colors = None
 
         if self.hasOpt("colormap"):
-            self._colors = tools.Colors(colormap=self.getOpt("colormap"))
+            self._colors = colors.Colors(colormap=self.getOpt("colormap"))
         elif self.hasOpt("colors"):
-            self._colors = tools.Colors(colors=self.getOpt("colors"))
+            self._colors = colors.Colors(colors=self.getOpt("colors"))
         else:
             self._colors = self._visuals._colors
 
         if self._colors != None:
             if self.hasOpt("color_range"):
                 range = self.getOpt("color_range")
-                self._colorRange = tools.ColorRange(self._colors,range[0],range[1])
+                self._colorRange = colors.ColorRange(self._colors,range[0],range[1])
 
         components = []
 
@@ -1326,7 +1334,7 @@ class Map(Chart):
         value = self.getOpt("color")
 
         if value != None: 
-            color = Colors.getColorFromName(value)
+            color = colors.Colors.getColorFromName(value)
 
             if color == None:
                 colorField = value
@@ -1370,14 +1378,14 @@ class Map(Chart):
             if self._colorRange != None:
                 colorRange = self._colorRange
             elif self._colors != None:
-                colorRange = tools.ColorRange(self._colors,minColor,maxColor)
+                colorRange = colors.ColorRange(self._colors,minColor,maxColor)
             else:
-                colorRange = tools.ColorRange(self._visuals._colors,minColor,maxColor)
+                colorRange = colors.ColorRange(self._visuals._colors,minColor,maxColor)
             if self._colorbar != None:
                 self._colorbar.data[0].marker.cmin = minColor
                 self._colorbar.data[0].marker.cmax = maxColor
             #baseColor = self.getOpt("base_color",self._visuals._colors.lightest)
-            #gradient = tools.Gradient(baseColor,levels=200,min=minColor,max=maxColor)
+            #gradient = colors.Gradient(baseColor,levels=200,min=minColor,max=maxColor)
 
         opacity = self.getOpt("marker_opacity",1)
         border = self.getOpt("marker_border",True)
@@ -1397,7 +1405,6 @@ class Map(Chart):
         if self.hasOpt("icon"):
             iconOpts = tools.Options()
             iconOpts.setOpts(**self.getOpt("icon"))
-            logging.info(str(iconOpts))
 
         for value in data:
             key = ""
@@ -1680,22 +1687,33 @@ class Map(Chart):
 
 class Gauge(Chart):
     def __init__(self,visuals,datasource,layout = None,**kwargs):
-        Chart.__init__(self,visuals,datasource,layout,**kwargs)
 
         #self.remove_class(self._visuals.css + "_chart")
         #self.add_class(self._visuals.css + "_gauge")
 
-        self._intervalColors = None
-        self._gauges = {}
+        self._gopts = None
+        self._colors = None
+        self._entries = {}
+
+        Chart.__init__(self,visuals,datasource,layout,**kwargs)
+
         self.range = self.getOpt("range",(0,100))
 
     def createContent(self):
         segments = self.getOpt("segments",3)
 
-        self._intervalColors = []
+        self._colors = []
 
         if self.hasOpt("colors"):
-            self._intervalColors.extend(self.getOpt("colors"))
+            self._colors.extend(self.getOpt("colors"))
+        elif self.hasOpt("gradient"):
+            self._gopts = tools.Options(**self.getOpt("gradient"))
+            logging.info("GRADIENT: " + str(self._gopts))
+            color = self._visuals._colors.getColor(self._gopts.getOpt("color","lightest"))
+            delta = self._gopts.getOpt("delta",20)
+
+            for i in range(0,segments):
+                self._colors.append(colors.Colors.darken(color,i * delta))
         else:
             if self.hasOpt("color"):
                 opts = {}
@@ -1703,7 +1721,7 @@ class Gauge(Chart):
                 opts["end"] = self.getOpt("gradient_end",False)
                 opts["num"] = segments
                 opts["delta"] = self.getOpt("gradient_delta",15)
-                self._intervalColors.extend(tools.createGradientColors(**opts))
+                self._colors.extend(colors.Colors.createGradientColors(**opts))
 
         intervalSize = (self._range[1] - self._range[0]) / segments
 
@@ -1723,12 +1741,12 @@ class Gauge(Chart):
 
         items = None
 
-        currentLength = len(self._gauges)
+        currentLength = len(self._entries)
 
         layout = False
 
         if clear:
-            self._gauges = {}
+            self._entries = {}
             layout = True
 
         for o in data:
@@ -1737,14 +1755,14 @@ class Gauge(Chart):
             key = o["@key"]
 
             if "@opcode" in o and o["@opcode"] == "delete":
-                if key in self._gauges:
-                    self._gauges.pop(key)
+                if key in self._entries:
+                    self._entries.pop(key)
                     layout = True
             else:
-                if (key in self._gauges) == False:
+                if (key in self._entries) == False:
                     entry = GaugeEntry(self)
                     entry.setOpt("title",key)
-                    self._gauges[key] = entry
+                    self._entries[key] = entry
                     layout = True
 
                     for d in self._delegates:
@@ -1752,7 +1770,7 @@ class Gauge(Chart):
                             d.entryCreated(self,o,entry)
 
                 else:
-                    entry = self._gauges[key]
+                    entry = self._entries[key]
 
                 value = float(o[field])
                 entry.value = value
@@ -1761,10 +1779,25 @@ class Gauge(Chart):
                     if tools.supports(d,"entryRendered"):
                         d.entryRendered(self,o,entry)
 
+        if self._gopts != None:
+            entries = []
+            values = []
+
+            for key,entry in self._entries.items():
+                entries.append(entry)
+                values.append(entry.value)
+
+            opts = {"gradient":self._gopts.options}
+
+            colors = self._visuals._colors.createColors(values,**opts)
+
+            for i in range(0,len(entries)):
+                entries[i].setOpt("bg",colors[i])
+
         if layout:
             a = []
 
-            for key,value in self._gauges.items():
+            for key,value in self._entries.items():
                 a.append(value)
 
             self._content.children = a
@@ -1775,13 +1808,13 @@ class Gauge(Chart):
                         self._controls = ControlPanel(self._datasource) 
                     a.append(self._controls)
 
-        if len(self._gauges) > 1:
+        if len(self._entries) > 1:
             if currentLength <= 1:
-                for entry in self._gauges.values():
+                for entry in self._entries.values():
                     entry.setTitle()
-        elif len(self._gauges) == 1:
+        elif len(self._entries) == 1:
             if currentLength > 1:
-                for entry in self._gauges.values():
+                for entry in self._entries.values():
                     entry.setTitle()
 
         self.setTitle()
@@ -1789,11 +1822,10 @@ class Gauge(Chart):
     def setTitle(self,title = None):
         title = self.getOpt("title","")
 
-        if len(self._gauges) == 1 and self.getOpt("singleton",False):
-            for gauge in self._gauges.values():
+        if len(self._entries) == 1 and self.getOpt("singleton",False):
+            for gauge in self._entries.values():
                 if len(title) == 0:
                     title = gauge.getOpt("title","")
-                title = str.format("{} ({})".format(title,int(gauge._value)))
                 break
             
         Chart.setTitle(self,title)
@@ -1822,18 +1854,15 @@ class Gauge(Chart):
             self._range = value
             self.create()
 
-class GaugeEntry(Options,widgets.VBox):
+class GaugeEntry(Chart):
     def __init__(self,gauge,**kwargs):
-        Options.__init__(self,**kwargs)
-        widgets.Box.__init__(self,layout=widgets.Layout(margin="10px"))
+        Chart.__init__(self,gauge._visuals,**kwargs)
         self._gauge = gauge
         self._data = None
         self._figure = None
         self._indicator = None
-        self._layout = None
         self._value = 0
-        self._header = widgets.HTML()
-        self._header.add_class(self._gauge._visuals.css + "_header")
+        self._reference = 0
 
     def create(self):
 
@@ -1844,20 +1873,27 @@ class GaugeEntry(Options,widgets.VBox):
         else:
             size = self._gauge.getOpt("size",(300,200))
 
-        if type(size) is tuple:
-            self._layout = go.Layout(width=size[0],height=size[1])
-        else:
-            self._layout = go.Layout(width=size,height=size)
+        layout = None
 
-        if shape == "bullet":
-            margin = self._gauge.getOpt("margin",(10,10,30,30))
+        if type(size) is tuple:
+            layout = go.Layout(width=size[0],height=size[1])
         else:
-            margin = self._gauge.getOpt("margin",(30,30,30,10))
+            layout = go.Layout(width=size,height=size)
+
+        layout["paper_bgcolor"] = self._gauge.getOpt("bg","white")
+
+        margin = (0,0,0,0)
+
+        if True:
+            if shape == "bullet":
+                margin = self._gauge.getOpt("margin",(10,10,40,40))
+            else:
+                margin = self._gauge.getOpt("margin",(30,30,30,10))
 
         if type(margin) is tuple:
-            self._layout["margin"] = dict(l=margin[0],t=margin[1],r=margin[2],b=margin[3])
+            layout["margin"] = dict(l=margin[0],t=margin[1],r=margin[2],b=margin[3])
         else:
-            self._layout["margin"] = dict(l=margin,t=margin,r=margin,b=margin)
+            layout["margin"] = dict(l=margin,t=margin,r=margin,b=margin)
 
         self._data = []
 
@@ -1870,11 +1906,11 @@ class GaugeEntry(Options,widgets.VBox):
         for i in range(1,len(self._gauge._intervals)):
             lower = self._gauge._intervals[i - 1]
             upper = self._gauge._intervals[i]
-            steps.append({"range":[lower,upper],"color":self._gauge._intervalColors[i - 1]})
+            steps.append({"range":[lower,upper],"color":self._gauge._colors[i - 1]})
 
         lower = self._gauge._intervals[-1]
         upper = self._gauge._range[1]
-        steps.append({"range":[lower,upper],"color":self._gauge._intervalColors[-1]})
+        steps.append({"range":[lower,upper],"color":self._gauge._colors[-1]})
         
         mode = ""
 
@@ -1902,15 +1938,23 @@ class GaugeEntry(Options,widgets.VBox):
         self._indicator = go.Indicator(mode=mode,gauge={"shape":shape,"axis":axis,"steps":steps,"bar":bar},value=0)
 
         self._data.append(self._indicator)
-        self._figure = go.FigureWidget(data=self._data,layout=self._layout)
-        self.children = [self._header,self._figure]
+        self._figure = go.FigureWidget(data=self._data,layout=layout)
+        self._content.children = [self._figure]
  
     def draw(self,data = None,clear = False):
 
         if self._figure == None:
             self.create()
 
-        self._figure.update_traces(value=self._value);
+        if self.hasOpt("bg"):
+            self._figure.update_layout(paper_bgcolor=self.getOpt("bg"))
+
+        self._figure.update_traces(value=self._value)
+
+        if self._gauge.getOpt("delta",False):
+            self._figure.update_traces(value=self._value,delta={"reference":self._reference})
+        else:
+            self._figure.update_traces(value=self._value)
 
         self.setTitle()
 
@@ -1933,7 +1977,14 @@ class GaugeEntry(Options,widgets.VBox):
 
     @value.setter
     def value(self,value):
-        self._value = value
+
+        if self._gauge.getOpt("delta",False):
+            self._reference = self._value
+
+        if self._gauge.getOpt("integer",False):
+            self._value = int(value)
+        else:
+            self._value = value
         self.draw()
 
     @property
@@ -2043,7 +2094,7 @@ class CompassEntry(Options,widgets.VBox):
 
         self._data = []
 
-        color = Colors.getColorFromName(self._compass.getOpt("outer_color","white"))
+        color = colors.Colors.getColorFromName(self._compass.getOpt("outer_color","white"))
 
         linewidth = self._compass.getOpt("line_width",1)
 
@@ -2229,7 +2280,7 @@ class CompassEntry(Options,widgets.VBox):
         label = go.layout.Annotation(text=str(int(self._heading)),x=center["x"],y=center["y"],showarrow=False,font=dict(size=12))
         #labels.append(label)
 
-        color = Colors.getColorFromName(self._compass.getOpt("entry_bg","white"))
+        color = colors.Colors.getColorFromName(self._compass.getOpt("entry_bg","white"))
         self._figure.layout["paper_bgcolor"] = color
 
         self._figure.update_layout(shapes=shapes,annotations=labels)
@@ -2405,10 +2456,9 @@ class Wrapper(Chart):
     def __init__(self,visuals,widget,layout,**kwargs):
         Chart.__init__(self,visuals,None,layout,**kwargs)
         self._widget = widget
-        if self.getOpt("show_header",True):
-            self._container.children = [self._header,self._widget]
-        else:
-            self._container.children = [self._widget]
+        self._content
+        self._content.children = [self._widget]
+        self.setDisplay()
         self.draw(None,False)
 
     def draw(self,data,clear):
@@ -2418,16 +2468,51 @@ class Wrapper(Chart):
     def widget(self):
         return(self._widget)
 
-class Dashboard(Wrapper):
+class XDashboard(Chart):
     def __init__(self,visuals,layout,**kwargs):
-        box = widgets.Box(layout=widgets.Layout(width="100%",height="auto",display="inline_flex",flex_flow="row wrap",justify_content="center"))
-        Wrapper.__init__(self,visuals,box,layout,**kwargs)
+        Chart.__init__(self,visuals,layout,**kwargs)
+
+        self._content = widgets.Box(layout=widgets.Layout(width="100%",height="auto",display="inline_flex",flex_flow="row wrap",justify_content="center"))
+
+        #self.remove_class(self._visuals.css + "_chart")
+        #self.add_class(self._visuals.css + "_dashboard")
+
+        #self._container.remove_class(self._visuals.css + "_container")
+        #self._widget.add_class(self._visuals.css + "_dashboard_container")
+
+        #self._header.remove_class(self._visuals.css + "_header")
+        #self._header.add_class(self._visuals.css + "_dashboard_header")
+
+        self._children = []
+
+        #self.draw(None,False)
+
+    def add(self,value):
+        if isinstance(value,list):
+            for v in value:
+                self._children.append(v)
+        else:
+            self._children.append(value)
+
+        self._content.children = self._children
+
+    def draw(self,data,clear):
+        self.setTitle()
+
+class Dashboard(Chart):
+    def __init__(self,visuals,layout,**kwargs):
+        Chart.__init__(self,visuals,None,layout,**kwargs)
+
+        #self._content.layout.flex_flow = "column wrap"
 
         self.remove_class(self._visuals.css + "_chart")
         self.add_class(self._visuals.css + "_dashboard")
 
-        self._container.remove_class(self._visuals.css + "_container")
-        self._widget.add_class(self._visuals.css + "_dashboard_container")
+        self._container.layout.justify_content = "flex-start"
+        self._content.layout.height = "100%"
+
+        #self._container.remove_class(self._visuals.css + "_container")
+        #self._widget.add_class(self._visuals.css + "_dashboard_container")
 
         self._header.remove_class(self._visuals.css + "_header")
         self._header.add_class(self._visuals.css + "_dashboard_header")
@@ -2443,7 +2528,7 @@ class Dashboard(Wrapper):
         else:
             self._children.append(value)
 
-        self._widget.children = self._children
+        self._content.children = self._children
 
     def draw(self,data,clear):
         self.setTitle()

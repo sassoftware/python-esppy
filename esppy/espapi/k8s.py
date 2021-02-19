@@ -14,7 +14,7 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 class K8S(tools.Options):
-    def __init__(self,url,esp,**kwargs):
+    def __init__(self,url,esp = None,**kwargs):
         tools.Options.__init__(self,**kwargs)
 
         self._url = urlparse(url)
@@ -162,6 +162,23 @@ class K8S(tools.Options):
     def pod(self):
         return(self._pod)
 
+    def getNamespaces(self,delegate):
+        if tools.supports(delegate,"handleNamespaces") == False:
+            raise Exception("the delegate must implement the handleNamespaces function")
+
+        url = self.baseUrl
+        url += "api/v1/namespaces"
+
+        response = requests.get(url)
+
+        a = []
+
+        if response.status_code == 200:
+            data = response.json()
+            a = data["items"]
+
+        delegate.handleNamespaces(a)
+
     def getMyProjects(self,delegate):
         return(self.getProjects(delegate,namespace=self.namespace,name=self.project))
 
@@ -209,7 +226,7 @@ class K8S(tools.Options):
             if kind == "ESPServer":
                 a = [data]
             elif kind == "ESPServerList":
-                a = data.items
+                a = data["items"]
 
             delegate.handleProjects(a)
 
@@ -724,7 +741,7 @@ class K8SProject(K8S):
             xml = self._config["spec"]["espProperties"]["server.xml"]
         return(xml)
 
-def create(url,esp,**kwargs):
+def create(url,esp = None,**kwargs):
     u = urlparse(url)
 
     o = None

@@ -317,7 +317,8 @@ class ESP(RESTHelpers):
             if password is not None:
                 opts["password"] = password
             self._k8s = k8s.create(hostname,self,**opts)
-            hostname = self._k8s.espUrl
+            if self._k8s.project is not None:
+                hostname = self._k8s.espUrl
 
         # Set default protocol
         if not protocol:

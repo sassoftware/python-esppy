@@ -9,18 +9,20 @@ import ipywidgets as widgets
 import logging
 import re
 
-import esppy.espapi.tools as tools
+import esppy.espapi.colors as colors
 
 from esppy.espapi.tools import Options
 
 class ViewerBase(widgets.VBox,Options):
     def __init__(self,visuals,connection,layout,**kwargs):
-        Options.__init__(self,**kwargs)
 
         if layout != None:
-            widgets.Box.__init__(self,layout=layout)
+            widgets.VBox.__init__(self,layout=layout)
         else:
-            widgets.Box.__init__(self)
+            widgets.VBox.__init__(self)
+
+        Options.__init__(self,**kwargs)
+
         self._visuals = visuals
         self._connection = connection
 
@@ -30,31 +32,41 @@ class ViewerBase(widgets.VBox,Options):
     def setHeight(self,value):
         self.setOpt("height",value)
 
+    def connected(self):
+        pass
+
+    @property
+    def connection(self):
+        return(self._connection)
+
+    @connection.setter
+    def connection(self,value):
+        self._connection = value;
+        self.connected()
+
 class ModelViewer(ViewerBase):
     def __init__(self,visuals,connection,layout,**kwargs):
         ViewerBase.__init__(self,visuals,connection,layout,**kwargs)
-        self._stats = self._connection.getStats()
+        self.add_class("modelviewer")
+        self._stats = None
         self._data = None
         self._project = "*"
         self._model = None
         self._projects = None
         self._memory = None
 
-        self._gradient = tools.Gradient("#ffffff",levels=100,min=0,max=100)
+        self._gradient = colors.Gradient("#ffffff",levels=100,min=0,max=100)
 
         self._windowColors = None
-
-        colors = self._visuals._colors.getSpread(5)
-        self._windowColors = {}
-        for i,type in enumerate(["input","utility","analytics","textanalytics","transformation"]):
-            self._windowColors[type] = colors[i]
 
         width = self.getOpt("width","98%",True)
         height = self.getOpt("height","400px",True)
 
-        self._projects = widgets.Dropdown(description="Projects")
+        self._projects = None
 
-        self._projects.observe(self.setProject,names="value")
+        if self.getOpt("show_projects",True):
+            self._projects = widgets.Dropdown(description="Projects")
+            self._projects.observe(self.setProject,names="value")
 
         w = []
 
@@ -76,7 +88,10 @@ class ModelViewer(ViewerBase):
 
         self._memory = widgets.HBox(w)
 
-        showcpu = widgets.Checkbox(description="CPU",indent=False,layout=widgets.Layout(max_width="100px",margin="0px 0px 0px 50px"),value=self.getOpt("cpu"))
+        if self.getOpt("show_projects",True):
+            showcpu = widgets.Checkbox(description="CPU",indent=False,layout=widgets.Layout(max_width="100px",margin="0px 0px 0px 50px"),value=self.getOpt("cpu"))
+        else:
+            showcpu = widgets.Checkbox(description="CPU",indent=False,layout=widgets.Layout(max_width="100px",margin="0px 0px 0px 0px"),value=self.getOpt("cpu"))
         showcounts = widgets.Checkbox(description="Counts",indent=False,layout=cbLayout,value=self.getOpt("counts"))
         showtypes = widgets.Checkbox(description="Types",indent=False,layout=cbLayout,value=self.getOpt("type"))
         showindices = widgets.Checkbox(description="Indices",indent=False,layout=cbLayout,value=self.getOpt("index"))
@@ -84,14 +99,14 @@ class ModelViewer(ViewerBase):
 
         show = widgets.HBox([showcpu,showcounts,showtypes,showindices,showschema])
 
-        box = widgets.HBox([self._projects,show])
-        #top = widgets.VBox([box,self._memory],layout=widgets.Layout(border="1px solid #c0c0c0"))
+        if self._projects is not None:
+            box = widgets.HBox([self._projects,show])
+        else:
+            box = widgets.HBox([show])
+
         top = widgets.VBox([box,self._memory],layout=widgets.Layout(border="1px solid #c0c0c0",padding="10px",margin="5px 5px 0px 5px"))
 
-        #self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",padding="10px"))
-        self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",margin="5px"))
-        #self._html = widgets.VBox([top,self._graph],layout=widgets.Layout(border="1px solid #c0c0c0"))
-        #self._html = widgets.VBox([top,self._graph],layout=widgets.Layout(border="1px solid #c0c0c0"))
+        self._graph = widgets.HTML(layout=widgets.Layout(border="1px solid #c0c0c0",overflow="auto",margin="10px"))
 
         showcpu.observe(self.showCpu,names="value")
         showcounts.observe(self.showCounts,names="value")
@@ -100,8 +115,6 @@ class ModelViewer(ViewerBase):
         showschema.observe(self.showSchema,names="value")
 
         self.setStats()
-
-        self._connection.loadModel(self)
 
         self.children = [top,self._graph]
 
@@ -113,11 +126,13 @@ class ModelViewer(ViewerBase):
         if cpu or counts or (cpuColor != None):
             if self._data == None:
                 self._data = {}
-                self._stats.addDelegate(self)
-            self._stats.setOpt("counts",counts)
+                if self._stats is not None:
+                    self._stats.addDelegate(self)
+                    self._stats.setOpt("counts",counts)
         else:
             self._data = None
-            self._stats.removeDelegate(self)
+            if self._stats is not None:
+                self._stats.removeDelegate(self)
 
     def showCpu(self,b):
         self.setOpt("cpu",b["new"])
@@ -171,8 +186,21 @@ class ModelViewer(ViewerBase):
         self.setContent()
 
     def build(self):
-        if self._model == None:
+        if self._model == None or len(self._model._projects) == 0:
             return(None)
+
+        wincolors = self._visuals._colors.colors;
+        self._windowColors = {}
+        index = 0
+
+        for w in self._model._windows:
+            wtype = w["class"]
+            if (wtype in self._windowColors) == False:
+                if index >= len(wincolors):
+                    index = 0;
+
+                self._windowColors[wtype] = wincolors[index];
+                index += 1
 
         a = [("ALL","*")]
 
@@ -200,21 +228,23 @@ class ModelViewer(ViewerBase):
         graphAttr["center"] = "true"
 
         nodeAttr = {}
-        nodeAttr["shape"] = "rect"
         nodeAttr["fontname"] = "helvetica"
-        nodeAttr["fontsize"] = "12"
-        nodeAttr["style"] = "filled,bold"
-        nodeAttr["color"] = "#58a0d3"
+        nodeAttr["fontsize"] = "11"
+        nodeAttr["style"] = "filled"
+        nodeAttr["color"] = "#c0c0c0"
+        nodeAttr["color"] = "black"
         nodeAttr["fillcolor"] = "#c8f0ff"
+        nodeAttr["penwidth"] = ".5"
 
         edgeAttr = {}
-        edgeAttr["splines"] = "spline"
+        #edgeAttr["splines"] = "spline"
+        #edgeAttr["splines"] = "curved"
 
         graphs = {}
 
         container = None
 
-        if self._project == "*":
+        if len(self._model._projects) > 1 and self._project == "*":
 
             container = gv.Digraph(graph_attr=graphAttr,node_attr=nodeAttr,edge_attr=edgeAttr,format="svg")
 
@@ -223,14 +253,16 @@ class ModelViewer(ViewerBase):
                 graph.attr(label=p["name"],labeljust='l')
                 graphs[p["name"]] = graph
         else:
-            graph = gv.Digraph(name="cluster_1",graph_attr=graphAttr,node_attr=nodeAttr,edge_attr=edgeAttr,format="svg")
-            #graph.attr(label=self._project,labeljust='l')
-            graphs[self._project] = graph
+            name = self._model._projects[0]["name"]
+            graph = gv.Digraph(name=name,graph_attr=graphAttr,node_attr=nodeAttr,edge_attr=edgeAttr,format="svg")
+            #graph.attr(label=name,labeljust='l')
+            graph.attr(labeljust='l')
+            graphs[name] = graph
 
         cpuColor = self.getOpt("cpu_color")
 
         if cpuColor != None:
-            self._gradient.color = tools.Colors.getColorFromName(cpuColor)
+            self._gradient.color = colors.Colors.getColorFromName(cpuColor)
 
         showCpu = self.getOpt("cpu",False)
         showCounts = self.getOpt("counts",False)
@@ -244,18 +276,16 @@ class ModelViewer(ViewerBase):
             else:
                 self._memory.layout.display = "none"
 
-        showProperties = showCpu or showCounts or showType or showIndex
+        prefix = "         "
+        suffix = "         "
 
         for a in self._model._windows:
             if self._project == "*" or a["p"] == self._project:
                 if a["type"] == "source" or a["type"] == "window-source" or len(a["incoming"]) > 0 or len(a["outgoing"]) > 0:
-                    label = []
-                    label.append("<<table border='0' cellspacing='0' cellpadding='0'>")
-                    label.append("<tr><td>" + a["name"] + "</td></tr>")
-                    if showProperties:
-                        label.append("<tr><td><table border='0' cellspacing='0' cellpadding='1'>")
+                    label = ""
+                    label += prefix + a["name"] + suffix
                     if showType:
-                        label.append("<tr><td align='right'>type:</td><td> </td><td align='left'>" + a["type"] + "</td></tr>")
+                        label += "\n" + prefix + "type: " + a["type"] + suffix
                     color = None
                     cpu = None
                     count = None
@@ -268,30 +298,21 @@ class ModelViewer(ViewerBase):
                             count = int(o["count"])
 
                         if showCpu:
-                            label.append("<tr><td align='right'>cpu:</td><td> </td><td align='left'>" + "{0:5}".format(cpu) + "</td></tr>")
+                            label += "\n" + prefix + "cpu: " + str(cpu) + suffix
                         if cpuColor:
                             color = self._gradient.darken(cpu)
                         if showCounts:
-                            label.append("<tr><td align='right'>count:</td><td> </td><td align='left'>" + "{0:5}".format(count) + "</td></tr>")
+                            label += "\n" + prefix + "count: " + str(count) + suffix
                     if showIndex:
-                        label.append("<tr><td align='right'>index:</td><td> </td><td align='left'>" + a["index"] + "</td></tr>")
-                    if showProperties:
-                        label.append("</table></td></tr>")
+                        label += "\n" + prefix + "index: " + a["index"] + suffix
                     if showSchema:
-                        label.append("<tr><td>")
-                        label.append("<table border='0' cellspacing='0' cellpadding='1'>")
-                        label.append("<tr><td colspan='2'> </td></tr>")
-                        label.append("<tr><td colspan='2'>Schema</td></tr>")
+                        label += "\n\n" + prefix + "Schema" + suffix
                         for f in a["schema"]._fields:
                             if f["isKey"]:
-                                label.append("<tr><td align='left'>" + f["name"] + "*</td><td align='left'>" + f["type"] + "</td></tr>")
+                                label += "\n" + prefix + f["name"] + "* (" + f["type"] + ")" + suffix
                         for f in a["schema"]._fields:
                             if f["isKey"] == False:
-                                label.append("<tr><td align='left'>" + f["name"] + "</td><td align='left'>" + f["type"] + "</td></tr>")
-                        label.append("</table>")
-                        label.append("</td></tr>")
-                    label.append("</table>>")
-                    label = "".join(label)
+                                label += "\n" + prefix + f["name"] + " (" + f["type"] + ")" + suffix
                     if color == None:
                         if self._windowColors != None:
                             color = self._windowColors.get(a["class"])
@@ -299,7 +320,12 @@ class ModelViewer(ViewerBase):
                     graph = graphs[a["p"]]
 
                     if color != None:
-                        graph.node(a["key"],label,fillcolor=color)
+                        luma = colors.Colors.getLuma(color)
+                        if luma < 170:
+                            textcolor = "white"
+                        else:
+                            textcolor = "black"
+                        graph.node(a["key"],label,fillcolor=color,fontcolor=textcolor)
                     else:
                         graph.node(a["key"],label)
                         
@@ -312,6 +338,13 @@ class ModelViewer(ViewerBase):
             return(container._repr_svg_())
 
         return(graph._repr_svg_())
+
+    def connected(self):
+        self._stats = None
+        if self._connection is not None:
+            self._stats = self._connection.getStats()
+            self._connection.loadModel(self)
+            self.setStats()
 
     def setProject(self,change):
         self.project = self._projects.value
@@ -366,12 +399,18 @@ class LogViewer(ViewerBase):
 
         self._messages = []
 
-        self._connection.getLog().addDelegate(self)
+        if self._connection is not None:
+            self._connection.getLog().addDelegate(self)
         
         self.children = [self._box]
 
     def handleLog(self,connection,message):
-        self._messages.append(message)
+
+        #self._messages.append(message)
+
+        text = re.sub("\\\\n","<br/>",message)
+        text = re.sub("\\\\r","",text)
+        self._messages.append(text)
 
         if self._max != None and len(self._messages) > self._max:
             diff = len(self._messages) - self._max
@@ -401,6 +440,10 @@ class LogViewer(ViewerBase):
         s += "</div>"
 
         self._log.value = s
+
+    def connected(self):
+        if self._connection is not None:
+            self._connection.getLog().addDelegate(self)
 
     def filter(self,b):
         self._filter = self._filterText.value.strip()
