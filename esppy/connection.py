@@ -36,7 +36,10 @@ import warnings
 import xml.etree.ElementTree as ET
 from numpy import nan
 from six.moves import urllib
-from urllib.parse import urlparse
+try:
+    from urllib.parse import urlparse
+except ImportError:
+     from urlparse import urlpars
 from .base import RESTHelpers, ESPObject
 from .algorithm import Algorithm
 from .config import get_option, ESP_ROOT, CONCAT_OPTIONS
