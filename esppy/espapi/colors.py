@@ -134,7 +134,7 @@ class Colors(Options):
             if end:
                 colors.insert(0,Colors.lighten(c,i * delta))
             else:
-                colors.append(darken(c,i * delta))
+                colors.append(Colors.darken(c,i * delta))
 
         return(colors)
 
