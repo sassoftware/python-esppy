@@ -50,7 +50,7 @@ class ModelReaderWindow(BaseWindow, ParametersFeature, ConnectorsFeature):
     window_type = 'model-reader'
 
     model_type = attribute('model-type', dtype='string',
-                           values=['astore', 'recommender'])
+                           values=['astore', 'recommender', 'onnx'])
 
     def __init__(self, name=None, pubsub=None, description=None, model_type=None):
         BaseWindow.__init__(self, **get_args(locals()))
