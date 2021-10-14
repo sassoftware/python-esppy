@@ -256,7 +256,8 @@ class Project(ESPObject, collections.abc.MutableMapping):
         Description of the project
     metadata : dict, optional
         Metadata associated with the project
-
+    properties : dict, optional
+        Properties associated with the project
     Attributes
     ----------
     queries : dict
@@ -298,7 +299,7 @@ class Project(ESPObject, collections.abc.MutableMapping):
                  use_tagged_token=None, use_retention_tracking=None,
                  disk_store_path=None, heartbeat_interval=None, restore=None,
                  description=None, sas_log_location=None, sas_connection_key=None,
-                 sas_command=None, metadata=None):
+                 sas_command=None, metadata=None, properties=None):
         self.queries = ContinuousQueryDict()
         ESPObject.__init__(self, attrs=locals())
         self.name = name or gen_name(prefix='p_')
@@ -310,6 +311,7 @@ class Project(ESPObject, collections.abc.MutableMapping):
         self.connector_groups = {}
         self.edges = []
         self.metadata = dict(metadata or {})
+        self.properties = dict(properties or {})
 
     @property
     def session(self):
@@ -549,6 +551,10 @@ class Project(ESPObject, collections.abc.MutableMapping):
             elif 'name' in item.attrib.keys():
                 out.metadata[item.attrib['name']] = item.text
 
+        for item in data.findall('./properties/property'):
+            if 'name' in item.attrib.keys():
+                out.properties[item.attrib['name']] = item.text
+
         return out
 
     from_xml = from_element
@@ -595,6 +601,12 @@ class Project(ESPObject, collections.abc.MutableMapping):
             self._delete(urllib.parse.urljoin(self.base_url,
                                               'projectMetadata/%s/%s' % (self.name, key)))
 
+    def add_property(self, propertyName, propertyValue):
+        self.properties[propertyName] = propertyValue
+
+    def delete_property(self, propertyName):
+        del self.properties[propertyName]
+
     def to_element(self):
         '''
         Export project definition to an ElementTree.Element
@@ -617,6 +629,12 @@ class Project(ESPObject, collections.abc.MutableMapping):
             for key, value in sorted(six.iteritems(self.metadata)):
                 xml.add_elem(metadata, 'meta', attrib=dict(id=key),
                              text_content=value)
+
+        if self.properties:
+            properties = xml.add_elem(proj, 'properties')
+            for key, value in sorted(six.iteritems(self.properties)):
+                text_content = '<![CDATA[%s]]\\>' % value
+                xml.add_elem(properties, 'property', attrib=dict(name=key), text_content=text_content)
 
         if self.sas_log_location or self.sas_connection_key or self.sas_command:
             xml.add_elem(proj, 'ds-initialize',
