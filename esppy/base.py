@@ -26,7 +26,6 @@ from .utils.rest import RESTHelpers
 
 
 def attribute(name, dtype=None, values=None):
-    #Petre Commit Test
     '''
     Create an XML attribute-based property
 
