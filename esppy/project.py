@@ -601,11 +601,15 @@ class Project(ESPObject, collections.abc.MutableMapping):
             self._delete(urllib.parse.urljoin(self.base_url,
                                               'projectMetadata/%s/%s' % (self.name, key)))
 
+    def get_property(self, propertyName):
+        return self.properties[propertyName]
+
     def add_property(self, propertyName, propertyValue):
         self.properties[propertyName] = propertyValue
 
     def delete_property(self, propertyName):
-        del self.properties[propertyName]
+        if self.properties[propertyName]:
+            del self.properties[propertyName]
 
     def to_element(self):
         '''
