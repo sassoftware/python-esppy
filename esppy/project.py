@@ -637,7 +637,7 @@ class Project(ESPObject, collections.abc.MutableMapping):
         if self.properties:
             properties = xml.add_elem(proj, 'properties')
             for key, value in sorted(six.iteritems(self.properties)):
-                text_content = '<![CDATA[%s]]\\>' % value
+                text_content = '<![CDATA[%s]]>' % value
                 xml.add_elem(properties, 'property', attrib=dict(name=key), text_content=text_content)
 
         if self.sas_log_location or self.sas_connection_key or self.sas_command:
