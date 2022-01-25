@@ -65,7 +65,7 @@ class Connection(tools.Options):
 
         auth = Authorization.getInstance(self._esp.session)
 
-        ws4py = (self.getOpt("websockets","") != "websocket_client")
+        ws4py = (self.getOpt("websockets","") == "ws4py")
 
         if auth.isEnabled:
             headers.append(("Authorization",auth.authorization))
