@@ -33,7 +33,7 @@ def createWebSocket(url,
                     on_data=None,
                     on_error=None,
                     headers=None,
-                    ws4py = True,
+                    ws4py=False,
                     **kwargs):
 
     o = urlparse(url)
