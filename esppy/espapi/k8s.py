@@ -612,6 +612,11 @@ class K8SProject(K8S):
             s += "               - name: data\n"
             s += "                 persistentVolumeClaim:\n"
             s += "                   claimName: esp-pv\n"
+        else:
+            s += "               volumes:\n"
+            s += "               - name: data\n"
+            s += "                 persistentVolumeClaim:\n"
+            s += "                   claimName: sas-event-stream-processing-studio-app\n"
 
         s += "               containers:\n"
         s += "               - name: ((PROJECT_SERVICE_NAME))\n"
@@ -622,12 +627,9 @@ class K8SProject(K8S):
         s += "                   limits:\n"
         s += "                     memory: \"2Gi\"\n"
         s += "                     cpu: \"2\"\n"
-
-        if (self.getOpt("viya",False) == False):
-            s += "                 volumeMounts:\n"
-            s += "                 - mountPath: /mnt/data\n"
-            s += "                   name: data\n"
-
+        s += "                 volumeMounts:\n"
+        s += "                 - mountPath: /mnt/data\n"
+        s += "                   name: data\n"
         s += "    loadBalancerTemplate:\n"
         s += "      deployment:\n"
         s += "        spec:\n"
