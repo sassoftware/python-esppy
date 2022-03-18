@@ -531,7 +531,6 @@ class K8SProject(K8S):
         xml = ElementTree.fromstring(str(model))
         xml.set("name",self._project)
         model = ElementTree.tostring(xml,method="xml").decode()
-
         newmodel = "b64" + b64encode(model.encode("utf-8")).decode()
 
         if newmodel == self.modelXml:
@@ -552,9 +551,7 @@ class K8SProject(K8S):
 
         content = self.getYaml(newmodel,pv = False)
         headers = {"content-type":"application/yaml","accept":"application/json"}
-
         response = requests.post(url,data=content,headers=headers)
-
         if response.status_code >= 400:
             raise Exception(response.text)
 
@@ -584,6 +581,9 @@ class K8SProject(K8S):
         if self._ns != None:
             s += "  namespace: " + self._ns + "\n"
         s += "spec:\n"
+        s += "    name: defaultName \n"
+        s += "    model: \"" + model + "\"\n"
+        s += "    failover: false\n"
         s += "    loadBalancePolicy: \"default\" \n"
         s += "    espProperties:\n"
         s += "      server.xml: \"" + model + "\"\n"
@@ -667,10 +667,11 @@ class K8SProject(K8S):
 
     def isReady(self):
         ready = False
-
-        while ready == False:
+        count = 0
+        max_tries = 5
+        while count < max_tries and ready is False:
+            count += 1
             state = ""
-
             if self._config != None:
                 state = self._config["access"]["state"]
 
@@ -702,6 +703,9 @@ class K8SProject(K8S):
 
             time.sleep(1)
 
+        if count == max_tries:
+            print("Cluster still pending completion after " + str(max_tries) + " attempts to load config")
+
         self.readiness()
 
     def readiness(self):
@@ -709,8 +713,10 @@ class K8SProject(K8S):
         url += "/internal/ready"
 
         success = False
-
-        while success == False:
+        count = 0
+        max_tries = 5
+        while count < max_tries and success == False:
+            count += 1
             try:
                 response = requests.get(url,verify=False)
                 if response.status_code == 200:
@@ -719,6 +725,8 @@ class K8SProject(K8S):
                 print("exception: " + str(e))
 
             time.sleep(1)
+        if count == max_tries:
+            print(url + " request returned failure " + str(max_tries) + " times")
 
     @property
     def espUrl(self):
