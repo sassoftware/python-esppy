@@ -662,10 +662,7 @@ class K8SProject(K8S):
 
     def isReady(self):
         ready = False
-        count = 0
-        max_tries = 5
-        while count < max_tries and ready is False:
-            count += 1
+        while ready is False:
             state = ""
             if self._config != None:
                 state = self._config["access"]["state"]
@@ -697,10 +694,6 @@ class K8SProject(K8S):
                 self.loadConfig()
 
             time.sleep(1)
-
-        if count == max_tries:
-            print("Cluster still pending completion after " + str(max_tries) + " attempts to load config")
-
         self.readiness()
 
     def readiness(self):
@@ -708,10 +701,7 @@ class K8SProject(K8S):
         url += "/internal/ready"
 
         success = False
-        count = 0
-        max_tries = 5
-        while count < max_tries and success == False:
-            count += 1
+        while success is False:
             try:
                 response = requests.get(url,verify=False)
                 if response.status_code == 200:
@@ -720,8 +710,6 @@ class K8SProject(K8S):
                 print("exception: " + str(e))
 
             time.sleep(1)
-        if count == max_tries:
-            print(url + " request returned failure " + str(max_tries) + " times")
 
     @property
     def espUrl(self):
