@@ -147,9 +147,9 @@ class Publisher(object):
         auth = Authorization.getInstance(self.session)
 
         if auth.isEnabled:
-            headers.append(("Authorization",auth.authorization));
+            headers.append(("Authorization",auth.authorization))
 
-        self._ws = createWebSocket(self.url,self.session,headers=headers)
+        self._ws = createWebSocket(self.url,self.session, headers=headers, ws4py=True)
         self._ws.connect()
 
     @property
