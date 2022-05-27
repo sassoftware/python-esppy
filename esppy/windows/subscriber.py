@@ -414,7 +414,7 @@ class Subscriber(object):
                                    on_open=on_open,
                                    on_close=on_close,
                                    headers=headers,
-                                   ws4py=True)
+                                   ws4py=False)
 
         self._ws.connect()
 

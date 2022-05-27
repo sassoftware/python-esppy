@@ -20,7 +20,6 @@
 
 import threading
 import websocket
-import requests
 import logging
 import ssl
 
@@ -65,12 +64,13 @@ class WebSocketClient(object):
             self._websocket.close()
             self._websocket = None
 
+        token = self._session.headers.get("Authorization").decode()
         if self._session.verify:
-            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True)
+            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"ca_certs":self._session.verify})
         else:
             self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"cert_reqs":ssl.CERT_NONE})
 
-        self._websocket.connect(self._url,redirect_limit=0)
+        self._websocket.connect(self._url,redirect_limit=0, header={"Authorization":token})
 
         if self.callbacks.get("on_open"):
             self.callbacks["on_open"](self)
@@ -107,8 +107,6 @@ class WebSocketClient(object):
             try:
                 opcode, frame = self._websocket.recv_data_frame()
             except Exception as e:
-                logging.info("got exception in websocket: " + self._url + " : " + str(type(e)))
-                logging.info(str(e))
                 break
 
             try:

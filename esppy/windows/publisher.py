@@ -149,7 +149,7 @@ class Publisher(object):
         if auth.isEnabled:
             headers.append(("Authorization",auth.authorization))
 
-        self._ws = createWebSocket(self.url,self.session, headers=headers, ws4py=True)
+        self._ws = createWebSocket(self.url,self.session, headers=headers, ws4py=False)
         self._ws.connect()
 
     @property
