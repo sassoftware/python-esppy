@@ -213,8 +213,8 @@ class RESTHelpers(object):
         headers = {}
 
         if self.accessToken is not None:
-            url += "?access_token="
-            url += self.accessToken
+            authorization = "Bearer " + self.accessToken
+            self.session.headers.update({"Authorization": authorization.encode("utf-8")})
 
         if format == 'json':
             try:

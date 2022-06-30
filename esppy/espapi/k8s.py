@@ -389,12 +389,17 @@ class K8SProject(K8S):
                         status = o["status"]
                         if "token" in o:
                             self.setOpt("access_token",o["token"])
+            else:
+                print('NO INGRESS FOUND')
 
         return(status)
 
     def getIngress(self,name):
         url = self.baseUrl
-        url += "apis/networking.k8s.io/v1beta1"
+        url += "apis/networking.k8s.io"
+
+        versions_response = requests.get(url)
+        url += "/" + json.loads(versions_response.text)["versions"][0]["version"]
 
         if self.namespace is not None:
             url += "/namespaces/" + self.namespace
@@ -550,7 +555,11 @@ class K8SProject(K8S):
         url += self._project
 
         content = self.getYaml(newmodel,pv = False)
-        headers = {"content-type":"application/yaml","accept":"application/json"}
+        headers = {"content-type":"application/yaml","accept":"application/json", }
+        if self.getOpt("access_token") is not None:
+            authorization = "Bearer " + self.getOpt("access_token")
+            headers.update({"Authorization": authorization.encode("utf-8")})
+
         response = requests.post(url,data=content,headers=headers)
         if response.status_code >= 400:
             raise Exception(response.text)
@@ -731,7 +740,7 @@ class K8SProject(K8S):
     def modelXml(self):
         xml = ""
         if self._config != None:
-            xml = self._config["spec"]["espProperties"]["server.xml"]
+            xml = self._config["spec"]["model"]
         return(xml)
 
 def create(url,esp = None,**kwargs):
