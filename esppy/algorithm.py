@@ -101,7 +101,7 @@ class Algorithm(ESPObject):
             params[name] = attrs
             dtype = attrs.get('type', '')
             default = attrs.get('default', None)
-            if default is not None:
+            if default is not None and len(default.strip()) > 0:
                 if dtype.startswith('int'):
                     params[name]['default'] = int(default)
                 elif dtype == 'double':
