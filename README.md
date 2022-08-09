@@ -1,3 +1,5 @@
+| :warning:        | As of version 7.1.16, ESPPy is no longer supported. It is incompatible with the latest release of SAS Event Stream Processing. You are welcome to use the contents of this repository for informational and exploratory purposes only.     |
+|---------------|:------------------------|
 # SAS Event Stream Processing Python Interface
 
 The ESPPy package enables you to create
