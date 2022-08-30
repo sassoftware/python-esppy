@@ -428,22 +428,7 @@ class ESP(RESTHelpers):
 
         RESTHelpers.__init__(self, session=session)
 
-        version = self.server_info["version"]
-
-        rgx = re.compile(".*\(([0-9]*)\.([0-9]*)\)")
-
-        match = rgx.findall(version)
-
-        if len(match) == 1:
-            self._major = int(match[0][0])
-            self._minor = int(match[0][1])
-        else:
-            a = version.split(".")
-            self._major = int(a[0])
-            self._minor = int(a[1])
-
-        if self._major < 5 and self._minor < 2:
-            raise RuntimeError('This package requires an ESP server version 5.2 or greater')
+        self.check_ESP_server_version()
 
         self._populate_algorithms()
 
@@ -452,6 +437,23 @@ class ESP(RESTHelpers):
                 self.load_project_from_file(model_file,overwrite=True)
             elif model_data != None:
                 self.load_project(model_data,overwrite=True)
+
+    def check_ESP_server_version(self):
+        version = self.server_info["version"]
+        regex_for_server_version = ".*\(([0-9]*)\.([0-9]*)\)"
+        if not re.match(regex_for_server_version, version):
+            return
+        rgx = re.compile(regex_for_server_version)
+        match = rgx.findall(version)
+        if len(match) == 1:
+            self._major = int(match[0][0])
+            self._minor = int(match[0][1])
+        else:
+            a = version.split(".")
+            self._major = int(a[0])
+            self._minor = int(a[1])
+        if self._major < 5 and self._minor < 2:
+            raise RuntimeError('This package requires an ESP server version 5.2 or greater')
 
     def __str__(self):
         return '%s(%s)' % (type(self).__name__,
