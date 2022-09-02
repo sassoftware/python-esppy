@@ -389,8 +389,6 @@ class K8SProject(K8S):
                         status = o["status"]
                         if "token" in o:
                             self.setOpt("access_token",o["token"])
-            else:
-                print('NO INGRESS FOUND')
 
         return(status)
 
