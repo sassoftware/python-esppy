@@ -949,11 +949,7 @@ class ESP(RESTHelpers):
             Name of the project to delete
 
         '''
-
-        if self._k8s != None:
-            self._k8s.delete()
-        else:
-            self._delete('projects/%s' % name)
+        self._delete('projects/%s' % name)
 
     def get_running_projects(self, name=None, filter=None):
         '''
