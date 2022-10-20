@@ -53,7 +53,7 @@ def builtin_template_helper(cls, template_name, file_name,  **kwargs):
 def template_info_helper(data):
     if isinstance(data, six.string_types):
         if os.path.isfile(data):
-            data = open(data, 'r').read()
+            data = open(data, 'rb').read()
         data = xml.from_xml(data)
 
     description = None
