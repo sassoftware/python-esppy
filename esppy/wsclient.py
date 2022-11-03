@@ -60,17 +60,19 @@ class WebSocketClient(object):
         self._lock = threading.Lock()
 
     def connect(self):
-        if self._websocket != None:
+        if self._websocket is not None:
             self._websocket.close()
             self._websocket = None
 
-        token = self._session.headers.get("Authorization").decode()
+        token = self._session.headers.get("Authorization")
+        if token is not None:
+            token = token.decode()
         if self._session.verify:
-            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"ca_certs":self._session.verify})
+            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"ca_certs": self._session.verify})
         else:
-            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"cert_reqs":ssl.CERT_NONE})
+            self._websocket = websocket.WebSocket(enable_multithread=True,skip_utf8_validation=True,sslopt={"cert_reqs": ssl.CERT_NONE})
 
-        self._websocket.connect(self._url,redirect_limit=0, header={"Authorization":token})
+        self._websocket.connect(self._url,redirect_limit=0, header={"Authorization": token})
 
         if self.callbacks.get("on_open"):
             self.callbacks["on_open"](self)
@@ -83,12 +85,12 @@ class WebSocketClient(object):
         thread.start()
 
     def close(self):
-        if self._websocket != None:
+        if self._websocket is not None:
             self._websocket.close()
             self._websocket = None
 
     def send(self,data,binary = False):
-        if self._websocket != None:
+        if self._websocket is not None:
             self._lock.acquire()
             if binary:
                 self._websocket.send_binary(data)
@@ -97,7 +99,7 @@ class WebSocketClient(object):
             self._lock.release()
 
     def sendBinary(self,data):
-        if self._websocket != None:
+        if self._websocket is not None:
             self._lock.acquire()
             self._websocket.send_binary(data)
             self._lock.release()
